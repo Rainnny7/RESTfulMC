@@ -5,8 +5,6 @@ import me.braydon.mc.service.pinger.MinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.BedrockMinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
 
-import java.beans.JavaBean;
-
 /**
  * A model representing a Minecraft server.
  *

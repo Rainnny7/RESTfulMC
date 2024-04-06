@@ -3,14 +3,11 @@ package me.braydon.mc.controller;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.model.MinecraftServer;
-import me.braydon.mc.model.server.JavaMinecraftServer;
 import me.braydon.mc.service.MojangService;
-import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.util.EnumUtils;
 
 /**
  * The controller for handling
