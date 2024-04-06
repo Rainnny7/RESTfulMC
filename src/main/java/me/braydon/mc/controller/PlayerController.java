@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
-import me.braydon.mc.model.Player;
+import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.service.MojangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -41,7 +41,7 @@ public final class PlayerController {
      */
     @GetMapping("/{query}")
     @ResponseBody
-    public ResponseEntity<Player> getPlayer(@PathVariable @NonNull String query) throws BadRequestException, ResourceNotFoundException {
+    public ResponseEntity<CachedPlayer> getPlayer(@PathVariable @NonNull String query) throws BadRequestException, ResourceNotFoundException {
         return ResponseEntity.ofNullable(mojangService.getPlayer(query));
     }
 }

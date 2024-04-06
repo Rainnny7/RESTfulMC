@@ -1,4 +1,4 @@
-package me.braydon.mc.model;
+package me.braydon.mc.model.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

@@ -1,7 +1,7 @@
 package me.braydon.mc.exception;
 
 import lombok.NonNull;
-import me.braydon.mc.model.ErrorResponse;
+import me.braydon.mc.model.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
