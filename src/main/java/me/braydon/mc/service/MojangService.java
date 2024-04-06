@@ -2,16 +2,15 @@ package me.braydon.mc.service;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import me.braydon.mc.common.EnumUtils;
 import me.braydon.mc.common.Tuple;
 import me.braydon.mc.common.UUIDUtils;
 import me.braydon.mc.common.web.JsonWebException;
 import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
+import me.braydon.mc.exception.impl.InvalidMinecraftServerPlatform;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
-import me.braydon.mc.model.Cape;
-import me.braydon.mc.model.Player;
-import me.braydon.mc.model.ProfileAction;
-import me.braydon.mc.model.Skin;
+import me.braydon.mc.model.*;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.model.cache.CachedPlayerName;
 import me.braydon.mc.model.token.MojangProfileToken;
@@ -128,6 +127,14 @@ public final class MojangService {
             }
             throw ex;
         }
+    }
+
+    public MinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname) throws InvalidMinecraftServerPlatform {
+        MinecraftServer.Platform platform = EnumUtils.getEnumConstant(MinecraftServer.Platform.class, platformName.toUpperCase());
+        if (platform == null) { // Invalid platform
+            throw new InvalidMinecraftServerPlatform();
+        }
+        return platform.getPinger().ping(hostname, 25565);
     }
 
     /**
