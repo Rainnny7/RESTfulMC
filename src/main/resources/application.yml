@@ -1,0 +1,25 @@
+# Server Configuration
+server:
+  address: 0.0.0.0
+  port: 7500
+
+# Log Configuration
+logging:
+  file:
+    path: "./logs"
+
+# Spring Configuration
+spring:
+  data:
+    # Redis - This is used for caching
+    redis:
+      host: "127.0.0.1"
+      port: 6379
+      database: 0
+      auth: "" # Leave blank for no auth
+
+  # Ignore
+  application:
+    name: "RESTfulMC"
+  banner:
+    location: "classpath:banner.txt"
