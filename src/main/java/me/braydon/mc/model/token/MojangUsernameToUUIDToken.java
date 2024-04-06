@@ -1,6 +1,9 @@
 package me.braydon.mc.model.token;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * A token representing a Mojang username to UUID response.

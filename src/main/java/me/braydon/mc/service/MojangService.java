@@ -23,6 +23,11 @@ import java.util.UUID;
 @Service
 @Log4j2(topic = "Mojang Service")
 public final class MojangService {
+    private static final String SESSION_SERVER_ENDPOINT = "https://sessionserver.mojang.com";
+    private static final String API_ENDPOINT = "https://api.mojang.com";
+    private static final String UUID_TO_PROFILE = SESSION_SERVER_ENDPOINT + "/session/minecraft/profile/%s";
+    private static final String USERNAME_TO_UUID = API_ENDPOINT + "/users/profiles/minecraft/%s";
+
     /**
      * Get a player by their username or UUID.
      *
@@ -54,7 +59,7 @@ public final class MojangService {
         try {
             log.info("Retrieving player profile for UUID: {}", uuid);
             MojangProfileToken token = JsonWebRequest.makeRequest(
-                    MojangAPI.UUID_TO_PROFILE.formatted(uuid), HttpMethod.GET
+                    UUID_TO_PROFILE.formatted(uuid), HttpMethod.GET
             ).execute(MojangProfileToken.class);
 
             // Return our player model representing the requested player
@@ -80,7 +85,7 @@ public final class MojangService {
         // Make a request to Mojang requesting the UUID
         try {
             MojangUsernameToUUIDToken token = JsonWebRequest.makeRequest(
-                    MojangAPI.USERNAME_TO_UUID.formatted(username), HttpMethod.GET
+                    USERNAME_TO_UUID.formatted(username), HttpMethod.GET
             ).execute(MojangUsernameToUUIDToken.class);
             return UUIDUtils.addDashes(token.getId()); // Return the UUID with dashes
         } catch (JsonWebException ex) {
