@@ -10,9 +10,11 @@ import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.Player;
 import me.braydon.mc.model.ProfileAction;
 import me.braydon.mc.model.cache.CachedPlayer;
+import me.braydon.mc.model.cache.CachedPlayerName;
 import me.braydon.mc.model.token.MojangProfileToken;
 import me.braydon.mc.model.token.MojangUsernameToUUIDToken;
 import me.braydon.mc.repository.PlayerCacheRepository;
+import me.braydon.mc.repository.PlayerNameCacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -34,13 +36,19 @@ public final class MojangService {
     private static final String USERNAME_TO_UUID = API_ENDPOINT + "/users/profiles/minecraft/%s";
 
     /**
+     * The cache repository for {@link Player}'s by their username.
+     */
+    @NonNull private final PlayerNameCacheRepository playerNameCache;
+
+    /**
      * The cache repository for {@link Player}'s.
      */
-    @NonNull private final PlayerCacheRepository playerCacheRepository;
+    @NonNull private final PlayerCacheRepository playerCache;
 
     @Autowired
-    public MojangService(@NonNull PlayerCacheRepository playerCacheRepository) {
-        this.playerCacheRepository = playerCacheRepository;
+    public MojangService(@NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache) {
+        this.playerNameCache = playerNameCache;
+        this.playerCache = playerCache;
     }
 
     /**
@@ -76,7 +84,7 @@ public final class MojangService {
         }
 
         // Check the cache for the player
-        Optional<CachedPlayer> cached = playerCacheRepository.findById(uuid);
+        Optional<CachedPlayer> cached = playerCache.findById(uuid);
         if (cached.isPresent()) { // Respond with the cache if present
             log.info("Found player in cache: {}", uuid);
             return cached.get();
@@ -97,7 +105,7 @@ public final class MojangService {
                     profileActions.length == 0 ? null : profileActions,
                     System.currentTimeMillis()
             );
-            playerCacheRepository.save(player);
+            playerCache.save(player);
             log.info("Cached player: {}", uuid);
 
             player.setCached(-1L); // Set to -1 to indicate it's not cached in the response
@@ -120,12 +128,26 @@ public final class MojangService {
      */
     @NonNull
     private UUID usernameToUUID(@NonNull String username) throws ResourceNotFoundException {
+        username = username.toLowerCase(); // Lowercase the username
+
+        // Check the cache for the player's UUID
+        Optional<CachedPlayerName> cached = playerNameCache.findById(username);
+        if (cached.isPresent()) { // Respond with the cache if present
+            log.info("Found UUID in cache for username {}: {}", username, cached.get().getUniqueId());
+            return cached.get().getUniqueId();
+        }
+
         // Make a request to Mojang requesting the UUID
         try {
             MojangUsernameToUUIDToken token = JsonWebRequest.makeRequest(
                     USERNAME_TO_UUID.formatted(username), HttpMethod.GET
             ).execute(MojangUsernameToUUIDToken.class);
-            return UUIDUtils.addDashes(token.getId()); // Return the UUID with dashes
+
+            // Cache the UUID and return it
+            UUID uuid = UUIDUtils.addDashes(token.getId());
+            playerNameCache.save(new CachedPlayerName(username, uuid));
+            log.info("Cached UUID for username {}: {}", username, uuid);
+            return uuid;
         } catch (JsonWebException ex) {
             if (ex.getStatusCode() == 404) {
                 throw new ResourceNotFoundException("Player not found with username: %s".formatted(username));

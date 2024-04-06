@@ -2,7 +2,6 @@ package me.braydon.mc.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ import java.util.UUID;
 @Setter @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-@RedisHash(value = "player", timeToLive = 60L * 60L) // 1 hour (in seconds)
 public class Player {
     /**
      * The unique id of this player.
