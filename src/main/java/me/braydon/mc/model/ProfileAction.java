@@ -1,12 +1,12 @@
 package me.braydon.mc.model;
 
 /**
- * Moderation actions that can
+ * Profile actions that can
  * be taken on a {@link Player}.
  *
  * @author Braydon
  */
-public enum ModerationAction {
+public enum ProfileAction {
     /**
      * The player is required to change their
      * username before accessing Multiplayer.

@@ -24,5 +24,5 @@ public final class Player {
     /**
      * The profile actions this player has.
      */
-    @NonNull private ModerationAction[] profileActions;
+    @NonNull private ProfileAction[] profileActions;
 }

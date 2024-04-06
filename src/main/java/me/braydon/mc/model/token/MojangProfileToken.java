@@ -1,7 +1,7 @@
 package me.braydon.mc.model.token;
 
 import lombok.*;
-import me.braydon.mc.model.ModerationAction;
+import me.braydon.mc.model.ProfileAction;
 
 /**
  * A token representing a Mojang user profile.
@@ -29,7 +29,7 @@ public final class MojangProfileToken {
     /**
      * The actions this profile has.
      */
-    @NonNull private ModerationAction[] profileActions;
+    @NonNull private ProfileAction[] profileActions;
 
     /**
      * A property of a Mojang profile.
