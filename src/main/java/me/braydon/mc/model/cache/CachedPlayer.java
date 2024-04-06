@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import me.braydon.mc.model.Cape;
 import me.braydon.mc.model.Player;
 import me.braydon.mc.model.ProfileAction;
+import me.braydon.mc.model.Skin;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
@@ -26,8 +28,9 @@ public final class CachedPlayer extends Player implements Serializable {
      */
     private long cached;
 
-    public CachedPlayer(@NonNull UUID uniqueId, @NonNull String username, ProfileAction[] profileActions, long cached) {
-        super(uniqueId, username, profileActions);
+    public CachedPlayer(@NonNull UUID uniqueId, @NonNull String username,
+                        @NonNull Skin skin, Cape cape, ProfileAction[] profileActions, long cached) {
+        super(uniqueId, username, skin, cape, profileActions);
         this.cached = cached;
     }
 }

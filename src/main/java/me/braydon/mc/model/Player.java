@@ -27,6 +27,16 @@ public class Player {
     @NonNull private String username;
 
     /**
+     * The skin of this player.
+     */
+    @NonNull private Skin skin;
+
+    /**
+     * The cape of this player, null if none.
+     */
+    private Cape cape;
+
+    /**
      * The profile actions this player has, null if none.
      */
     private ProfileAction[] profileActions;

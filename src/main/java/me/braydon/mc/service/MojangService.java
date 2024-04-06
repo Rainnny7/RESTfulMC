@@ -2,13 +2,16 @@ package me.braydon.mc.service;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import me.braydon.mc.common.Tuple;
 import me.braydon.mc.common.UUIDUtils;
 import me.braydon.mc.common.web.JsonWebException;
 import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
+import me.braydon.mc.model.Cape;
 import me.braydon.mc.model.Player;
 import me.braydon.mc.model.ProfileAction;
+import me.braydon.mc.model.Skin;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.model.cache.CachedPlayerName;
 import me.braydon.mc.model.token.MojangProfileToken;
@@ -60,10 +63,10 @@ public final class MojangService {
      * and then return the response.
      * </p>
      *
-     * @param query the query to search for the player by
+     * @param query       the query to search for the player by
      * @param bypassCache should the cache be bypassed?
      * @return the player
-     * @throws BadRequestException if the UUID is malformed
+     * @throws BadRequestException       if the UUID is malformed
      * @throws ResourceNotFoundException if the player is not found
      */
     @NonNull
@@ -100,11 +103,14 @@ public final class MojangService {
             MojangProfileToken token = JsonWebRequest.makeRequest(
                     UUID_TO_PROFILE.formatted(uuid), HttpMethod.GET
             ).execute(MojangProfileToken.class);
+            Tuple<Skin, Cape> skinAndCape = token.getSkinAndCape(); // Get the skin and cape
             ProfileAction[] profileActions = token.getProfileActions();
 
             // Build our player model, cache it, and then return it
             CachedPlayer player = new CachedPlayer(
                     uuid, token.getName(),
+                    skinAndCape.getLeft() == null ? Skin.DEFAULT_STEVE : skinAndCape.getLeft(),
+                    skinAndCape.getRight(),
                     profileActions.length == 0 ? null : profileActions,
                     System.currentTimeMillis()
             );
