@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
+import me.braydon.mc.model.Player;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.service.MojangService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * The controller for handling
- * player related requests.
+ * {@link Player} related requests.
  *
  * @author Braydon
  */
