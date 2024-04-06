@@ -45,6 +45,12 @@ public final class MojangService {
 
     /**
      * Get a player by their username or UUID.
+     * <p>
+     * If the player is present within the cache, that will
+     * be returned. If the player is not cached, a request
+     * will be made to retrieve the player from Mojang, cache it
+     * and then return the response.
+     * </p>
      *
      * @param query the query to search for the player by
      * @return the player
