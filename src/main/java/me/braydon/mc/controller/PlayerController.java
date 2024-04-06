@@ -42,6 +42,6 @@ public final class PlayerController {
     @GetMapping("/{query}")
     @ResponseBody
     public ResponseEntity<CachedPlayer> getPlayer(@PathVariable @NonNull String query) throws BadRequestException, ResourceNotFoundException {
-        return ResponseEntity.ofNullable(mojangService.getPlayer(query));
+        return ResponseEntity.ofNullable(mojangService.getPlayer(query, false));
     }
 }

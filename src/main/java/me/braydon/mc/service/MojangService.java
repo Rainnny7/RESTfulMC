@@ -61,12 +61,13 @@ public final class MojangService {
      * </p>
      *
      * @param query the query to search for the player by
+     * @param bypassCache should the cache be bypassed?
      * @return the player
      * @throws BadRequestException if the UUID is malformed
      * @throws ResourceNotFoundException if the player is not found
      */
     @NonNull
-    public CachedPlayer getPlayer(@NonNull String query) throws BadRequestException, ResourceNotFoundException {
+    public CachedPlayer getPlayer(@NonNull String query, boolean bypassCache) throws BadRequestException, ResourceNotFoundException {
         log.info("Requesting player with query: {}", query);
 
         UUID uuid; // The player UUID to lookup
@@ -84,10 +85,12 @@ public final class MojangService {
         }
 
         // Check the cache for the player
-        Optional<CachedPlayer> cached = playerCache.findById(uuid);
-        if (cached.isPresent()) { // Respond with the cache if present
-            log.info("Found player in cache: {}", uuid);
-            return cached.get();
+        if (!bypassCache) {
+            Optional<CachedPlayer> cached = playerCache.findById(uuid);
+            if (cached.isPresent()) { // Respond with the cache if present
+                log.info("Found player in cache: {}", uuid);
+                return cached.get();
+            }
         }
 
         // Send a request to Mojang requesting
@@ -105,8 +108,10 @@ public final class MojangService {
                     profileActions.length == 0 ? null : profileActions,
                     System.currentTimeMillis()
             );
-            playerCache.save(player);
-            log.info("Cached player: {}", uuid);
+            if (!bypassCache) { // Store in the cache
+                playerCache.save(player);
+                log.info("Cached player: {}", uuid);
+            }
 
             player.setCached(-1L); // Set to -1 to indicate it's not cached in the response
             return player;
