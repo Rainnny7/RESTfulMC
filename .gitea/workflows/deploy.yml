@@ -6,6 +6,8 @@ on:
     paths-ignore:
       - README.md
       - LICENSE
+      - docker-compose.yml
+      - postman_collection.json
 
 jobs:
   docker:
