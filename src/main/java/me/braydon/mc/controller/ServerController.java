@@ -29,6 +29,13 @@ public final class ServerController {
         this.mojangService = mojangService;
     }
 
+    /**
+     * Get a Minecraft server by its platform and hostname.
+     *
+     * @param platform the platform of the server
+     * @param hostname the hostname of the server
+     * @return the server
+     */
     @GetMapping("/{platform}/{hostname}")
     @ResponseBody
     public ResponseEntity<MinecraftServer> getServer(@PathVariable @NonNull String platform,
