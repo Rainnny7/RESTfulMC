@@ -138,12 +138,13 @@ public final class MojangService {
      * @param platformName the name of the platform
      * @param hostname the hostname of the server
      * @return the resolved Minecraft server
+     * @throws BadRequestException if the hostname is unknown
      * @throws InvalidMinecraftServerPlatform if the platform is invalid
      * @throws ResourceNotFoundException if the server isn't found
      */
     @NonNull
     public MinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname)
-            throws InvalidMinecraftServerPlatform, ResourceNotFoundException {
+            throws BadRequestException, InvalidMinecraftServerPlatform, ResourceNotFoundException {
         MinecraftServer.Platform platform = EnumUtils.getEnumConstant(MinecraftServer.Platform.class, platformName.toUpperCase());
         if (platform == null) { // Invalid platform
             throw new InvalidMinecraftServerPlatform();
