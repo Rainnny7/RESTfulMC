@@ -2,10 +2,7 @@ package me.braydon.mc.service;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import me.braydon.mc.common.DNSUtils;
-import me.braydon.mc.common.EnumUtils;
-import me.braydon.mc.common.Tuple;
-import me.braydon.mc.common.UUIDUtils;
+import me.braydon.mc.common.*;
 import me.braydon.mc.common.web.JsonWebException;
 import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
@@ -40,6 +37,9 @@ public final class MojangService {
     private static final String API_ENDPOINT = "https://api.mojang.com";
     private static final String UUID_TO_PROFILE = SESSION_SERVER_ENDPOINT + "/session/minecraft/profile/%s";
     private static final String USERNAME_TO_UUID = API_ENDPOINT + "/users/profiles/minecraft/%s";
+
+    private static final int DEFAULT_PART_TEXTURE_SIZE = 128;
+    private static final int MAX_PART_TEXTURE_SIZE = 512;
 
     /**
      * The cache repository for {@link Player}'s by their username.
@@ -138,6 +138,43 @@ public final class MojangService {
             }
             throw ex;
         }
+    }
+
+    /**
+     * Get the part of a skin texture for
+     * a player by their username or UUID.
+     *
+     * @param partName  the part of the player's skin texture to get
+     * @param query     the query to search for the player by
+     * @param extension the skin part image extension
+     * @param size      the size of the skin part image
+     * @return the skin part texture
+     * @throws BadRequestException if the extension is invalid
+     */
+    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, Integer size) {
+        Skin.Part part = EnumUtils.getEnumConstant(Skin.Part.class, partName.toUpperCase()); // The skin part to get
+        if (part == null) { // Default to the head part
+            part = Skin.Part.HEAD;
+        }
+        if (extension.isBlank()) { // Invalid extension
+            throw new BadRequestException("Invalid extension");
+        }
+        if (size == null || size <= 0) { // Invalid size
+            size = DEFAULT_PART_TEXTURE_SIZE;
+        }
+        size = Math.min(size, MAX_PART_TEXTURE_SIZE); // Limit the size to 512
+
+        Skin target = null; // The target skin to get the skin part of
+        try {
+            CachedPlayer player = getPlayer(query, false); // Retrieve the player
+            target = player.getSkin(); // Use the player's skin
+        } catch (Exception ignored) {
+            // Simply ignore, and fallback to the default skin
+        }
+        if (target == null) { // Fallback to the default skin
+            target = Skin.DEFAULT_STEVE;
+        }
+        return PlayerUtils.getSkinPart(target, part, size);
     }
 
     /**
