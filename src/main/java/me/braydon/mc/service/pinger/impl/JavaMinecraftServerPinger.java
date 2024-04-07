@@ -6,6 +6,7 @@ import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.common.DNSUtils;
 import me.braydon.mc.common.packet.impl.PacketHandshakingInSetProtocol;
 import me.braydon.mc.common.packet.impl.PacketStatusInStart;
+import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.server.JavaMinecraftServer;
 import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * The {@link MinecraftServerPinger} for
@@ -33,9 +35,10 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
      * @param hostname the hostname of the server
      * @param port     the port of the server
      * @return the server that was pinged
+     * @throws ResourceNotFoundException if the hostname could not be resolved
      */
     @Override
-    public JavaMinecraftServer ping(@NonNull String hostname, int port) {
+    public JavaMinecraftServer ping(@NonNull String hostname, int port) throws ResourceNotFoundException {
         InetAddress inetAddress = DNSUtils.resolveA(hostname); // Resolve the hostname to an IP address
         String ip = inetAddress == null ? null : inetAddress.getHostAddress(); // Get the IP address
         if (ip != null) { // Was the IP resolved?
@@ -64,6 +67,9 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
                 return JavaMinecraftServer.create(hostname, ip, port, token); // Return the server
             }
         } catch (IOException ex) {
+            if (ex instanceof UnknownHostException) {
+                throw new ResourceNotFoundException("Unknown hostname: %s".formatted(hostname));
+            }
             log.error("An error occurred pinging %s:%s:".formatted(hostname, port), ex);
         }
         return null;
