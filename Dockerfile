@@ -16,4 +16,4 @@ EXPOSE 80
 ENV PORT 80
 
 # Start the app
-CMD ["java", "-jar", "target/RESTfulMC.jar"]
+CMD ["java", "-jar", "./target/RESTfulMC.jar"]
