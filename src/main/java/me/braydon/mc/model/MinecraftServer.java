@@ -70,9 +70,32 @@ public class MinecraftServer {
         @NonNull private final String name;
 
         /**
+         * The identified platform of the server, null if unknown.
+         */
+        private String platform;
+
+        /**
          * The protocol version of the server.
          */
         private final int protocol;
+
+        /**
+         * Create a more detailed
+         * copy of this object.
+         *
+         * @return the detailed copy
+         */
+        @NonNull
+        public Version detailedCopy() {
+            String platform = null;
+            if (name.contains(" ")) { // Parse the server platform
+                String[] split = name.split(" ");
+                if (split.length == 2) {
+                    platform = split[0];
+                }
+            }
+            return new Version(name, platform, protocol);
+        }
     }
 
     /**

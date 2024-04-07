@@ -33,8 +33,8 @@ public final class JavaMinecraftServer extends MinecraftServer {
         if (motdString == null) { // Not a string motd, convert from Json
             motdString = new TextComponent(ComponentSerializer.parse(RESTfulMC.GSON.toJson(token.getDescription()))).toLegacyText();
         }
-        return new JavaMinecraftServer(hostname, ip, port, token.getVersion(), token.getPlayers(),
-                MOTD.create(motdString), token.getFavicon(), false
+        return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(),
+                token.getPlayers(), MOTD.create(motdString), token.getFavicon(), false
         );
     }
 }
