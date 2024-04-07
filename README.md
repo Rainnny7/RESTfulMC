@@ -15,6 +15,7 @@ Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RE
 - [ ] Blacklist Checking
 - [ ] HTTP Codes in wiki
 - [ ] Show response types in wiki
+- [ ] Route for 3D player heads/body?
 
 ---
 
