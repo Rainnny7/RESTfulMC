@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * Advice for handling raised exceptions.
@@ -23,9 +24,13 @@ public final class ExceptionControllerAdvice {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(@NonNull Exception ex) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // Get the HTTP status
-        boolean hasResponseStatus = ex.getClass().isAnnotationPresent(ResponseStatus.class);
-        if (hasResponseStatus) { // Get from the @ResponseStatus annotation
+        HttpStatus status = null; // Get the HTTP status
+        if (ex instanceof NoResourceFoundException) { // Not found
+            status = HttpStatus.NOT_FOUND;
+        } else if (ex instanceof UnsupportedOperationException) { // Not implemented
+            status = HttpStatus.NOT_IMPLEMENTED;
+        }
+        if (ex.getClass().isAnnotationPresent(ResponseStatus.class)) { // Get from the @ResponseStatus annotation
             status = ex.getClass().getAnnotation(ResponseStatus.class).value();
         }
         String message = ex.getLocalizedMessage(); // Get the error message
@@ -33,8 +38,11 @@ public final class ExceptionControllerAdvice {
             message = "An internal error has occurred.";
         }
         // Print the stack trace if no response status is present
-        if (!hasResponseStatus) {
+        if (status == null) {
             ex.printStackTrace();
+        }
+        if (status == null) { // Fallback to 500
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(new ErrorResponse(status, message), status);
     }
