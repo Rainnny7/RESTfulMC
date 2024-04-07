@@ -149,10 +149,12 @@ public final class MojangService {
             throw new InvalidMinecraftServerPlatform();
         }
         InetSocketAddress address = DNSUtils.resolveSRV(hostname); // Resolve the SRV record
-        if (address == null) { // No address found
-            throw new ResourceNotFoundException("No SRV record found for hostname: %s".formatted(hostname));
+        int port = platform.getDefaultPort(); // Port to ping
+        if (address != null) { // SRV was resolved, use the hostname and port
+            hostname = address.getHostName();
+            port = address.getPort();
         }
-        return platform.getPinger().ping(address.getHostName(), address.getPort()); // Ping the server and return with the response
+        return platform.getPinger().ping(hostname, port); // Ping the server and return with the response
     }
 
     /**
