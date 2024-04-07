@@ -10,11 +10,21 @@ import me.braydon.mc.model.token.JavaServerStatusToken;
  * @author Braydon
  */
 public final class JavaMinecraftServer extends MinecraftServer {
-    private JavaMinecraftServer(@NonNull String ip, int port, @NonNull Version version, @NonNull Players players) {
-        super(ip, port, version, players);
+    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version, @NonNull Players players) {
+        super(hostname, ip, port, version, players);
     }
 
-    public static JavaMinecraftServer create(@NonNull String ip, int port, @NonNull JavaServerStatusToken token) {
-        return new JavaMinecraftServer(ip, port, token.getVersion(), token.getPlayers());
+    /**
+     * Create a new Java Minecraft server.
+     *
+     * @param hostname the hostname of the server
+     * @param ip the IP address of the server
+     * @param port the port of the server
+     * @param token the status token
+     * @return the Java Minecraft server
+     */
+    @NonNull
+    public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, @NonNull JavaServerStatusToken token) {
+        return new JavaMinecraftServer(hostname, ip, port, token.getVersion(), token.getPlayers());
     }
 }

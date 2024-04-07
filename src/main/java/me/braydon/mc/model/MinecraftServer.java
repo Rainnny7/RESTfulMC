@@ -13,9 +13,14 @@ import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
 @AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
 public class MinecraftServer {
     /**
-     * The IP address of this server.
+     * The hostname of this server.
      */
-    @EqualsAndHashCode.Include @NonNull private final String ip;
+    @EqualsAndHashCode.Include @NonNull private final String hostname;
+
+    /**
+     * The IP address of this server, if resolved.
+     */
+    private final String ip;
 
     /**
      * The port of this server.

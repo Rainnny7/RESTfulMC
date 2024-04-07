@@ -2,6 +2,7 @@ package me.braydon.mc.service;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import me.braydon.mc.common.DNSUtils;
 import me.braydon.mc.common.EnumUtils;
 import me.braydon.mc.common.Tuple;
 import me.braydon.mc.common.UUIDUtils;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import java.net.InetSocketAddress;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -129,12 +131,28 @@ public final class MojangService {
         }
     }
 
-    public MinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname) throws InvalidMinecraftServerPlatform {
+    /**
+     * Resolve a Minecraft server on the given
+     * platform with the given hostname.
+     *
+     * @param platformName the name of the platform
+     * @param hostname the hostname of the server
+     * @return the resolved Minecraft server
+     * @throws InvalidMinecraftServerPlatform if the platform is invalid
+     * @throws ResourceNotFoundException if the server isn't found
+     */
+    @NonNull
+    public MinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname)
+            throws InvalidMinecraftServerPlatform, ResourceNotFoundException {
         MinecraftServer.Platform platform = EnumUtils.getEnumConstant(MinecraftServer.Platform.class, platformName.toUpperCase());
         if (platform == null) { // Invalid platform
             throw new InvalidMinecraftServerPlatform();
         }
-        return platform.getPinger().ping(hostname, 25565);
+        InetSocketAddress address = DNSUtils.resolveSRV(hostname); // Resolve the SRV record
+        if (address == null) { // No address found
+            throw new ResourceNotFoundException("No SRV record found for hostname: %s".formatted(hostname));
+        }
+        return platform.getPinger().ping(address.getHostName(), address.getPort()); // Ping the server and return with the response
     }
 
     /**

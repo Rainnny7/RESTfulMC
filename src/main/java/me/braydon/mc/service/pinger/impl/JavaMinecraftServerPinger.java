@@ -3,6 +3,7 @@ package me.braydon.mc.service.pinger.impl;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.RESTfulMC;
+import me.braydon.mc.common.DNSUtils;
 import me.braydon.mc.common.packet.impl.PacketHandshakingInSetProtocol;
 import me.braydon.mc.common.packet.impl.PacketStatusInStart;
 import me.braydon.mc.model.server.JavaMinecraftServer;
@@ -12,6 +13,7 @@ import me.braydon.mc.service.pinger.MinecraftServerPinger;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -34,6 +36,11 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
      */
     @Override
     public JavaMinecraftServer ping(@NonNull String hostname, int port) {
+        InetAddress inetAddress = DNSUtils.resolveA(hostname); // Resolve the hostname to an IP address
+        String ip = inetAddress == null ? null : inetAddress.getHostAddress(); // Get the IP address
+        if (ip != null) { // Was the IP resolved?
+            log.info("Resolved hostname {} to {}", hostname, ip);
+        }
         log.info("Pinging {}:{}...", hostname, port);
         long before = System.currentTimeMillis(); // Timestamp before pinging
 
@@ -54,7 +61,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
                 PacketStatusInStart packetStatusInStart = new PacketStatusInStart();
                 packetStatusInStart.process(inputStream, outputStream);
                 JavaServerStatusToken token = RESTfulMC.GSON.fromJson(packetStatusInStart.getResponse(), JavaServerStatusToken.class);
-                return JavaMinecraftServer.create(hostname, port, token); // Return the server
+                return JavaMinecraftServer.create(hostname, ip, port, token); // Return the server
             }
         } catch (IOException ex) {
             log.error("An error occurred pinging %s:%s:".formatted(hostname, port), ex);
