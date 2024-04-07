@@ -10,7 +10,6 @@ import me.braydon.mc.model.Skin;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.service.MojangService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/player", produces = MediaType.APPLICATION_JSON_VALUE)
 @Log4j2(topic = "Player Controller")
 public final class PlayerController {
+    private static final int DEFAULT_HEAD_SIZE = 128;
+    private static final int MAX_HEAD_SIZE = 512;
+
     /**
      * The Mojang service to use for player information.
      */
@@ -60,15 +62,23 @@ public final class PlayerController {
      *
      * @param query the query to search for the player by
      * @param extension the head image extension
+     * @param size the size of the head image
      * @return the head texture
      * @throws BadRequestException if the extension is invalid
      */
     @GetMapping("/head/{query}.{extension}")
     @ResponseBody
-    public ResponseEntity<ByteArrayResource> getHead(@PathVariable @NonNull String query, @PathVariable @NonNull String extension) throws BadRequestException {
+    public ResponseEntity<byte[]> getHead(@PathVariable @NonNull String query, @PathVariable @NonNull String extension,
+                                          @RequestParam(required = false) Integer size
+    ) throws BadRequestException {
         if ((extension = extension.trim()).isBlank()) { // Invalid extension
             throw new BadRequestException("Invalid extension");
         }
+        if (size == null || size <= 0) { // Invalid size
+            size = DEFAULT_HEAD_SIZE;
+        }
+        size = Math.min(size, MAX_HEAD_SIZE); // Limit the size to 512
+
         Skin target = null; // The target skin to get the head of
         try {
             CachedPlayer player = mojangService.getPlayer(query, false); // Retrieve the player
@@ -82,6 +92,6 @@ public final class PlayerController {
         // Return the head texture
         return ResponseEntity.ok()
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
-                .body(new ByteArrayResource(PlayerUtils.getSkinPartTexture(target)));
+                .body(PlayerUtils.getHeadTexture(target, size));
     }
 }
