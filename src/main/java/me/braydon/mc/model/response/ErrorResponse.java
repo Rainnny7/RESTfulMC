@@ -10,25 +10,31 @@ import java.util.Date;
  *
  * @author Braydon
  */
-@NoArgsConstructor @Setter @Getter @ToString
+@Getter @ToString
 public final class ErrorResponse {
     /**
      * The status code of this error.
      */
-    @NonNull private HttpStatus status;
+    @NonNull private final HttpStatus status;
+
+    /**
+     * The HTTP code of this error.
+     */
+    private final int code;
 
     /**
      * The message of this error.
      */
-    @NonNull private String message;
+    @NonNull private final String message;
 
     /**
      * The timestamp this error occurred.
      */
-    private Date timestamp;
+    @NonNull private final Date timestamp;
 
     public ErrorResponse(@NonNull HttpStatus status, @NonNull String message) {
         this.status = status;
+        code = status.value();
         this.message = message;
         timestamp = new Date();
     }
