@@ -17,13 +17,16 @@ import me.braydon.mc.model.server.JavaMinecraftServer;
 public final class JavaServerStatusToken {
     /**
      * The description (MOTD) of this server.
+     * <p>
+     * Legacy: String, New: JSON Object
+     * </p>
      */
-    @NonNull private final String description;
+    @NonNull private final Object description;
 
     /**
-     * The base64 encoded favicon of this server.
+     * The base64 encoded favicon of this server, null if no favicon.
      */
-    @NonNull private final String favicon;
+    private final String favicon;
 
     /**
      * The version information of this server.

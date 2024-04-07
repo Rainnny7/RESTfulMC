@@ -1,8 +1,14 @@
 package me.braydon.mc.model.server;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 import lombok.NonNull;
+import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.token.JavaServerStatusToken;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 
 /**
  * A Java edition {@link MinecraftServer}.
@@ -11,7 +17,7 @@ import me.braydon.mc.model.token.JavaServerStatusToken;
  */
 public final class JavaMinecraftServer extends MinecraftServer {
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version,
-                                @NonNull Players players, @NonNull MOTD motd, @NonNull String icon, boolean mojangBanned) {
+                                @NonNull Players players, @NonNull MOTD motd, String icon, boolean mojangBanned) {
         super(hostname, ip, port, version, players, motd, icon, mojangBanned);
     }
 
@@ -26,8 +32,12 @@ public final class JavaMinecraftServer extends MinecraftServer {
      */
     @NonNull
     public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, @NonNull JavaServerStatusToken token) {
+        String motdString = token.getDescription() instanceof String ? (String) token.getDescription() : null;
+        if (motdString == null) { // Not a string motd, convert from Json
+            motdString = new TextComponent(ComponentSerializer.parse(RESTfulMC.GSON.toJson(token.getDescription()))).toLegacyText();
+        }
         return new JavaMinecraftServer(hostname, ip, port, token.getVersion(), token.getPlayers(),
-                MOTD.create(token.getDescription()), token.getFavicon(), false
+                MOTD.create(motdString), token.getFavicon(), false
         );
     }
 }

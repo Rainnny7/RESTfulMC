@@ -47,9 +47,9 @@ public class MinecraftServer {
     @NonNull private final MOTD motd;
 
     /**
-     * The Base64 encoded icon of this server.
+     * The Base64 encoded icon of this server, null if no icon.
      */
-    @NonNull private final String icon;
+    private final String icon;
 
     /**
      * Is this server on the list
@@ -137,16 +137,21 @@ public class MinecraftServer {
         /**
          * The Java edition of Minecraft.
          */
-        JAVA(new JavaMinecraftServerPinger()),
+        JAVA(new JavaMinecraftServerPinger(), 25565),
 
         /**
          * The Bedrock edition of Minecraft.
          */
-        BEDROCK(new BedrockMinecraftServerPinger());
+        BEDROCK(new BedrockMinecraftServerPinger(), 19132);
 
         /**
          * The server pinger for this platform.
          */
         @NonNull private final MinecraftServerPinger<?> pinger;
+
+        /**
+         * The default server port for this platform.
+         */
+        private final int defaultPort;
     }
 }

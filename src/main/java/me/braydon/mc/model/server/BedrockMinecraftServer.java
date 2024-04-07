@@ -10,7 +10,7 @@ import me.braydon.mc.model.MinecraftServer;
  */
 public final class BedrockMinecraftServer extends MinecraftServer {
     private BedrockMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version,
-                                   @NonNull Players players, @NonNull MOTD motd, @NonNull String icon, boolean mojangBanned) {
+                                   @NonNull Players players, @NonNull MOTD motd, String icon, boolean mojangBanned) {
         super(hostname, ip, port, version, players, motd, icon, mojangBanned);
     }
 }
