@@ -137,7 +137,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
         /**
          * The list of mods on this server.
          */
-        @NonNull private final ForgeMod[] modList;
+        private final ForgeMod[] modList;
     }
 
     @AllArgsConstructor @Getter @ToString
