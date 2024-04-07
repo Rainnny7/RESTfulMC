@@ -92,6 +92,6 @@ public final class PlayerController {
         // Return the head texture
         return ResponseEntity.ok()
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
-                .body(PlayerUtils.getHeadTexture(target, size));
+                .body(PlayerUtils.getSkinPart(target, Skin.Part.HEAD, size));
     }
 }

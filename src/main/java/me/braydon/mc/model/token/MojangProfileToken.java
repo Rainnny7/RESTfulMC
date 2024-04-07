@@ -38,6 +38,11 @@ public final class MojangProfileToken {
      */
     @NonNull private final ProfileAction[] profileActions;
 
+    /**
+     * Get the skin and cape of this profile.
+     *
+     * @return the skin and cape of this profile
+     */
     public Tuple<Skin, Cape> getSkinAndCape() {
         ProfileProperty textures = getPropertyByName("textures"); // Get the profile textures
         if (textures == null) { // No profile textures
@@ -48,7 +53,7 @@ public final class MojangProfileToken {
 
         // Return the tuple containing the skin and cape
         return new Tuple<>(
-                Skin.fromJsonObject(texturesJsonObject.getAsJsonObject("SKIN")),
+                Skin.fromJsonObject(texturesJsonObject.getAsJsonObject("SKIN")).populatePartUrls(id),
                 Cape.fromJsonObject(texturesJsonObject.getAsJsonObject("CAPE"))
         );
     }

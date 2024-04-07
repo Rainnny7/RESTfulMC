@@ -17,18 +17,19 @@ import java.net.URL;
  */
 @UtilityClass
 public final class PlayerUtils {
-    private static final int SKIN_TEXTURE_SIZE = 64; // The skin of a skin texture
+    public static final int SKIN_TEXTURE_SIZE = 64; // The skin of a skin texture
 
     /**
      * Get the head texture of a skin.
      *
      * @param skin the skin to get the head texture from
+     * @param part the part of the skin to get
      * @param size the size to scale the head texture to
      * @return the head texture of the skin
      */
     @SneakyThrows
-    public static byte[] getHeadTexture(@NonNull Skin skin, int size) {
-        return getSkinPartTexture(skin, 8, 8, SKIN_TEXTURE_SIZE / 8, SKIN_TEXTURE_SIZE / 8, size);
+    public static byte[] getSkinPart(@NonNull Skin skin, @NonNull Skin.Part part, int size) {
+        return getSkinPartTexture(skin, part.getX(), part.getY(), part.getWidth(), part.getHeight(), size);
     }
 
     /**
