@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -21,11 +22,11 @@ import java.util.Objects;
 /**
  * @author Braydon
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = { JacksonAutoConfiguration.class })
 @Slf4j(topic = "RESTfulMC")
 public class RESTfulMC {
     public static final Gson GSON = new GsonBuilder()
-            .serializeNulls()
+            .setDateFormat("MM-dd-yyyy HH:mm:ss")
             .create();
 
     /**

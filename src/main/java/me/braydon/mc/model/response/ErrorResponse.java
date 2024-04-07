@@ -1,6 +1,5 @@
 package me.braydon.mc.model.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
@@ -26,7 +25,6 @@ public final class ErrorResponse {
     /**
      * The timestamp this error occurred.
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date timestamp;
 
     public ErrorResponse(@NonNull HttpStatus status, @NonNull String message) {
