@@ -11,6 +11,11 @@ Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RE
 
 ---
 
+## Postman
+View the [Postman Collection](https://documenter.getpostman.com/view/24401599/2sA35Mxdu3) for easy testing!
+
+![Postman Logo](https://avatars.githubusercontent.com/u/10251060?s=84)
+
 ## YourKit
 YourKit supports open source projects with innovative and intelligent tools for monitoring and profiling Java and .NET applications.
 YourKit is the creator of [YourKit Java Profiler](https://www.yourkit.com/java/profiler), [YourKit .NET Profiler](https://www.yourkit.com/.net/profiler), and [YourKit YouMonitor](https://www.yourkit.com/youmonitor).
