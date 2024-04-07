@@ -6,7 +6,6 @@ on:
     paths-ignore:
       - README.md
       - LICENSE
-      - docker-compose.yml
 
 jobs:
   docker:
