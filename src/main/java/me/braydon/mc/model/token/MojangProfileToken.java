@@ -16,27 +16,27 @@ import java.util.Base64;
  * @author Braydon
  * @see <a href="https://wiki.vg/Mojang_API#UUID_to_Profile_and_Skin.2FCape">Mojang API</a>
  */
-@NoArgsConstructor @Setter @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+@AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
 public final class MojangProfileToken {
     /**
      * The id of the profile.
      */
-    @EqualsAndHashCode.Include @NonNull private String id;
+    @EqualsAndHashCode.Include @NonNull private final String id;
 
     /**
      * The name of the profile.
      */
-    @NonNull private String name;
+    @NonNull private final String name;
 
     /**
      * The properties of the profile.
      */
-    @NonNull private ProfileProperty[] properties;
+    @NonNull private final ProfileProperty[] properties;
 
     /**
      * The actions this profile has.
      */
-    @NonNull private ProfileAction[] profileActions;
+    @NonNull private final ProfileAction[] profileActions;
 
     public Tuple<Skin, Cape> getSkinAndCape() {
         ProfileProperty textures = getPropertyByName("textures"); // Get the profile textures

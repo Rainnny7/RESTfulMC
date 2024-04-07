@@ -10,34 +10,32 @@ import java.util.UUID;
  *
  * @author Braydon
  */
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter @Getter
+@AllArgsConstructor @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 public class Player {
     /**
      * The unique id of this player.
      */
-    @Id @EqualsAndHashCode.Include @NonNull private UUID uniqueId;
+    @Id @EqualsAndHashCode.Include @NonNull private final UUID uniqueId;
 
     /**
      * The username of this player.
      */
-    @NonNull private String username;
+    @NonNull private final String username;
 
     /**
      * The skin of this player.
      */
-    @NonNull private Skin skin;
+    @NonNull private final Skin skin;
 
     /**
      * The cape of this player, null if none.
      */
-    private Cape cape;
+    private final Cape cape;
 
     /**
      * The profile actions this player has, null if none.
      */
-    private ProfileAction[] profileActions;
+    private final ProfileAction[] profileActions;
 }
