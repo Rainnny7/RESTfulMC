@@ -1,6 +1,8 @@
 package me.braydon.mc.model.response;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;

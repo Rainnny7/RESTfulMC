@@ -12,10 +12,12 @@ import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.InvalidMinecraftServerPlatform;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.*;
+import me.braydon.mc.model.cache.CachedMinecraftServer;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.model.cache.CachedPlayerName;
 import me.braydon.mc.model.token.MojangProfileToken;
 import me.braydon.mc.model.token.MojangUsernameToUUIDToken;
+import me.braydon.mc.repository.MinecraftServerCacheRepository;
 import me.braydon.mc.repository.PlayerCacheRepository;
 import me.braydon.mc.repository.PlayerNameCacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +51,17 @@ public final class MojangService {
      */
     @NonNull private final PlayerCacheRepository playerCache;
 
+    /**
+     * The cache repository for {@link MinecraftServer}'s.
+     */
+    @NonNull private final MinecraftServerCacheRepository minecraftServerCache;
+
     @Autowired
-    public MojangService(@NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache) {
+    public MojangService(@NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache,
+                         @NonNull MinecraftServerCacheRepository minecraftServerCache) {
         this.playerNameCache = playerNameCache;
         this.playerCache = playerCache;
+        this.minecraftServerCache = minecraftServerCache;
     }
 
     /**
@@ -143,19 +152,37 @@ public final class MojangService {
      * @throws ResourceNotFoundException if the server isn't found
      */
     @NonNull
-    public MinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname)
+    public CachedMinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname)
             throws BadRequestException, InvalidMinecraftServerPlatform, ResourceNotFoundException {
         MinecraftServer.Platform platform = EnumUtils.getEnumConstant(MinecraftServer.Platform.class, platformName.toUpperCase());
         if (platform == null) { // Invalid platform
             throw new InvalidMinecraftServerPlatform();
         }
+        String lookupHostname = hostname; // The hostname used to lookup the server
+
+        // Check the cache for the server
+        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(hostname);
+        if (cached.isPresent()) { // Respond with the cache if present
+            log.info("Found server in cache: {}", hostname);
+            return cached.get();
+        }
+
         InetSocketAddress address = DNSUtils.resolveSRV(hostname); // Resolve the SRV record
         int port = platform.getDefaultPort(); // Port to ping
         if (address != null) { // SRV was resolved, use the hostname and port
             hostname = address.getHostName();
             port = address.getPort();
         }
-        return platform.getPinger().ping(hostname, port); // Ping the server and return with the response
+        // Build our server model, cache it, and then return it
+        CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
+                lookupHostname,
+                platform.getPinger().ping(hostname, port),
+                System.currentTimeMillis()
+        );
+        minecraftServerCache.save(minecraftServer);
+        log.info("Cached server: {}", hostname);
+        minecraftServer.setCached(-1L); // Set to -1 to indicate it's not cached in the response
+        return minecraftServer;
     }
 
     /**

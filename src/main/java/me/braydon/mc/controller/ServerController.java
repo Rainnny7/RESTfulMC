@@ -3,6 +3,7 @@ package me.braydon.mc.controller;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.model.MinecraftServer;
+import me.braydon.mc.model.cache.CachedMinecraftServer;
 import me.braydon.mc.service.MojangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -38,8 +39,8 @@ public final class ServerController {
      */
     @GetMapping("/{platform}/{hostname}")
     @ResponseBody
-    public ResponseEntity<MinecraftServer> getServer(@PathVariable @NonNull String platform,
-                                                     @PathVariable @NonNull String hostname
+    public ResponseEntity<CachedMinecraftServer> getServer(@PathVariable @NonNull String platform,
+                                                           @PathVariable @NonNull String hostname
     ) {
         return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname));
     }

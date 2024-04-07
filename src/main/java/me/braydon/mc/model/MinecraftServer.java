@@ -62,9 +62,9 @@ public class MinecraftServer {
         private final int max;
 
         /**
-         * A sample of players on this server.
+         * A sample of players on this server, null or empty if no sample.
          */
-        @NonNull private final Sample[] sample;
+        private final Sample[] sample;
 
         /**
          * A sample player.
