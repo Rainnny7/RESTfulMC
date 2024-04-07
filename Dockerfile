@@ -1,5 +1,8 @@
 FROM maven:3.8.5-openjdk-17-slim
 
+# Set the working directory
+WORKDIR /home/container
+
 # Copy project files
 COPY . .
 
