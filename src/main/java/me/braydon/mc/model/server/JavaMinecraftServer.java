@@ -10,8 +10,9 @@ import me.braydon.mc.model.token.JavaServerStatusToken;
  * @author Braydon
  */
 public final class JavaMinecraftServer extends MinecraftServer {
-    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version, @NonNull Players players) {
-        super(hostname, ip, port, version, players);
+    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version,
+                                @NonNull Players players, @NonNull MOTD motd, @NonNull String icon, boolean mojangBanned) {
+        super(hostname, ip, port, version, players, motd, icon, mojangBanned);
     }
 
     /**
@@ -25,6 +26,8 @@ public final class JavaMinecraftServer extends MinecraftServer {
      */
     @NonNull
     public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, @NonNull JavaServerStatusToken token) {
-        return new JavaMinecraftServer(hostname, ip, port, token.getVersion(), token.getPlayers());
+        return new JavaMinecraftServer(hostname, ip, port, token.getVersion(), token.getPlayers(),
+                MOTD.create(token.getDescription()), token.getFavicon(), false
+        );
     }
 }

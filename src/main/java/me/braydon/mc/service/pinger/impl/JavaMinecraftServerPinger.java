@@ -39,7 +39,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
         InetAddress inetAddress = DNSUtils.resolveA(hostname); // Resolve the hostname to an IP address
         String ip = inetAddress == null ? null : inetAddress.getHostAddress(); // Get the IP address
         if (ip != null) { // Was the IP resolved?
-            log.info("Resolved hostname {} to {}", hostname, ip);
+            log.info("Resolved hostname: {} -> {}", hostname, ip);
         }
         log.info("Pinging {}:{}...", hostname, port);
         long before = System.currentTimeMillis(); // Timestamp before pinging

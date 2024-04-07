@@ -1,9 +1,13 @@
 package me.braydon.mc.model;
 
 import lombok.*;
+import me.braydon.mc.common.ColorUtils;
+import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.BedrockMinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
+
+import java.util.Arrays;
 
 /**
  * A model representing a Minecraft server.
@@ -38,6 +42,24 @@ public class MinecraftServer {
     @NonNull private final Players players;
 
     /**
+     * The MOTD of this server.
+     */
+    @NonNull private final MOTD motd;
+
+    /**
+     * The Base64 encoded icon of this server.
+     */
+    @NonNull private final String icon;
+
+    /**
+     * Is this server on the list
+     * of blocked servers by Mojang?
+     *
+     * @see <a href="https://wiki.vg/Mojang_API#Blocked_Servers">Mojang API</a>
+     */
+    private final boolean mojangBanned;
+
+    /**
      * Version information for a server.
      */
     @AllArgsConstructor @Getter @ToString
@@ -67,6 +89,43 @@ public class MinecraftServer {
          * The maximum allowed players on this server.
          */
         private final int max;
+    }
+
+    /**
+     * The MOTD for a server.
+     */
+    @AllArgsConstructor @Getter @ToString
+    public static class MOTD {
+        /**
+         * The raw MOTD lines, taken directly from the {@link JavaServerStatusToken}.
+         */
+        @NonNull private final String[] raw;
+
+        /**
+         * The clean MOTD lines (no color codes).
+         */
+        @NonNull private final String[] clean;
+
+        /**
+         * The HTML MOTD lines.
+         */
+        @NonNull private final String[] html;
+
+        /**
+         * Create a new MOTD from a raw string.
+         *
+         * @param raw the raw motd string
+         * @return the new motd
+         */
+        @NonNull
+        public static MOTD create(@NonNull String raw) {
+            String[] rawLines = raw.split("\n"); // The raw lines
+            return new MOTD(
+                    rawLines,
+                    Arrays.stream(rawLines).map(ColorUtils::stripColor).toArray(String[]::new),
+                    Arrays.stream(rawLines).map(ColorUtils::toHTML).toArray(String[]::new)
+            );
+        }
     }
 
     /**
