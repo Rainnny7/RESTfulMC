@@ -2,7 +2,6 @@ package me.braydon.mc.model;
 
 import lombok.*;
 import me.braydon.mc.common.ColorUtils;
-import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.BedrockMinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
@@ -51,14 +50,6 @@ public class MinecraftServer {
      * The Base64 encoded icon of this server, null if no icon.
      */
     private final String icon;
-
-    /**
-     * Is this server on the list
-     * of blocked servers by Mojang?
-     *
-     * @see <a href="https://wiki.vg/Mojang_API#Blocked_Servers">Mojang API</a>
-     */
-    private final boolean mojangBanned;
 
     /**
      * Version information for a server.
@@ -142,7 +133,7 @@ public class MinecraftServer {
     @AllArgsConstructor @Getter @ToString
     public static class MOTD {
         /**
-         * The raw MOTD lines, taken directly from the {@link JavaServerStatusToken}.
+         * The raw MOTD lines.
          */
         @NonNull private final String[] raw;
 

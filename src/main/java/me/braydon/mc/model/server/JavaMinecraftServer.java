@@ -1,5 +1,6 @@
 package me.braydon.mc.model.server;
 
+import lombok.Getter;
 import lombok.NonNull;
 import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.model.MinecraftServer;
@@ -12,10 +13,33 @@ import net.md_5.bungee.chat.ComponentSerializer;
  *
  * @author Braydon
  */
+@Getter
 public final class JavaMinecraftServer extends MinecraftServer {
+    /**
+     * Does this server enforce secure chat?
+     */
+    private final boolean enforcesSecureChat;
+
+    /**
+     * Is this server preventing chat reports?
+     */
+    private final boolean preventsChatReports;
+
+    /**
+     * Is this server on the list
+     * of blocked servers by Mojang?
+     *
+     * @see <a href="https://wiki.vg/Mojang_API#Blocked_Servers">Mojang API</a>
+     */
+    private final boolean mojangBanned;
+
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version,
-                                @NonNull Players players, @NonNull MOTD motd, String icon, boolean mojangBanned) {
-        super(hostname, ip, port, version, players, motd, icon, mojangBanned);
+                                @NonNull Players players, @NonNull MOTD motd, String icon, boolean enforcesSecureChat,
+                                boolean preventsChatReports, boolean mojangBanned) {
+        super(hostname, ip, port, version, players, motd, icon);
+        this.enforcesSecureChat = enforcesSecureChat;
+        this.preventsChatReports = preventsChatReports;
+        this.mojangBanned = mojangBanned;
     }
 
     /**
@@ -33,8 +57,8 @@ public final class JavaMinecraftServer extends MinecraftServer {
         if (motdString == null) { // Not a string motd, convert from Json
             motdString = new TextComponent(ComponentSerializer.parse(RESTfulMC.GSON.toJson(token.getDescription()))).toLegacyText();
         }
-        return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(),
-                token.getPlayers(), MOTD.create(motdString), token.getFavicon(), false
+        return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(), token.getPlayers(),
+                MOTD.create(motdString), token.getFavicon(), token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
         );
     }
 }

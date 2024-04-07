@@ -37,4 +37,14 @@ public final class JavaServerStatusToken {
      * The player counts of this server.
      */
     @NonNull private final MinecraftServer.Players players;
+
+    /**
+     * Does this server enforce secure chat?
+     */
+    private final boolean enforcesSecureChat;
+
+    /**
+     * Is this server preventing chat reports?
+     */
+    private final boolean preventsChatReports;
 }
