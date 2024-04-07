@@ -28,5 +28,5 @@ jobs:
       - name: Deploy to Dokku
         uses: dokku/github-action@master
         with:
-          git_remote_url: "ssh://dokku@10.10.3.28:22/RESTfulMC"
+          git_remote_url: "ssh://dokku@10.10.3.28:22/restfulmc"
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
