@@ -32,11 +32,6 @@ public class MinecraftServer {
     @EqualsAndHashCode.Include private final int port;
 
     /**
-     * The version information of this server.
-     */
-    @NonNull private final Version version;
-
-    /**
      * The player counts of this server.
      */
     @NonNull private final Players players;
@@ -50,45 +45,6 @@ public class MinecraftServer {
      * The Base64 encoded icon of this server, null if no icon.
      */
     private final String icon;
-
-    /**
-     * Version information for a server.
-     */
-    @AllArgsConstructor @Getter @ToString
-    public static class Version {
-        /**
-         * The version name of the server.
-         */
-        @NonNull private final String name;
-
-        /**
-         * The identified platform of the server, null if unknown.
-         */
-        private String platform;
-
-        /**
-         * The protocol version of the server.
-         */
-        private final int protocol;
-
-        /**
-         * Create a more detailed
-         * copy of this object.
-         *
-         * @return the detailed copy
-         */
-        @NonNull
-        public Version detailedCopy() {
-            String platform = null;
-            if (name.contains(" ")) { // Parse the server platform
-                String[] split = name.split(" ");
-                if (split.length == 2) {
-                    platform = split[0];
-                }
-            }
-            return new Version(name, platform, protocol);
-        }
-    }
 
     /**
      * Player count data for a server.

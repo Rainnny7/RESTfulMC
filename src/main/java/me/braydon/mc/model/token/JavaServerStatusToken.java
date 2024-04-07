@@ -1,5 +1,7 @@
 package me.braydon.mc.model.token;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -31,12 +33,17 @@ public final class JavaServerStatusToken {
     /**
      * The version information of this server.
      */
-    @NonNull private final MinecraftServer.Version version;
+    @NonNull private final JavaMinecraftServer.Version version;
 
     /**
      * The player counts of this server.
      */
     @NonNull private final MinecraftServer.Players players;
+
+    /**
+     * The Forge mod information for this server, null if none.
+     */
+    @SerializedName("modinfo") private final JavaMinecraftServer.ModInfo modInfo;
 
     /**
      * Does this server enforce secure chat?
