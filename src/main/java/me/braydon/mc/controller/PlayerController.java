@@ -2,12 +2,15 @@ package me.braydon.mc.controller;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import me.braydon.mc.common.PlayerUtils;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.Player;
+import me.braydon.mc.model.Skin;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.service.MojangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +47,41 @@ public final class PlayerController {
     @ResponseBody
     public ResponseEntity<CachedPlayer> getPlayer(@PathVariable @NonNull String query) throws BadRequestException, ResourceNotFoundException {
         return ResponseEntity.ofNullable(mojangService.getPlayer(query, false));
+    }
+
+    /**
+     * Get the head texture of a player
+     * by their username or UUID.
+     * <p>
+     * If the player being searched is
+     * invalid, the default Steve skin
+     * will be used.
+     * </p>
+     *
+     * @param query the query to search for the player by
+     * @param extension the head image extension
+     * @return the head texture
+     * @throws BadRequestException if the extension is invalid
+     */
+    @GetMapping("/head/{query}.{extension}")
+    @ResponseBody
+    public ResponseEntity<ByteArrayResource> getHead(@PathVariable @NonNull String query, @PathVariable @NonNull String extension) throws BadRequestException {
+        if ((extension = extension.trim()).isBlank()) { // Invalid extension
+            throw new BadRequestException("Invalid extension");
+        }
+        Skin target = null; // The target skin to get the head of
+        try {
+            CachedPlayer player = mojangService.getPlayer(query, false); // Retrieve the player
+            target = player.getSkin(); // Use the player's skin
+        } catch (Exception ignored) {
+            // Simply ignore, and fallback to the default skin
+        }
+        if (target == null) { // Fallback to the default skin
+            target = Skin.DEFAULT_STEVE;
+        }
+        // Return the head texture
+        return ResponseEntity.ok()
+                .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
+                .body(new ByteArrayResource(PlayerUtils.getSkinPartTexture(target)));
     }
 }
