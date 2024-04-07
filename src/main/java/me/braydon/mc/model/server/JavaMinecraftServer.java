@@ -1,8 +1,5 @@
 package me.braydon.mc.model.server;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
 import lombok.NonNull;
 import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.model.MinecraftServer;
