@@ -8,6 +8,7 @@ import me.braydon.mc.service.pinger.impl.BedrockMinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * A model representing a Minecraft server.
@@ -112,6 +113,27 @@ public class MinecraftServer {
          * The maximum allowed players on this server.
          */
         private final int max;
+
+        /**
+         * A sample of players on this server.
+         */
+        @NonNull private final Sample[] sample;
+
+        /**
+         * A sample player.
+         */
+        @AllArgsConstructor @Getter @ToString
+        public static class Sample {
+            /**
+             * The unique id of this player.
+             */
+            @NonNull private final UUID id;
+
+            /**
+             * The name of this player.
+             */
+            @NonNull private final String name;
+        }
     }
 
     /**
