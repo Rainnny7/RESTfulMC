@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 import me.braydon.mc.RESTfulMC;
+import me.braydon.mc.common.MinecraftVersion;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.token.JavaServerStatusToken;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -99,6 +100,11 @@ public final class JavaMinecraftServer extends MinecraftServer {
         private final int protocol;
 
         /**
+         * The name of the version for the protocol, null if unknown.
+         */
+        private final String protocolName;
+
+        /**
          * Create a more detailed
          * copy of this object.
          *
@@ -113,7 +119,8 @@ public final class JavaMinecraftServer extends MinecraftServer {
                     platform = split[0];
                 }
             }
-            return new Version(name, platform, protocol);
+            MinecraftVersion minecraftVersion = MinecraftVersion.byProtocol(protocol);
+            return new Version(name, platform, protocol, minecraftVersion == null ? null : minecraftVersion.getName());
         }
     }
 
