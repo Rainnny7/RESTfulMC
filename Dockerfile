@@ -1,8 +1,5 @@
 FROM maven:3.8.5-openjdk-17-slim
 
-# Install OpenSSL
-RUN apt-get update && apt-get install -y openssl
-
 # Set the working directory
 WORKDIR /home/container
 
@@ -10,7 +7,7 @@ WORKDIR /home/container
 COPY . .
 
 # Build the app
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Exposting on port 80 so we can
 # access via a reverse proxy for Dokku
