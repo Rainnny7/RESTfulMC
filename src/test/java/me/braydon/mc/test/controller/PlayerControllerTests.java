@@ -677,7 +677,6 @@
 package me.braydon.mc.test.controller;
 
 import lombok.NonNull;
-import me.braydon.mc.test.config.TestRedisConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -692,7 +691,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Braydon
  */
-@SpringBootTest(classes = TestRedisConfig.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 public final class PlayerControllerTests {
     /**
