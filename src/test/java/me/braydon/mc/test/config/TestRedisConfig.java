@@ -674,65 +674,47 @@
  * Public License instead of this License.  But first, please read
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
-package me.braydon.mc.test.controller;
+package me.braydon.mc.test.config;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
-import me.braydon.mc.test.config.TestRedisConfig;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.context.TestConfiguration;
+import redis.embedded.RedisServer;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.io.IOException;
 
 /**
+ * Test configuration for
+ * a mock Redis server.
+ *
  * @author Braydon
  */
-@SpringBootTest(classes = TestRedisConfig.class)
-@AutoConfigureMockMvc
-public final class PlayerControllerTests {
-    /**
-     * The {@link MockMvc} instance to use for testing.
-     */
-    @NonNull private final MockMvc mockMvc;
+@TestConfiguration
+public class TestRedisConfig {
+    @NonNull private final RedisServer server;
 
-    @Autowired
-    public PlayerControllerTests(@NonNull MockMvc mockMvc) {
-        this.mockMvc = mockMvc;
+    public TestRedisConfig() throws IOException {
+        server = new RedisServer(); // Construct the mock server
     }
 
     /**
-     * Run a test to ensure retrieving
-     * a player's data is successful.
+     * Start up the mock Redis server.
      *
-     * @throws Exception if the test fails
+     * @throws IOException if there was an issue starting the server
      */
-    @Test
-    void ensurePlayerLookupSuccess() throws Exception {
-        mockMvc.perform(get("/player/Rainnny")
-                        .accept(MediaType.APPLICATION_JSON) // Accept JSON
-                        .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
-                ).andExpect(status().isOk()) // Expect 200 (OK)
-                .andExpect(jsonPath("$.username").value("Rainnny")) // Expect the player's username
-                .andReturn();
+    @PostConstruct
+    public void onInitialize() throws IOException {
+        server.start();
     }
 
     /**
-     * Run a test to ensure retrieving
-     * invalid player's results in a 404.
+     * Shutdown the running mock Redis server.
      *
-     * @throws Exception if the test fails
+     * @throws IOException if there was an issue stopping the server
      */
-    @Test
-    void ensurePlayerLookupFailure() throws Exception {
-        mockMvc.perform(get("/player/A")
-                        .accept(MediaType.APPLICATION_JSON) // Accept JSON
-                        .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
-                ).andExpect(status().isNotFound()) // Expect 404 (Not Found)
-                .andReturn();
+    @PreDestroy
+    public void housekeeping() throws IOException {
+        server.stop();
     }
 }
