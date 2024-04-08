@@ -89,6 +89,12 @@
             <version>2.10.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.jodah</groupId>
+            <artifactId>expiringmap</artifactId>
+            <version>0.5.11</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- DNS Lookup -->
         <dependency>

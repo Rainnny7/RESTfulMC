@@ -689,6 +689,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * The controller for handling
  * {@link MinecraftServer} related requests.
@@ -721,10 +723,25 @@ public final class ServerController {
      */
     @GetMapping("/{platform}/{hostname}")
     @ResponseBody
-    public ResponseEntity<CachedMinecraftServer> getServer(@PathVariable @NonNull String platform,@PathVariable @NonNull String hostname)
+    public ResponseEntity<CachedMinecraftServer> getServer(@PathVariable @NonNull String platform, @PathVariable @NonNull String hostname)
             throws BadRequestException, InvalidMinecraftServerPlatform, ResourceNotFoundException
     {
         return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname));
+    }
+
+    /**
+     * Check if the server with the
+     * given hostname is blocked by Mojang.
+     *
+     * @param hostname the server hostname to check
+     * @return whether the hostname is blocked
+     */
+    @GetMapping("/blocked/{hostname}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> isServerBlocked(@PathVariable @NonNull String hostname) {
+        return ResponseEntity.ok(Map.of(
+                "blocked", mojangService.isServerBlocked(hostname)
+        ));
     }
 
     /**

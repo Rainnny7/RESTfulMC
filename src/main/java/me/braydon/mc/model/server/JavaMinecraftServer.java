@@ -677,14 +677,12 @@
 package me.braydon.mc.model.server;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.common.MinecraftVersion;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.token.JavaServerStatusToken;
+import me.braydon.mc.service.MojangService;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
@@ -693,7 +691,7 @@ import net.md_5.bungee.chat.ComponentSerializer;
  *
  * @author Braydon
  */
-@Getter
+@Setter @Getter
 public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * The version information of this server.
@@ -718,10 +716,15 @@ public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * Is this server on the list
      * of blocked servers by Mojang?
+     * <p>
+     * This value is later set by the
+     * {@link MojangService} when a server
+     * is requested.
+     * </p>
      *
      * @see <a href="https://wiki.vg/Mojang_API#Blocked_Servers">Mojang API</a>
      */
-    private final boolean mojangBanned;
+    private boolean mojangBanned;
 
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Players players,
                                 Favicon favicon, @NonNull MOTD motd, @NonNull Version version, ModInfo modInfo,
