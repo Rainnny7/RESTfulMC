@@ -1,6 +1,6 @@
 [![Discord](https://discord.com/api/guilds/827863713855176755/widget.png)](https://discord.gg/p9gzFE2bc6)
 ![Wakatime Hours](https://wakatime.rainnny.club/api/badge/Rainnny/interval:any/project:RESTfulMC)
-![Deploy Workflow](https://git.rainnny.club/Rainnny/RESTfulMC/actions/workflows/deploy.yml/badge.svg)
+[![Deploy Workflow](https://git.rainnny.club/Rainnny/RESTfulMC/actions/workflows/deploy.yml/badge.svg)](https://git.rainnny.club/Rainnny/RESTfulMC/actions?workflow=deploy.yml)
 
 # RESTfulMC
 A simple, yet useful RESTful API for Minecraft utilizing Springboot.
