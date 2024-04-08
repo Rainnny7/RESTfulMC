@@ -696,12 +696,12 @@ public final class PlayerUtils {
     public static final int SKIN_TEXTURE_SIZE = 64; // The skin of a skin texture
 
     /**
-     * Get the head texture of a skin.
+     * Get the texture of a part of a skin.
      *
-     * @param skin the skin to get the head texture from
+     * @param skin the skin to get the part texture from
      * @param part the part of the skin to get
-     * @param size the size to scale the head texture to
-     * @return the head texture of the skin
+     * @param size the size to scale the texture to
+     * @return the texture of the skin part
      */
     @SneakyThrows
     public static byte[] getSkinPart(@NonNull Skin skin, @NonNull Skin.Part part, int size) {
