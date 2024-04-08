@@ -677,6 +677,7 @@
 package me.braydon.mc.test.controller;
 
 import lombok.NonNull;
+import me.braydon.mc.controller.PlayerController;
 import me.braydon.mc.test.config.TestRedisConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -690,6 +691,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
+ * Tests for the {@link PlayerController}.
+ *
  * @author Braydon
  */
 @SpringBootTest(classes = TestRedisConfig.class)
@@ -713,11 +716,11 @@ public final class PlayerControllerTests {
      */
     @Test
     void ensurePlayerLookupSuccess() throws Exception {
-        mockMvc.perform(get("/player/Rainnny")
+        mockMvc.perform(get("/player/g")
                         .accept(MediaType.APPLICATION_JSON) // Accept JSON
                         .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
                 ).andExpect(status().isOk()) // Expect 200 (OK)
-                .andExpect(jsonPath("$.username").value("Rainnny")) // Expect the player's username
+                .andExpect(jsonPath("$.username").value("g")) // Expect the player's username
                 .andReturn();
     }
 
@@ -728,11 +731,41 @@ public final class PlayerControllerTests {
      * @throws Exception if the test fails
      */
     @Test
-    void ensurePlayerLookupFailure() throws Exception {
-        mockMvc.perform(get("/player/A")
+    void ensurePlayerNotFound() throws Exception {
+        mockMvc.perform(get("/player/SDFSDFSDFSDFDDDG")
                         .accept(MediaType.APPLICATION_JSON) // Accept JSON
                         .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
                 ).andExpect(status().isNotFound()) // Expect 404 (Not Found)
+                .andReturn();
+    }
+
+    /**
+     * Run a test to ensure retrieving
+     * player's with invalid usernames
+     * results in a 400.
+     *
+     * @throws Exception if the test fails
+     */
+    @Test
+    void ensureUsernameIsInvalid() throws Exception {
+        mockMvc.perform(get("/player/A")
+                        .accept(MediaType.APPLICATION_JSON) // Accept JSON
+                        .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
+                ).andExpect(status().isBadRequest()) // Expect 400 (Bad Request)
+                .andReturn();
+    }
+
+    /**
+     * Run a test to ensure retrieving
+     * a player's head texture is successful.
+     *
+     * @throws Exception if the test fails
+     */
+    @Test
+    void ensureSkinPartTextureSuccess() throws Exception {
+        mockMvc.perform(get("/player/head/Rainnny.png")
+                        .contentType(MediaType.IMAGE_PNG) // Content type is PNG
+                ).andExpect(status().isOk()) // Expect 200 (OK)
                 .andReturn();
     }
 }
