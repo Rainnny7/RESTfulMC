@@ -677,6 +677,7 @@
 package me.braydon.mc.config;
 
 import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -688,30 +689,31 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @author Braydon
  */
 @Configuration
+@Log4j2(topic = "Redis")
 public class RedisConfig {
     /**
      * The Redis server host.
      */
     @Value("${spring.data.redis.host}")
-    private String redisHost;
+    private String host;
 
     /**
      * The Redis server port.
      */
     @Value("${spring.data.redis.port}")
-    private int redisPort;
+    private int port;
 
     /**
      * The Redis database index.
      */
     @Value("${spring.data.redis.database}")
-    private int redisDatabase;
+    private int database;
 
     /**
      * The optional Redis password.
      */
     @Value("${spring.data.redis.auth}")
-    private String redisAuth;
+    private String auth;
 
     /**
      * Build the config to use for Redis.
@@ -735,10 +737,12 @@ public class RedisConfig {
      */
     @Bean @NonNull
     public JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
-        config.setDatabase(redisDatabase);
-        if (!redisAuth.trim().isEmpty()) { // Auth with our provided password
-            config.setPassword(redisAuth);
+        log.info("Connecting to Redis at {}:{}/{}", host, port, database);
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(host, port);
+        config.setDatabase(database);
+        if (!auth.trim().isEmpty()) { // Auth with our provided password
+            log.info("Using auth...");
+            config.setPassword(auth);
         }
         return new JedisConnectionFactory(config);
     }
