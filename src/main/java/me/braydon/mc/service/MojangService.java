@@ -727,8 +727,6 @@ public final class MojangService {
     private static final String USERNAME_TO_UUID = API_ENDPOINT + "/users/profiles/minecraft/%s";
     private static final String FETCH_BLOCKED_SERVERS = SESSION_SERVER_ENDPOINT + "/blockedservers";
 
-    private static final Pattern USERNAME_REGEX = Pattern.compile("^[a-zA-Z0-9_]{2,16}$");
-
     private static final int DEFAULT_PART_TEXTURE_SIZE = 128;
     private static final int MAX_PART_TEXTURE_SIZE = 512;
 
@@ -839,7 +837,7 @@ public final class MojangService {
      * @param query       the query to search for the player by
      * @param bypassCache should the cache be bypassed?
      * @return the player
-     * @throws BadRequestException       if the UUID is malformed or the username is invalid
+     * @throws BadRequestException       if the UUID or username is invalid
      * @throws ResourceNotFoundException if the player is not found
      */
     @NonNull
@@ -856,7 +854,7 @@ public final class MojangService {
                 throw new BadRequestException("Malformed UUID provided: %s".formatted(query));
             }
         } else { // The query is a username, request from Mojang
-            if (!USERNAME_REGEX.matcher(query).matches()) { // Ensure the username is valid
+            if (!MiscUtils.isUsernameValid(query)) { // Ensure the username is valid
                 throw new BadRequestException("Invalid username provided: %s".formatted(query));
             }
             uuid = usernameToUUID(query);
