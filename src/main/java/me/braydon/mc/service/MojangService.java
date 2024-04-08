@@ -698,6 +698,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.net.InetSocketAddress;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -716,6 +717,8 @@ public final class MojangService {
 
     private static final int DEFAULT_PART_TEXTURE_SIZE = 128;
     private static final int MAX_PART_TEXTURE_SIZE = 512;
+
+    private static final String DEFAULT_SERVER_ICON = "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";
 
     /**
      * The cache repository for {@link Player}'s by their username.
@@ -738,6 +741,43 @@ public final class MojangService {
         this.playerNameCache = playerNameCache;
         this.playerCache = playerCache;
         this.minecraftServerCache = minecraftServerCache;
+    }
+
+    /**
+     * Get the part of a skin texture for
+     * a player by their username or UUID.
+     *
+     * @param partName  the part of the player's skin texture to get
+     * @param query     the query to search for the player by
+     * @param extension the skin part image extension
+     * @param size      the size of the skin part image
+     * @return the skin part texture
+     * @throws BadRequestException if the extension is invalid
+     */
+    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, Integer size) {
+        Skin.Part part = EnumUtils.getEnumConstant(Skin.Part.class, partName.toUpperCase()); // The skin part to get
+        if (part == null) { // Default to the head part
+            part = Skin.Part.HEAD;
+        }
+        if (extension.isBlank()) { // Invalid extension
+            throw new BadRequestException("Invalid extension");
+        }
+        if (size == null || size <= 0) { // Invalid size
+            size = DEFAULT_PART_TEXTURE_SIZE;
+        }
+        size = Math.min(size, MAX_PART_TEXTURE_SIZE); // Limit the size to 512
+
+        Skin target = null; // The target skin to get the skin part of
+        try {
+            CachedPlayer player = getPlayer(query, false); // Retrieve the player
+            target = player.getSkin(); // Use the player's skin
+        } catch (Exception ignored) {
+            // Simply ignore, and fallback to the default skin
+        }
+        if (target == null) { // Fallback to the default skin
+            target = Skin.DEFAULT_STEVE;
+        }
+        return ImageUtils.getSkinPart(target, part, size);
     }
 
     /**
@@ -817,40 +857,33 @@ public final class MojangService {
     }
 
     /**
-     * Get the part of a skin texture for
-     * a player by their username or UUID.
+     * Get the favicon of a server on the
+     * given platform with the given hostname.
+     * <p>
+     * If the favicon of the server cannot be
+     * retrieved, the default icon will be used.
+     * </p>
      *
-     * @param partName  the part of the player's skin texture to get
-     * @param query     the query to search for the player by
-     * @param extension the skin part image extension
-     * @param size      the size of the skin part image
-     * @return the skin part texture
-     * @throws BadRequestException if the extension is invalid
+     * @param platform the platform of the server
+     * @param hostname the hostname of the server
+     * @return the server favicon
+     * @see #DEFAULT_SERVER_ICON for the default server icon
      */
-    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, Integer size) {
-        Skin.Part part = EnumUtils.getEnumConstant(Skin.Part.class, partName.toUpperCase()); // The skin part to get
-        if (part == null) { // Default to the head part
-            part = Skin.Part.HEAD;
-        }
-        if (extension.isBlank()) { // Invalid extension
-            throw new BadRequestException("Invalid extension");
-        }
-        if (size == null || size <= 0) { // Invalid size
-            size = DEFAULT_PART_TEXTURE_SIZE;
-        }
-        size = Math.min(size, MAX_PART_TEXTURE_SIZE); // Limit the size to 512
-
-        Skin target = null; // The target skin to get the skin part of
+    public byte[] getServerFavicon(@NonNull String platform, @NonNull String hostname) {
+        String icon = null; // The server base64 icon
         try {
-            CachedPlayer player = getPlayer(query, false); // Retrieve the player
-            target = player.getSkin(); // Use the player's skin
-        } catch (Exception ignored) {
-            // Simply ignore, and fallback to the default skin
+            MinecraftServer.Favicon favicon = getMinecraftServer(platform, hostname).getValue().getFavicon();
+            if (favicon != null) { // Use the server's favicon
+                icon = favicon.getBase64();
+                icon = icon.substring(icon.indexOf(",") + 1); // Remove the data type from the server icon
+            }
+        } catch (BadRequestException | InvalidMinecraftServerPlatform | ResourceNotFoundException ignored) {
+            // Safely ignore these, we will use the default server icon
         }
-        if (target == null) { // Fallback to the default skin
-            target = Skin.DEFAULT_STEVE;
+        if (icon == null) { // Use the default server icon
+            icon = DEFAULT_SERVER_ICON;
         }
-        return ImageUtils.getSkinPart(target, part, size);
+        return Base64.getDecoder().decode(icon); // Return the decoded favicon
     }
 
     /**
