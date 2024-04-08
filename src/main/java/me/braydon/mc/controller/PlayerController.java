@@ -713,7 +713,7 @@ public final class PlayerController {
      *
      * @param query the query to search for the player by
      * @return the player response
-     * @throws BadRequestException       if the UUID is malformed
+     * @throws BadRequestException       if the UUID is malformed or the username is invalid
      * @throws ResourceNotFoundException if the player is not found
      */
     @GetMapping("/{query}")
