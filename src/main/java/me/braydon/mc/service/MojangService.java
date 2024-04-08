@@ -850,7 +850,7 @@ public final class MojangService {
         if (target == null) { // Fallback to the default skin
             target = Skin.DEFAULT_STEVE;
         }
-        return PlayerUtils.getSkinPart(target, part, size);
+        return ImageUtils.getSkinPart(target, part, size);
     }
 
     /**

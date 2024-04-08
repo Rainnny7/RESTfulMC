@@ -686,7 +686,7 @@ import me.braydon.mc.model.MinecraftServer;
  */
 public final class BedrockMinecraftServer extends MinecraftServer {
     private BedrockMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Players players,
-                                   @NonNull MOTD motd, String icon) {
-        super(hostname, ip, port, players, motd, icon);
+                                   Favicon favicon, @NonNull MOTD motd) {
+        super(hostname, ip, port, players, favicon, motd);
     }
 }

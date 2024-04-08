@@ -679,7 +679,7 @@ package me.braydon.mc.model;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
-import me.braydon.mc.common.PlayerUtils;
+import me.braydon.mc.common.ImageUtils;
 import me.braydon.mc.config.AppConfig;
 
 import java.util.HashMap;
@@ -754,7 +754,7 @@ public final class Skin {
      */
     @AllArgsConstructor @Getter @ToString
     public enum Part {
-        HEAD(8, 8, PlayerUtils.SKIN_TEXTURE_SIZE / 8, PlayerUtils.SKIN_TEXTURE_SIZE / 8);
+        HEAD(8, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8);
 
         /**
          * The coordinates of this part.

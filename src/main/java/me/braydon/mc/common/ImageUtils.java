@@ -692,7 +692,7 @@ import java.net.URL;
  * @author Braydon
  */
 @UtilityClass
-public final class PlayerUtils {
+public final class ImageUtils {
     public static final int SKIN_TEXTURE_SIZE = 64; // The skin of a skin texture
 
     /**

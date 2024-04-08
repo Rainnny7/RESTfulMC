@@ -10,7 +10,7 @@ A simple, yet useful RESTful API for Minecraft utilizing Springboot.
 Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RESTfulMC/wiki) for more information!
 
 ## TODO
-- [ ] Server Icon Route
+- [x] Server Icon Route
 - [ ] Unit Tests
 - [ ] Blacklist Checking
 - [ ] HTTP Codes in wiki

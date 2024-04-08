@@ -724,9 +724,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private final boolean mojangBanned;
 
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Players players,
-                                @NonNull MOTD motd, String icon, @NonNull Version version, ModInfo modInfo,
+                                Favicon favicon, @NonNull MOTD motd, @NonNull Version version, ModInfo modInfo,
                                 boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
-        super(hostname, ip, port, players, motd, icon);
+        super(hostname, ip, port, players, favicon, motd);
         this.version = version;
         this.modInfo = modInfo;
         this.enforcesSecureChat = enforcesSecureChat;
@@ -749,9 +749,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
         if (motdString == null) { // Not a string motd, convert from Json
             motdString = new TextComponent(ComponentSerializer.parse(RESTfulMC.GSON.toJson(token.getDescription()))).toLegacyText();
         }
-        return new JavaMinecraftServer(hostname, ip, port, token.getPlayers(), MOTD.create(motdString),
-                token.getFavicon(), token.getVersion().detailedCopy(), token.getModInfo(),
-                token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
+        return new JavaMinecraftServer(hostname, ip, port, token.getPlayers(), Favicon.create(token.getFavicon(), Platform.JAVA, hostname),
+                MOTD.create(motdString), token.getVersion().detailedCopy(), token.getModInfo(), token.isEnforcesSecureChat(),
+                token.isPreventsChatReports(), false
         );
     }
 
