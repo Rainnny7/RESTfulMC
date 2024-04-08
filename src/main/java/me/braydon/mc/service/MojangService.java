@@ -689,6 +689,7 @@ import me.braydon.mc.common.web.JsonWebException;
 import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.InvalidMinecraftServerPlatform;
+import me.braydon.mc.exception.impl.MojangRateLimitException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.*;
 import me.braydon.mc.model.cache.CachedMinecraftServer;
@@ -797,8 +798,11 @@ public final class MojangService {
      * @param size      the size of the skin part image
      * @return the skin part texture
      * @throws BadRequestException if the extension is invalid
+     * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
-    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, Integer size) {
+    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, Integer size)
+            throws BadRequestException, MojangRateLimitException
+    {
         Skin.Part part = EnumUtils.getEnumConstant(Skin.Part.class, partName.toUpperCase()); // The skin part to get
         if (part == null) { // Default to the head part
             part = Skin.Part.HEAD;
@@ -838,9 +842,12 @@ public final class MojangService {
      * @return the player
      * @throws BadRequestException       if the UUID or username is invalid
      * @throws ResourceNotFoundException if the player is not found
+     * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
     @NonNull
-    public CachedPlayer getPlayer(@NonNull String query, boolean bypassCache) throws BadRequestException, ResourceNotFoundException {
+    public CachedPlayer getPlayer(@NonNull String query, boolean bypassCache)
+            throws BadRequestException, ResourceNotFoundException, MojangRateLimitException
+    {
         log.info("Requesting player with query: {}", query);
 
         UUID uuid; // The player UUID to lookup
@@ -1037,9 +1044,10 @@ public final class MojangService {
      * @param username the player's username
      * @return the player's UUID
      * @throws ResourceNotFoundException if the player isn't found
+     * @throws MojangRateLimitException if the Mojang rate limit is reached
      */
     @NonNull
-    private UUID usernameToUUID(@NonNull String username) throws ResourceNotFoundException {
+    private UUID usernameToUUID(@NonNull String username) throws ResourceNotFoundException, MojangRateLimitException {
         String originalUsername = username;
         username = username.toLowerCase(); // Lowercase the username
 
@@ -1062,7 +1070,9 @@ public final class MojangService {
             log.info("Cached UUID for username {}: {}", username, uuid);
             return uuid;
         } catch (JsonWebException ex) {
-            if (ex.getStatusCode() == 404) {
+            if (ex.getStatusCode() == 429) { // Mojang rate limit reached
+                throw new MojangRateLimitException();
+            } else if (ex.getStatusCode() == 404) { // Player not found
                 throw new ResourceNotFoundException("Player not found with username: %s".formatted(originalUsername));
             }
             throw ex;
