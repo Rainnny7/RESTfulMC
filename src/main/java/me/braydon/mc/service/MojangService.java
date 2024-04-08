@@ -711,7 +711,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * A service for interacting with the Mojang API.
@@ -1041,12 +1040,13 @@ public final class MojangService {
      */
     @NonNull
     private UUID usernameToUUID(@NonNull String username) throws ResourceNotFoundException {
+        String originalUsername = username;
         username = username.toLowerCase(); // Lowercase the username
 
         // Check the cache for the player's UUID
         Optional<CachedPlayerName> cached = playerNameCache.findById(username);
         if (cached.isPresent()) { // Respond with the cache if present
-            log.info("Found UUID in cache for username {}: {}", username, cached.get().getUniqueId());
+            log.info("Found UUID in cache for username {}: {}", originalUsername, cached.get().getUniqueId());
             return cached.get().getUniqueId();
         }
 
@@ -1063,7 +1063,7 @@ public final class MojangService {
             return uuid;
         } catch (JsonWebException ex) {
             if (ex.getStatusCode() == 404) {
-                throw new ResourceNotFoundException("Player not found with username: %s".formatted(username));
+                throw new ResourceNotFoundException("Player not found with username: %s".formatted(originalUsername));
             }
             throw ex;
         }
