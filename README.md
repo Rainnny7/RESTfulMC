@@ -11,7 +11,7 @@ Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RE
 
 ## TODO
 - [x] Server Icon Route
-- [ ] Unit Tests
+- [x] Unit Tests
 - [x] Blacklist Checking
 - [x] HTTP Codes in wiki
 - [ ] Route for 3D player heads/body?
