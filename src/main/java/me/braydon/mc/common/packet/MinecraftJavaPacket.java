@@ -674,67 +674,69 @@
  * Public License instead of this License.  But first, please read
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
-package me.braydon.mc.common.packet.impl;
+package me.braydon.mc.common.packet;
 
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.ToString;
-import me.braydon.mc.common.packet.MinecraftPacket;
 
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
- * This packet is sent by the client to the server to set
- * the hostname, port, and protocol version of the client.
+ * Represents a packet in the
+ * Minecraft Java protocol.
  *
  * @author Braydon
- * @see <a href="https://wiki.vg/Protocol#Handshake">Protocol Docs</a>
+ * @see <a href="https://wiki.vg/Protocol">Protocol Docs</a>
  */
-@AllArgsConstructor @ToString
-public final class PacketHandshakingInSetProtocol extends MinecraftPacket {
-    private static final byte ID = 0x00; // The ID of the packet
-    private static final int STATUS_HANDSHAKE = 1; // The status handshake ID
-
-    /**
-     * The hostname of the server.
-     */
-    @NonNull private final String hostname;
-
-    /**
-     * The port of the server.
-     */
-    private final int port;
-
-    /**
-     * The protocol version of the server.
-     */
-    private final int protocolVersion;
-
+public abstract class MinecraftJavaPacket {
     /**
      * Process this packet.
      *
-     * @param inputStream  the input stream to read from
+     * @param inputStream the input stream to read from
      * @param outputStream the output stream to write to
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    public void process(@NonNull DataInputStream inputStream, @NonNull DataOutputStream outputStream) throws IOException {
-        try (ByteArrayOutputStream handshakeBytes = new ByteArrayOutputStream();
-             DataOutputStream handshake = new DataOutputStream(handshakeBytes)
-        ) {
-            handshake.writeByte(ID); // Write the ID of the packet
-            writeVarInt(handshake, protocolVersion); // Write the protocol version
-            writeVarInt(handshake, hostname.length()); // Write the length of the hostname
-            handshake.writeBytes(hostname); // Write the hostname
-            handshake.writeShort(port); // Write the port
-            writeVarInt(handshake, STATUS_HANDSHAKE); // Write the status handshake ID
+    public abstract void process(@NonNull DataInputStream inputStream, @NonNull DataOutputStream outputStream) throws IOException;
 
-            // Write the handshake bytes to the output stream
-            writeVarInt(outputStream, handshakeBytes.size());
-            outputStream.write(handshakeBytes.toByteArray());
+    /**
+     * Write a variable integer to the output stream.
+     *
+     * @param outputStream the output stream to write to
+     * @param paramInt the integer to write
+     * @throws IOException if an I/O error occurs
+     */
+    protected final void writeVarInt(DataOutputStream outputStream, int paramInt) throws IOException {
+        while (true) {
+            if ((paramInt & 0xFFFFFF80) == 0) {
+                outputStream.writeByte(paramInt);
+                return;
+            }
+            outputStream.writeByte(paramInt & 0x7F | 0x80);
+            paramInt >>>= 7;
         }
+    }
+
+    /**
+     * Read a variable integer from the input stream.
+     *
+     * @param inputStream the input stream to read from
+     * @return the integer that was read
+     * @throws IOException if an I/O error occurs
+     */
+    protected final int readVarInt(@NonNull DataInputStream inputStream) throws IOException {
+        int i = 0;
+        int j = 0;
+        while (true) {
+            int k = inputStream.readByte();
+            i |= (k & 0x7F) << j++ * 7;
+            if (j > 5) {
+                throw new RuntimeException("VarInt too big");
+            }
+            if ((k & 0x80) != 128) {
+                break;
+            }
+        }
+        return i;
     }
 }

@@ -674,68 +674,53 @@
  * Public License instead of this License.  But first, please read
  * <https://www.gnu.org/licenses/why-not-lgpl.html>.
  */
-package me.braydon.mc.common.packet;
+package me.braydon.mc.common.packet.impl.bedrock;
 
+import lombok.Getter;
 import lombok.NonNull;
+import me.braydon.mc.common.packet.MinecraftBedrockPacket;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Represents a packet in
- * the Minecraft protocol.
+ * This packet is sent by the server to the client in
+ * response to the {@link BedrockPacketUnconnectedPing}.
  *
  * @author Braydon
+ * @see <a href="https://wiki.vg/Raknet_Protocol#Unconnected_Pong">Protocol Docs</a>
  */
-public abstract class MinecraftPacket {
+@Getter
+public final class BedrockPacketUnconnectedPong implements MinecraftBedrockPacket {
+    private static final byte ID = 0x1C; // The ID of the packet
+
+    /**
+     * The response from the server, null if none.
+     */
+    private String response;
+
     /**
      * Process this packet.
      *
-     * @param inputStream the input stream to read from
-     * @param outputStream the output stream to write to
+     * @param socket the socket to process the packet for
      * @throws IOException if an I/O error occurs
      */
-    public abstract void process(@NonNull DataInputStream inputStream, @NonNull DataOutputStream outputStream) throws IOException;
+    @Override
+    public void process(@NonNull DatagramSocket socket) throws IOException {
+        // Handle receiving of the packet
+        byte[] receiveData = new byte[2048];
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        socket.receive(receivePacket);
 
-    /**
-     * Write a variable integer to the output stream.
-     *
-     * @param outputStream the output stream to write to
-     * @param paramInt the integer to write
-     * @throws IOException if an I/O error occurs
-     */
-    protected final void writeVarInt(DataOutputStream outputStream, int paramInt) throws IOException {
-        while (true) {
-            if ((paramInt & 0xFFFFFF80) == 0) {
-                outputStream.writeByte(paramInt);
-                return;
-            }
-            outputStream.writeByte(paramInt & 0x7F | 0x80);
-            paramInt >>>= 7;
+        // Construct a bugger from the received packet
+        ByteBuffer buffer = ByteBuffer.wrap(receivePacket.getData()).order(ByteOrder.LITTLE_ENDIAN);
+        byte id = buffer.get(); // The received packet id
+        if (id == ID) {
+            response = new String(buffer.array(), StandardCharsets.UTF_8).substring(35).trim();
         }
-    }
-
-    /**
-     * Read a variable integer from the input stream.
-     *
-     * @param inputStream the input stream to read from
-     * @return the integer that was read
-     * @throws IOException if an I/O error occurs
-     */
-    protected final int readVarInt(@NonNull DataInputStream inputStream) throws IOException {
-        int i = 0;
-        int j = 0;
-        while (true) {
-            int k = inputStream.readByte();
-            i |= (k & 0x7F) << j++ * 7;
-            if (j > 5) {
-                throw new RuntimeException("VarInt too big");
-            }
-            if ((k & 0x80) != 128) {
-                break;
-            }
-        }
-        return i;
     }
 }
