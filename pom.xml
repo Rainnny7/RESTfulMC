@@ -95,19 +95,18 @@
             <version>0.5.11</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-chat</artifactId>
+            <version>1.20-R0.2</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- DNS Lookup -->
         <dependency>
             <groupId>com.github.dnsjava</groupId>
             <artifactId>dnsjava</artifactId>
             <version>v3.5.2</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-chat</artifactId>
-            <version>1.20-R0.2</version>
             <scope>compile</scope>
         </dependency>
 

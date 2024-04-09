@@ -16,7 +16,7 @@ Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RE
 - [x] Blacklist Checking
 - [x] HTTP Codes in wiki
 - [ ] Route for 3D player heads/body?
-- [ ] Bedrock Server Support
+- [x] Bedrock Server Support
 
 ---
 

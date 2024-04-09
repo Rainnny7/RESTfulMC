@@ -748,15 +748,14 @@ public final class ServerController {
      * Get the server icon of a Minecraft
      * server by its platform and hostname.
      *
-     * @param platform the platform of the server
      * @param hostname the hostname of the server
      * @return the server icon
      */
-    @GetMapping("/icon/{platform}/{hostname}")
+    @GetMapping("/icon/{hostname}")
     @ResponseBody
-    public ResponseEntity<byte[]> getServerIcon(@PathVariable @NonNull String platform, @PathVariable @NonNull String hostname) {
+    public ResponseEntity<byte[]> getServerFavicon(@PathVariable @NonNull String hostname) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
-                .body(mojangService.getServerFavicon(platform, hostname));
+                .body(mojangService.getServerFavicon(hostname));
     }
 }
