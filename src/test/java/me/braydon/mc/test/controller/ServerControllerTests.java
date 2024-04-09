@@ -73,6 +73,23 @@ public final class ServerControllerTests {
     }
 
     /**
+     * Run a test to ensure retrieving
+     * a Bedrock server's status is successful.
+     *
+     * @throws Exception if the test fails
+     */
+    @Test
+    void ensureBedrockServerLookupSuccess() throws Exception {
+        mockMvc.perform(get("/server/bedrock/gateway.wildnetwork.net")
+                        .accept(MediaType.APPLICATION_JSON) // Accept JSON
+                        .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
+                ).andExpect(status().isOk()) // Expect 200 (OK)
+                .andExpect(jsonPath("$.value.hostname") // Expect the server's resolved hostname
+                        .value("gateway.wildnetwork.net")
+                ).andReturn();
+    }
+
+    /**
      * Run a test to ensure that requesting
      * information about a server on an invalid
      * platform results in a 400.
@@ -127,7 +144,7 @@ public final class ServerControllerTests {
      */
     @Test
     void ensureServerFaviconSuccess() throws Exception {
-        mockMvc.perform(get("/server/icon/java/hypixel.net")
+        mockMvc.perform(get("/server/icon/hypixel.net")
                         .contentType(MediaType.IMAGE_PNG) // Content type is PNG
                 ).andExpect(status().isOk()) // Expect 200 (OK)
                 .andReturn();
