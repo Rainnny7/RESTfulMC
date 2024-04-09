@@ -41,8 +41,8 @@ import java.io.IOException;
 import java.net.*;
 
 /**
- * The {@link MinecraftServerPinger} for
- * pinging {@link JavaMinecraftServer}'s.
+ * The {@link MinecraftServerPinger} for pinging
+ * {@link JavaMinecraftServer}'s over TCP.
  *
  * @author Braydon
  */

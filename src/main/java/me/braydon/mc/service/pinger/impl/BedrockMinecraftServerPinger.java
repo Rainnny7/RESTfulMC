@@ -37,8 +37,8 @@ import java.io.IOException;
 import java.net.*;
 
 /**
- * The {@link MinecraftServerPinger} for
- * pinging {@link BedrockMinecraftServer}'s.
+ * The {@link MinecraftServerPinger} for pinging
+ * {@link BedrockMinecraftServer} over UDP.
  *
  * @author Braydon
  */

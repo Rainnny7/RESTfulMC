@@ -67,7 +67,7 @@ public final class BedrockPacketUnconnectedPong implements MinecraftBedrockPacke
         ByteBuffer buffer = ByteBuffer.wrap(receivePacket.getData()).order(ByteOrder.LITTLE_ENDIAN);
         byte id = buffer.get(); // The received packet id
         if (id == ID) {
-            response = new String(buffer.array(), StandardCharsets.UTF_8).substring(35).trim();
+            response = new String(buffer.array(), StandardCharsets.UTF_8).substring(34).trim();
         }
     }
 }
