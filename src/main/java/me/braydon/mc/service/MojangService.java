@@ -1007,7 +1007,7 @@ public final class MojangService {
         String lookupHostname = hostname; // The hostname used to lookup the server
 
         // Check the cache for the server
-        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(hostname);
+        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(platform.name() + "-" + hostname);
         if (cached.isPresent()) { // Respond with the cache if present
             log.info("Found server in cache: {}", hostname);
             return cached.get();
@@ -1021,7 +1021,7 @@ public final class MojangService {
         }
         // Build our server model, cache it, and then return it
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
-                lookupHostname,
+                platform.name() + "-" + lookupHostname,
                 platform.getPinger().ping(hostname, port),
                 System.currentTimeMillis()
         );

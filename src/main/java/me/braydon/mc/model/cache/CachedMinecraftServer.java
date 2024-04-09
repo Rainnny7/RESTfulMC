@@ -690,9 +690,9 @@ import java.io.Serializable;
 @RedisHash(value = "server", timeToLive = 60L) // 1 minute (in seconds)
 public final class CachedMinecraftServer implements Serializable {
     /**
-     * The hostname of the cached server.
+     * The id of this cached server.
      */
-    @Id @NonNull private transient final String hostname;
+    @Id @NonNull private transient final String id;
 
     /**
      * The cached server.
