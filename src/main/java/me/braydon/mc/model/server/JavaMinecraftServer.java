@@ -107,8 +107,8 @@ public final class JavaMinecraftServer extends MinecraftServer {
             motdString = new TextComponent(ComponentSerializer.parse(RESTfulMC.GSON.toJson(token.getDescription()))).toLegacyText();
         }
         return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(), token.getPlayers(),
-                MOTD.create(motdString), Favicon.create(token.getFavicon(), Platform.JAVA, hostname),
-                token.getModInfo(), token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
+                MOTD.create(motdString), Favicon.create(token.getFavicon(), hostname), token.getModInfo(),
+                token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
         );
     }
 
@@ -176,17 +176,16 @@ public final class JavaMinecraftServer extends MinecraftServer {
          * Create a new favicon for a server.
          *
          * @param base64 the Base64 encoded favicon
-         * @param platform the platform to create the favicon for
          * @param hostname the server hostname
          * @return the favicon, null if none
          */
-        public static Favicon create(String base64, @NonNull Platform platform, @NonNull String hostname) {
+        public static Favicon create(String base64, @NonNull String hostname) {
             if (base64 == null) { // No favicon to create
                 return null;
             }
             return new Favicon(
                     base64,
-                    AppConfig.INSTANCE.getServerPublicUrl() + "/server/icon/" + platform.name().toLowerCase() + "/" + hostname
+                    AppConfig.INSTANCE.getServerPublicUrl() + "/server/icon/" + hostname
             );
         }
     }
