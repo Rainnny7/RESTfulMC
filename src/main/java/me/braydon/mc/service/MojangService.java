@@ -204,11 +204,11 @@ public final class MojangService {
         log.info("Requesting player with query: {}", query);
 
         UUID uuid; // The player UUID to lookup
-        boolean fullLength = query.length() == 36; // Was a UUID provided?
-        if (query.length() == 32 || fullLength) { // Parse the query as a UUID
+        boolean isFullUuid = query.length() == 36; // Was a UUID provided?
+        if (query.length() == 32 || isFullUuid) { // Parse the query as a UUID
             try {
-                uuid = fullLength ? UUID.fromString(query) : UUIDUtils.addDashes(query);
-                log.info("Parsed {}UUID: {} -> {}", fullLength ? "" : "trimmed ", query, uuid);
+                uuid = isFullUuid ? UUID.fromString(query) : UUIDUtils.addDashes(query);
+                log.info("Parsed {}UUID: {} -> {}", isFullUuid ? "" : "trimmed ", query, uuid);
             } catch (IllegalArgumentException ex) {
                 throw new BadRequestException("Malformed UUID provided: %s".formatted(query));
             }
