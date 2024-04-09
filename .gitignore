@@ -19,6 +19,7 @@ cmake-build-*/
 out/
 build/
 work/
+target/
 .idea_modules/
 atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
