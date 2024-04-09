@@ -63,7 +63,7 @@ public final class BedrockPacketUnconnectedPong implements MinecraftBedrockPacke
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         socket.receive(receivePacket);
 
-        // Construct a bugger from the received packet
+        // Construct a buffer from the received packet
         ByteBuffer buffer = ByteBuffer.wrap(receivePacket.getData()).order(ByteOrder.LITTLE_ENDIAN);
         byte id = buffer.get(); // The received packet id
         if (id == ID) {
