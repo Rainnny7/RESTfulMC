@@ -911,22 +911,21 @@ public final class MojangService {
     }
 
     /**
-     * Get the favicon of a server on the
-     * given platform with the given hostname.
+     * Get the favicon of a Java
+     * server with the given hostname.
      * <p>
      * If the favicon of the server cannot be
      * retrieved, the default icon will be used.
      * </p>
      *
-     * @param platform the platform of the server
      * @param hostname the hostname of the server
      * @return the server favicon
      * @see #DEFAULT_SERVER_ICON for the default server icon
      */
-    public byte[] getServerFavicon(@NonNull String platform, @NonNull String hostname) {
+    public byte[] getServerFavicon(@NonNull String hostname) {
         String icon = null; // The server base64 icon
         try {
-            MinecraftServer.Favicon favicon = getMinecraftServer(platform, hostname).getValue().getFavicon();
+            JavaMinecraftServer.Favicon favicon = ((JavaMinecraftServer) getMinecraftServer(MinecraftServer.Platform.JAVA.name(), hostname).getValue()).getFavicon();
             if (favicon != null) { // Use the server's favicon
                 icon = favicon.getBase64();
                 icon = icon.substring(icon.indexOf(",") + 1); // Remove the data type from the server icon
@@ -1014,7 +1013,7 @@ public final class MojangService {
             return cached.get();
         }
 
-        InetSocketAddress address = DNSUtils.resolveSRV(hostname); // Resolve the SRV record
+        InetSocketAddress address = platform == MinecraftServer.Platform.JAVA ? DNSUtils.resolveSRV(hostname) : null; // Resolve the SRV record
         int port = platform.getDefaultPort(); // Port to ping
         if (address != null) { // SRV was resolved, use the hostname and port
             hostname = address.getHostName();
