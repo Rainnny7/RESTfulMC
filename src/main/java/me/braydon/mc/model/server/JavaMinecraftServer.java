@@ -680,6 +680,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.common.MinecraftVersion;
+import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.MojangService;
@@ -691,12 +692,17 @@ import net.md_5.bungee.chat.ComponentSerializer;
  *
  * @author Braydon
  */
-@Setter @Getter
+@Setter @Getter @ToString(callSuper = true)
 public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * The version information of this server.
      */
     @NonNull private final Version version;
+
+    /**
+     * The favicon of this server, null if none.
+     */
+    private final Favicon favicon;
 
     /**
      * The Forge mod information for this server, null if none.
@@ -726,11 +732,12 @@ public final class JavaMinecraftServer extends MinecraftServer {
      */
     private boolean mojangBanned;
 
-    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Players players,
-                                Favicon favicon, @NonNull MOTD motd, @NonNull Version version, ModInfo modInfo,
+    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version,
+                                @NonNull Players players, @NonNull MOTD motd, Favicon favicon, ModInfo modInfo,
                                 boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
-        super(hostname, ip, port, players, favicon, motd);
+        super(hostname, ip, port, players, motd);
         this.version = version;
+        this.favicon = favicon;
         this.modInfo = modInfo;
         this.enforcesSecureChat = enforcesSecureChat;
         this.preventsChatReports = preventsChatReports;
@@ -752,9 +759,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
         if (motdString == null) { // Not a string motd, convert from Json
             motdString = new TextComponent(ComponentSerializer.parse(RESTfulMC.GSON.toJson(token.getDescription()))).toLegacyText();
         }
-        return new JavaMinecraftServer(hostname, ip, port, token.getPlayers(), Favicon.create(token.getFavicon(), Platform.JAVA, hostname),
-                MOTD.create(motdString), token.getVersion().detailedCopy(), token.getModInfo(), token.isEnforcesSecureChat(),
-                token.isPreventsChatReports(), false
+        return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(), token.getPlayers(),
+                MOTD.create(motdString), Favicon.create(token.getFavicon(), Platform.JAVA, hostname),
+                token.getModInfo(), token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
         );
     }
 
@@ -800,6 +807,40 @@ public final class JavaMinecraftServer extends MinecraftServer {
             }
             MinecraftVersion minecraftVersion = MinecraftVersion.byProtocol(protocol);
             return new Version(name, platform, protocol, minecraftVersion == null ? null : minecraftVersion.getName());
+        }
+    }
+
+    /**
+     * The favicon for a server.
+     */
+    @AllArgsConstructor @Getter @ToString
+    public static class Favicon {
+        /**
+         * The raw Base64 encoded favicon.
+         */
+        @NonNull private final String base64;
+
+        /**
+         * The URL to the favicon.
+         */
+        @NonNull private final String url;
+
+        /**
+         * Create a new favicon for a server.
+         *
+         * @param base64 the Base64 encoded favicon
+         * @param platform the platform to create the favicon for
+         * @param hostname the server hostname
+         * @return the favicon, null if none
+         */
+        public static Favicon create(String base64, @NonNull Platform platform, @NonNull String hostname) {
+            if (base64 == null) { // No favicon to create
+                return null;
+            }
+            return new Favicon(
+                    base64,
+                    AppConfig.INSTANCE.getServerPublicUrl() + "/server/icon/" + platform.name().toLowerCase() + "/" + hostname
+            );
         }
     }
 

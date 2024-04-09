@@ -678,7 +678,6 @@ package me.braydon.mc.model;
 
 import lombok.*;
 import me.braydon.mc.common.ColorUtils;
-import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.BedrockMinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
@@ -712,11 +711,6 @@ public class MinecraftServer {
      * The player counts of this server.
      */
     @NonNull private final Players players;
-
-    /**
-     * The favicon of this server, null if none.
-     */
-    private final Favicon favicon;
 
     /**
      * The MOTD of this server.
@@ -757,32 +751,6 @@ public class MinecraftServer {
              * The name of this player.
              */
             @NonNull private final String name;
-        }
-    }
-
-    /**
-     * The favicon for a server.
-     */
-    @AllArgsConstructor @Getter @ToString
-    public static class Favicon {
-        /**
-         * The raw Base64 encoded favicon.
-         */
-        @NonNull private final String base64;
-
-        /**
-         * The URL to the favicon.
-         */
-        @NonNull private final String url;
-
-        public static Favicon create(String base64, @NonNull Platform platform, @NonNull String hostname) {
-            if (base64 == null) { // No favicon to create
-                return null;
-            }
-            return new Favicon(
-                    base64,
-                    AppConfig.INSTANCE.getServerPublicUrl() + "/server/icon/" + platform.name().toLowerCase() + "/" + hostname
-            );
         }
     }
 
