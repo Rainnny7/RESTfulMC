@@ -88,7 +88,7 @@ public final class PlayerController {
      * @return the skin part texture
      * @throws BadRequestException if the extension is invalid
      */
-    @GetMapping("/{partName}/{query}.{extension}")
+    @GetMapping(value = "/{partName}/{query}.{extension}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
     @ResponseBody
     public ResponseEntity<byte[]> getPartTexture(@PathVariable @NonNull String partName, @PathVariable @NonNull String query,
                                                  @PathVariable @NonNull String extension, @RequestParam(required = false) String size

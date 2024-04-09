@@ -32,6 +32,7 @@ import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.cache.CachedMinecraftServer;
 import me.braydon.mc.service.MojangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -98,11 +99,12 @@ public final class ServerController {
      * @param hostname the hostname of the server
      * @return the server icon
      */
-    @GetMapping("/icon/{hostname}")
+    @GetMapping(value = "/icon/{hostname}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public ResponseEntity<byte[]> getServerFavicon(@PathVariable @NonNull String hostname) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=%s.png".formatted(hostname))
                 .body(mojangService.getServerFavicon(hostname));
     }
 }
