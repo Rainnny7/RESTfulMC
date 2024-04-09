@@ -4,6 +4,7 @@ on:
   push:
     branches: ["master"]
     paths-ignore:
+      - .gitignore
       - README.md
       - LICENSE
       - docker-compose.yml
