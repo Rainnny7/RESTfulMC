@@ -139,17 +139,24 @@ public final class MojangService {
      * Get the part of a skin texture for
      * a player by their username or UUID.
      *
-     * @param partName  the part of the player's skin texture to get
-     * @param query     the query to search for the player by
-     * @param extension the skin part image extension
-     * @param size      the size of the skin part image
+     * @param partName   the part of the player's skin texture to get
+     * @param query      the query to search for the player by
+     * @param extension  the skin part image extension
+     * @param sizeString the size of the skin part image
      * @return the skin part texture
-     * @throws BadRequestException if the extension is invalid
+     * @throws BadRequestException      if the extension is invalid
      * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
-    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, Integer size)
-            throws BadRequestException, MojangRateLimitException
-    {
+    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, String sizeString)
+            throws BadRequestException, MojangRateLimitException {
+        Integer size = null;
+        if (sizeString != null) { // Attempt to parse the size
+            try {
+                size = Integer.parseInt(sizeString);
+            } catch (NumberFormatException ignored) {
+                // Safely ignore, invalid number provided
+            }
+        }
         Skin.Part part = EnumUtils.getEnumConstant(Skin.Part.class, partName.toUpperCase()); // The skin part to get
         if (part == null) { // Default to the head part
             part = Skin.Part.HEAD;
@@ -189,12 +196,11 @@ public final class MojangService {
      * @return the player
      * @throws BadRequestException       if the UUID or username is invalid
      * @throws ResourceNotFoundException if the player is not found
-     * @throws MojangRateLimitException if the Mojang API rate limit is reached
+     * @throws MojangRateLimitException  if the Mojang API rate limit is reached
      */
     @NonNull
     public CachedPlayer getPlayer(@NonNull String query, boolean bypassCache)
-            throws BadRequestException, ResourceNotFoundException, MojangRateLimitException
-    {
+            throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
         log.info("Requesting player with query: {}", query);
 
         UUID uuid; // The player UUID to lookup
@@ -390,7 +396,7 @@ public final class MojangService {
      * @param username the player's username
      * @return the player's UUID
      * @throws ResourceNotFoundException if the player isn't found
-     * @throws MojangRateLimitException if the Mojang rate limit is reached
+     * @throws MojangRateLimitException  if the Mojang rate limit is reached
      */
     @NonNull
     private UUID usernameToUUID(@NonNull String username) throws ResourceNotFoundException, MojangRateLimitException {

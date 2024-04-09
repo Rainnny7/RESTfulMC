@@ -68,8 +68,7 @@ public final class PlayerController {
     @GetMapping("/{query}")
     @ResponseBody
     public ResponseEntity<CachedPlayer> getPlayer(@PathVariable @NonNull String query)
-            throws BadRequestException, ResourceNotFoundException, MojangRateLimitException
-    {
+            throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
         return ResponseEntity.ofNullable(mojangService.getPlayer(query, false));
     }
 
@@ -92,7 +91,7 @@ public final class PlayerController {
     @GetMapping("/{partName}/{query}.{extension}")
     @ResponseBody
     public ResponseEntity<byte[]> getPartTexture(@PathVariable @NonNull String partName, @PathVariable @NonNull String query,
-                                                 @PathVariable @NonNull String extension, @RequestParam(required = false) Integer size
+                                                 @PathVariable @NonNull String extension, @RequestParam(required = false) String size
     ) throws BadRequestException {
         return ResponseEntity.ok()
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
