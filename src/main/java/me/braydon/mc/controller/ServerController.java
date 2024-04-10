@@ -74,7 +74,7 @@ public final class ServerController {
     @ResponseBody
     public ResponseEntity<CachedMinecraftServer> getServer(
             @Parameter(description = "The platform of the server", example = "java") @PathVariable @NonNull String platform,
-            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname
+            @Parameter(description = "The server hostname to lookup (Append :<port> for port)", example = "hypixel.net") @PathVariable @NonNull String hostname
     ) throws BadRequestException, ResourceNotFoundException {
         return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname));
     }
@@ -106,7 +106,7 @@ public final class ServerController {
     @GetMapping(value = "/icon/{hostname}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public ResponseEntity<byte[]> getServerFavicon(
-            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname
+            @Parameter(description = "The server hostname to lookup (Append :<port> for port)", example = "hypixel.net") @PathVariable @NonNull String hostname
     ) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
