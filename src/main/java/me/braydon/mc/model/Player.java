@@ -23,7 +23,6 @@
  */
 package me.braydon.mc.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
@@ -36,7 +35,7 @@ import java.util.UUID;
  */
 @AllArgsConstructor @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
 public class Player {
     /**
      * The unique id of this player.

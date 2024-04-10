@@ -21,6 +21,10 @@ spring:
       database: 0
       auth: "" # Leave blank for no auth
 
+  # Don't serialize null values by default with Jackson
+  jackson:
+    default-property-inclusion: non_null
+
   # Ignore
   banner:
     location: "classpath:banner.txt"
