@@ -23,7 +23,7 @@ Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RE
 ### Swagger API
 View the [Swagger API Docs](https://mc.rainnny.club/swagger-ui.html) for easy testing!
 
-![Swagger Logo](https://avatars.githubusercontent.com/u/7658037?s=74)
+![Swagger Logo](https://cdn.rainnny.club/UoeVQF7wYGg4.png)
 
 ## Contributing
 Made changes or improvements to RESTfulMC? Consider opening a [pull request](https://git.rainnny.club/Rainnny/RESTfulMC/pulls) to merge your changes into the project. Remember to stick with project conventions!
