@@ -24,9 +24,7 @@
 package me.braydon.mc.model.dns.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 import me.braydon.mc.model.dns.DNSRecord;
 
 import java.net.InetSocketAddress;
@@ -36,27 +34,27 @@ import java.net.InetSocketAddress;
  *
  * @author Braydon
  */
-@Getter @ToString(callSuper = true)
+@NoArgsConstructor @Setter @Getter @ToString(callSuper = true)
 public final class SRVRecord extends DNSRecord {
     /**
      * The priority of this record.
      */
-    private final int priority;
+    private int priority;
 
     /**
      * The weight of this record.
      */
-    private final int weight;
+    private int weight;
 
     /**
      * The port of this record.
      */
-    private final int port;
+    private int port;
 
     /**
      * The target of this record.
      */
-    @NonNull private final String target;
+    @NonNull private String target;
 
     public SRVRecord(@NonNull org.xbill.DNS.SRVRecord bootstrap) {
         super(Type.SRV, bootstrap.getTTL());

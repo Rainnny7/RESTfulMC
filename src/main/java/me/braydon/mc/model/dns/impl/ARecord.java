@@ -23,25 +23,26 @@
  */
 package me.braydon.mc.model.dns.impl;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 import me.braydon.mc.model.dns.DNSRecord;
+
+import java.net.InetAddress;
 
 /**
  * An A record implementation.
  *
  * @author Braydon
  */
-@Getter @ToString(callSuper = true)
+@NoArgsConstructor @Setter @Getter @ToString(callSuper = true)
 public final class ARecord extends DNSRecord {
     /**
      * The address of this record, null if unresolved.
      */
-    private final String address;
+    private String address;
 
     public ARecord(@NonNull org.xbill.DNS.ARecord bootstrap) {
         super(Type.A, bootstrap.getTTL());
-        address = bootstrap.getAddress().getHostAddress();
+        InetAddress address = bootstrap.getAddress();
+        this.address = address == null ? null : address.getHostAddress();
     }
 }

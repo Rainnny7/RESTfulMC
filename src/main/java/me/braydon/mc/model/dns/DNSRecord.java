@@ -23,27 +23,24 @@
  */
 package me.braydon.mc.model.dns;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * A representation of a DNS record.
  *
  * @author Braydon
  */
-@AllArgsConstructor @Getter @ToString
+@NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
 public abstract class DNSRecord {
     /**
      * The type of this record.
      */
-    @NonNull private final Type type;
+    @NonNull private Type type;
 
     /**
      * The TTL (Time To Live) of this record.
      */
-    private final long ttl;
+    private long ttl;
 
     /**
      * Types of a record.
