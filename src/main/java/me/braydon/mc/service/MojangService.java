@@ -55,6 +55,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -399,8 +400,14 @@ public final class MojangService {
             port = address.getPort();
         }
 
+        InetAddress inetAddress = DNSUtils.resolveA(hostname); // Resolve the hostname to an IP address
+        String ip = inetAddress == null ? null : inetAddress.getHostAddress(); // Get the IP address
+        if (ip != null) { // Was the IP resolved?
+            log.info("Resolved hostname: {} -> {}", hostname, ip);
+        }
+
         // Build our server model, cache it, and then return it
-        MinecraftServer response = platform.getPinger().ping(hostname, port); // Ping the server and await a response
+        MinecraftServer response = platform.getPinger().ping(hostname, ip, port); // Ping the server and await a response
         if (response == null) { // No response from ping
             throw new ResourceNotFoundException("Server didn't respond to ping");
         }

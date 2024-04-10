@@ -25,7 +25,6 @@ package me.braydon.mc.service.pinger.impl;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import me.braydon.mc.common.DNSUtils;
 import me.braydon.mc.common.JavaMinecraftVersion;
 import me.braydon.mc.common.packet.impl.java.JavaPacketHandshakingInSetProtocol;
 import me.braydon.mc.common.packet.impl.java.JavaPacketStatusInStart;
@@ -55,18 +54,12 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
      * Ping the server with the given hostname and port.
      *
      * @param hostname the hostname of the server
+     * @param ip       the ip of the server, null if unresolved
      * @param port     the port of the server
      * @return the server that was pinged
-     * @throws BadRequestException if the hostname is unknown
-     * @throws ResourceNotFoundException if the server could not be found
      */
     @Override
-    public JavaMinecraftServer ping(@NonNull String hostname, int port) throws BadRequestException, ResourceNotFoundException {
-        InetAddress inetAddress = DNSUtils.resolveA(hostname); // Resolve the hostname to an IP address
-        String ip = inetAddress == null ? null : inetAddress.getHostAddress(); // Get the IP address
-        if (ip != null) { // Was the IP resolved?
-            log.info("Resolved hostname: {} -> {}", hostname, ip);
-        }
+    public JavaMinecraftServer ping(@NonNull String hostname, String ip, int port) {
         log.info("Pinging {}:{}...", hostname, port);
         long before = System.currentTimeMillis(); // Timestamp before pinging
 

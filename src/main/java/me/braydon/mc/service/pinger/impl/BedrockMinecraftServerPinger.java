@@ -25,7 +25,6 @@ package me.braydon.mc.service.pinger.impl;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import me.braydon.mc.common.DNSUtils;
 import me.braydon.mc.common.packet.impl.bedrock.BedrockPacketUnconnectedPing;
 import me.braydon.mc.common.packet.impl.bedrock.BedrockPacketUnconnectedPong;
 import me.braydon.mc.exception.impl.BadRequestException;
@@ -34,7 +33,10 @@ import me.braydon.mc.model.server.BedrockMinecraftServer;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 /**
  * The {@link MinecraftServerPinger} for pinging
@@ -50,16 +52,12 @@ public final class BedrockMinecraftServerPinger implements MinecraftServerPinger
      * Ping the server with the given hostname and port.
      *
      * @param hostname the hostname of the server
+     * @param ip       the ip of the server, null if unresolved
      * @param port     the port of the server
      * @return the server that was pinged
      */
     @Override
-    public BedrockMinecraftServer ping(@NonNull String hostname, int port) {
-        InetAddress inetAddress = DNSUtils.resolveA(hostname); // Resolve the hostname to an IP address
-        String ip = inetAddress == null ? null : inetAddress.getHostAddress(); // Get the IP address
-        if (ip != null) { // Was the IP resolved?
-            log.info("Resolved hostname: {} -> {}", hostname, ip);
-        }
+    public BedrockMinecraftServer ping(@NonNull String hostname, String ip, int port) {
         log.info("Pinging {}:{}...", hostname, port);
         long before = System.currentTimeMillis(); // Timestamp before pinging
 
