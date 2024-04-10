@@ -400,10 +400,12 @@ public final class MojangService {
         }
 
         // Build our server model, cache it, and then return it
+        MinecraftServer response = platform.getPinger().ping(hostname, port); // Ping the server and await a response
+        if (response == null) { // No response from ping
+            throw new ResourceNotFoundException("Server didn't respond to ping");
+        }
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
-                platform.name() + "-" + lookupHostname,
-                platform.getPinger().ping(hostname, port),
-                System.currentTimeMillis()
+                platform.name() + "-" + lookupHostname, response, System.currentTimeMillis()
         );
 
         // Get the blocked status of the Java server

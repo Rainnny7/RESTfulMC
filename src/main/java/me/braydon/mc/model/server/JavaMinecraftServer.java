@@ -238,9 +238,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
         @AllArgsConstructor @Getter @ToString
         private static class Mod {
             /**
-             * The id of this mod.
+             * The name of this mod.
              */
-            @NonNull @SerializedName("modid") private final String id;
+            @NonNull @SerializedName("modid") private final String name;
 
             /**
              * The version of this mod.
