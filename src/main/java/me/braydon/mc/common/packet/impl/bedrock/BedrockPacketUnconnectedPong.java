@@ -26,6 +26,7 @@ package me.braydon.mc.common.packet.impl.bedrock;
 import lombok.Getter;
 import lombok.NonNull;
 import me.braydon.mc.common.packet.MinecraftBedrockPacket;
+import me.braydon.mc.model.server.BedrockMinecraftServer;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -67,7 +68,18 @@ public final class BedrockPacketUnconnectedPong implements MinecraftBedrockPacke
         ByteBuffer buffer = ByteBuffer.wrap(receivePacket.getData()).order(ByteOrder.LITTLE_ENDIAN);
         byte id = buffer.get(); // The received packet id
         if (id == ID) {
-            response = new String(buffer.array(), StandardCharsets.UTF_8).substring(34).trim();
+            String response = new String(buffer.array(), StandardCharsets.UTF_8).trim(); // Extract the response
+
+            // Trim the length of the response (short) from the
+            // start of the string, which begins with the edition name
+            for (BedrockMinecraftServer.Edition edition : BedrockMinecraftServer.Edition.values()) {
+                int startIndex = response.indexOf(edition.name());
+                if (startIndex != -1) {
+                    response = response.substring(startIndex);
+                    break;
+                }
+            }
+            this.response = response;
         }
     }
 }

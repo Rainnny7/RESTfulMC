@@ -75,16 +75,7 @@ public final class BedrockMinecraftServer extends MinecraftServer {
     @NonNull
     public static BedrockMinecraftServer create(@NonNull String hostname, String ip, int port, @NonNull String token) {
         String[] split = token.split(";"); // Split the token
-
-        Edition edition;
-        try {
-            edition = Edition.valueOf(split[0]);
-        } catch (IllegalArgumentException ex) {
-            // Funky fix, but sometimes the edition can contain an extra
-            // portion of the length of the edition, so we need to remove it
-            edition = Edition.valueOf(split[0].substring(1));
-        }
-
+        Edition edition = Edition.valueOf(split[0]);
         Version version = new Version(Integer.parseInt(split[2]), split[3]);
         Players players = new Players(Integer.parseInt(split[4]), Integer.parseInt(split[5]), null);
         MOTD motd = MOTD.create(split[1] + "\n" + split[7]);
