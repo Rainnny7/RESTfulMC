@@ -25,6 +25,7 @@ package me.braydon.mc.model;
 
 import lombok.*;
 import me.braydon.mc.common.ColorUtils;
+import me.braydon.mc.model.dns.DNSRecord;
 import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.BedrockMinecraftServerPinger;
@@ -56,6 +57,11 @@ public class MinecraftServer {
      * The port of this server.
      */
     @EqualsAndHashCode.Include private final int port;
+
+    /**
+     * The DNS records resolved for this server.
+     */
+    @NonNull private final DNSRecord[] records;
 
     /**
      * The player counts of this server.

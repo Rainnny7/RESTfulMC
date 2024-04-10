@@ -21,28 +21,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.service.pinger;
+package me.braydon.mc.model.dns.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import lombok.NonNull;
-import me.braydon.mc.model.MinecraftServer;
+import lombok.ToString;
 import me.braydon.mc.model.dns.DNSRecord;
 
+import java.net.InetSocketAddress;
+
 /**
- * A {@link MinecraftServerPinger} is
- * used to ping a {@link MinecraftServer}.
+ * An SRV record implementation.
  *
- * @param <T> the type of server to ping
  * @author Braydon
  */
-public interface MinecraftServerPinger<T extends MinecraftServer> {
+@Getter @ToString(callSuper = true)
+public final class SRVRecord extends DNSRecord {
     /**
-     * Ping the server with the given hostname and port.
-     *
-     * @param hostname the hostname of the server
-     * @param ip       the ip of the server, null if unresolved
-     * @param port     the port of the server
-     * @param records the DNS records of the server
-     * @return the server that was pinged
+     * The priority of this record.
      */
-    T ping(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records);
+    private final int priority;
+
+    /**
+     * The weight of this record.
+     */
+    private final int weight;
+
+    /**
+     * The port of this record.
+     */
+    private final int port;
+
+    /**
+     * The target of this record.
+     */
+    @NonNull private final String target;
+
+    public SRVRecord(@NonNull org.xbill.DNS.SRVRecord bootstrap) {
+        super(Type.SRV, bootstrap.getTTL());
+        priority = bootstrap.getPriority();
+        weight = bootstrap.getWeight();
+        port = bootstrap.getPort();
+        target = bootstrap.getTarget().toString().replaceFirst("\\.$", "");
+    }
+
+    /**
+     * Get a socket address from
+     * the target and port.
+     *
+     * @return the socket address
+     */
+    @NonNull @JsonIgnore
+    public InetSocketAddress getSocketAddress() {
+        return new InetSocketAddress(target, port);
+    }
 }

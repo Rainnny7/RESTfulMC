@@ -29,6 +29,7 @@ import me.braydon.mc.common.packet.impl.bedrock.BedrockPacketUnconnectedPing;
 import me.braydon.mc.common.packet.impl.bedrock.BedrockPacketUnconnectedPong;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
+import me.braydon.mc.model.dns.DNSRecord;
 import me.braydon.mc.model.server.BedrockMinecraftServer;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
 
@@ -54,10 +55,11 @@ public final class BedrockMinecraftServerPinger implements MinecraftServerPinger
      * @param hostname the hostname of the server
      * @param ip       the ip of the server, null if unresolved
      * @param port     the port of the server
+     * @param records  the DNS records of the server
      * @return the server that was pinged
      */
     @Override
-    public BedrockMinecraftServer ping(@NonNull String hostname, String ip, int port) {
+    public BedrockMinecraftServer ping(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records) {
         log.info("Pinging {}:{}...", hostname, port);
         long before = System.currentTimeMillis(); // Timestamp before pinging
 
@@ -79,7 +81,7 @@ public final class BedrockMinecraftServerPinger implements MinecraftServerPinger
             if (response == null) { // No pong response
                 throw new ResourceNotFoundException("Server didn't respond to ping");
             }
-            return BedrockMinecraftServer.create(hostname, ip, port, response); // Return the server
+            return BedrockMinecraftServer.create(hostname, ip, port, records, response); // Return the server
         } catch (IOException ex) {
             if (ex instanceof UnknownHostException) {
                 throw new BadRequestException("Unknown hostname: %s".formatted(hostname));

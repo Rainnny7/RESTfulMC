@@ -31,6 +31,7 @@ import me.braydon.mc.common.packet.impl.java.JavaPacketStatusInStart;
 import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
+import me.braydon.mc.model.dns.DNSRecord;
 import me.braydon.mc.model.server.JavaMinecraftServer;
 import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
@@ -56,10 +57,11 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
      * @param hostname the hostname of the server
      * @param ip       the ip of the server, null if unresolved
      * @param port     the port of the server
+     * @param records  the DNS records of the server
      * @return the server that was pinged
      */
     @Override
-    public JavaMinecraftServer ping(@NonNull String hostname, String ip, int port) {
+    public JavaMinecraftServer ping(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records) {
         log.info("Pinging {}:{}...", hostname, port);
         long before = System.currentTimeMillis(); // Timestamp before pinging
 
@@ -86,7 +88,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
                     throw new ResourceNotFoundException("Server didn't respond to status request");
                 }
                 JavaServerStatusToken token = AppConfig.GSON.fromJson(response, JavaServerStatusToken.class);
-                return JavaMinecraftServer.create(hostname, ip, port, token); // Return the server
+                return JavaMinecraftServer.create(hostname, ip, port, records, token); // Return the server
             }
         } catch (IOException ex) {
             if (ex instanceof UnknownHostException) {

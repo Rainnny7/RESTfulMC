@@ -42,6 +42,9 @@ import me.braydon.mc.model.cache.CachedMinecraftServer;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.model.cache.CachedPlayerName;
 import me.braydon.mc.model.cache.CachedSkinPartTexture;
+import me.braydon.mc.model.dns.DNSRecord;
+import me.braydon.mc.model.dns.impl.ARecord;
+import me.braydon.mc.model.dns.impl.SRVRecord;
 import me.braydon.mc.model.server.JavaMinecraftServer;
 import me.braydon.mc.model.token.MojangProfileToken;
 import me.braydon.mc.model.token.MojangUsernameToUUIDToken;
@@ -55,7 +58,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -394,20 +396,25 @@ public final class MojangService {
             log.info("Found server in cache: {}", hostname);
             return cached.get();
         }
-        InetSocketAddress address = platform == MinecraftServer.Platform.JAVA ? DNSUtils.resolveSRV(hostname) : null; // Resolve the SRV record
-        if (address != null) { // SRV was resolved, use the hostname and port
-            hostname = address.getHostName();
-            port = address.getPort();
+        List<DNSRecord> records = new ArrayList<>(); // The resolved DNS records for the server
+
+        SRVRecord srvRecord = platform == MinecraftServer.Platform.JAVA ? DNSUtils.resolveSRV(hostname) : null; // Resolve the SRV record
+        if (srvRecord != null) { // SRV was resolved, use the hostname and port
+            records.add(srvRecord); // Going to need this for later
+            InetSocketAddress socketAddress = srvRecord.getSocketAddress();
+            hostname = socketAddress.getHostName();
+            port = socketAddress.getPort();
         }
 
-        InetAddress inetAddress = DNSUtils.resolveA(hostname); // Resolve the hostname to an IP address
-        String ip = inetAddress == null ? null : inetAddress.getHostAddress(); // Get the IP address
+        ARecord aRecord = DNSUtils.resolveA(hostname); // Resolve the A record so we can get the IPv4 address
+        String ip = aRecord == null ? null : aRecord.getAddress(); // Get the IP address
         if (ip != null) { // Was the IP resolved?
+            records.add(aRecord); // Going to need this for later
             log.info("Resolved hostname: {} -> {}", hostname, ip);
         }
 
         // Build our server model, cache it, and then return it
-        MinecraftServer response = platform.getPinger().ping(hostname, ip, port); // Ping the server and await a response
+        MinecraftServer response = platform.getPinger().ping(hostname, ip, port, records.toArray(new DNSRecord[0])); // Ping the server and await a response
         if (response == null) { // No response from ping
             throw new ResourceNotFoundException("Server didn't respond to ping");
         }

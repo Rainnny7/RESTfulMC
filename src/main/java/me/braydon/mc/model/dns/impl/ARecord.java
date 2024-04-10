@@ -21,28 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.service.pinger;
+package me.braydon.mc.model.dns.impl;
 
+import lombok.Getter;
 import lombok.NonNull;
-import me.braydon.mc.model.MinecraftServer;
+import lombok.ToString;
 import me.braydon.mc.model.dns.DNSRecord;
 
 /**
- * A {@link MinecraftServerPinger} is
- * used to ping a {@link MinecraftServer}.
+ * An A record implementation.
  *
- * @param <T> the type of server to ping
  * @author Braydon
  */
-public interface MinecraftServerPinger<T extends MinecraftServer> {
+@Getter @ToString(callSuper = true)
+public final class ARecord extends DNSRecord {
     /**
-     * Ping the server with the given hostname and port.
-     *
-     * @param hostname the hostname of the server
-     * @param ip       the ip of the server, null if unresolved
-     * @param port     the port of the server
-     * @param records the DNS records of the server
-     * @return the server that was pinged
+     * The address of this record, null if unresolved.
      */
-    T ping(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records);
+    private final String address;
+
+    public ARecord(@NonNull org.xbill.DNS.ARecord bootstrap) {
+        super(Type.A, bootstrap.getTTL());
+        address = bootstrap.getAddress().getHostAddress();
+    }
 }
