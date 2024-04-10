@@ -66,7 +66,6 @@ public final class ServerController {
      *
      * @param platform the platform of the server
      * @param hostname the hostname of the server
-     * @param port     the port of the server, null for default
      * @return the server
      * @throws BadRequestException       if the hostname, platform, or port is invalid
      * @throws ResourceNotFoundException if the server isn't found
@@ -75,10 +74,9 @@ public final class ServerController {
     @ResponseBody
     public ResponseEntity<CachedMinecraftServer> getServer(
             @Parameter(description = "The platform of the server", example = "java") @PathVariable @NonNull String platform,
-            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname,
-            @Parameter(description = "The port of the server", example = "25565") @RequestParam(required = false) String port
+            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname
     ) throws BadRequestException, ResourceNotFoundException {
-        return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname, port));
+        return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname));
     }
 
     /**
@@ -103,18 +101,16 @@ public final class ServerController {
      * server by its platform and hostname.
      *
      * @param hostname the hostname of the server
-     * @param port the port of the server, null for default
      * @return the server icon
      */
     @GetMapping(value = "/icon/{hostname}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     public ResponseEntity<byte[]> getServerFavicon(
-            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname,
-            @Parameter(description = "The port of the server", example = "25565") @RequestParam(required = false) String port
+            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname
     ) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=%s.png".formatted(hostname))
-                .body(mojangService.getServerFavicon(hostname, port));
+                .body(mojangService.getServerFavicon(hostname));
     }
 }

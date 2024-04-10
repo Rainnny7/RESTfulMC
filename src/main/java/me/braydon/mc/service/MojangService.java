@@ -271,14 +271,13 @@ public final class MojangService {
      * </p>
      *
      * @param hostname the hostname of the server
-     * @param port the port of the server, null for default
      * @return the server favicon
      * @see #DEFAULT_SERVER_ICON for the default server icon
      */
-    public byte[] getServerFavicon(@NonNull String hostname, String port) {
+    public byte[] getServerFavicon(@NonNull String hostname) {
         String icon = null; // The server base64 icon
         try {
-            JavaMinecraftServer.Favicon favicon = ((JavaMinecraftServer) getMinecraftServer(MinecraftServer.Platform.JAVA.name(), hostname, port).getValue()).getFavicon();
+            JavaMinecraftServer.Favicon favicon = ((JavaMinecraftServer) getMinecraftServer(MinecraftServer.Platform.JAVA.name(), hostname).getValue()).getFavicon();
             if (favicon != null) { // Use the server's favicon
                 icon = favicon.getBase64();
                 icon = icon.substring(icon.indexOf(",") + 1); // Remove the data type from the server icon
@@ -345,13 +344,12 @@ public final class MojangService {
      *
      * @param platformName the name of the platform
      * @param hostname     the hostname of the server
-     * @param portString   the port of the server, null for default
      * @return the resolved Minecraft server
      * @throws BadRequestException       if the hostname, platform, or port is invalid
      * @throws ResourceNotFoundException if the server isn't found
      */
     @NonNull
-    public CachedMinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname, String portString)
+    public CachedMinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname)
             throws BadRequestException, ResourceNotFoundException {
         MinecraftServer.Platform platform = EnumUtils.getEnumConstant(MinecraftServer.Platform.class, platformName.toUpperCase());
         if (platform == null) { // Invalid platform
@@ -360,7 +358,11 @@ public final class MojangService {
         String lookupHostname = hostname; // The hostname used to lookup the server
 
         int port = platform.getDefaultPort(); // Port to ping
-        if (portString != null) {
+        String portString = null;
+        if (hostname.contains(":")) { // Hostname contains a port
+            String[] split = hostname.split(":");
+            hostname = split[0];
+            portString = split[1];
             try { // Try and parse the port
                 port = Integer.parseInt(portString);
             } catch (NumberFormatException ex) { // Invalid port
