@@ -358,20 +358,18 @@ public final class MojangService {
         String lookupHostname = hostname; // The hostname used to lookup the server
 
         int port = platform.getDefaultPort(); // Port to ping
-        String portString = null;
         if (hostname.contains(":")) { // Hostname contains a port
             String[] split = hostname.split(":");
             hostname = split[0];
-            portString = split[1];
             try { // Try and parse the port
-                port = Integer.parseInt(portString);
+                port = Integer.parseInt(split[1]);
             } catch (NumberFormatException ex) { // Invalid port
                 throw new BadRequestException("Invalid port defined");
             }
         }
 
         // Check the cache for the server
-        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(platform.name() + "-" + hostname + "-" + port);
+        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(platform.name() + "-" + lookupHostname);
         if (cached.isPresent()) { // Respond with the cache if present
             log.info("Found server in cache: {}", hostname);
             return cached.get();
@@ -384,7 +382,7 @@ public final class MojangService {
 
         // Build our server model, cache it, and then return it
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
-                platform.name() + "-" + lookupHostname + "-" + (portString == null ? port : portString),
+                platform.name() + "-" + lookupHostname,
                 platform.getPinger().ping(hostname, port),
                 System.currentTimeMillis()
         );
