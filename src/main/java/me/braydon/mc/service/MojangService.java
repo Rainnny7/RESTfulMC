@@ -358,7 +358,6 @@ public final class MojangService {
             throw new BadRequestException("Invalid platform: %s".formatted(platformName));
         }
         String lookupHostname = hostname; // The hostname used to lookup the server
-        String lookupPort = portString; // The port used to lookup the server
 
         int port = platform.getDefaultPort(); // Port to ping
         if (portString != null) {
@@ -383,7 +382,7 @@ public final class MojangService {
 
         // Build our server model, cache it, and then return it
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
-                platform.name() + "-" + lookupHostname + "-" + (lookupPort == null ? port : lookupPort),
+                platform.name() + "-" + lookupHostname + "-" + (portString == null ? port : portString),
                 platform.getPinger().ping(hostname, port),
                 System.currentTimeMillis()
         );
