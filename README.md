@@ -7,23 +7,30 @@ A simple, yet useful RESTful API for Minecraft utilizing Springboot.
 
 ---
 
-## Wiki
-Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RESTfulMC/wiki) for more information!
-
-## TODO
-- [x] Server Icon Route
-- [x] Unit Tests
-- [x] Blacklist Checking
-- [x] HTTP Codes in wiki
-- [ ] Route for 3D player heads/body?
-- [x] Bedrock Server Support
+### Table of Contents
+- [Getting Started](#getting-started)
+    - [Wiki](#wiki)
+    - [Swagger API](#swagger-api)
+- [Contributing](#contributing)
 
 ---
 
-## Swagger API
+## Getting Started
+
+### Wiki
+Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RESTfulMC/wiki) for more information!
+
+### Swagger API
 View the [Swagger API Docs](https://mc.rainnny.club/swagger-ui.html) for easy testing!
 
 ![Swagger Logo](https://avatars.githubusercontent.com/u/7658037?s=74)
+
+## Contributing
+Made changes or improvements to RESTfulMC? Consider opening a [pull request](https://git.rainnny.club/Rainnny/RESTfulMC/pulls) to merge your changes into the project. Remember to stick with project conventions!
+
+This project follows [Semantic Versioning](https://semver.org).
+
+---
 
 ## YourKit
 YourKit supports open source projects with innovative and intelligent tools for monitoring and profiling Java and .NET applications.
