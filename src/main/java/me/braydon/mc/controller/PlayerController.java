@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
@@ -69,8 +70,9 @@ public final class PlayerController {
      */
     @GetMapping("/{query}")
     @ResponseBody
-    public ResponseEntity<CachedPlayer> getPlayer(@PathVariable @NonNull String query)
-            throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
+    public ResponseEntity<CachedPlayer> getPlayer(
+            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query
+    ) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
         return ResponseEntity.ofNullable(mojangService.getPlayer(query, false));
     }
 
@@ -92,8 +94,11 @@ public final class PlayerController {
      */
     @GetMapping(value = "/{partName}/{query}.{extension}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
     @ResponseBody
-    public ResponseEntity<byte[]> getPartTexture(@PathVariable @NonNull String partName, @PathVariable @NonNull String query,
-                                                 @PathVariable @NonNull String extension, @RequestParam(required = false) String size
+    public ResponseEntity<byte[]> getPartTexture(
+            @Parameter(description = "The skin part to get the texture of", example = "head") @PathVariable @NonNull String partName,
+            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
+            @Parameter(description = "The image extension", example = "png") @PathVariable @NonNull String extension,
+            @Parameter(description = "The size to scale the skin part texture to", example = "256") @RequestParam(required = false) String size
     ) throws BadRequestException {
         return ResponseEntity.ok()
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)

@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
@@ -72,8 +73,10 @@ public final class ServerController {
      */
     @GetMapping("/{platform}/{hostname}")
     @ResponseBody
-    public ResponseEntity<CachedMinecraftServer> getServer(@PathVariable @NonNull String platform, @PathVariable @NonNull String hostname,
-                                                           @RequestParam(required = false) String port
+    public ResponseEntity<CachedMinecraftServer> getServer(
+            @Parameter(description = "The platform of the server", example = "java") @PathVariable @NonNull String platform,
+            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname,
+            @Parameter(description = "The port of the server", example = "25565") @RequestParam(required = false) String port
     ) throws BadRequestException, ResourceNotFoundException {
         return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname, port));
     }
@@ -87,7 +90,9 @@ public final class ServerController {
      */
     @GetMapping("/blocked/{hostname}")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> isServerBlocked(@PathVariable @NonNull String hostname) {
+    public ResponseEntity<Map<String, Object>> isServerBlocked(
+            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname
+    ) {
         return ResponseEntity.ok(Map.of(
                 "blocked", mojangService.isServerBlocked(hostname)
         ));
@@ -103,7 +108,10 @@ public final class ServerController {
      */
     @GetMapping(value = "/icon/{hostname}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
-    public ResponseEntity<byte[]> getServerFavicon(@PathVariable @NonNull String hostname, @RequestParam(required = false) String port) {
+    public ResponseEntity<byte[]> getServerFavicon(
+            @Parameter(description = "The hostname of the server", example = "hypixel.net") @PathVariable @NonNull String hostname,
+            @Parameter(description = "The port of the server", example = "25565") @RequestParam(required = false) String port
+    ) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=%s.png".formatted(hostname))
