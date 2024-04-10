@@ -21,31 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.model.cache;
+package me.braydon.mc.repository;
 
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.redis.core.RedisHash;
-
-import java.util.UUID;
+import me.braydon.mc.model.Skin.Part;
+import me.braydon.mc.model.cache.CachedSkinPartTexture;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * A cache to easily lookup a
- * player's UUID by their username.
+ * A cache repository for skin texture parts.
  *
  * @author Braydon
+ * @see Part for skin parts
  */
-@AllArgsConstructor @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
-@RedisHash(value = "playerName", timeToLive = 60L * 60L) // 1 hour (in seconds)
-public final class CachedPlayerName {
-    /**
-     * The username of the player.
-     */
-    @Id @NonNull private String username;
-
-    /**
-     * The unique id of the player.
-     */
-    @NonNull private UUID uniqueId;
-}
+public interface SkinPartTextureCacheRepository extends CrudRepository<CachedSkinPartTexture, String> { }

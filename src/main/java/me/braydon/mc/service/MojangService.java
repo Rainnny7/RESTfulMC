@@ -41,12 +41,14 @@ import me.braydon.mc.model.*;
 import me.braydon.mc.model.cache.CachedMinecraftServer;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.model.cache.CachedPlayerName;
+import me.braydon.mc.model.cache.CachedSkinPartTexture;
 import me.braydon.mc.model.server.JavaMinecraftServer;
 import me.braydon.mc.model.token.MojangProfileToken;
 import me.braydon.mc.model.token.MojangUsernameToUUIDToken;
 import me.braydon.mc.repository.MinecraftServerCacheRepository;
 import me.braydon.mc.repository.PlayerCacheRepository;
 import me.braydon.mc.repository.PlayerNameCacheRepository;
+import me.braydon.mc.repository.SkinPartTextureCacheRepository;
 import net.jodah.expiringmap.ExpirationPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -92,6 +94,11 @@ public final class MojangService {
     @NonNull private final PlayerCacheRepository playerCache;
 
     /**
+     * The cache repository for {@link Skin.Part}'s.
+     */
+    @NonNull private final SkinPartTextureCacheRepository skinPartTextureCache;
+
+    /**
      * The cache repository for {@link MinecraftServer}'s.
      */
     @NonNull private final MinecraftServerCacheRepository minecraftServerCache;
@@ -116,11 +123,15 @@ public final class MojangService {
 
     @Autowired
     public MojangService(@NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache,
-                         @NonNull MinecraftServerCacheRepository minecraftServerCache) {
+                         @NonNull SkinPartTextureCacheRepository skinPartTextureCache, @NonNull MinecraftServerCacheRepository minecraftServerCache) {
         this.playerNameCache = playerNameCache;
         this.playerCache = playerCache;
+        this.skinPartTextureCache = skinPartTextureCache;
         this.minecraftServerCache = minecraftServerCache;
     }
+
+    @Autowired
+
 
     @PostConstruct
     public void onInitialize() {
@@ -167,6 +178,12 @@ public final class MojangService {
             size = DEFAULT_PART_TEXTURE_SIZE;
         }
         size = Math.min(size, MAX_PART_TEXTURE_SIZE); // Limit the size to 512
+        String id = "%s-%s-%s-%s".formatted(query, part.name(), size, extension); // The id of the skin part
+
+        Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id); // Get the cached texture
+        if (cached.isPresent()) { // Respond with the cache if present
+            return cached.get().getTexture();
+        }
 
         Skin target = null; // The target skin to get the skin part of
         try {
@@ -178,7 +195,9 @@ public final class MojangService {
         if (target == null) { // Fallback to the default skin
             target = Skin.DEFAULT_STEVE;
         }
-        return ImageUtils.getSkinPart(target, part, size);
+        byte[] texture = ImageUtils.getSkinPart(target, part, size);
+        skinPartTextureCache.save(new CachedSkinPartTexture(id, texture)); // Cache the texture
+        return texture;
     }
 
     /**
@@ -369,7 +388,7 @@ public final class MojangService {
         }
 
         // Check the cache for the server
-        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(platform.name() + "-" + lookupHostname);
+        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById("%s-%s".formatted(platform.name(), lookupHostname));
         if (cached.isPresent()) { // Respond with the cache if present
             log.info("Found server in cache: {}", hostname);
             return cached.get();

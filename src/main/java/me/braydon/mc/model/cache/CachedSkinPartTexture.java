@@ -23,29 +23,33 @@
  */
 package me.braydon.mc.model.cache;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 /**
- * A cache to easily lookup a
- * player's UUID by their username.
+ * A cache for a skin part texture.
  *
  * @author Braydon
  */
-@AllArgsConstructor @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
-@RedisHash(value = "playerName", timeToLive = 60L * 60L) // 1 hour (in seconds)
-public final class CachedPlayerName {
+@AllArgsConstructor @Getter @ToString
+@RedisHash(value = "skinPart", timeToLive = 15L * 60L) // 15 minutes (in seconds)
+public final class CachedSkinPartTexture implements Serializable {
     /**
-     * The username of the player.
+     * The id of this cache element.
+     * <p>
+     * This ID is in the given format:
+     * skinPart:<query>-<part>-<size>-<ext>
+     * </p>
      */
-    @Id @NonNull private String username;
+    @Id private transient final String id;
 
     /**
-     * The unique id of the player.
+     * The cached texture;
      */
-    @NonNull private UUID uniqueId;
+    private final byte[] texture;
 }
