@@ -65,7 +65,7 @@ public final class ServerController {
      * @param hostname the hostname of the server
      * @param port     the port of the server, null for default
      * @return the server
-     * @throws BadRequestException       if the hostname or platform is invalid
+     * @throws BadRequestException       if the hostname, platform, or port is invalid
      * @throws ResourceNotFoundException if the server isn't found
      */
     @GetMapping("/{platform}/{hostname}")

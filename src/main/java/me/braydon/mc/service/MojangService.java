@@ -347,7 +347,7 @@ public final class MojangService {
      * @param hostname     the hostname of the server
      * @param portString   the port of the server, null for default
      * @return the resolved Minecraft server
-     * @throws BadRequestException       if the hostname or platform is invalid
+     * @throws BadRequestException       if the hostname, platform, or port is invalid
      * @throws ResourceNotFoundException if the server isn't found
      */
     @NonNull

@@ -121,6 +121,21 @@ public final class ServerControllerTests {
     }
 
     /**
+     * Run a test to ensure looking up
+     * an invalid port results in a 400.
+     *
+     * @throws Exception if the test fails
+     */
+    @Test
+    void ensureUnknownPort() throws Exception {
+        mockMvc.perform(get("/server/java/hypixel.net?port=A")
+                        .accept(MediaType.APPLICATION_JSON) // Accept JSON
+                        .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
+                ).andExpect(status().isBadRequest()) // Expect 400 (Bad Request)
+                .andReturn();
+    }
+
+    /**
      * Run a test to ensure checking if
      * a server is banned is successful.
      *
