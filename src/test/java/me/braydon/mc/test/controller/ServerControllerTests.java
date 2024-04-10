@@ -128,7 +128,7 @@ public final class ServerControllerTests {
      */
     @Test
     void ensureUnknownPort() throws Exception {
-        mockMvc.perform(get("/server/java/hypixel.net?port=A")
+        mockMvc.perform(get("/server/java/hypixel.net:A")
                         .accept(MediaType.APPLICATION_JSON) // Accept JSON
                         .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
                 ).andExpect(status().isBadRequest()) // Expect 400 (Bad Request)
