@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import me.braydon.mc.common.ColorUtils;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
@@ -67,7 +68,7 @@ public class MinecraftServer {
     /**
      * Player count data for a server.
      */
-    @AllArgsConstructor @Getter @ToString
+    @AllArgsConstructor @Getter @ToString @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Players {
         /**
          * The online players on this server.

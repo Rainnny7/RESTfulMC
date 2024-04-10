@@ -169,7 +169,7 @@ public final class MojangService {
         }
         Skin.Part part = EnumUtils.getEnumConstant(Skin.Part.class, partName.toUpperCase()); // The skin part to get
         if (part == null) { // Default to the head part
-            part = Skin.Part.HEAD;
+            part = Skin.Part.FACE;
         }
         if (extension.isBlank()) { // Invalid extension
             throw new BadRequestException("Invalid extension");

@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.model.cache;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import me.braydon.mc.model.MinecraftServer;
 import org.springframework.data.annotation.Id;
@@ -39,7 +40,7 @@ public final class CachedMinecraftServer implements Serializable {
     /**
      * The id of this cached server.
      */
-    @Id @NonNull private transient final String id;
+    @Id @JsonIgnore @NonNull private final String id;
 
     /**
      * The cached server.

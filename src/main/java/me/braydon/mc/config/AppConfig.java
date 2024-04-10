@@ -38,11 +38,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
 
 /**
  * The configuration for the app.
@@ -50,7 +45,7 @@ import java.util.List;
  * @author Braydon
  */
 @Configuration @Getter
-public class AppConfig implements WebMvcConfigurer {
+public class AppConfig {
     public static AppConfig INSTANCE;
     public static final Gson GSON = new GsonBuilder()
             .setDateFormat("MM-dd-yyyy HH:mm:ss")
@@ -92,28 +87,5 @@ public class AppConfig implements WebMvcConfigurer {
         return new OpenAPI()
                 .info(info)
                 .addServersItem(new Server().url(serverPublicUrl).description("The public server URL"));
-    }
-
-    /**
-     * Configure the default HTTP
-     * message converters to use Gson.
-     *
-     * @param converters the converters
-     */
-    @Override
-    public void configureMessageConverters(@NonNull List<HttpMessageConverter<?>> converters) {
-        GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter();
-        gsonHttpMessageConverter.setGson(gson());
-        converters.add(gsonHttpMessageConverter);
-    }
-
-    /**
-     * Our custom Gson instance to use.
-     *
-     * @return the Gson instance
-     */
-    @Bean @NonNull
-    public Gson gson() {
-        return GSON;
     }
 }

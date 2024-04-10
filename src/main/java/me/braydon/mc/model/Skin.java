@@ -101,7 +101,11 @@ public final class Skin {
      */
     @AllArgsConstructor @Getter @ToString
     public enum Part {
-        HEAD(8, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8);
+        HEAD_TOP(8, 0, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
+        FACE(8, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
+        HEAD_LEFT(0, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
+        HEAD_RIGHT(16, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
+        HEAD_BOTTOM(8, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8);
 
         /**
          * The coordinates of this part.

@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.model.server;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import me.braydon.mc.common.JavaMinecraftVersion;
@@ -38,7 +39,7 @@ import net.md_5.bungee.chat.ComponentSerializer;
  *
  * @author Braydon
  */
-@Setter @Getter @ToString(callSuper = true)
+@Setter @Getter @ToString(callSuper = true) @JsonInclude(JsonInclude.Include.NON_NULL)
 public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * The version information of this server.
@@ -114,7 +115,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * Version information for a server.
      */
-    @AllArgsConstructor @Getter @ToString
+    @AllArgsConstructor @Getter @ToString @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Version {
         /**
          * The version name of the server.

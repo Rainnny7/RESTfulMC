@@ -28,7 +28,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -38,7 +37,7 @@ import java.util.Objects;
 /**
  * @author Braydon
  */
-@SpringBootApplication(exclude = { JacksonAutoConfiguration.class })
+@SpringBootApplication
 @Slf4j(topic = "RESTfulMC")
 public class RESTfulMC {
     @SneakyThrows

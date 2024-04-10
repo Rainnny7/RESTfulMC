@@ -34,9 +34,9 @@ import me.braydon.mc.model.MinecraftServer;
 @Getter @ToString(callSuper = true) @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public final class BedrockMinecraftServer extends MinecraftServer {
     /**
-     * The unique ID of this server.
+     * The ID of this server.
      */
-    @EqualsAndHashCode.Include @NonNull private final String uniqueId;
+    @EqualsAndHashCode.Include @NonNull private final String id;
 
     /**
      * The edition of this server.
@@ -53,11 +53,11 @@ public final class BedrockMinecraftServer extends MinecraftServer {
      */
     @NonNull private final GameMode gamemode;
 
-    private BedrockMinecraftServer(@NonNull String uniqueId, @NonNull String hostname, String ip, int port,
+    private BedrockMinecraftServer(@NonNull String id, @NonNull String hostname, String ip, int port,
                                    @NonNull Edition edition, @NonNull Version version, @NonNull Players players,
                                    @NonNull MOTD motd, @NonNull GameMode gamemode) {
         super(hostname, ip, port, players, motd);
-        this.uniqueId = uniqueId;
+        this.id = id;
         this.edition = edition;
         this.version = version;
         this.gamemode = gamemode;
