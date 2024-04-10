@@ -13,7 +13,7 @@
     <!-- Project Details -->
     <groupId>me.braydon</groupId>
     <artifactId>RESTfulMC</artifactId>
-    <version>1.0-dev</version>
+    <version>1.0.0</version>
 
     <!-- Properties -->
     <properties>
@@ -107,6 +107,14 @@
             <groupId>com.github.dnsjava</groupId>
             <artifactId>dnsjava</artifactId>
             <version>v3.5.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- SwaggerUI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.2</version>
             <scope>compile</scope>
         </dependency>
 

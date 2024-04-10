@@ -3,6 +3,8 @@ server:
   address: 0.0.0.0
   port: 7500
   publicUrl: "http://localhost:7500" # The publicly accessible URL for this app
+  servlet:
+    context-path: /
 
 # Log Configuration
 logging:

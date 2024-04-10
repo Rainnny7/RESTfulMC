@@ -20,10 +20,10 @@ Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RE
 
 ---
 
-## Postman
-View the [Postman Collection](https://documenter.getpostman.com/view/24401599/2sA35Mxdu3) for easy testing!
+## Swagger API
+View the [Swagger API Docs](https://mc.rainnny.club/swagger-ui.html) for easy testing!
 
-![Postman Logo](https://avatars.githubusercontent.com/u/10251060?s=72)
+![Swagger Logo](https://avatars.githubusercontent.com/u/7658037?s=74)
 
 ## YourKit
 YourKit supports open source projects with innovative and intelligent tools for monitoring and profiling Java and .NET applications.

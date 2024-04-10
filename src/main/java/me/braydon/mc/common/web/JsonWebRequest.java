@@ -29,6 +29,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import me.braydon.mc.RESTfulMC;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.net.URI;
@@ -113,7 +114,7 @@ public final class JsonWebRequest {
         try {
             HttpResponse<String> response = HTTP_CLIENT.send(request.build(), HttpResponse.BodyHandlers.ofString());
             status = response.statusCode(); // Set the response status
-            if (status != 200) { // Status code is not OK, raise an exception
+            if (status != HttpStatus.OK.value()) { // Status code is not OK, raise an exception
                 throw new IOException("Failed to make a %s request to %s: %s".formatted(method.name(), endpoint, status));
             }
             // Return with the response as the type

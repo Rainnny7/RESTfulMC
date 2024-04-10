@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.exception.impl.BadRequestException;
@@ -45,6 +46,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/player", produces = MediaType.APPLICATION_JSON_VALUE)
 @Log4j2(topic = "Player Controller")
+@Tag(name = "Player Controller", description = "The controller for handling player related requests.")
 public final class PlayerController {
     /**
      * The Mojang service to use for player information.

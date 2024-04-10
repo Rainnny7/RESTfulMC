@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.exception.impl.BadRequestException;
@@ -47,6 +48,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/server", produces = MediaType.APPLICATION_JSON_VALUE)
 @Log4j2(topic = "Server Controller")
+@Tag(name = "Server Controller", description = "The controller for handling server related requests.")
 public final class ServerController {
     /**
      * The Mojang service to use for server information.
