@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ import java.util.Objects;
         version = "1.0.0",
         contact = @Contact(name = "Braydon (Rainnny)", url = "https://rainnny.club", email = "braydonrainnny@gmail.com"),
         license = @License(name = "MIT License", url = "https://opensource.org/license/MIT")
-))
+), servers = @Server(url = "https://mc.rainnny.club", description = "Production Server"))
 public class RESTfulMC {
     public static final Gson GSON = new GsonBuilder()
             .setDateFormat("MM-dd-yyyy HH:mm:ss")
