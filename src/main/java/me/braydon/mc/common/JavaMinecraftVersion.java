@@ -89,7 +89,9 @@ public enum JavaMinecraftVersion {
     V1_9(107, "v1_9_R1"), // 1.9
     
     V1_8(47, "v1_8_R3"), // 1.8.x
-    
+
+    V1_7_6(5, "v1_7_R4"), // 1.7.6 - 1.7.10
+
     UNKNOWN(-1, "Unknown");
     
     // Game Updates
@@ -150,7 +152,7 @@ public enum JavaMinecraftVersion {
      */
     public static JavaMinecraftVersion byProtocol(int protocol) {
         for (JavaMinecraftVersion version : values()) {
-            if (version.getProtocol() == protocol) {
+            if (version != UNKNOWN && version.getProtocol() == protocol) {
                 return version;
             }
         }
