@@ -26,7 +26,6 @@ package me.braydon.mc.controller;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.exception.impl.BadRequestException;
-import me.braydon.mc.exception.impl.InvalidMinecraftServerPlatform;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.cache.CachedMinecraftServer;
@@ -65,14 +64,13 @@ public final class ServerController {
      * @param platform the platform of the server
      * @param hostname the hostname of the server
      * @return the server
-     * @throws BadRequestException if the hostname is unknown
-     * @throws InvalidMinecraftServerPlatform if the platform is invalid
+     * @throws BadRequestException if the hostname or platform is invalid
      * @throws ResourceNotFoundException if the server isn't found
      */
     @GetMapping("/{platform}/{hostname}")
     @ResponseBody
     public ResponseEntity<CachedMinecraftServer> getServer(@PathVariable @NonNull String platform, @PathVariable @NonNull String hostname)
-            throws BadRequestException, InvalidMinecraftServerPlatform, ResourceNotFoundException
+            throws BadRequestException, ResourceNotFoundException
     {
         return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname));
     }

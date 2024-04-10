@@ -35,7 +35,6 @@ import me.braydon.mc.common.*;
 import me.braydon.mc.common.web.JsonWebException;
 import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
-import me.braydon.mc.exception.impl.InvalidMinecraftServerPlatform;
 import me.braydon.mc.exception.impl.MojangRateLimitException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.*;
@@ -283,7 +282,7 @@ public final class MojangService {
                 icon = favicon.getBase64();
                 icon = icon.substring(icon.indexOf(",") + 1); // Remove the data type from the server icon
             }
-        } catch (BadRequestException | InvalidMinecraftServerPlatform | ResourceNotFoundException ignored) {
+        } catch (BadRequestException | ResourceNotFoundException ignored) {
             // Safely ignore these, we will use the default server icon
         }
         if (icon == null) { // Use the default server icon
@@ -346,16 +345,15 @@ public final class MojangService {
      * @param platformName the name of the platform
      * @param hostname     the hostname of the server
      * @return the resolved Minecraft server
-     * @throws BadRequestException            if the hostname is unknown
-     * @throws InvalidMinecraftServerPlatform if the platform is invalid
+     * @throws BadRequestException            if the hostname or platform is invalid
      * @throws ResourceNotFoundException      if the server isn't found
      */
     @NonNull
     public CachedMinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname)
-            throws BadRequestException, InvalidMinecraftServerPlatform, ResourceNotFoundException {
+            throws BadRequestException, ResourceNotFoundException {
         MinecraftServer.Platform platform = EnumUtils.getEnumConstant(MinecraftServer.Platform.class, platformName.toUpperCase());
         if (platform == null) { // Invalid platform
-            throw new InvalidMinecraftServerPlatform();
+            throw new BadRequestException("Invalid platform: %s".formatted(platformName));
         }
         String lookupHostname = hostname; // The hostname used to lookup the server
 
