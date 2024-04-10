@@ -39,7 +39,7 @@ jobs:
         run: mvn --batch-mode test -q
 
       # Re-checkout to reset the FS before deploying to Dokku
-      - name: Checkout
+      - name: Checkout - Reset FS
         uses: actions/checkout@v4
         with:
           fetch-depth: 0

@@ -26,7 +26,7 @@ package me.braydon.mc.model.server;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import me.braydon.mc.RESTfulMC;
-import me.braydon.mc.common.MinecraftVersion;
+import me.braydon.mc.common.JavaMinecraftVersion;
 import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.token.JavaServerStatusToken;
@@ -152,7 +152,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
                     platform = split[0];
                 }
             }
-            MinecraftVersion minecraftVersion = MinecraftVersion.byProtocol(protocol);
+            JavaMinecraftVersion minecraftVersion = JavaMinecraftVersion.byProtocol(protocol);
             return new Version(name, platform, protocol, minecraftVersion == null ? null : minecraftVersion.getName());
         }
     }

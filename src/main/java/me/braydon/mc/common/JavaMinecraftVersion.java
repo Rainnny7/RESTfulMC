@@ -26,17 +26,19 @@ package me.braydon.mc.common;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import lombok.extern.log4j.Log4j2;
 
 /**
+ * A list of versions for the
+ * Java edition of Minecraft.
+ *
  * @author Braydon
  * @see <a href="https://wiki.vg/Protocol_version_numbers">Protocol Version Numbers</a>
  * @see <a href="https://www.spigotmc.org/wiki/spigot-nms-and-minecraft-versions-1-16">Spigot NMS (1.16+)</a>
  * @see <a href="https://www.spigotmc.org/wiki/spigot-nms-and-minecraft-versions-1-10-1-15">Spigot NMS (1.10 - 1.15)</a>
  * @see <a href="https://www.spigotmc.org/wiki/spigot-nms-and-minecraft-versions-legacy">Spigot NMS (1.8 - 1.9)</a>
  */
-@RequiredArgsConstructor @Getter @ToString @Log4j2(topic = "Minecraft Version")
-public enum MinecraftVersion {
+@RequiredArgsConstructor @Getter @ToString
+public enum JavaMinecraftVersion {
     V1_20_3(765, "v1_20_R3"), // 1.20.3 & 1.20.4
     V1_20_2(764, "v1_20_R2"), // 1.20.2
     V1_20(763, "v1_20_R1"), // 1.20 & 1.20.1
@@ -91,19 +93,19 @@ public enum MinecraftVersion {
     UNKNOWN(-1, "Unknown");
     
     // Game Updates
-    public static final MinecraftVersion TRAILS_AND_TALES = MinecraftVersion.V1_20;
-    public static final MinecraftVersion THE_WILD_UPDATE = MinecraftVersion.V1_19;
-    public static final MinecraftVersion CAVES_AND_CLIFFS_PT_2 = MinecraftVersion.V1_18;
-    public static final MinecraftVersion CAVES_AND_CLIFFS_PT_1 = MinecraftVersion.V1_17;
-    public static final MinecraftVersion NETHER_UPDATE = MinecraftVersion.V1_16;
-    public static final MinecraftVersion BUZZY_BEES = MinecraftVersion.V1_15;
-    public static final MinecraftVersion VILLAGE_AND_PILLAGE = MinecraftVersion.V1_14;
-    public static final MinecraftVersion UPDATE_AQUATIC = MinecraftVersion.V1_13;
-    public static final MinecraftVersion WORLD_OF_COLOR_UPDATE = MinecraftVersion.V1_12;
-    public static final MinecraftVersion EXPLORATION_UPDATE = MinecraftVersion.V1_11;
-    public static final MinecraftVersion FROSTBURN_UPDATE = MinecraftVersion.V1_10;
-    public static final MinecraftVersion THE_COMBAT_UPDATE = MinecraftVersion.V1_9;
-    public static final MinecraftVersion BOUNTIFUL_UPDATE = MinecraftVersion.V1_8;
+    public static final JavaMinecraftVersion TRAILS_AND_TALES = JavaMinecraftVersion.V1_20;
+    public static final JavaMinecraftVersion THE_WILD_UPDATE = JavaMinecraftVersion.V1_19;
+    public static final JavaMinecraftVersion CAVES_AND_CLIFFS_PT_2 = JavaMinecraftVersion.V1_18;
+    public static final JavaMinecraftVersion CAVES_AND_CLIFFS_PT_1 = JavaMinecraftVersion.V1_17;
+    public static final JavaMinecraftVersion NETHER_UPDATE = JavaMinecraftVersion.V1_16;
+    public static final JavaMinecraftVersion BUZZY_BEES = JavaMinecraftVersion.V1_15;
+    public static final JavaMinecraftVersion VILLAGE_AND_PILLAGE = JavaMinecraftVersion.V1_14;
+    public static final JavaMinecraftVersion UPDATE_AQUATIC = JavaMinecraftVersion.V1_13;
+    public static final JavaMinecraftVersion WORLD_OF_COLOR_UPDATE = JavaMinecraftVersion.V1_12;
+    public static final JavaMinecraftVersion EXPLORATION_UPDATE = JavaMinecraftVersion.V1_11;
+    public static final JavaMinecraftVersion FROSTBURN_UPDATE = JavaMinecraftVersion.V1_10;
+    public static final JavaMinecraftVersion THE_COMBAT_UPDATE = JavaMinecraftVersion.V1_9;
+    public static final JavaMinecraftVersion BOUNTIFUL_UPDATE = JavaMinecraftVersion.V1_8;
     
     /**
      * The protocol number of this version.
@@ -141,66 +143,13 @@ public enum MinecraftVersion {
     }
     
     /**
-     * Is this version legacy?
-     *
-     * @return whether this version is legacy
-     */
-    public boolean isLegacy() {
-        return this.isBelow(MinecraftVersion.V1_16);
-    }
-    
-    /**
-     * Check if this version is
-     * above the one given.
-     *
-     * @param other the other version
-     * @return true if above, otherwise false
-     */
-    public boolean isAbove(MinecraftVersion other) {
-        return this.protocol > other.getProtocol();
-    }
-    
-    /**
-     * Check if this version is
-     * or above the one given.
-     *
-     * @param other the other version
-     * @return true if is or above, otherwise false
-     */
-    public boolean isOrAbove(MinecraftVersion other) {
-        return this.protocol >= other.getProtocol();
-    }
-    
-    /**
-     * Check if this version is
-     * below the one given.
-     *
-     * @param other the other version
-     * @return true if below, otherwise false
-     */
-    public boolean isBelow(MinecraftVersion other) {
-        return this.protocol < other.getProtocol();
-    }
-    
-    /**
-     * Check if this version is
-     * or below the one given.
-     *
-     * @param other the other version
-     * @return true if is or below, otherwise false
-     */
-    public boolean isOrBelow(MinecraftVersion other) {
-        return this.protocol <= other.getProtocol();
-    }
-    
-    /**
      * Get the version from the given protocol.
      *
      * @param protocol the protocol to get the version for
      * @return the version, null if none
      */
-    public static MinecraftVersion byProtocol(int protocol) {
-        for (MinecraftVersion version : values()) {
+    public static JavaMinecraftVersion byProtocol(int protocol) {
+        for (JavaMinecraftVersion version : values()) {
             if (version.getProtocol() == protocol) {
                 return version;
             }
