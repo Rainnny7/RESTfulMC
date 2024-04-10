@@ -25,7 +25,6 @@ package me.braydon.mc.model.token;
 
 import com.google.gson.JsonObject;
 import lombok.*;
-import me.braydon.mc.common.Tuple;
 import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.Cape;
 import me.braydon.mc.model.ProfileAction;
@@ -62,20 +61,21 @@ public final class MojangProfileToken {
     @NonNull private final ProfileAction[] profileActions;
 
     /**
-     * Get the skin and cape of this profile.
+     * Get the properties of this skin.
      *
-     * @return the skin and cape of this profile
+     * @return the properties
      */
-    public Tuple<Skin, Cape> getSkinAndCape() {
+    @NonNull
+    public SkinProperties getSkinProperties() {
         ProfileProperty textures = getPropertyByName("textures"); // Get the profile textures
         if (textures == null) { // No profile textures
-            return new Tuple<>();
+            return new SkinProperties();
         }
         JsonObject jsonObject = AppConfig.GSON.fromJson(textures.getDecodedValue(), JsonObject.class); // Get the Json object
         JsonObject texturesJsonObject = jsonObject.getAsJsonObject("textures"); // Get the textures object
 
         // Return the tuple containing the skin and cape
-        return new Tuple<>(
+        return new SkinProperties(
                 Skin.fromJsonObject(texturesJsonObject.getAsJsonObject("SKIN")).populatePartUrls(id),
                 Cape.fromJsonObject(texturesJsonObject.getAsJsonObject("CAPE"))
         );
@@ -136,5 +136,21 @@ public final class MojangProfileToken {
         public boolean isSigned() {
             return signature != null;
         }
+    }
+
+    /**
+     * The properties for a skin.
+     */
+    @NoArgsConstructor @AllArgsConstructor @Getter @ToString
+    public static class SkinProperties {
+        /**
+         * The skin of the profile.
+         */
+        private Skin skin;
+
+        /**
+         * The cape of the profile.
+         */
+        private Cape cape;
     }
 }

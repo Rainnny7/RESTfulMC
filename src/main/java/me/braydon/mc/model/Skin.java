@@ -23,8 +23,8 @@
  */
 package me.braydon.mc.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import me.braydon.mc.common.ImageUtils;
 import me.braydon.mc.config.AppConfig;
@@ -54,7 +54,7 @@ public final class Skin {
     /**
      * URLs to the parts of this skin.
      */
-    @NonNull @SerializedName("parts") private Map<String, String> partUrls = new HashMap<>();
+    @NonNull @JsonProperty("parts") private Map<String, String> partUrls = new HashMap<>();
 
     /**
      * Populate the part URLs for this skin.

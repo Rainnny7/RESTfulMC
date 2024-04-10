@@ -37,7 +37,10 @@ import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.MojangRateLimitException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
-import me.braydon.mc.model.*;
+import me.braydon.mc.model.MinecraftServer;
+import me.braydon.mc.model.Player;
+import me.braydon.mc.model.ProfileAction;
+import me.braydon.mc.model.Skin;
 import me.braydon.mc.model.cache.CachedMinecraftServer;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.model.cache.CachedPlayerName;
@@ -257,14 +260,14 @@ public final class MojangService {
             MojangProfileToken token = JsonWebRequest.makeRequest(
                     UUID_TO_PROFILE.formatted(uuid), HttpMethod.GET
             ).execute(MojangProfileToken.class);
-            Tuple<Skin, Cape> skinAndCape = token.getSkinAndCape(); // Get the skin and cape
+            MojangProfileToken.SkinProperties skinProperties = token.getSkinProperties(); // Get the skin and cape
             ProfileAction[] profileActions = token.getProfileActions();
 
             // Build our player model, cache it, and then return it
             CachedPlayer player = new CachedPlayer(
                     uuid, token.getName(),
-                    skinAndCape.getLeft() == null ? Skin.DEFAULT_STEVE : skinAndCape.getLeft(),
-                    skinAndCape.getRight(),
+                    skinProperties.getSkin() == null ? Skin.DEFAULT_STEVE : skinProperties.getSkin(),
+                    skinProperties.getCape(),
                     profileActions.length == 0 ? null : profileActions,
                     System.currentTimeMillis()
             );
