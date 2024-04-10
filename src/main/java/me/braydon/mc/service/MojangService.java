@@ -178,7 +178,7 @@ public final class MojangService {
             size = DEFAULT_PART_TEXTURE_SIZE;
         }
         size = Math.min(size, MAX_PART_TEXTURE_SIZE); // Limit the size to 512
-        String id = "%s-%s-%s-%s".formatted(query, part.name(), size, extension); // The id of the skin part
+        String id = "%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), size, extension); // The id of the skin part
 
         Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id); // Get the cached texture
         if (cached.isPresent()) { // Respond with the cache if present
