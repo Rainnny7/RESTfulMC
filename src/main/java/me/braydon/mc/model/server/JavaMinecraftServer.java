@@ -25,7 +25,6 @@ package me.braydon.mc.model.server;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
-import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.common.JavaMinecraftVersion;
 import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.MinecraftServer;
@@ -104,7 +103,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
     public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, @NonNull JavaServerStatusToken token) {
         String motdString = token.getDescription() instanceof String ? (String) token.getDescription() : null;
         if (motdString == null) { // Not a string motd, convert from Json
-            motdString = new TextComponent(ComponentSerializer.parse(RESTfulMC.GSON.toJson(token.getDescription()))).toLegacyText();
+            motdString = new TextComponent(ComponentSerializer.parse(AppConfig.GSON.toJson(token.getDescription()))).toLegacyText();
         }
         return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(), token.getPlayers(),
                 MOTD.create(motdString), Favicon.create(token.getFavicon(), hostname), token.getModInfo(),

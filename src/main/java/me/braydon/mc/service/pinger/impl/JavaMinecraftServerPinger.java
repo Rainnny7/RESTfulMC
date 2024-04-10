@@ -25,10 +25,10 @@ package me.braydon.mc.service.pinger.impl;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.common.DNSUtils;
 import me.braydon.mc.common.packet.impl.java.JavaPacketHandshakingInSetProtocol;
 import me.braydon.mc.common.packet.impl.java.JavaPacketStatusInStart;
+import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.server.JavaMinecraftServer;
@@ -86,7 +86,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
                 // Send the status request to the server, and await back the response
                 JavaPacketStatusInStart packetStatusInStart = new JavaPacketStatusInStart();
                 packetStatusInStart.process(inputStream, outputStream);
-                JavaServerStatusToken token = RESTfulMC.GSON.fromJson(packetStatusInStart.getResponse(), JavaServerStatusToken.class);
+                JavaServerStatusToken token = AppConfig.GSON.fromJson(packetStatusInStart.getResponse(), JavaServerStatusToken.class);
                 return JavaMinecraftServer.create(hostname, ip, port, token); // Return the server
             }
         } catch (IOException ex) {

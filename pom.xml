@@ -14,6 +14,7 @@
     <groupId>me.braydon</groupId>
     <artifactId>RESTfulMC</artifactId>
     <version>1.0.0</version>
+    <description>A simple, yet useful RESTful API for Minecraft utilizing Springboot.</description>
 
     <!-- Properties -->
     <properties>
@@ -31,6 +32,19 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                        <configuration>
+                            <additionalProperties>
+                                <description>${project.description}</description>
+                            </additionalProperties>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

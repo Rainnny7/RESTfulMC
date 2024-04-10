@@ -40,10 +40,11 @@ public final class DNSUtils {
     private static final String SRV_QUERY_PREFIX = "_minecraft._tcp.%s";
 
     /**
-     * Resolve the hostname to an {@link InetSocketAddress}.
+     * Get the resolved address and port of the
+     * given hostname by resolving the SRV records.
      *
      * @param hostname the hostname to resolve
-     * @return the resolved {@link InetSocketAddress}
+     * @return the resolved address and port, null if none
      */
     @SneakyThrows
     public static InetSocketAddress resolveSRV(@NonNull String hostname) {
@@ -61,6 +62,13 @@ public final class DNSUtils {
         return host == null ? null :  new InetSocketAddress(host, port);
     }
 
+    /**
+     * Get the resolved address of the given
+     * hostname by resolving the A records.
+     *
+     * @param hostname the hostname to resolve
+     * @return the resolved address, null if none
+     */
     @SneakyThrows
     public static InetAddress resolveA(@NonNull String hostname) {
         Record[] records = new Lookup(hostname, Type.A).run(); // Resolve A records

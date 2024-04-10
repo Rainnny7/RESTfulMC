@@ -23,10 +23,26 @@
  */
 package me.braydon.mc.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
+import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.info.BuildProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 /**
  * The configuration for the app.
@@ -34,14 +50,70 @@ import org.springframework.context.annotation.Configuration;
  * @author Braydon
  */
 @Configuration @Getter
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
     public static AppConfig INSTANCE;
+    public static final Gson GSON = new GsonBuilder()
+            .setDateFormat("MM-dd-yyyy HH:mm:ss")
+            .create();
 
     @Value("${server.publicUrl}")
     private String serverPublicUrl;
 
+    /**
+     * The build properties of the
+     * app, null if the app is not built.
+     */
+    private final BuildProperties buildProperties;
+
+    @Autowired
+    public AppConfig(BuildProperties buildProperties) {
+        this.buildProperties = buildProperties;
+    }
+
     @PostConstruct
     public void onInitialize() {
         INSTANCE = this;
+    }
+
+    /**
+     * Define the OpenAI specification for this app.
+     *
+     * @return the specification
+     */
+    @Bean @NonNull
+    public OpenAPI defineOpenAPI() {
+        Info info = new Info();
+        info.setTitle("RESTfulMC");
+        info.setVersion(buildProperties == null ? "N/A" : buildProperties.getVersion());
+        info.setDescription(buildProperties == null ? "N/A" : buildProperties.get("description"));
+        info.setContact(new Contact().name("Braydon (Rainnny)").url("https://rainnny.club").email("braydonrainnny@gmail.com"));
+        info.setLicense(new License().name("MIT License").url("https://opensource.org/licenses/MIT"));
+
+        return new OpenAPI()
+                .info(info)
+                .addServersItem(new Server().url(serverPublicUrl).description("The public server URL"));
+    }
+
+    /**
+     * Configure the default HTTP
+     * message converters to use Gson.
+     *
+     * @param converters the converters
+     */
+    @Override
+    public void configureMessageConverters(@NonNull List<HttpMessageConverter<?>> converters) {
+        GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter();
+        gsonHttpMessageConverter.setGson(gson());
+        converters.add(gsonHttpMessageConverter);
+    }
+
+    /**
+     * Our custom Gson instance to use.
+     *
+     * @return the Gson instance
+     */
+    @Bean @NonNull
+    public Gson gson() {
+        return GSON;
     }
 }

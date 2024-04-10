@@ -27,7 +27,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import me.braydon.mc.RESTfulMC;
+import me.braydon.mc.config.AppConfig;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
@@ -118,7 +118,7 @@ public final class JsonWebRequest {
                 throw new IOException("Failed to make a %s request to %s: %s".formatted(method.name(), endpoint, status));
             }
             // Return with the response as the type
-            return RESTfulMC.GSON.fromJson(response.body(), responseType);
+            return AppConfig.GSON.fromJson(response.body(), responseType);
         } catch (Exception ex) {
             if (!(ex instanceof JsonWebException)) {
                 throw new JsonWebException(status, ex);

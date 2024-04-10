@@ -25,8 +25,8 @@ package me.braydon.mc.model.token;
 
 import com.google.gson.JsonObject;
 import lombok.*;
-import me.braydon.mc.RESTfulMC;
 import me.braydon.mc.common.Tuple;
+import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.Cape;
 import me.braydon.mc.model.ProfileAction;
 import me.braydon.mc.model.Skin;
@@ -71,7 +71,7 @@ public final class MojangProfileToken {
         if (textures == null) { // No profile textures
             return new Tuple<>();
         }
-        JsonObject jsonObject = RESTfulMC.GSON.fromJson(textures.getDecodedValue(), JsonObject.class); // Get the Json object
+        JsonObject jsonObject = AppConfig.GSON.fromJson(textures.getDecodedValue(), JsonObject.class); // Get the Json object
         JsonObject texturesJsonObject = jsonObject.getAsJsonObject("textures"); // Get the textures object
 
         // Return the tuple containing the skin and cape

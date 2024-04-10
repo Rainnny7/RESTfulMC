@@ -22,7 +22,5 @@ spring:
       auth: "" # Leave blank for no auth
 
   # Ignore
-  application:
-    name: "RESTfulMC"
   banner:
     location: "classpath:banner.txt"
