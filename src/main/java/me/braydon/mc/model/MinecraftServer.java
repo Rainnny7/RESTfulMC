@@ -25,11 +25,14 @@ package me.braydon.mc.model;
 
 import lombok.*;
 import me.braydon.mc.common.ColorUtils;
+import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.pinger.MinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.BedrockMinecraftServerPinger;
 import me.braydon.mc.service.pinger.impl.JavaMinecraftServerPinger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -85,6 +88,24 @@ public class MinecraftServer {
         private final Sample[] sample;
 
         /**
+         * Create new player count data from a token.
+         *
+         * @param token the token to create from
+         * @return the player count data
+         */
+        @NonNull
+        public static Players create(@NonNull JavaServerStatusToken.Players token) {
+            List<Sample> samples = null;
+            if (token.getSample() != null) {
+                samples = new ArrayList<>(); // The player samples
+                for (JavaServerStatusToken.Players.Sample sample : token.getSample()) {
+                    samples.add(new Sample(sample.getId(), Sample.Name.create(sample.getName())));
+                }
+            }
+            return new Players(token.getOnline(), token.getMax(), samples != null ? samples.toArray(new Sample[0]) : null);
+        }
+
+        /**
          * A sample player.
          */
         @AllArgsConstructor @Getter @ToString
@@ -97,7 +118,39 @@ public class MinecraftServer {
             /**
              * The name of this player.
              */
-            @NonNull private final String name;
+            @NonNull private final Name name;
+
+            /**
+             * The name of a sample player.
+             */
+            @AllArgsConstructor @Getter @ToString
+            public static class Name {
+                /**
+                 * The raw name.
+                 */
+                @NonNull private final String raw;
+
+                /**
+                 * The clean name (no color codes).
+                 */
+                @NonNull private final String clean;
+
+                /**
+                 * The HTML name.
+                 */
+                @NonNull private final String html;
+
+                /**
+                 * Create a new name from a raw string.
+                 *
+                 * @param raw the raw name string
+                 * @return the new name
+                 */
+                @NonNull
+                public static Name create(@NonNull String raw) {
+                    return new Name(raw, ColorUtils.stripColor(raw), ColorUtils.toHTML(raw));
+                }
+            }
         }
     }
 

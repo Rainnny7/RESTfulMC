@@ -52,8 +52,26 @@ public final class JavaMinecraftServer extends MinecraftServer {
 
     /**
      * The Forge mod information for this server, null if none.
+     * <p>
+     * This is for servers on 1.12 or below.
+     * </p>
      */
     private final ModInfo modInfo;
+
+    /**
+     * The Forge mod information for this server, null if none.
+     * <p>
+     * This is for servers on 1.13 and above.
+     * </p>
+     */
+    private final ForgeData forgeData;
+
+    /**
+     * Does this server preview chat?
+     *
+     * @see <a href="https://www.minecraft.net/es-mx/article/minecraft-snapshot-22w19a">This for more</a>
+     */
+    private final boolean previewsChat;
 
     /**
      * Does this server enforce secure chat?
@@ -80,11 +98,13 @@ public final class JavaMinecraftServer extends MinecraftServer {
 
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull Version version,
                                 @NonNull Players players, @NonNull MOTD motd, Favicon favicon, ModInfo modInfo,
-                                boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
+                                ForgeData forgeData, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
         super(hostname, ip, port, players, motd);
         this.version = version;
         this.favicon = favicon;
         this.modInfo = modInfo;
+        this.forgeData = forgeData;
+        this.previewsChat = previewsChat;
         this.enforcesSecureChat = enforcesSecureChat;
         this.preventsChatReports = preventsChatReports;
         this.mojangBanned = mojangBanned;
@@ -105,9 +125,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
         if (motdString == null) { // Not a string motd, convert from Json
             motdString = new TextComponent(ComponentSerializer.parse(AppConfig.GSON.toJson(token.getDescription()))).toLegacyText();
         }
-        return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(), token.getPlayers(),
-                MOTD.create(motdString), Favicon.create(token.getFavicon(), hostname), token.getModInfo(),
-                token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
+        return new JavaMinecraftServer(hostname, ip, port, token.getVersion().detailedCopy(), Players.create(token.getPlayers()),
+                MOTD.create(motdString), Favicon.create(token.getFavicon(), hostname), token.getModInfo(), token.getForgeData(),
+                token.isPreviewsChat(), token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
         );
     }
 
@@ -132,6 +152,11 @@ public final class JavaMinecraftServer extends MinecraftServer {
         private final int protocol;
 
         /**
+         * A list of versions supported by this server.
+         */
+        private final int[] supportedVersions;
+
+        /**
          * The name of the version for the protocol, null if unknown.
          */
         private final String protocolName;
@@ -152,7 +177,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
                 }
             }
             JavaMinecraftVersion minecraftVersion = JavaMinecraftVersion.byProtocol(protocol);
-            return new Version(name, platform, protocol, minecraftVersion == null ? null : minecraftVersion.getName());
+            return new Version(name, platform, protocol, supportedVersions, minecraftVersion == null ? null : minecraftVersion.getName());
         }
     }
 
@@ -191,6 +216,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
 
     /**
      * Forge mod information for a server.
+     * <p>
+     * This is for servers on 1.12 or below.
+     * </p>
      */
     @AllArgsConstructor @Getter @ToString
     public static class ModInfo {
@@ -202,22 +230,92 @@ public final class JavaMinecraftServer extends MinecraftServer {
         /**
          * The list of mods on this server, null or empty if none.
          */
-        private final ForgeMod[] modList;
+        @SerializedName("modList") private final Mod[] mods;
+
+        /**
+         * A Forge mod for a server.
+         */
+        @AllArgsConstructor @Getter @ToString
+        private static class Mod {
+            /**
+             * The id of this mod.
+             */
+            @NonNull @SerializedName("modid") private final String id;
+
+            /**
+             * The version of this mod.
+             */
+            private final String version;
+        }
     }
 
     /**
-     * A forge mod for a server.
+     * Forge information for a server.
+     * <p>
+     * This is for servers on 1.13 and above.
+     * </p>
      */
     @AllArgsConstructor @Getter @ToString
-    private static class ForgeMod {
+    public static class ForgeData {
         /**
-         * The id of this mod.
+         * The list of channels on this server, null or empty if none.
          */
-        @NonNull @SerializedName("modid") private final String id;
+        private final Channel[] channels;
 
         /**
-         * The version of this mod.
+         * The list of mods on this server, null or empty if none.
          */
-        private final String version;
+        private final Mod[] mods;
+
+        /**
+         * The version of the FML network.
+         */
+        private final int fmlNetworkVersion;
+
+        /**
+         * Are the channel and mod lists truncated?
+         * <p>
+         * Legacy versions see truncated lists, modern
+         * versions ignore this truncated flag.
+         * </p>
+         */
+        private final boolean truncated;
+
+        /**
+         * A Forge channel for a server.
+         */
+        @AllArgsConstructor @Getter @ToString
+        private static class Channel {
+            /**
+             * The name of this channel.
+             */
+            @NonNull @SerializedName("res") private final String name;
+
+            /**
+             * The version of this channel.
+             */
+            @NonNull private final String version;
+
+            /**
+             * Whether this channel is required.
+             */
+            private final boolean required;
+        }
+
+        /**
+         * A Forge mod for a server.
+         */
+        @AllArgsConstructor @Getter @ToString
+        private static class Mod {
+            /**
+             * The id of this mod.
+             */
+            @NonNull @SerializedName("modId") private final String name;
+
+            /**
+             * The marker for this mod.
+             */
+            @NonNull @SerializedName("modmarker") private final String marker;
+        }
     }
 }

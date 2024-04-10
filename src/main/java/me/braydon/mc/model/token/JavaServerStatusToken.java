@@ -28,8 +28,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.server.JavaMinecraftServer;
+
+import java.util.UUID;
 
 /**
  * A token representing the response from
@@ -60,12 +61,30 @@ public final class JavaServerStatusToken {
     /**
      * The player counts of this server.
      */
-    @NonNull private final MinecraftServer.Players players;
+    @NonNull private final Players players;
 
     /**
      * The Forge mod information for this server, null if none.
+     * <p>
+     * This is for servers on 1.12 or below.
+     * </p>
      */
     @SerializedName("modinfo") private final JavaMinecraftServer.ModInfo modInfo;
+
+    /**
+     * The Forge mod information for this server, null if none.
+     * <p>
+     * This is for servers on 1.13 and above.
+     * </p>
+     */
+    private final JavaMinecraftServer.ForgeData forgeData;
+
+    /**
+     * Does this server preview chat?
+     *
+     * @see <a href="https://www.minecraft.net/es-mx/article/minecraft-snapshot-22w19a">This for more</a>
+     */
+    private final boolean previewsChat;
 
     /**
      * Does this server enforce secure chat?
@@ -76,4 +95,41 @@ public final class JavaServerStatusToken {
      * Is this server preventing chat reports?
      */
     private final boolean preventsChatReports;
+
+    /**
+     * Player count data for a server.
+     */
+    @AllArgsConstructor @Getter @ToString
+    public static class Players {
+        /**
+         * The online players on this server.
+         */
+        private final int online;
+
+        /**
+         * The maximum allowed players on this server.
+         */
+        private final int max;
+
+        /**
+         * A sample of players on this server, null or empty if no sample.
+         */
+        private final Sample[] sample;
+
+        /**
+         * A sample player.
+         */
+        @AllArgsConstructor @Getter @ToString
+        public static class Sample {
+            /**
+             * The unique id of this player.
+             */
+            @NonNull private final UUID id;
+
+            /**
+             * The name of this player.
+             */
+            @NonNull private final String name;
+        }
+    }
 }

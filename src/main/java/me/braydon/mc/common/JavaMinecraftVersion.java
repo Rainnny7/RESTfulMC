@@ -24,6 +24,7 @@
 package me.braydon.mc.common;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -108,7 +109,9 @@ public enum JavaMinecraftVersion {
     public static final JavaMinecraftVersion FROSTBURN_UPDATE = JavaMinecraftVersion.V1_10;
     public static final JavaMinecraftVersion THE_COMBAT_UPDATE = JavaMinecraftVersion.V1_9;
     public static final JavaMinecraftVersion BOUNTIFUL_UPDATE = JavaMinecraftVersion.V1_8;
-    
+
+    private static final JavaMinecraftVersion[] VALUES = JavaMinecraftVersion.values();
+
     /**
      * The protocol number of this version.
      */
@@ -143,7 +146,17 @@ public enum JavaMinecraftVersion {
         }
         return this.name;
     }
-    
+
+    /**
+     * Get the minimum Minecraft version.
+     *
+     * @return the minimum version
+     */
+    @NonNull
+    public static JavaMinecraftVersion getMinimumVersion() {
+        return VALUES[VALUES.length - 2];
+    }
+
     /**
      * Get the version from the given protocol.
      *

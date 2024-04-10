@@ -26,6 +26,7 @@ package me.braydon.mc.service.pinger.impl;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.common.DNSUtils;
+import me.braydon.mc.common.JavaMinecraftVersion;
 import me.braydon.mc.common.packet.impl.java.JavaPacketHandshakingInSetProtocol;
 import me.braydon.mc.common.packet.impl.java.JavaPacketStatusInStart;
 import me.braydon.mc.config.AppConfig;
@@ -81,7 +82,8 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
             try (DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                  DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
                 // Begin handshaking with the server
-                new JavaPacketHandshakingInSetProtocol(hostname, port, 47).process(inputStream, outputStream);
+                new JavaPacketHandshakingInSetProtocol(hostname, port, JavaMinecraftVersion.getMinimumVersion().getProtocol())
+                        .process(inputStream, outputStream);
 
                 // Send the status request to the server, and await back the response
                 JavaPacketStatusInStart packetStatusInStart = new JavaPacketStatusInStart();
