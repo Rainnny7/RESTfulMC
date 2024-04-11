@@ -73,7 +73,7 @@ public final class PlayerController {
     public ResponseEntity<CachedPlayer> getPlayer(
             @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query
     ) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
-        return ResponseEntity.ofNullable(mojangService.getPlayer(query, false));
+        return ResponseEntity.ofNullable(mojangService.getPlayer(query));
     }
 
     /**

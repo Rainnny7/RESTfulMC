@@ -168,10 +168,15 @@ public final class MojangService {
     @SneakyThrows
     public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension,
                                      boolean overlays, String sizeString) throws BadRequestException, MojangRateLimitException {
+        log.info("Requesting skin part {} with query {} (ext: {}, overlays: {}, size: {})",
+                partName, query, extension, overlays, sizeString
+        );
+
         // Get the part from the given name
         ISkinPart part = ISkinPart.getByName(partName); // The skin part to get
         if (part == null) { // Default to the face
             part = ISkinPart.Vanilla.FACE;
+            log.warn("Invalid skin part {}, defaulting to {}", partName, part.name());
         }
 
         // Ensure the extension is valid
@@ -190,16 +195,26 @@ public final class MojangService {
         }
         if (size == null || size <= 0) { // Invalid size
             size = DEFAULT_PART_TEXTURE_SIZE;
+            log.warn("Invalid size {}, defaulting to {}", sizeString, size);
         }
-        size = Math.min(size, MAX_PART_TEXTURE_SIZE); // Limit the size to 512
+        if (size > MAX_PART_TEXTURE_SIZE) { // Limit the size to 512
+            size = MAX_PART_TEXTURE_SIZE;
+            log.warn("Size {} is too large, defaulting to {}", sizeString, MAX_PART_TEXTURE_SIZE);
+        }
         String id = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
 
-        Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id); // Get the cached texture
-        if (cached.isPresent()) { // Respond with the cache if present
-//            return cached.get().getTexture();
+        // In production, check the cache for the
+        // skin part and return it if it's present
+        if (EnvironmentUtils.isProduction()) {
+            Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id);
+            if (cached.isPresent()) { // Respond with the cache if present
+                log.info("Found skin part {} in cache: {}", part.name(), id);
+                return cached.get().getTexture();
+            }
         }
 
         Skin skin = null; // The target skin to get the skin part of
+        long before = System.currentTimeMillis();
         try {
             CachedPlayer player = getPlayer(query, false); // Retrieve the player
             skin = player.getSkin(); // Use the player's skin
@@ -208,8 +223,13 @@ public final class MojangService {
         }
         if (skin == null) { // Fallback to the default skin
             skin = Skin.DEFAULT_STEVE;
+            log.warn("Failed to get skin for player {}, defaulting to Steve", query);
+        } else {
+            log.info("Got skin for player {} in {}ms", query, System.currentTimeMillis() - before);
         }
+        before = System.currentTimeMillis();
         BufferedImage texture = part.render(skin, overlays, size); // Render the skin part
+        log.info("Render of skin part took {}ms: {}", System.currentTimeMillis() - before, id);
 
         // Convert BufferedImage to byte array
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
@@ -218,6 +238,7 @@ public final class MojangService {
 
             byte[] bytes = outputStream.toByteArray();
             skinPartTextureCache.save(new CachedSkinPartTexture(id, bytes)); // Cache the texture
+            log.info("Cached skin part texture: {}", id);
             return bytes;
         }
     }
@@ -232,15 +253,13 @@ public final class MojangService {
      * </p>
      *
      * @param query       the query to search for the player by
-     * @param bypassCache should the cache be bypassed?
      * @return the player
      * @throws BadRequestException       if the UUID or username is invalid
      * @throws ResourceNotFoundException if the player is not found
      * @throws MojangRateLimitException  if the Mojang API rate limit is reached
      */
     @NonNull
-    public CachedPlayer getPlayer(@NonNull String query, boolean bypassCache)
-            throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
+    public CachedPlayer getPlayer(@NonNull String query) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
         log.info("Requesting player with query: {}", query);
 
         UUID uuid; // The player UUID to lookup
@@ -261,12 +280,11 @@ public final class MojangService {
         }
 
         // Check the cache for the player
-        if (!bypassCache) {
-            Optional<CachedPlayer> cached = playerCache.findById(uuid);
-            if (cached.isPresent()) { // Respond with the cache if present
-                log.info("Found player in cache: {}", uuid);
-                return cached.get();
-            }
+        // and return it if it's present
+        Optional<CachedPlayer> cached = playerCache.findById(uuid);
+        if (cached.isPresent()) { // Respond with the cache if present
+            log.info("Found player in cache: {}", uuid);
+            return cached.get();
         }
 
         // Send a request to Mojang requesting
@@ -280,18 +298,14 @@ public final class MojangService {
             ProfileAction[] profileActions = token.getProfileActions();
 
             // Build our player model, cache it, and then return it
-            CachedPlayer player = new CachedPlayer(
-                    uuid, token.getName(),
+            CachedPlayer player = new CachedPlayer(uuid, token.getName(),
                     skinProperties.getSkin() == null ? Skin.DEFAULT_STEVE : skinProperties.getSkin(),
-                    skinProperties.getCape(),
-                    token.getProperties(),
-                    profileActions.length == 0 ? null : profileActions,
+                    skinProperties.getCape(), token.getProperties(), profileActions.length == 0 ? null : profileActions,
                     System.currentTimeMillis()
             );
-            if (!bypassCache) { // Store in the cache
-                playerCache.save(player);
-                log.info("Cached player: {}", uuid);
-            }
+            // Store in the cache
+            playerCache.save(player);
+            log.info("Cached player: {}", uuid);
 
             player.setCached(-1L); // Set to -1 to indicate it's not cached in the response
             return player;

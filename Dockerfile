@@ -15,5 +15,8 @@ ENV HOSTNAME "0.0.0.0"
 EXPOSE 80
 ENV PORT 80
 
+# We're running in production
+ENV APP_ENV "production"
+
 # Start the app
 CMD ["java", "-jar", "target/RESTfulMC.jar"]
