@@ -192,24 +192,24 @@ public final class MojangService {
             size = DEFAULT_PART_TEXTURE_SIZE;
         }
         size = Math.min(size, MAX_PART_TEXTURE_SIZE); // Limit the size to 512
-        String id = "%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), size, extension); // The id of the skin part
+        String id = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
 
         Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id); // Get the cached texture
         if (cached.isPresent()) { // Respond with the cache if present
             return cached.get().getTexture();
         }
 
-        Skin target = null; // The target skin to get the skin part of
+        Skin skin = null; // The target skin to get the skin part of
         try {
             CachedPlayer player = getPlayer(query, false); // Retrieve the player
-            target = player.getSkin(); // Use the player's skin
+            skin = player.getSkin(); // Use the player's skin
         } catch (Exception ignored) {
             // Simply ignore, and fallback to the default skin
         }
-        if (target == null) { // Fallback to the default skin
-            target = Skin.DEFAULT_STEVE;
+        if (skin == null) { // Fallback to the default skin
+            skin = Skin.DEFAULT_STEVE;
         }
-        BufferedImage texture = part.render(target, overlays, size); // Render the skin part
+        BufferedImage texture = part.render(skin, overlays, size); // Render the skin part
 
         // Convert BufferedImage to byte array
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
