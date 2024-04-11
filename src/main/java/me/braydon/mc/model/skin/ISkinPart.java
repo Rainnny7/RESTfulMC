@@ -93,17 +93,17 @@ public interface ISkinPart {
 
         // Body
         BODY_FRONT(new Coordinates(20, 20), 8, 12),
-        BODY_BACK(new Coordinates(20, 36), 8, 12),
-        BODY_LEFT(new Coordinates(32, 52), 4, 12),
-        BODY_RIGHT(new Coordinates(44, 20), 4, 12),
 
         // Arms
-        LEFT_ARM(new Coordinates(44, 20), 4, 12),
-        RIGHT_ARM(new Coordinates(36, 52), new LegacyCoordinates(44, 20, true), 4, 12),
+        LEFT_ARM_TOP(new Coordinates(36, 48), 4, 4),
+        RIGHT_ARM_TOP(new Coordinates(44, 16), 4, 4),
+
+        LEFT_ARM_FRONT(new Coordinates(44, 20), 4, 12),
+        RIGHT_ARM_FRONT(new Coordinates(36, 52), new LegacyCoordinates(44, 20, true), 4, 12),
 
         // Legs
-        LEFT_LEG(new Coordinates(4, 20), 4, 12),
-        RIGHT_LEG(new Coordinates(20, 52), new LegacyCoordinates(4, 20, true), 4, 12);
+        LEFT_LEG_FRONT(new Coordinates(4, 20), 4, 12), // Front
+        RIGHT_LEG_FRONT(new Coordinates(20, 52), new LegacyCoordinates(4, 20, true), 4, 12); // Front
 
         /**
          * The coordinates of this part.
@@ -155,12 +155,12 @@ public interface ISkinPart {
         }
 
         /**
-         * Is this part an arm?
+         * Is this part a front arm?
          *
-         * @return whether this part is an arm
+         * @return whether this part is a front arm
          */
-        public boolean isArm() {
-            return this == LEFT_ARM || this == RIGHT_ARM;
+        public boolean isFrontArm() {
+            return this == LEFT_ARM_FRONT || this == RIGHT_ARM_FRONT;
         }
 
         /**
@@ -215,7 +215,7 @@ public interface ISkinPart {
     @AllArgsConstructor @Getter
     enum Custom implements ISkinPart {
         HEAD(IsometricHeadSkinPartRenderer.INSTANCE),
-        BODY(BodySkinPartRenderer.INSTANCE);
+        BODY_FLAT(BodySkinPartRenderer.INSTANCE);
 
         /**
          * The custom renderer to use for this part.

@@ -71,7 +71,7 @@ public abstract class SkinRenderer<T extends ISkinPart> {
             coordinates = part.getLegacyCoordinates();
         }
         int width = part.getWidth(); // The width of the part
-        if (skin.getModel() == Skin.Model.SLIM && part.isArm()) {
+        if (skin.getModel() == Skin.Model.SLIM && part.isFrontArm()) {
             width--;
         }
         BufferedImage partTexture = getSkinPartTexture(skinImage, coordinates.getX(), coordinates.getY(), width, part.getHeight(), size);

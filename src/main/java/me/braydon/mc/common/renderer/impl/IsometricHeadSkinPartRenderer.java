@@ -24,7 +24,7 @@
 package me.braydon.mc.common.renderer.impl;
 
 import lombok.NonNull;
-import me.braydon.mc.common.renderer.SkinRenderer;
+import me.braydon.mc.common.renderer.IsometricSkinRenderer;
 import me.braydon.mc.model.skin.ISkinPart;
 import me.braydon.mc.model.skin.Skin;
 
@@ -37,7 +37,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Braydon
  */
-public final class IsometricHeadSkinPartRenderer extends SkinRenderer<ISkinPart.Custom> {
+public final class IsometricHeadSkinPartRenderer extends IsometricSkinRenderer<ISkinPart.Custom> {
     public static final IsometricHeadSkinPartRenderer INSTANCE = new IsometricHeadSkinPartRenderer();
 
     private static final double SKEW_A = 26D / 45D;   // 0.57777777
@@ -83,22 +83,5 @@ public final class IsometricHeadSkinPartRenderer extends SkinRenderer<ISkinPart.
 
         graphics.dispose();
         return texture;
-    }
-
-    /**
-     * Draw a part onto the texture.
-     *
-     * @param graphics  the graphics to draw to
-     * @param partImage the part image to draw
-     * @param transform the transform to apply
-     * @param x         the x position to draw at
-     * @param y         the y position to draw at
-     * @param width     the part image width
-     * @param height    the part image height
-     */
-    private void drawPart(@NonNull Graphics2D graphics, @NonNull BufferedImage partImage, @NonNull AffineTransform transform,
-                          double x, double y, int width, int height) {
-        graphics.setTransform(transform);
-        graphics.drawImage(partImage, (int) x, (int) y, width, height, null);
     }
 }
