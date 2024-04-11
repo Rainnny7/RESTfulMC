@@ -294,7 +294,7 @@ public final class MojangService {
             CachedPlayer player = new CachedPlayer(cacheId, uuid, token.getName(),
                     skinProperties.getSkin() == null ? Skin.DEFAULT_STEVE : skinProperties.getSkin(),
                     skinProperties.getCape(), token.getProperties(), profileActions.length == 0 ? null : profileActions,
-                    System.currentTimeMillis()
+                    token.isLegacy(), System.currentTimeMillis()
             );
             // Store in the cache
             playerCache.save(player);

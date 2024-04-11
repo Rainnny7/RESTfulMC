@@ -62,6 +62,15 @@ public final class MojangProfileToken {
     @NonNull private final ProfileAction[] profileActions;
 
     /**
+     * Is this profile legacy?
+     * <p>
+     * A "Legacy" profile is a profile that
+     * has not yet migrated to a Mojang account.
+     * </p>
+     */
+    private final boolean legacy;
+
+    /**
      * Get the properties of this skin.
      *
      * @return the properties

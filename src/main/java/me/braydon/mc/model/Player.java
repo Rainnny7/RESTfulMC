@@ -65,4 +65,13 @@ public class Player {
      * The profile actions this player has, null if none.
      */
     private final ProfileAction[] profileActions;
+
+    /**
+     * Is this player legacy?
+     * <p>
+     * A "Legacy" player is a player that
+     * has not yet migrated to a Mojang account.
+     * </p>
+     */
+    private final boolean legacy;
 }
