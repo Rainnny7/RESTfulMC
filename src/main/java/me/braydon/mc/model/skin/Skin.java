@@ -68,11 +68,10 @@ public final class Skin {
         Consumer<ISkinPart> addPart = part -> {
             partUrls.put(part.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + part.name().toLowerCase() + "/" + playerUuid + ".png");
         };
-        for (ISkinPart part : ISkinPart.Vanilla.values()) {
-            addPart.accept(part);
-        }
-        for (ISkinPart part : ISkinPart.Isometric.values()) {
-            addPart.accept(part);
+        for (Enum<?>[] type : ISkinPart.TYPES) {
+            for (Enum<?> part : type) {
+                addPart.accept((ISkinPart) part);
+            }
         }
         return this;
     }
