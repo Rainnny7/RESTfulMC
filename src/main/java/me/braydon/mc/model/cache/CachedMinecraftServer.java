@@ -38,7 +38,7 @@ import java.io.Serializable;
 @RedisHash(value = "server", timeToLive = 60L) // 1 minute (in seconds)
 public final class CachedMinecraftServer implements Serializable {
     /**
-     * The id of this cached server.
+     * The id of this cache element.
      */
     @Id @JsonIgnore @NonNull private final String id;
 

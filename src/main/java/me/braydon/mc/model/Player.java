@@ -26,7 +26,6 @@ package me.braydon.mc.model;
 import lombok.*;
 import me.braydon.mc.model.skin.Skin;
 import me.braydon.mc.model.token.MojangProfileToken;
-import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
 
@@ -40,7 +39,7 @@ public class Player {
     /**
      * The unique id of this player.
      */
-    @Id @EqualsAndHashCode.Include @NonNull private final UUID uniqueId;
+    @EqualsAndHashCode.Include @NonNull private final UUID uniqueId;
 
     /**
      * The username of this player.

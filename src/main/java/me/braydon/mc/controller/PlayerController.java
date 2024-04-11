@@ -63,6 +63,7 @@ public final class PlayerController {
      * A GET route to get a player by their username or UUID.
      *
      * @param query the query to search for the player by
+     * @param signed whether the profile is signed
      * @return the player response
      * @throws BadRequestException       if the UUID or username is invalid
      * @throws ResourceNotFoundException if the player is not found
@@ -71,9 +72,10 @@ public final class PlayerController {
     @GetMapping("/{query}")
     @ResponseBody
     public ResponseEntity<CachedPlayer> getPlayer(
-            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query
+            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
+            @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed
     ) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
-        return ResponseEntity.ofNullable(mojangService.getPlayer(query));
+        return ResponseEntity.ofNullable(mojangService.getPlayer(query, signed));
     }
 
     /**

@@ -214,7 +214,7 @@ public final class MojangService {
         Skin skin = null; // The target skin to get the skin part of
         long before = System.currentTimeMillis();
         try {
-            CachedPlayer player = getPlayer(query); // Retrieve the player
+            CachedPlayer player = getPlayer(query, false); // Retrieve the player
             skin = player.getSkin(); // Use the player's skin
         } catch (Exception ignored) {
             // Simply ignore, and fallback to the default skin
@@ -244,14 +244,15 @@ public final class MojangService {
      * and then return the response.
      * </p>
      *
-     * @param query       the query to search for the player by
+     * @param query  the query to search for the player by
+     * @param signed whether the profile is signed
      * @return the player
      * @throws BadRequestException       if the UUID or username is invalid
      * @throws ResourceNotFoundException if the player is not found
      * @throws MojangRateLimitException  if the Mojang API rate limit is reached
      */
     @NonNull
-    public CachedPlayer getPlayer(@NonNull String query) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
+    public CachedPlayer getPlayer(@NonNull String query, boolean signed) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
         log.info("Requesting player with query: {}", query);
 
         UUID uuid; // The player UUID to lookup
@@ -270,10 +271,11 @@ public final class MojangService {
             uuid = usernameToUUID(query);
             log.info("Found UUID for username {}: {}", query, uuid);
         }
+        String cacheId = "%s-%s".formatted(uuid, signed); // The cache id of the player
 
         // Check the cache for the player
         // and return it if it's present
-        Optional<CachedPlayer> cached = playerCache.findById(uuid);
+        Optional<CachedPlayer> cached = playerCache.findById(cacheId);
         if (cached.isPresent()) { // Respond with the cache if present
             log.info("Found player in cache: {}", uuid);
             return cached.get();
@@ -283,14 +285,13 @@ public final class MojangService {
         // the player profile by their UUID
         try {
             log.info("Retrieving player profile for UUID: {}", uuid);
-            MojangProfileToken token = JsonWebRequest.makeRequest(
-                    UUID_TO_PROFILE.formatted(uuid), HttpMethod.GET
-            ).execute(MojangProfileToken.class);
+            String endpoint = UUID_TO_PROFILE.formatted(uuid) + (signed ? "?unsigned=false" : "");
+            MojangProfileToken token = JsonWebRequest.makeRequest(endpoint, HttpMethod.GET).execute(MojangProfileToken.class);
             MojangProfileToken.SkinProperties skinProperties = token.getSkinProperties(); // Get the skin and cape
             ProfileAction[] profileActions = token.getProfileActions();
 
             // Build our player model, cache it, and then return it
-            CachedPlayer player = new CachedPlayer(uuid, token.getName(),
+            CachedPlayer player = new CachedPlayer(cacheId, uuid, token.getName(),
                     skinProperties.getSkin() == null ? Skin.DEFAULT_STEVE : skinProperties.getSkin(),
                     skinProperties.getCape(), token.getProperties(), profileActions.length == 0 ? null : profileActions,
                     System.currentTimeMillis()
