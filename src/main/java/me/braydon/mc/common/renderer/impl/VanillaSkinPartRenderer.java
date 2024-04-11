@@ -57,8 +57,8 @@ public final class VanillaSkinPartRenderer extends SkinRenderer<ISkinPart.Vanill
             return partImage;
         }
         // Create a new image, draw our skin part texture, and then apply overlays
-        BufferedImage texture = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics = texture.createGraphics();
+        BufferedImage texture = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB); // The texture to return
+        Graphics2D graphics = texture.createGraphics(); // Create the graphics for drawing
         graphics.drawImage(partImage, 0, 0, null);
 
         // Draw part overlays
@@ -68,6 +68,7 @@ public final class VanillaSkinPartRenderer extends SkinRenderer<ISkinPart.Vanill
                 applyOverlay(graphics, getVanillaSkinPart(skin, overlay, scale));
             }
         }
+        graphics.dispose();
         return texture;
     }
 }

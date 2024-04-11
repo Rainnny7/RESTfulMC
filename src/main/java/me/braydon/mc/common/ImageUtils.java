@@ -39,7 +39,7 @@ public final class ImageUtils {
      * Scale the given image to the provided size.
      *
      * @param image the image to scale
-     * @param size the size to scale the image to
+     * @param size  the size to scale the image to
      * @return the scaled image
      */
     @NonNull
@@ -49,5 +49,20 @@ public final class ImageUtils {
         graphics.drawImage(image, AffineTransform.getScaleInstance(size, size), null);
         graphics.dispose();
         return scaled;
+    }
+
+    /**
+     * Flip the given image.
+     *
+     * @param image the image to flip
+     * @return the flipped image
+     */
+    @NonNull
+    public static BufferedImage flip(@NonNull BufferedImage image) {
+        BufferedImage flipped = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = flipped.createGraphics();
+        graphics.drawImage(image, image.getWidth(), 0, 0, image.getHeight(), 0, 0, image.getWidth(), image.getHeight(), null);
+        graphics.dispose();
+        return flipped;
     }
 }

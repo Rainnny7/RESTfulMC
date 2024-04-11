@@ -196,7 +196,7 @@ public final class MojangService {
 
         Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id); // Get the cached texture
         if (cached.isPresent()) { // Respond with the cache if present
-            return cached.get().getTexture();
+//            return cached.get().getTexture();
         }
 
         Skin skin = null; // The target skin to get the skin part of

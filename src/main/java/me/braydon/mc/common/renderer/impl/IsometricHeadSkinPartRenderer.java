@@ -63,23 +63,25 @@ public final class IsometricHeadSkinPartRenderer extends SkinRenderer<ISkinPart.
         double zOffset = scale * 3.5D;
         double xOffset = scale * 2D;
 
-        BufferedImage texture = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics = texture.createGraphics();
+        BufferedImage texture = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB); // The texture to return
+        Graphics2D graphics = texture.createGraphics(); // Create the graphics for drawing
 
+        // Get the Vanilla skin parts to draw
         BufferedImage headTop = getVanillaSkinPart(skin, ISkinPart.Vanilla.HEAD_TOP, scale);
         BufferedImage face = getVanillaSkinPart(skin, ISkinPart.Vanilla.FACE, scale);
         BufferedImage headLeft = getVanillaSkinPart(skin, ISkinPart.Vanilla.HEAD_LEFT, scale);
 
-        // Draw the top of the left
+        // Draw the top head part
         drawPart(graphics, headTop, HEAD_TOP_TRANSFORM, -0.5 - zOffset, xOffset + zOffset, headTop.getWidth(), headTop.getHeight() + 2);
 
-        // Draw the face of the head
+        // Draw the face part
         double x = xOffset + 8 * scale;
         drawPart(graphics, face, FACE_TRANSFORM, x, x + zOffset - 0.5, face.getWidth(), face.getHeight());
 
-        // Draw the left side of the head
+        // Draw the left head part
         drawPart(graphics, headLeft, HEAD_LEFT_TRANSFORM, xOffset + 1, zOffset - 0.5, headLeft.getWidth(), headLeft.getHeight());
 
+        graphics.dispose();
         return texture;
     }
 

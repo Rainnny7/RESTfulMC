@@ -24,10 +24,12 @@
 package me.braydon.mc.common.renderer.impl;
 
 import lombok.NonNull;
+import me.braydon.mc.common.ImageUtils;
 import me.braydon.mc.common.renderer.SkinRenderer;
 import me.braydon.mc.model.skin.ISkinPart;
 import me.braydon.mc.model.skin.Skin;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -50,6 +52,26 @@ public final class BodySkinPartRenderer extends SkinRenderer<ISkinPart.Custom> {
      */
     @Override @NonNull
     public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Custom part, boolean overlays, int size) {
-        return getVanillaSkinPart(skin, ISkinPart.Vanilla.FACE, size);
+        BufferedImage texture = new BufferedImage(16, 32, BufferedImage.TYPE_INT_ARGB); // The texture to return
+        Graphics2D graphics = texture.createGraphics(); // Create the graphics for drawing
+
+        // Get the Vanilla skin parts to draw
+        BufferedImage face = getVanillaSkinPart(skin, ISkinPart.Vanilla.FACE, -1);
+        BufferedImage body = getVanillaSkinPart(skin, ISkinPart.Vanilla.BODY_FRONT, -1);
+        BufferedImage leftArm = getVanillaSkinPart(skin, ISkinPart.Vanilla.LEFT_ARM, -1);
+        BufferedImage rightArm = getVanillaSkinPart(skin, ISkinPart.Vanilla.RIGHT_ARM, -1);
+        BufferedImage leftLeg = getVanillaSkinPart(skin, ISkinPart.Vanilla.LEFT_LEG, -1);
+        BufferedImage rightLeg = getVanillaSkinPart(skin, ISkinPart.Vanilla.RIGHT_LEG, -1);
+
+        // Draw the body parts
+        graphics.drawImage(face, 4, 0, null);
+        graphics.drawImage(body, 4, 8, null);
+        graphics.drawImage(leftArm, skin.getModel() == Skin.Model.SLIM ? 1 : 0, 8, null);
+        graphics.drawImage(rightArm, 12, 8, null);
+        graphics.drawImage(leftLeg, 8, 20, null);
+        graphics.drawImage(rightLeg, 4, 20, null);
+
+        graphics.dispose();
+        return ImageUtils.resize(texture, size / 8D);
     }
 }

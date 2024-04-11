@@ -37,18 +37,18 @@ import java.net.URL;
 /**
  * A renderer for a {@link ISkinPart}.
  *
- * @author Braydon
  * @param <T> the type of part to render
+ * @author Braydon
  */
 public abstract class SkinRenderer<T extends ISkinPart> {
     /**
      * Invoke this render to render the
      * given skin part for the provided skin.
      *
-     * @param skin the skin to render the part for
-     * @param part the part to render
+     * @param skin     the skin to render the part for
+     * @param part     the part to render
      * @param overlays whether to render overlays
-     * @param size the size to scale the skin part to
+     * @param size     the size to scale the skin part to
      * @return the rendered skin part
      */
     @NonNull public abstract BufferedImage render(@NonNull Skin skin, @NonNull T part, boolean overlays, int size);
@@ -63,24 +63,37 @@ public abstract class SkinRenderer<T extends ISkinPart> {
      */
     @SneakyThrows
     protected final BufferedImage getVanillaSkinPart(@NonNull Skin skin, @NonNull ISkinPart.Vanilla part, double size) {
-        return getSkinPartTexture(skin, part.getCoordinates().getX(), part.getCoordinates().getY(), part.getWidth(), part.getHeight(), size);
+        BufferedImage skinImage = ImageIO.read(new URL(skin.getUrl())); // The skin texture
+        ISkinPart.Vanilla.Coordinates coordinates = part.getCoordinates(); // The coordinates of the part
+
+        // The skin texture is legacy, use legacy coordinates
+        if (skinImage.getHeight() == 32 && part.hasLegacyCoordinates()) {
+            coordinates = part.getLegacyCoordinates();
+        }
+        int width = part.getWidth(); // The width of the part
+        if (skin.getModel() == Skin.Model.SLIM && part.isArm()) {
+            width--;
+        }
+        BufferedImage partTexture = getSkinPartTexture(skinImage, coordinates.getX(), coordinates.getY(), width, part.getHeight(), size);
+        if (coordinates instanceof ISkinPart.Vanilla.LegacyCoordinates legacyCoordinates && legacyCoordinates.isFlipped()) {
+            partTexture = ImageUtils.flip(partTexture);
+        }
+        return partTexture;
     }
 
     /**
      * Get the texture of a specific part of a skin.
      *
-     * @param skin   the skin to get the part from
-     * @param x      the x position of the part
-     * @param y      the y position of the part
-     * @param width  the width of the part
-     * @param height the height of the part
-     * @param size   the size to scale the part to
+     * @param skinImage the skin image to get the part from
+     * @param x         the x position of the part
+     * @param y         the y position of the part
+     * @param width     the width of the part
+     * @param height    the height of the part
+     * @param size      the size to scale the part to
      * @return the texture of the skin part
      */
     @SneakyThrows
-    private BufferedImage getSkinPartTexture(@NonNull Skin skin, int x, int y, int width, int height, double size) {
-        BufferedImage skinImage = ImageIO.read(new URL(skin.getUrl())); // The skin texture
-
+    private BufferedImage getSkinPartTexture(@NonNull BufferedImage skinImage, int x, int y, int width, int height, double size) {
         // Create a new BufferedImage for the part of the skin texture
         BufferedImage headTexture = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
@@ -88,8 +101,9 @@ public abstract class SkinRenderer<T extends ISkinPart> {
         headTexture.getGraphics().drawImage(skinImage, 0, 0, width, height, x, y, x + width, y + height, null);
 
         // Scale the skin part texture
-        headTexture = ImageUtils.resize(headTexture, size);
-
+        if (size > 0D) {
+            headTexture = ImageUtils.resize(headTexture, size);
+        }
         return headTexture;
     }
 
@@ -105,7 +119,7 @@ public abstract class SkinRenderer<T extends ISkinPart> {
     /**
      * Apply an overlay to a texture.
      *
-     * @param graphics the graphics to overlay on
+     * @param graphics     the graphics to overlay on
      * @param overlayImage the part to overlay
      */
     protected final void applyOverlay(@NonNull Graphics2D graphics, @NonNull BufferedImage overlayImage) {

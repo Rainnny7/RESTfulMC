@@ -78,7 +78,7 @@ public interface ISkinPart {
     /**
      * A part of a Vanilla skin texture.
      */
-    @AllArgsConstructor @RequiredArgsConstructor @Getter @ToString
+    @RequiredArgsConstructor @Getter @ToString
     enum Vanilla implements ISkinPart {
         // Overlays
         HEAD_OVERLAY_FACE(new Coordinates(40, 8), 8, 8),
@@ -89,7 +89,21 @@ public interface ISkinPart {
         HEAD_LEFT(new Coordinates(0, 8), 8, 8),
         HEAD_RIGHT(new Coordinates(16, 8), 8, 8),
         HEAD_BOTTOM(new Coordinates(16, 0), 8, 8),
-        HEAD_BACK(new Coordinates(24, 8), 8, 8);
+        HEAD_BACK(new Coordinates(24, 8), 8, 8),
+
+        // Body
+        BODY_FRONT(new Coordinates(20, 20), 8, 12),
+        BODY_BACK(new Coordinates(20, 36), 8, 12),
+        BODY_LEFT(new Coordinates(32, 52), 4, 12),
+        BODY_RIGHT(new Coordinates(44, 20), 4, 12),
+
+        // Arms
+        LEFT_ARM(new Coordinates(44, 20), 4, 12),
+        RIGHT_ARM(new Coordinates(36, 52), new LegacyCoordinates(44, 20, true), 4, 12),
+
+        // Legs
+        LEFT_LEG(new Coordinates(4, 20), 4, 12),
+        RIGHT_LEG(new Coordinates(20, 52), new LegacyCoordinates(4, 20, true), 4, 12);
 
         /**
          * The coordinates of this part.
@@ -119,6 +133,14 @@ public interface ISkinPart {
             this(coordinates, null, width, height, overlays);
         }
 
+        Vanilla(@NonNull Coordinates coordinates, LegacyCoordinates legacyCoordinates, int width, int height, Vanilla... overlays) {
+            this.coordinates = coordinates;
+            this.legacyCoordinates = legacyCoordinates;
+            this.width = width;
+            this.height = height;
+            this.overlays = overlays;
+        }
+
         /**
          * Render a part of a skin.
          *
@@ -130,6 +152,24 @@ public interface ISkinPart {
         @Override @NonNull
         public BufferedImage render(@NonNull Skin skin, boolean overlays, int size) {
             return VanillaSkinPartRenderer.INSTANCE.render(skin, this, overlays, size);
+        }
+
+        /**
+         * Is this part an arm?
+         *
+         * @return whether this part is an arm
+         */
+        public boolean isArm() {
+            return this == LEFT_ARM || this == RIGHT_ARM;
+        }
+
+        /**
+         * Does this part have legacy coordinates?
+         *
+         * @return whether this part has legacy coordinates
+         */
+        public boolean hasLegacyCoordinates() {
+            return legacyCoordinates != null;
         }
 
         /**
