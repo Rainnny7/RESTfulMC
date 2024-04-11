@@ -216,7 +216,7 @@ public final class MojangService {
         Skin skin = null; // The target skin to get the skin part of
         long before = System.currentTimeMillis();
         try {
-            CachedPlayer player = getPlayer(query, false); // Retrieve the player
+            CachedPlayer player = getPlayer(query); // Retrieve the player
             skin = player.getSkin(); // Use the player's skin
         } catch (Exception ignored) {
             // Simply ignore, and fallback to the default skin
