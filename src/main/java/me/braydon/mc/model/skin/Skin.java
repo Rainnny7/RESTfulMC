@@ -65,12 +65,9 @@ public final class Skin {
      */
     @NonNull
     public Skin populatePartUrls(@NonNull String playerUuid) {
-        Consumer<ISkinPart> addPart = part -> {
-            partUrls.put(part.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + part.name().toLowerCase() + "/" + playerUuid + ".png");
-        };
         for (Enum<?>[] type : ISkinPart.TYPES) {
             for (Enum<?> part : type) {
-                addPart.accept((ISkinPart) part);
+                partUrls.put(part.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + part.name().toLowerCase() + "/" + playerUuid + ".png");
             }
         }
         return this;
