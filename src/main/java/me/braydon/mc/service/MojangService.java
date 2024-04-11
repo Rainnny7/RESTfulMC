@@ -32,8 +32,6 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.common.*;
-import me.braydon.mc.common.renderer.impl.BasicSkinPartRenderer;
-import me.braydon.mc.common.renderer.impl.IsometricSkinPartRenderer;
 import me.braydon.mc.common.web.JsonWebException;
 import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
@@ -42,7 +40,6 @@ import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.Player;
 import me.braydon.mc.model.ProfileAction;
-import me.braydon.mc.model.Skin;
 import me.braydon.mc.model.cache.CachedMinecraftServer;
 import me.braydon.mc.model.cache.CachedPlayer;
 import me.braydon.mc.model.cache.CachedPlayerName;
@@ -51,6 +48,8 @@ import me.braydon.mc.model.dns.DNSRecord;
 import me.braydon.mc.model.dns.impl.ARecord;
 import me.braydon.mc.model.dns.impl.SRVRecord;
 import me.braydon.mc.model.server.JavaMinecraftServer;
+import me.braydon.mc.model.skin.ISkinPart;
+import me.braydon.mc.model.skin.Skin;
 import me.braydon.mc.model.token.MojangProfileToken;
 import me.braydon.mc.model.token.MojangUsernameToUUIDToken;
 import me.braydon.mc.repository.MinecraftServerCacheRepository;
@@ -141,9 +140,6 @@ public final class MojangService {
         this.minecraftServerCache = minecraftServerCache;
     }
 
-    @Autowired
-
-
     @PostConstruct
     public void onInitialize() {
         // Schedule a task to fetch blocked
@@ -163,23 +159,19 @@ public final class MojangService {
      * @param partName   the part of the player's skin texture to get
      * @param query      the query to search for the player by
      * @param extension  the skin part image extension
+     * @param overlays   whether to render overlays
      * @param sizeString the size of the skin part image
      * @return the skin part texture
      * @throws BadRequestException      if the extension is invalid
      * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
     @SneakyThrows
-    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, String sizeString)
-            throws BadRequestException, MojangRateLimitException {
-        partName = partName.toUpperCase(); // The part name to get
-
+    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension,
+                                     boolean overlays, String sizeString) throws BadRequestException, MojangRateLimitException {
         // Get the part from the given name
-        Skin.IPart part = EnumUtils.getEnumConstant(Skin.Part.class, partName); // The skin part to get
-        if (part == null) { // The given part is invalid, try a isometric part
-            part = EnumUtils.getEnumConstant(Skin.IsometricPart.class, partName);;
-        }
+        ISkinPart part = ISkinPart.getByName(partName); // The skin part to get
         if (part == null) { // Default to the face
-            part = Skin.Part.FACE;
+            part = ISkinPart.Vanilla.FACE;
         }
 
         // Ensure the extension is valid
@@ -217,9 +209,7 @@ public final class MojangService {
         if (target == null) { // Fallback to the default skin
             target = Skin.DEFAULT_STEVE;
         }
-        BufferedImage texture = part instanceof Skin.IsometricPart isometricPart ?
-                IsometricSkinPartRenderer.INSTANCE.render(target, isometricPart, true, size)
-                : BasicSkinPartRenderer.INSTANCE.render(target, (Skin.Part) part, true, size); // Render the skin part
+        BufferedImage texture = part.render(target, overlays, size); // Render the skin part
 
         // Convert BufferedImage to byte array
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {

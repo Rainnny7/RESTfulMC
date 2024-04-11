@@ -21,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.model;
+package me.braydon.mc.model.skin;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
 import lombok.*;
 import me.braydon.mc.config.AppConfig;
+import me.braydon.mc.model.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,13 +65,13 @@ public final class Skin {
      */
     @NonNull
     public Skin populatePartUrls(@NonNull String playerUuid) {
-        Consumer<IPart> addPart = part -> {
+        Consumer<ISkinPart> addPart = part -> {
             partUrls.put(part.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + part.name().toLowerCase() + "/" + playerUuid + ".png");
         };
-        for (Part part : Part.values()) {
+        for (ISkinPart part : ISkinPart.Vanilla.values()) {
             addPart.accept(part);
         }
-        for (IsometricPart part : IsometricPart.values()) {
+        for (ISkinPart part : ISkinPart.Isometric.values()) {
             addPart.accept(part);
         }
         return this;
@@ -100,90 +101,5 @@ public final class Skin {
      */
     public enum Model {
         DEFAULT, SLIM
-    }
-
-    /**
-     * Represents a part of a skin.
-     */
-    public interface IPart {
-        /**
-         * Get the name of this part.
-         *
-         * @return the part name
-         */
-        @NonNull String name();
-    }
-
-    /**
-     * The part of a skin.
-     */
-    @AllArgsConstructor @RequiredArgsConstructor @Getter @ToString
-    public enum Part implements IPart {
-        // Head
-        HEAD_TOP(new Coordinates(8, 0), 8, 8),
-        FACE(new Coordinates(8, 8), 8, 8),
-        HEAD_LEFT(new Coordinates(0, 8), 8, 8),
-        HEAD_RIGHT(new Coordinates(16, 8), 8, 8),
-        HEAD_BOTTOM(new Coordinates(16, 0), 8, 8),
-        HEAD_BACK(new Coordinates(24, 8), 8, 8);
-
-        /**
-         * The coordinates of this part.
-         */
-        @NonNull private final Coordinates coordinates;
-
-        /**
-         * The legacy coordinates of this part.
-         * <p>
-         * This is for older skin textures
-         * that use different positions.
-         * </p>
-         */
-        private LegacyCoordinates legacyCoordinates;
-
-        /**
-         * The size of this part.
-         */
-        private final int width, height;
-
-        /**
-         * Coordinates of a part of a skin.
-         */
-        @AllArgsConstructor @Getter @ToString
-        public static class Coordinates {
-            /**
-             * The X coordinate.
-             */
-            private final int x;
-
-            /**
-             * The Y coordinate.
-             */
-            private final int y;
-        }
-
-        /**
-         * Legacy coordinates of a part of a skin.
-         */
-        @Getter @ToString
-        public static class LegacyCoordinates extends Coordinates {
-            /**
-             * Whether the part at these coordinates is flipped.
-             */
-            private final boolean flipped;
-
-            public LegacyCoordinates(int x, int y) {
-                this(x, y, false);
-            }
-
-            public LegacyCoordinates(int x, int y, boolean flipped) {
-                super(x, y);
-                this.flipped = flipped;
-            }
-        }
-    }
-
-    public enum IsometricPart implements IPart {
-        HEAD
     }
 }

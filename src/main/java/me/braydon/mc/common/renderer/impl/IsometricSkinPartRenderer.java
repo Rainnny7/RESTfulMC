@@ -24,19 +24,20 @@
 package me.braydon.mc.common.renderer.impl;
 
 import lombok.NonNull;
-import me.braydon.mc.common.renderer.SkinPartRenderer;
-import me.braydon.mc.model.Skin;
+import me.braydon.mc.common.renderer.SkinRenderer;
+import me.braydon.mc.model.skin.ISkinPart;
+import me.braydon.mc.model.skin.Skin;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
- * A isometric 3D renderer for a {@link Skin.Part}.
+ * A isometric 3D renderer for a {@link ISkinPart.Isometric}.
  *
  * @author Braydon
  */
-public final class IsometricSkinPartRenderer extends SkinPartRenderer<Skin.IsometricPart> {
+public final class IsometricSkinPartRenderer extends SkinRenderer<ISkinPart.Isometric> {
     public static final IsometricSkinPartRenderer INSTANCE = new IsometricSkinPartRenderer();
 
     private static final double SKEW_A = 26D / 45D;   // 0.57777777
@@ -57,7 +58,7 @@ public final class IsometricSkinPartRenderer extends SkinPartRenderer<Skin.Isome
      * @return the rendered skin part
      */
     @Override @NonNull
-    public BufferedImage render(@NonNull Skin skin, @NonNull Skin.IsometricPart part, boolean overlays, int size) {
+    public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Isometric part, boolean overlays, int size) {
         double scale = (size / 8D) / 2.5;
         double zOffset = scale * 3.5D;
         double xOffset = scale * 2D;
@@ -65,9 +66,9 @@ public final class IsometricSkinPartRenderer extends SkinPartRenderer<Skin.Isome
         BufferedImage texture = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = texture.createGraphics();
 
-        BufferedImage headTop = getSkinPart(skin, Skin.Part.HEAD_TOP, scale);
-        BufferedImage face = getSkinPart(skin, Skin.Part.FACE, scale);
-        BufferedImage headLeft = getSkinPart(skin, Skin.Part.HEAD_LEFT, scale);
+        BufferedImage headTop = getVanillaSkinPart(skin, ISkinPart.Vanilla.HEAD_TOP, scale);
+        BufferedImage face = getVanillaSkinPart(skin, ISkinPart.Vanilla.FACE, scale);
+        BufferedImage headLeft = getVanillaSkinPart(skin, ISkinPart.Vanilla.HEAD_LEFT, scale);
 
         // Draw the top of the left
         drawPart(graphics, headTop, HEAD_TOP_TRANSFORM, -0.5 - zOffset, xOffset + zOffset, headTop.getWidth(), headTop.getHeight() + 2);

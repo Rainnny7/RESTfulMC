@@ -29,7 +29,7 @@ import lombok.*;
 import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.Cape;
 import me.braydon.mc.model.ProfileAction;
-import me.braydon.mc.model.Skin;
+import me.braydon.mc.model.skin.Skin;
 
 import java.util.Base64;
 

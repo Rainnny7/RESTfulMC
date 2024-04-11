@@ -21,16 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.repository;
+package me.braydon.mc.common.renderer.impl;
 
-import me.braydon.mc.model.cache.CachedSkinPartTexture;
+import lombok.NonNull;
+import me.braydon.mc.common.renderer.SkinRenderer;
 import me.braydon.mc.model.skin.ISkinPart;
-import org.springframework.data.repository.CrudRepository;
+import me.braydon.mc.model.skin.Skin;
+
+import java.awt.image.BufferedImage;
 
 /**
- * A cache repository for skin texture parts.
+ * A basic 2D renderer for a {@link ISkinPart.Basic#BODY}.
  *
  * @author Braydon
- * @see ISkinPart for skin parts
  */
-public interface SkinPartTextureCacheRepository extends CrudRepository<CachedSkinPartTexture, String> { }
+public final class BodySkinPartRenderer extends SkinRenderer<ISkinPart.Basic> {
+    public static final BodySkinPartRenderer INSTANCE = new BodySkinPartRenderer();
+
+    /**
+     * Invoke this render to render the
+     * given skin part for the provided skin.
+     *
+     * @param skin     the skin to render the part for
+     * @param part     the part to render
+     * @param overlays whether to render overlays
+     * @param size     the size to scale the skin part to
+     * @return the rendered skin part
+     */
+    @Override @NonNull
+    public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Basic part, boolean overlays, int size) {
+        return getVanillaSkinPart(skin, ISkinPart.Vanilla.FACE, size);
+    }
+}

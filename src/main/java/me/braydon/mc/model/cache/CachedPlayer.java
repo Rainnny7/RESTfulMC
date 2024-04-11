@@ -30,7 +30,7 @@ import lombok.ToString;
 import me.braydon.mc.model.Cape;
 import me.braydon.mc.model.Player;
 import me.braydon.mc.model.ProfileAction;
-import me.braydon.mc.model.Skin;
+import me.braydon.mc.model.skin.Skin;
 import me.braydon.mc.model.token.MojangProfileToken;
 import org.springframework.data.redis.core.RedisHash;
 

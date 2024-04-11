@@ -26,19 +26,21 @@ package me.braydon.mc.common.renderer;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import me.braydon.mc.common.ImageUtils;
-import me.braydon.mc.model.Skin;
+import me.braydon.mc.model.skin.ISkinPart;
+import me.braydon.mc.model.skin.Skin;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
 /**
- * A renderer for a {@link Skin.Part}.
+ * A renderer for a {@link ISkinPart}.
  *
  * @author Braydon
  * @param <T> the type of part to render
  */
-public abstract class SkinPartRenderer<T extends Skin.IPart> {
+public abstract class SkinRenderer<T extends ISkinPart> {
     /**
      * Invoke this render to render the
      * given skin part for the provided skin.
@@ -60,7 +62,7 @@ public abstract class SkinPartRenderer<T extends Skin.IPart> {
      * @return the texture of the skin part
      */
     @SneakyThrows
-    protected BufferedImage getSkinPart(@NonNull Skin skin, @NonNull Skin.Part part, double size) {
+    protected final BufferedImage getVanillaSkinPart(@NonNull Skin skin, @NonNull ISkinPart.Vanilla part, double size) {
         return getSkinPartTexture(skin, part.getCoordinates().getX(), part.getCoordinates().getY(), part.getWidth(), part.getHeight(), size);
     }
 
@@ -89,5 +91,30 @@ public abstract class SkinPartRenderer<T extends Skin.IPart> {
         headTexture = ImageUtils.resize(headTexture, size);
 
         return headTexture;
+    }
+
+    /**
+     * Apply an overlay to a texture.
+     *
+     * @param overlayImage the part to overlay
+     */
+    protected final void applyOverlay(@NonNull BufferedImage overlayImage) {
+        applyOverlay(overlayImage.createGraphics(), overlayImage);
+    }
+
+    /**
+     * Apply an overlay to a texture.
+     *
+     * @param graphics the graphics to overlay on
+     * @param overlayImage the part to overlay
+     */
+    protected final void applyOverlay(@NonNull Graphics2D graphics, @NonNull BufferedImage overlayImage) {
+        try {
+            graphics.drawImage(overlayImage, 0, 0, null);
+            graphics.dispose();
+        } catch (Exception ignored) {
+            // We can safely ignore this, legacy
+            // skins don't have overlays
+        }
     }
 }

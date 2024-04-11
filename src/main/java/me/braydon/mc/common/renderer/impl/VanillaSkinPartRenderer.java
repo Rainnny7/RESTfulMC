@@ -24,18 +24,20 @@
 package me.braydon.mc.common.renderer.impl;
 
 import lombok.NonNull;
-import me.braydon.mc.common.renderer.SkinPartRenderer;
-import me.braydon.mc.model.Skin;
+import me.braydon.mc.common.renderer.SkinRenderer;
+import me.braydon.mc.model.skin.ISkinPart;
+import me.braydon.mc.model.skin.Skin;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * A basic 2D renderer for a {@link Skin.Part}.
+ * A basic 2D renderer for a {@link ISkinPart.Vanilla}.
  *
  * @author Braydon
  */
-public final class BasicSkinPartRenderer extends SkinPartRenderer<Skin.Part> {
-    public static final BasicSkinPartRenderer INSTANCE = new BasicSkinPartRenderer();
+public final class VanillaSkinPartRenderer extends SkinRenderer<ISkinPart.Vanilla> {
+    public static final VanillaSkinPartRenderer INSTANCE = new VanillaSkinPartRenderer();
 
     /**
      * Invoke this render to render the
@@ -48,7 +50,24 @@ public final class BasicSkinPartRenderer extends SkinPartRenderer<Skin.Part> {
      * @return the rendered skin part
      */
     @Override @NonNull
-    public BufferedImage render(@NonNull Skin skin, @NonNull Skin.Part part, boolean overlays, int size) {
-        return getSkinPart(skin, part, size / 8D);
+    public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Vanilla part, boolean overlays, int size) {
+        double scale = size / 8D;
+        BufferedImage partImage = getVanillaSkinPart(skin, part, scale); // Get the part image
+        if (!overlays) { // Not rendering overlays
+            return partImage;
+        }
+        // Create a new image, draw our skin part texture, and then apply overlays
+        BufferedImage texture = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = texture.createGraphics();
+        graphics.drawImage(partImage, 0, 0, null);
+
+        // Draw part overlays
+        ISkinPart.Vanilla[] overlayParts = part.getOverlays();
+        if (overlayParts != null) {
+            for (ISkinPart.Vanilla overlay : overlayParts) {
+                applyOverlay(graphics, getVanillaSkinPart(skin, overlay, scale));
+            }
+        }
+        return texture;
     }
 }

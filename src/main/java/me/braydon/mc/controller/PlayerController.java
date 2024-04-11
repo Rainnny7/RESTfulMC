@@ -98,10 +98,11 @@ public final class PlayerController {
             @Parameter(description = "The skin part to get the texture of", example = "head") @PathVariable @NonNull String partName,
             @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(description = "The image extension", example = "png") @PathVariable @NonNull String extension,
+            @Parameter(description = "Whether to render skin overlays") @RequestParam(required = false, defaultValue = "true") boolean overlays,
             @Parameter(description = "The size to scale the skin part texture to", example = "256") @RequestParam(required = false) String size
     ) throws BadRequestException {
         return ResponseEntity.ok()
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
-                .body(mojangService.getSkinPartTexture(partName, query, extension, size));
+                .body(mojangService.getSkinPartTexture(partName, query, extension, overlays, size));
     }
 }

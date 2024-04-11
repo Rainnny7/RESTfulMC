@@ -24,6 +24,7 @@
 package me.braydon.mc.model;
 
 import lombok.*;
+import me.braydon.mc.model.skin.Skin;
 import me.braydon.mc.model.token.MojangProfileToken;
 import org.springframework.data.annotation.Id;
 
