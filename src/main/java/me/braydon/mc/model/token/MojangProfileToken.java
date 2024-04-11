@@ -23,6 +23,7 @@
  */
 package me.braydon.mc.model.token;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.JsonObject;
 import lombok.*;
 import me.braydon.mc.config.AppConfig;
@@ -123,7 +124,7 @@ public final class MojangProfileToken {
          *
          * @return the decoded value
          */
-        @NonNull
+        @NonNull @JsonIgnore
         public String getDecodedValue() {
             return new String(Base64.getDecoder().decode(value));
         }

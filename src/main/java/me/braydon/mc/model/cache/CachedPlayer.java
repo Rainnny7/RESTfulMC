@@ -31,6 +31,7 @@ import me.braydon.mc.model.Cape;
 import me.braydon.mc.model.Player;
 import me.braydon.mc.model.ProfileAction;
 import me.braydon.mc.model.Skin;
+import me.braydon.mc.model.token.MojangProfileToken;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
@@ -51,9 +52,10 @@ public final class CachedPlayer extends Player implements Serializable {
      */
     private long cached;
 
-    public CachedPlayer(@NonNull UUID uniqueId, @NonNull String username,
-                        @NonNull Skin skin, Cape cape, ProfileAction[] profileActions, long cached) {
-        super(uniqueId, username, skin, cape, profileActions);
+    public CachedPlayer(@NonNull UUID uniqueId, @NonNull String username, @NonNull Skin skin, Cape cape,
+                        @NonNull MojangProfileToken.ProfileProperty[] properties, ProfileAction[] profileActions,
+                        long cached) {
+        super(uniqueId, username, skin, cape, properties, profileActions);
         this.cached = cached;
     }
 }

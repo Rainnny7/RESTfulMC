@@ -24,6 +24,7 @@
 package me.braydon.mc.model;
 
 import lombok.*;
+import me.braydon.mc.model.token.MojangProfileToken;
 import org.springframework.data.annotation.Id;
 
 import java.util.UUID;
@@ -33,9 +34,7 @@ import java.util.UUID;
  *
  * @author Braydon
  */
-@AllArgsConstructor @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString
+@AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
 public class Player {
     /**
      * The unique id of this player.
@@ -56,6 +55,11 @@ public class Player {
      * The cape of this player, null if none.
      */
     private final Cape cape;
+
+    /**
+     * The raw profile properties of this player.
+     */
+    @NonNull private final MojangProfileToken.ProfileProperty[] properties;
 
     /**
      * The profile actions this player has, null if none.
