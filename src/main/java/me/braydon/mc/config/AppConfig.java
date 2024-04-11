@@ -38,6 +38,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * The configuration for the app.
@@ -87,5 +89,24 @@ public class AppConfig {
         return new OpenAPI()
                 .info(info)
                 .addServersItem(new Server().url(serverPublicUrl).description("The public server URL"));
+    }
+
+    /**
+     * Configure CORS for the app.
+     *
+     * @return the WebMvc config
+     */
+    @Bean @NonNull
+    public WebMvcConfigurer configureCors() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(@NonNull CorsRegistry registry) {
+                // Allow all origins to access the API
+                registry.addMapping("/**")
+                        .allowedOrigins("*") // Allow all origins
+                        .allowedMethods("*") // Allow all methods
+                        .allowedHeaders("*"); // Allow all headers
+            }
+        };
     }
 }
