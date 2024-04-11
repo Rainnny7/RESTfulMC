@@ -26,7 +26,7 @@ package me.braydon.mc.model.skin;
 import lombok.*;
 import me.braydon.mc.common.renderer.SkinRenderer;
 import me.braydon.mc.common.renderer.impl.BodySkinPartRenderer;
-import me.braydon.mc.common.renderer.impl.IsometricSkinPartRenderer;
+import me.braydon.mc.common.renderer.impl.IsometricHeadSkinPartRenderer;
 import me.braydon.mc.common.renderer.impl.VanillaSkinPartRenderer;
 
 import java.awt.image.BufferedImage;
@@ -37,7 +37,7 @@ import java.awt.image.BufferedImage;
  * @author Braydon
  */
 public interface ISkinPart {
-    Enum<?>[][] TYPES = { Vanilla.values(), Basic.values(), Isometric.values() };
+    Enum<?>[][] TYPES = { Vanilla.values(), Custom.values() };
 
     /**
      * Get the name of this part.
@@ -170,19 +170,17 @@ public interface ISkinPart {
     }
 
     /**
-     * A basic part of a skin.
-     * <p>
-     * These parts have custom renderers!
-     * </p>
+     * A custom part of a skin.
      */
     @AllArgsConstructor @Getter
-    enum Basic implements ISkinPart {
+    enum Custom implements ISkinPart {
+        HEAD(IsometricHeadSkinPartRenderer.INSTANCE),
         BODY(BodySkinPartRenderer.INSTANCE);
 
         /**
          * The custom renderer to use for this part.
          */
-        @NonNull private final SkinRenderer<Basic> renderer;
+        @NonNull private final SkinRenderer<Custom> renderer;
 
         /**
          * Render a part of a skin.
@@ -195,26 +193,6 @@ public interface ISkinPart {
         @Override @NonNull
         public BufferedImage render(@NonNull Skin skin, boolean overlays, int size) {
             return renderer.render(skin, this, overlays, size);
-        }
-    }
-
-    /**
-     * A isometric part of a skin.
-     */
-    enum Isometric implements ISkinPart {
-        HEAD;
-
-        /**
-         * Render a part of a skin.
-         *
-         * @param skin     the skin to render the part for
-         * @param overlays whether to render overlays
-         * @param size     the size to scale the skin part to
-         * @return the rendered skin part
-         */
-        @Override @NonNull
-        public BufferedImage render(@NonNull Skin skin, boolean overlays, int size) {
-            return IsometricSkinPartRenderer.INSTANCE.render(skin, this, overlays, size);
         }
     }
 }

@@ -31,7 +31,6 @@ import me.braydon.mc.model.Player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * A skin for a {@link Player}.

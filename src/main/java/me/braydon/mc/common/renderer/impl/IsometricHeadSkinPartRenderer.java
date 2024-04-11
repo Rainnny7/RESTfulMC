@@ -33,12 +33,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
- * A isometric 3D renderer for a {@link ISkinPart.Isometric}.
+ * A isometric 3D renderer for a {@link ISkinPart.Custom#HEAD}.
  *
  * @author Braydon
  */
-public final class IsometricSkinPartRenderer extends SkinRenderer<ISkinPart.Isometric> {
-    public static final IsometricSkinPartRenderer INSTANCE = new IsometricSkinPartRenderer();
+public final class IsometricHeadSkinPartRenderer extends SkinRenderer<ISkinPart.Custom> {
+    public static final IsometricHeadSkinPartRenderer INSTANCE = new IsometricHeadSkinPartRenderer();
 
     private static final double SKEW_A = 26D / 45D;   // 0.57777777
     private static final double SKEW_B = SKEW_A * 2D; // 1.15555555
@@ -58,7 +58,7 @@ public final class IsometricSkinPartRenderer extends SkinRenderer<ISkinPart.Isom
      * @return the rendered skin part
      */
     @Override @NonNull
-    public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Isometric part, boolean overlays, int size) {
+    public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Custom part, boolean overlays, int size) {
         double scale = (size / 8D) / 2.5;
         double zOffset = scale * 3.5D;
         double xOffset = scale * 2D;

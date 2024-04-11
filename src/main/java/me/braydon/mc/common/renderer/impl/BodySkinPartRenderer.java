@@ -31,11 +31,11 @@ import me.braydon.mc.model.skin.Skin;
 import java.awt.image.BufferedImage;
 
 /**
- * A basic 2D renderer for a {@link ISkinPart.Basic#BODY}.
+ * A basic 2D renderer for a {@link ISkinPart.Custom#BODY}.
  *
  * @author Braydon
  */
-public final class BodySkinPartRenderer extends SkinRenderer<ISkinPart.Basic> {
+public final class BodySkinPartRenderer extends SkinRenderer<ISkinPart.Custom> {
     public static final BodySkinPartRenderer INSTANCE = new BodySkinPartRenderer();
 
     /**
@@ -49,7 +49,7 @@ public final class BodySkinPartRenderer extends SkinRenderer<ISkinPart.Basic> {
      * @return the rendered skin part
      */
     @Override @NonNull
-    public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Basic part, boolean overlays, int size) {
+    public BufferedImage render(@NonNull Skin skin, @NonNull ISkinPart.Custom part, boolean overlays, int size) {
         return getVanillaSkinPart(skin, ISkinPart.Vanilla.FACE, size);
     }
 }
