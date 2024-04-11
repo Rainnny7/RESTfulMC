@@ -61,9 +61,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.URL;
@@ -231,16 +229,10 @@ public final class MojangService {
         BufferedImage texture = part.render(skin, overlays, size); // Render the skin part
         log.info("Render of skin part took {}ms: {}", System.currentTimeMillis() - before, id);
 
-        // Convert BufferedImage to byte array
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            ImageIO.write(texture, "png", outputStream);
-            outputStream.flush();
-
-            byte[] bytes = outputStream.toByteArray();
-            skinPartTextureCache.save(new CachedSkinPartTexture(id, bytes)); // Cache the texture
-            log.info("Cached skin part texture: {}", id);
-            return bytes;
-        }
+        byte[] bytes = ImageUtils.toByteArray(texture); // Convert the image into a byte array
+        skinPartTextureCache.save(new CachedSkinPartTexture(id, bytes)); // Cache the texture
+        log.info("Cached skin part texture: {}", id);
+        return bytes;
     }
 
     /**

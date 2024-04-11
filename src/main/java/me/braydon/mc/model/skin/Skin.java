@@ -23,12 +23,17 @@
  */
 package me.braydon.mc.model.skin;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
 import lombok.*;
+import me.braydon.mc.common.ImageUtils;
 import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.Player;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,9 +42,9 @@ import java.util.Map;
  *
  * @author Braydon
  */
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE) @Setter @Getter @ToString
+@AllArgsConstructor(access = AccessLevel.PRIVATE) @Getter @ToString
 public final class Skin {
-    public static final Skin DEFAULT_STEVE = new Skin("http://textures.minecraft.net/texture/60a5bd016b3c9a1b9272e4929e30827a67be4ebb219017adbbc4a4d22ebd5b1", Model.DEFAULT);
+    public static final Skin DEFAULT_STEVE = create("http://textures.minecraft.net/texture/60a5bd016b3c9a1b9272e4929e30827a67be4ebb219017adbbc4a4d22ebd5b1", Model.DEFAULT);
 
     /**
      * The texture URL of this skin.
@@ -52,9 +57,19 @@ public final class Skin {
     @NonNull private final Model model;
 
     /**
+     * The image data of this skin.
+     */
+    @JsonIgnore private final byte[] skinImage;
+
+    /**
+     * Is this skin legacy?
+     */
+    private final boolean legacy;
+
+    /**
      * URLs to the parts of this skin.
      */
-    @NonNull @JsonProperty("parts") private Map<String, String> partUrls = new HashMap<>();
+    @NonNull @JsonProperty("parts") private final Map<String, String> partUrls;
 
     /**
      * Populate the part URLs for this skin.
@@ -88,7 +103,22 @@ public final class Skin {
         if (metadataJsonObject != null) { // Parse the skin model
             model = Model.valueOf(metadataJsonObject.get("model").getAsString().toUpperCase());
         }
-        return new Skin(jsonObject.get("url").getAsString(), model);
+        return create(jsonObject.get("url").getAsString(), model);
+    }
+
+    /**
+     * Create a skin from the given URL and model.
+     *
+     * @param url the skin url
+     * @param model the skin model
+     * @return the constructed skin
+     */
+    @NonNull @SneakyThrows
+    private static Skin create(@NonNull String url, @NonNull Model model) {
+        BufferedImage image = ImageIO.read(new URL(url)); // Get the skin image
+        byte[] bytes = ImageUtils.toByteArray(image); // Convert the image into bytes
+        boolean legacy = image.getWidth() == 64 && image.getHeight() == 32; // Is the skin legacy?
+        return new Skin(url, model, bytes, legacy, new HashMap<>());
     }
 
     /**

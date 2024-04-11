@@ -32,7 +32,7 @@ import me.braydon.mc.model.skin.Skin;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.net.URL;
+import java.io.ByteArrayInputStream;
 
 /**
  * A renderer for a {@link ISkinPart}.
@@ -63,17 +63,17 @@ public abstract class SkinRenderer<T extends ISkinPart> {
      */
     @SneakyThrows
     protected final BufferedImage getVanillaSkinPart(@NonNull Skin skin, @NonNull ISkinPart.Vanilla part, double size) {
-        BufferedImage skinImage = ImageIO.read(new URL(skin.getUrl())); // The skin texture
         ISkinPart.Vanilla.Coordinates coordinates = part.getCoordinates(); // The coordinates of the part
 
         // The skin texture is legacy, use legacy coordinates
-        if (skinImage.getHeight() == 32 && part.hasLegacyCoordinates()) {
+        if (skin.isLegacy() && part.hasLegacyCoordinates()) {
             coordinates = part.getLegacyCoordinates();
         }
         int width = part.getWidth(); // The width of the part
         if (skin.getModel() == Skin.Model.SLIM && part.isFrontArm()) {
             width--;
         }
+        BufferedImage skinImage = ImageIO.read(new ByteArrayInputStream(skin.getSkinImage())); // The skin texture
         BufferedImage partTexture = getSkinPartTexture(skinImage, coordinates.getX(), coordinates.getY(), width, part.getHeight(), size);
         if (coordinates instanceof ISkinPart.Vanilla.LegacyCoordinates legacyCoordinates && legacyCoordinates.isFlipped()) {
             partTexture = ImageUtils.flip(partTexture);

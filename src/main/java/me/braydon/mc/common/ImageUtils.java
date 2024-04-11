@@ -24,11 +24,14 @@
 package me.braydon.mc.common;
 
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 
 /**
  * @author Braydon
@@ -64,5 +67,20 @@ public final class ImageUtils {
         graphics.drawImage(image, image.getWidth(), 0, 0, image.getHeight(), 0, 0, image.getWidth(), image.getHeight(), null);
         graphics.dispose();
         return flipped;
+    }
+
+    /**
+     * Get the byte array from the given image.
+     *
+     * @param image the image to extract from
+     * @return the byte array of the image
+     */
+    @SneakyThrows
+    public static byte[] toByteArray(@NonNull BufferedImage image) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            ImageIO.write(image, "png", outputStream);
+            outputStream.flush();
+            return outputStream.toByteArray();
+        }
     }
 }
