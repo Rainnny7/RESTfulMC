@@ -26,11 +26,11 @@ package me.braydon.mc.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
 import lombok.*;
-import me.braydon.mc.common.ImageUtils;
 import me.braydon.mc.config.AppConfig;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * A skin for a {@link Player}.
@@ -64,8 +64,14 @@ public final class Skin {
      */
     @NonNull
     public Skin populatePartUrls(@NonNull String playerUuid) {
-        for (Part part : Part.values()) {
+        Consumer<IPart> addPart = part -> {
             partUrls.put(part.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + part.name().toLowerCase() + "/" + playerUuid + ".png");
+        };
+        for (Part part : Part.values()) {
+            addPart.accept(part);
+        }
+        for (IsometricPart part : IsometricPart.values()) {
+            addPart.accept(part);
         }
         return this;
     }
@@ -93,28 +99,91 @@ public final class Skin {
      * Possible models for a skin.
      */
     public enum Model {
-        SLIM, DEFAULT
+        DEFAULT, SLIM
+    }
+
+    /**
+     * Represents a part of a skin.
+     */
+    public interface IPart {
+        /**
+         * Get the name of this part.
+         *
+         * @return the part name
+         */
+        @NonNull String name();
     }
 
     /**
      * The part of a skin.
      */
-    @AllArgsConstructor @Getter @ToString
-    public enum Part {
-        HEAD_TOP(8, 0, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
-        FACE(8, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
-        HEAD_LEFT(0, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
-        HEAD_RIGHT(16, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8),
-        HEAD_BOTTOM(8, 8, ImageUtils.SKIN_TEXTURE_SIZE / 8, ImageUtils.SKIN_TEXTURE_SIZE / 8);
+    @AllArgsConstructor @RequiredArgsConstructor @Getter @ToString
+    public enum Part implements IPart {
+        // Head
+        HEAD_TOP(new Coordinates(8, 0), 8, 8),
+        FACE(new Coordinates(8, 8), 8, 8),
+        HEAD_LEFT(new Coordinates(0, 8), 8, 8),
+        HEAD_RIGHT(new Coordinates(16, 8), 8, 8),
+        HEAD_BOTTOM(new Coordinates(16, 0), 8, 8),
+        HEAD_BACK(new Coordinates(24, 8), 8, 8);
 
         /**
          * The coordinates of this part.
          */
-        private final int x, y;
+        @NonNull private final Coordinates coordinates;
+
+        /**
+         * The legacy coordinates of this part.
+         * <p>
+         * This is for older skin textures
+         * that use different positions.
+         * </p>
+         */
+        private LegacyCoordinates legacyCoordinates;
 
         /**
          * The size of this part.
          */
         private final int width, height;
+
+        /**
+         * Coordinates of a part of a skin.
+         */
+        @AllArgsConstructor @Getter @ToString
+        public static class Coordinates {
+            /**
+             * The X coordinate.
+             */
+            private final int x;
+
+            /**
+             * The Y coordinate.
+             */
+            private final int y;
+        }
+
+        /**
+         * Legacy coordinates of a part of a skin.
+         */
+        @Getter @ToString
+        public static class LegacyCoordinates extends Coordinates {
+            /**
+             * Whether the part at these coordinates is flipped.
+             */
+            private final boolean flipped;
+
+            public LegacyCoordinates(int x, int y) {
+                this(x, y, false);
+            }
+
+            public LegacyCoordinates(int x, int y, boolean flipped) {
+                super(x, y);
+                this.flipped = flipped;
+            }
+        }
+    }
+
+    public enum IsometricPart implements IPart {
+        HEAD
     }
 }

@@ -32,6 +32,8 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import me.braydon.mc.common.*;
+import me.braydon.mc.common.renderer.impl.BasicSkinPartRenderer;
+import me.braydon.mc.common.renderer.impl.IsometricSkinPartRenderer;
 import me.braydon.mc.common.web.JsonWebException;
 import me.braydon.mc.common.web.JsonWebRequest;
 import me.braydon.mc.exception.impl.BadRequestException;
@@ -60,6 +62,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.URL;
@@ -163,8 +168,26 @@ public final class MojangService {
      * @throws BadRequestException      if the extension is invalid
      * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
+    @SneakyThrows
     public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension, String sizeString)
             throws BadRequestException, MojangRateLimitException {
+        partName = partName.toUpperCase(); // The part name to get
+
+        // Get the part from the given name
+        Skin.IPart part = EnumUtils.getEnumConstant(Skin.Part.class, partName); // The skin part to get
+        if (part == null) { // The given part is invalid, try a isometric part
+            part = EnumUtils.getEnumConstant(Skin.IsometricPart.class, partName);;
+        }
+        if (part == null) { // Default to the face
+            part = Skin.Part.FACE;
+        }
+
+        // Ensure the extension is valid
+        if (extension.isBlank()) {
+            throw new BadRequestException("Invalid extension");
+        }
+
+        // Get the size of the part
         Integer size = null;
         if (sizeString != null) { // Attempt to parse the size
             try {
@@ -172,13 +195,6 @@ public final class MojangService {
             } catch (NumberFormatException ignored) {
                 // Safely ignore, invalid number provided
             }
-        }
-        Skin.Part part = EnumUtils.getEnumConstant(Skin.Part.class, partName.toUpperCase()); // The skin part to get
-        if (part == null) { // Default to the head part
-            part = Skin.Part.FACE;
-        }
-        if (extension.isBlank()) { // Invalid extension
-            throw new BadRequestException("Invalid extension");
         }
         if (size == null || size <= 0) { // Invalid size
             size = DEFAULT_PART_TEXTURE_SIZE;
@@ -201,9 +217,19 @@ public final class MojangService {
         if (target == null) { // Fallback to the default skin
             target = Skin.DEFAULT_STEVE;
         }
-        byte[] texture = ImageUtils.getSkinPart(target, part, size);
-        skinPartTextureCache.save(new CachedSkinPartTexture(id, texture)); // Cache the texture
-        return texture;
+        BufferedImage texture = part instanceof Skin.IsometricPart isometricPart ?
+                IsometricSkinPartRenderer.INSTANCE.render(target, isometricPart, true, size)
+                : BasicSkinPartRenderer.INSTANCE.render(target, (Skin.Part) part, true, size); // Render the skin part
+
+        // Convert BufferedImage to byte array
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            ImageIO.write(texture, "png", outputStream);
+            outputStream.flush();
+
+            byte[] bytes = outputStream.toByteArray();
+            skinPartTextureCache.save(new CachedSkinPartTexture(id, bytes)); // Cache the texture
+            return bytes;
+        }
     }
 
     /**
@@ -268,6 +294,7 @@ public final class MojangService {
                     uuid, token.getName(),
                     skinProperties.getSkin() == null ? Skin.DEFAULT_STEVE : skinProperties.getSkin(),
                     skinProperties.getCape(),
+                    token.getProperties(),
                     profileActions.length == 0 ? null : profileActions,
                     System.currentTimeMillis()
             );

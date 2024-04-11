@@ -21,33 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.common;
+package me.braydon.mc.common.renderer.impl;
 
 import lombok.NonNull;
-import lombok.experimental.UtilityClass;
+import me.braydon.mc.common.renderer.SkinPartRenderer;
+import me.braydon.mc.model.Skin;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
+ * A basic 2D renderer for a {@link Skin.Part}.
+ *
  * @author Braydon
  */
-@UtilityClass
-public final class ImageUtils {
+public final class BasicSkinPartRenderer extends SkinPartRenderer<Skin.Part> {
+    public static final BasicSkinPartRenderer INSTANCE = new BasicSkinPartRenderer();
+
     /**
-     * Scale the given image to the provided size.
+     * Invoke this render to render the
+     * given skin part for the provided skin.
      *
-     * @param image the image to scale
-     * @param size the size to scale the image to
-     * @return the scaled image
+     * @param skin     the skin to render the part for
+     * @param part     the part to render
+     * @param overlays whether to render overlays
+     * @param size     the size to scale the skin part to
+     * @return the rendered skin part
      */
-    @NonNull
-    public static BufferedImage resize(@NonNull BufferedImage image, double size) {
-        BufferedImage scaled = new BufferedImage((int) (image.getWidth() * size), (int) (image.getHeight() * size), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D graphics = scaled.createGraphics();
-        graphics.drawImage(image, AffineTransform.getScaleInstance(size, size), null);
-        graphics.dispose();
-        return scaled;
+    @Override @NonNull
+    public BufferedImage render(@NonNull Skin skin, @NonNull Skin.Part part, boolean overlays, int size) {
+        return getSkinPart(skin, part, size / 8D);
     }
 }
