@@ -80,12 +80,12 @@ public final class ServerControllerTests {
      */
     @Test
     void ensureBedrockServerLookupSuccess() throws Exception {
-        mockMvc.perform(get("/server/bedrock/gateway.wildnetwork.net")
+        mockMvc.perform(get("/server/bedrock/wildprison.bedrock.minehut.gg")
                         .accept(MediaType.APPLICATION_JSON) // Accept JSON
                         .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
                 ).andExpect(status().isOk()) // Expect 200 (OK)
                 .andExpect(jsonPath("$.value.hostname") // Expect the server's resolved hostname
-                        .value("gateway.wildnetwork.net")
+                        .value("wildprison.bedrock.minehut.gg")
                 ).andReturn();
     }
 
