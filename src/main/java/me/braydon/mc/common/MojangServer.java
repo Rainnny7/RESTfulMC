@@ -53,7 +53,7 @@ public enum MojangServer {
     @NonNull private final String endpoint;
 
     /**
-     * Get the status of this service.
+     * Ping this service and get the status of it.
      *
      * @return the service status
      */
