@@ -23,7 +23,6 @@
  */
 package me.braydon.mc.model.cache;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import me.braydon.mc.model.MinecraftServer;
@@ -46,7 +45,7 @@ public final class CachedMinecraftServer implements Serializable {
     /**
      * The cached server.
      */
-    @JsonBackReference @NonNull private final MinecraftServer value;
+    @NonNull private final MinecraftServer value;
 
     /**
      * The unix timestamp of when this
