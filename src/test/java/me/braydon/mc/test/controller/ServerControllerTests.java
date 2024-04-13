@@ -67,7 +67,7 @@ public final class ServerControllerTests {
                         .accept(MediaType.APPLICATION_JSON) // Accept JSON
                         .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
                 ).andExpect(status().isOk()) // Expect 200 (OK)
-                .andExpect(jsonPath("$.value.hostname") // Expect the server's resolved hostname
+                .andExpect(jsonPath("$.hostname") // Expect the server's resolved hostname
                         .value("mc.hypixel.net")
                 ).andReturn();
     }
@@ -84,7 +84,7 @@ public final class ServerControllerTests {
                         .accept(MediaType.APPLICATION_JSON) // Accept JSON
                         .contentType(MediaType.APPLICATION_JSON) // Content type is JSON
                 ).andExpect(status().isOk()) // Expect 200 (OK)
-                .andExpect(jsonPath("$.value.hostname") // Expect the server's resolved hostname
+                .andExpect(jsonPath("$.hostname") // Expect the server's resolved hostname
                         .value("wildprison.bedrock.minehut.gg")
                 ).andReturn();
     }
