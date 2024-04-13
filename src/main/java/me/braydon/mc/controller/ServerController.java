@@ -52,7 +52,7 @@ import java.util.Map;
 @Tag(name = "Server Controller", description = "The controller for handling server related requests.")
 public final class ServerController {
     /**
-     * The Mojang service to use for server information.
+     * The Mojang service to use.
      */
     @NonNull private final MojangService mojangService;
 

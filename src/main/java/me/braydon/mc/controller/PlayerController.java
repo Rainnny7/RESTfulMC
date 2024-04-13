@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Player Controller", description = "The controller for handling player related requests.")
 public final class PlayerController {
     /**
-     * The Mojang service to use for player information.
+     * The Mojang service to use.
      */
     @NonNull private final MojangService mojangService;
 

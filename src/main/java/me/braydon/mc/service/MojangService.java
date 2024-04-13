@@ -28,6 +28,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import jakarta.annotation.PostConstruct;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -77,11 +78,9 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Log4j2(topic = "Mojang Service")
 public final class MojangService {
-    private static final String SESSION_SERVER_ENDPOINT = "https://sessionserver.mojang.com";
-    private static final String API_ENDPOINT = "https://api.mojang.com";
-    private static final String UUID_TO_PROFILE = SESSION_SERVER_ENDPOINT + "/session/minecraft/profile/%s";
-    private static final String USERNAME_TO_UUID = API_ENDPOINT + "/users/profiles/minecraft/%s";
-    private static final String FETCH_BLOCKED_SERVERS = SESSION_SERVER_ENDPOINT + "/blockedservers";
+    private static final String UUID_TO_PROFILE = MojangServer.SESSION.getEndpoint() + "/session/minecraft/profile/%s";
+    private static final String USERNAME_TO_UUID = MojangServer.API.getEndpoint() + "/users/profiles/minecraft/%s";
+    private static final String FETCH_BLOCKED_SERVERS = MojangServer.SESSION.getEndpoint() + "/blockedservers";
 
     private static final int DEFAULT_PART_TEXTURE_SIZE = 128;
     private static final int MAX_PART_TEXTURE_SIZE = 512;
@@ -102,7 +101,7 @@ public final class MojangService {
     @NonNull private final PlayerCacheRepository playerCache;
 
     /**
-     * The cache repository for {@link Skin.Part}'s.
+     * The cache repository for {@link ISkinPart}'s.
      */
     @NonNull private final SkinPartTextureCacheRepository skinPartTextureCache;
 
@@ -110,6 +109,11 @@ public final class MojangService {
      * The cache repository for {@link MinecraftServer}'s.
      */
     @NonNull private final MinecraftServerCacheRepository minecraftServerCache;
+
+    /**
+     * Mapped statuses for {@link MojangServer}'s.
+     */
+    @Getter private final Map<MojangServer, MojangServer.Status> mojangServerStatuses = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * A list of banned server hashes provided by Mojang.
@@ -140,6 +144,15 @@ public final class MojangService {
 
     @PostConstruct
     public void onInitialize() {
+        // Schedule a task to fetch statuses
+        // of Mojang servers every few minutes
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                fetchMojangServerStatuses();
+            }
+        }, 0L, 60L * 3L * 1000L);
+
         // Schedule a task to fetch blocked
         // servers from Mojang every 15 minutes.
         new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -499,6 +512,22 @@ public final class MojangService {
             }
             throw ex;
         }
+    }
+
+    /**
+     * Fetch the statuses of {@link MojangServer}'s.
+     */
+    @SneakyThrows
+    private void fetchMojangServerStatuses() {
+        log.info("Checking Mojang server statuses...");
+        long before = System.currentTimeMillis();
+        for (MojangServer server : MojangServer.values()) {
+            log.info("Pinging {}...", server.getEndpoint());
+            MojangServer.Status status = server.getStatus(); // Retrieve the server status
+            log.info("Retrieved status of {}: {}", server.getEndpoint(), status.name());
+            mojangServerStatuses.put(server, status); // Cache the server status
+        }
+        log.info("Mojang server status check took {}ms", System.currentTimeMillis() - before);
     }
 
     /**
