@@ -520,14 +520,12 @@ public final class MojangService {
     @SneakyThrows
     private void fetchMojangServerStatuses() {
         log.info("Checking Mojang server statuses...");
-        long before = System.currentTimeMillis();
-        for (MojangServer server : MojangServer.values()) {
+        Arrays.stream(MojangServer.values()).parallel().forEach(server -> {
             log.info("Pinging {}...", server.getEndpoint());
             MojangServer.Status status = server.getStatus(); // Retrieve the server status
             log.info("Retrieved status of {}: {}", server.getEndpoint(), status.name());
             mojangServerStatuses.put(server, status); // Cache the server status
-        }
-        log.info("Mojang server status check took {}ms", System.currentTimeMillis() - before);
+        });
     }
 
     /**
@@ -561,7 +559,7 @@ public final class MojangService {
             return true;
         }
         String hashed = Hashing.sha1().hashBytes(hostname.toLowerCase().getBytes(StandardCharsets.ISO_8859_1)).toString();
-        boolean blocked = bannedServerHashes.contains(hashed); // Is the hostname blocked?
+        boolean blocked = bannedServerHashes != null && (bannedServerHashes.contains(hashed)); // Is the hostname blocked?
         if (blocked) { // Cache the blocked hostname
             blockedServersCache.add(hostname);
         }
