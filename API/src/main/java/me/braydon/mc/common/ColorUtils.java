@@ -97,7 +97,7 @@ public final class ColorUtils {
                 nextIsColor = false;
                 continue;
             }
-            builder.append(character); // Append the char...
+            builder.append(character == ' ' ? "&nbsp;" : character); // Append the char...
         }
         return builder.toString();
     }
