@@ -1,14 +1,9 @@
-name: Deploy App
+name: Deploy API
 
 on:
   push:
     branches: ["master"]
-    paths-ignore:
-      - .gitignore
-      - README.md
-      - LICENSE
-      - docker-compose.yml
-      - postman_collection.json
+    paths: ["API/**"]
 
 jobs:
   docker:
@@ -19,6 +14,9 @@ jobs:
         java-version: ["17"]
         maven-version: ["3.8.5"]
     runs-on: ${{ matrix.arch }}
+    defaults:
+      run:
+        working-directory: ./API
 
     # Steps to run
     steps:
