@@ -1,3 +1,4 @@
+import { MojangServerStatus } from "../types/mojang";
 import type { CachedPlayer } from "../types/player";
 import { Platform } from "../types/server";
 import { CachedBedrockMinecraftServer } from "../types/server/bedrock-server";
