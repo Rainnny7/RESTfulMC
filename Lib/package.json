@@ -1,6 +1,6 @@
 {
 	"name": "restfulmc",
-	"version": "1.0.8",
+	"version": "1.0.0",
 	"author": "Braydon (Rainnny) <braydonrainnny@gmail.com>",
 	"description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
 	"keywords": [

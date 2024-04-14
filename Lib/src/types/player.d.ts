@@ -1,4 +1,18 @@
-export type Player = {
+/**
+ * A cacheable {@link Player}.
+ */
+export interface CachedPlayer extends Player {
+	/**
+	 * The unix timestamp of when this
+	 * player was cached, -1 if not cached.
+	 */
+	cached: number;
+}
+
+/**
+ * A Minecraft player.
+ */
+type Player = {
 	/**
 	 * The unique id of this player.
 	 */
