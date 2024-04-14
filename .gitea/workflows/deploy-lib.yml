@@ -7,14 +7,10 @@ on:
 
 jobs:
   docker:
-    strategy:
-      matrix:
-        arch: ["ubuntu-latest"]
-        git-version: ["2.44.0"]
-    runs-on: ${{ matrix.arch }}
+    runs-on: "ubuntu-latest"
     defaults:
       run:
-        working-directory: ./Lib
+        working-directory: "./Lib"
 
     # Steps to run
     steps:
@@ -25,14 +21,10 @@ jobs:
       # Setup Bun
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
-        with:
-          registry-url: "https://registry.npmjs.org"
 
       # Install Dependencies
       - name: Install Dependencies
         run: bun install --frozen-lockfile
-        env:
-          BUN_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
 
       # Run Tests
       - name: Run Tests
