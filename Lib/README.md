@@ -1,4 +1,6 @@
-# RESTfulMC-Lib
+[![Deploy Workflow](https://git.rainnny.club/Rainnny/RESTfulMC/actions/workflows/deploy-lib.yml/badge.svg)](./actions?workflow=deploy-lib.yml)
+
+# RESTfulMC JS Library
 A simple, yet useful RESTful API for Minecraft utilizing Springboot.
 
 ## NPM
