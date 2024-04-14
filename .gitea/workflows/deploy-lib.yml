@@ -22,6 +22,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Setup Bun
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          no-cache: false
+
       # Install Dependencies
       - name: Install Dependencies
         run: bun install --frozen-lockfile
