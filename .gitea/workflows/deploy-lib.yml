@@ -3,7 +3,7 @@ name: Deploy Lib
 on:
   push:
     branches: ["master"]
-    paths: ["./.gitea/workflows/**", "Lib/**"]
+    paths: [".gitea/workflows/deploy-lib.yml", "Lib/**"]
 
 jobs:
   docker:
