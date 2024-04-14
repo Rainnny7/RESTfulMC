@@ -23,12 +23,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Setup NodeJS
-      - name: Setup NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
+      # Setup Bun
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
 
+      # Run Tests
+      - name: Run Tests
+        run: bun test
+
+      # Publish to NPM
       - name: Publish to NPM
         run: npm publish
         env:
