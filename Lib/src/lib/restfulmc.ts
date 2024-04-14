@@ -67,12 +67,31 @@ export const isMojangBlocked = (hostname: string): Promise<boolean> => {
 	return new Promise(async (resolve, reject) => {
 		const response: Response = await fetch(
 			`${ENDPOINT}/server/blocked/${hostname}`
-		); // Request the server
+		); // Request the server's blocked status
 		const json: any = await response.json();
 
 		// Resolve the blocked status
 		if (response.ok) {
 			resolve(json.blocked as boolean);
+		} else {
+			reject(json as ErrorResponse); // The request failed
+		}
+	});
+};
+
+/**
+ * Get the status of Mojang servers.
+ *
+ * @returns the promised status
+ */
+export const getMojangServerStatus = (): Promise<MojangServerStatus> => {
+	return new Promise(async (resolve, reject) => {
+		const response: Response = await fetch(`${ENDPOINT}/mojang/status`); // Request the statuses
+		const json: any = await response.json();
+
+		// Resolve the blocked status
+		if (response.ok) {
+			resolve(json as MojangServerStatus);
 		} else {
 			reject(json as ErrorResponse); // The request failed
 		}

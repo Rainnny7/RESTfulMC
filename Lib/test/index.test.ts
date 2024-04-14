@@ -1,5 +1,5 @@
 import { describe, it } from "bun:test";
-import { getMinecraftServer, getPlayer } from "../src";
+import { getMinecraftServer, getMojangServerStatus, getPlayer } from "../src";
 import { CachedPlayer } from "../src/types/player";
 import { BedrockMinecraftServer } from "../src/types/server/bedrock-server";
 import { JavaMinecraftServer } from "../src/types/server/java-server";
@@ -19,5 +19,12 @@ describe("server", () => {
 		if ((server as BedrockMinecraftServer).id) {
 		}
 		console.log(server.ip);
+	});
+});
+
+describe("mojang", () => {
+	it("status", async () => {
+		const status: MojangServerStatus = await getMojangServerStatus();
+		console.log(status["https://sessionserver.mojang.com"]);
 	});
 });
