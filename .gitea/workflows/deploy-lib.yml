@@ -25,20 +25,19 @@ jobs:
       # Setup Bun
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
+        with:
+          registry-url: "https://registry.npmjs.org"
 
       # Install Dependencies
       - name: Install Dependencies
         run: bun install --frozen-lockfile
+        env:
+          BUN_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
 
       # Run Tests
       - name: Run Tests
         run: bun test
 
-      - name: debug
-        run: echo ${{ secrets.PUBLISH_NPM_TOKEN }}
-
       # Publish to NPM
       - name: Publish to NPM
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
