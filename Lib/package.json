@@ -1,0 +1,40 @@
+{
+  "name": "restfulmc",
+  "version": "1.0.0",
+  "author": "Braydon (Rainnny) <braydonrainnny@gmail.com>",
+  "description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
+  "keywords": [
+    "java",
+    "minecraft",
+    "json",
+    "rest-api",
+    "restful",
+    "bedrock",
+    "springboot"
+  ],
+  "homepage": "https://github.com/Rainnny7/RESTfulMC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rainnny7/RESTfulMC.git"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "bun run build.mjs",
+    "prepublishOnly": "bun run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "bun-plugin-dts": "^0.2.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
