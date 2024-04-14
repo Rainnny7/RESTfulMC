@@ -82,7 +82,7 @@ public final class BedrockMinecraftServer extends MinecraftServer {
         Version version = new Version(Integer.parseInt(split[2]), split[3]);
         Players players = new Players(Integer.parseInt(split[4]), Integer.parseInt(split[5]), null);
         MOTD motd = MOTD.create(split[1] + "\n" + split[7]);
-        GameMode gameMode = new GameMode(split[8], Integer.parseInt(split[9]));
+        GameMode gameMode = new GameMode(split[8], split.length > 9 ? Integer.parseInt(split[9]) : -1);
         return new BedrockMinecraftServer(split[6], hostname, ip, port, records, edition, version, players, motd, gameMode);
     }
 
@@ -129,7 +129,7 @@ public final class BedrockMinecraftServer extends MinecraftServer {
         @NonNull private final String name;
 
         /**
-         * The numeric of this gamemode.
+         * The numeric of this gamemode, -1 if unknown.
          */
         private final int numericId;
     }

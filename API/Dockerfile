@@ -7,7 +7,7 @@ WORKDIR /home/container
 COPY . .
 
 # Build the app
-RUN mvn clean package -DskipTests
+RUN mvn clean package -q -DskipTests -T4C
 
 # Exposting on port 80 so we can
 # access via a reverse proxy for Dokku
