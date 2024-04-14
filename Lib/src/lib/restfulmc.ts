@@ -55,3 +55,26 @@ export const getMinecraftServer = (
 		}
 	});
 };
+
+/**
+ * Check if the server with the
+ * given hostname is blocked by Mojang.
+ *
+ * @param hostname the server hostname to check
+ * @returns the promised blocked status
+ */
+export const isMojangBlocked = (hostname: string): Promise<boolean> => {
+	return new Promise(async (resolve, reject) => {
+		const response: Response = await fetch(
+			`${ENDPOINT}/server/blocked/${hostname}`
+		); // Request the server
+		const json: any = await response.json();
+
+		// Resolve the blocked status
+		if (response.ok) {
+			resolve(json.blocked as boolean);
+		} else {
+			reject(json as ErrorResponse); // The request failed
+		}
+	});
+};
