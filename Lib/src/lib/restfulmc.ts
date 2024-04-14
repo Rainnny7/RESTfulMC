@@ -1,5 +1,7 @@
 import type { Player } from "../types/player";
 
+const ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
+
 /**
  * Get a player by their username or UUID.
  *
@@ -7,15 +9,8 @@ import type { Player } from "../types/player";
  * @returns the promised player
  */
 export const getPlayer = (query: string): Promise<Player> => {
-	return new Promise((resolve, reject) => {
-		resolve({
-			uniqueId: "fc1d5fe7-f29b-430d-80bb-3b093a638b0f",
-			username: "Rainnny",
-			skin: {
-				url: "",
-				model: "default",
-				legacy: false,
-			},
-		});
+	return new Promise(async (resolve, reject) => {
+		const response: Response = await fetch(`${ENDPOINT}/player/${query}`); // Request the player
+		resolve((await response.json()) as Player); // Resolve the player
 	});
 };
