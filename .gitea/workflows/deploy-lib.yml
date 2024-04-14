@@ -26,6 +26,10 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
 
+      # Install Dependencies
+      - name: Install Dependencies
+        run: bun install
+
       # Run Tests
       - name: Run Tests
         run: bun test
