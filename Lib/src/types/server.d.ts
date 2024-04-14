@@ -20,7 +20,7 @@ type MinecraftServer = {
 	/**
 	 * The DNS records resolved for this server.
 	 */
-	records: DNSRecord[];
+	records: ARecord | SRVRecord[];
 
 	/**
 	 * The player counts of this server.
@@ -31,21 +31,6 @@ type MinecraftServer = {
 	 * The MOTD of this server.
 	 */
 	motd: MOTD;
-};
-
-/**
- * A representation of a DNS record.
- */
-type DNSRecord = {
-	/**
-	 * The type of this record.
-	 */
-	type: RecordType;
-
-	/**
-	 * The TTL (Time To Live) of this record.
-	 */
-	ttl: number;
 };
 
 /**
