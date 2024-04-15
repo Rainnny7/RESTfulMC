@@ -1,3 +1,5 @@
+import { ARecord, SRVRecord } from "../dns";
+
 /**
  * A model representing a Minecraft server.
  */
