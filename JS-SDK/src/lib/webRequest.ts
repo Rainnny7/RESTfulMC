@@ -38,7 +38,7 @@ export class WebRequest {
 				}
 			} else {
 				// Fallback to an array buffer
-				return (await response.arrayBuffer()) as T;
+				resolve((await response.arrayBuffer()) as T);
 			}
 		});
 }
