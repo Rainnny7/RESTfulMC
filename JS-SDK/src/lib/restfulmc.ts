@@ -61,7 +61,9 @@ export const getMinecraftServer = (
  * @returns the promised blocked status
  */
 export const isMojangBlocked = (hostname: string): Promise<boolean> =>
-	new WebRequest(`/server/blocked/${hostname}`).execute<boolean>();
+	new WebRequest(`/server/blocked/${hostname}`).execute<{
+		blocked: boolean;
+	}>().then((res) => res.blocked);
 
 /**
  * Get the icon of the Java Minecraft
