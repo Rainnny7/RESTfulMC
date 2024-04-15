@@ -1,6 +1,7 @@
-import { WebRequest } from "@/lib/webRequest";
+import { WebRequest } from "@/lib/web-request";
 import { MojangServerStatus } from "@/types/mojang";
-import { CachedPlayer, SkinPart } from "@/types/player";
+import { CachedPlayer } from "@/types/player/player";
+import { SkinPart } from "@/types/player/skin-part";
 import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
 import { CachedJavaMinecraftServer } from "@/types/server/java-server";
 import { ServerPlatform } from "@/types/server/server";

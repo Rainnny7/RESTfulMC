@@ -1,3 +1,5 @@
+import { SkinPart } from "@/types/player/skin-part";
+
 /**
  * A cacheable {@link Player}.
  */
@@ -91,28 +93,6 @@ type Skin = {
 enum SkinModel {
 	DEFAULT,
 	SLIM,
-}
-
-/**
- * A part of a skin texture.
- */
-export enum SkinPart {
-	HEAD_OVERLAY_FACE,
-	HEAD_TOP,
-	HEAD,
-	FACE,
-	HEAD_LEFT,
-	HEAD_RIGHT,
-	HEAD_BOTTOM,
-	HEAD_BACK,
-	BODY_FRONT,
-	BODY,
-	LEFT_ARM_TOP,
-	RIGHT_ARM_TOP,
-	LEFT_ARM_FRONT,
-	RIGHT_ARM_FRONT,
-	LEFT_LEG_FRONT,
-	RIGHT_LEG_FRONT,
 }
 
 /**

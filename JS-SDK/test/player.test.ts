@@ -1,6 +1,7 @@
 import { getPlayer, getSkinPart } from "@/index";
 import { RestfulMCAPIError } from "@/types/error";
-import { CachedPlayer, SkinPart } from "@/types/player";
+import { CachedPlayer } from "@/types/player/player";
+import { SkinPart } from "@/types/player/skin-part";
 import { expect, test } from "bun:test";
 
 /**
