@@ -1,5 +1,5 @@
 import { getPlayer, getSkinPart } from "@/index";
-import { ErrorResponse } from "@/types/generic";
+import { RestfulMCAPIError } from "@/types/error";
 import { CachedPlayer, SkinPart } from "@/types/player";
 import { expect, test } from "bun:test";
 
@@ -20,7 +20,7 @@ test("ensurePlayerNotFound", async () => {
 	try {
 		await getPlayer("SDFSDFSDFSDFDDDG"); // Fetch the unknown player
 	} catch (err) {
-		expect((err as ErrorResponse).code).toBe(404);
+		expect((err as RestfulMCAPIError).code).toBe(404);
 	}
 });
 
@@ -32,7 +32,7 @@ test("ensureUsernameIsInvalid", async () => {
 	try {
 		await getPlayer("A"); // Fetch the invalid player
 	} catch (err) {
-		expect((err as ErrorResponse).code).toBe(400);
+		expect((err as RestfulMCAPIError).code).toBe(400);
 	}
 });
 

@@ -3,7 +3,7 @@ import {
 	getMinecraftServer,
 	isMojangBlocked,
 } from "@/index";
-import { ErrorResponse } from "@/types/generic";
+import { RestfulMCAPIError } from "@/types/error";
 import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
 import { CachedJavaMinecraftServer } from "@/types/server/java-server";
 import { ServerPlatform } from "@/types/server/server";
@@ -41,7 +41,7 @@ test("ensureUnknownHostname", async () => {
 	try {
 		await getMinecraftServer(ServerPlatform.JAVA, "invalid"); // Fetch the unknown server
 	} catch (err) {
-		expect((err as ErrorResponse).code).toBe(400);
+		expect((err as RestfulMCAPIError).code).toBe(400);
 	}
 });
 
@@ -53,7 +53,7 @@ test("ensureUnknownPort", async () => {
 	try {
 		await getMinecraftServer(ServerPlatform.JAVA, "hypixel.net:A"); // Fetch the invalid server
 	} catch (err) {
-		expect((err as ErrorResponse).code).toBe(400);
+		expect((err as RestfulMCAPIError).code).toBe(400);
 	}
 });
 

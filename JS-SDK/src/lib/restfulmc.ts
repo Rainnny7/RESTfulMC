@@ -1,8 +1,8 @@
+import { WebRequest } from "@/lib/webRequest";
 import { MojangServerStatus } from "@/types/mojang";
 import { CachedPlayer, SkinPart } from "@/types/player";
 import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
 import { CachedJavaMinecraftServer } from "@/types/server/java-server";
-import { WebRequest } from "@/lib/webRequest";
 import { ServerPlatform } from "@/types/server/server";
 
 /**
@@ -61,9 +61,11 @@ export const getMinecraftServer = (
  * @returns the promised blocked status
  */
 export const isMojangBlocked = (hostname: string): Promise<boolean> =>
-	new WebRequest(`/server/blocked/${hostname}`).execute<{
-		blocked: boolean;
-	}>().then((res) => res.blocked);
+	new WebRequest(`/server/blocked/${hostname}`)
+		.execute<{
+			blocked: boolean;
+		}>()
+		.then((res) => res.blocked);
 
 /**
  * Get the icon of the Java Minecraft

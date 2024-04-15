@@ -21,4 +21,4 @@ export type RestfulMCAPIError = {
 	 * The timestamp this error occurred.
 	 */
 	timestamp: string;
-}
+};

@@ -1,4 +1,4 @@
-import { ErrorResponse } from "@/types/generic";
+import { RestfulMCAPIError } from "@/types/error";
 
 const API_ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
 
@@ -36,7 +36,7 @@ export class WebRequest {
 				if (response.ok) {
 					resolve(json as T);
 				} else {
-					reject(json as ErrorResponse); // The request failed
+					reject(json as RestfulMCAPIError); // The request failed
 				}
 			} else {
 				// Fallback to an array buffer
