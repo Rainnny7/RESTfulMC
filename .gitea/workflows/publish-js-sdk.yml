@@ -3,7 +3,7 @@ name: Publish JS SDK
 on:
   push:
     branches: ["master"]
-    paths: [".gitea/workflows/deploy-lib.yml", "JS-SDK/**"]
+    paths: [".gitea/workflows/publish-js-sdk.yml", "JS-SDK/**"]
 
 jobs:
   docker:
