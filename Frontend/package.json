@@ -1,0 +1,28 @@
+{
+	"name": "restfulmc-frontend",
+	"version": "1.0.0",
+	"author": "Braydon (Rainnny) <braydonrainnny@gmail.com>",
+	"description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
+	"homepage": "https://mc.rainnny.club",
+	"scripts": {
+		"dev": "next dev --turbo",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"react": "^18",
+		"react-dom": "^18",
+		"next": "14.2.1"
+	},
+	"devDependencies": {
+		"typescript": "^5",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"postcss": "^8",
+		"tailwindcss": "^3.4.1",
+		"eslint": "^8",
+		"eslint-config-next": "14.2.1"
+	}
+}
