@@ -4,7 +4,7 @@ import { CachedPlayer } from "@/types/player/player";
 import { SkinPart } from "@/types/player/skin-part";
 import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
 import { CachedJavaMinecraftServer } from "@/types/server/java-server";
-import { ServerPlatform } from "@/types/server/server";
+import { ServerPlatform } from "@/types/server/platform";
 
 /**
  * Get a player by their username or UUID.

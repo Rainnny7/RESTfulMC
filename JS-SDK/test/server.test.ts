@@ -1,4 +1,5 @@
 import {
+	ServerPlatform,
 	getJavaServerFavicon,
 	getMinecraftServer,
 	isMojangBlocked,
@@ -6,7 +7,6 @@ import {
 import { RestfulMCAPIError } from "@/types/error";
 import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
 import { CachedJavaMinecraftServer } from "@/types/server/java-server";
-import { ServerPlatform } from "@/types/server/server";
 import { expect, test } from "bun:test";
 
 /**
