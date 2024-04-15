@@ -1,9 +1,9 @@
-import { MojangServerStatus } from "../types/mojang";
-import type { CachedPlayer } from "../types/player";
-import { Platform } from "../types/server";
-import { CachedBedrockMinecraftServer } from "../types/server/bedrock-server";
-import { CachedJavaMinecraftServer } from "../types/server/java-server";
-import { makeWebRequest } from "./webRequest";
+import { makeWebRequest } from "@/lib/webRequest";
+import { MojangServerStatus } from "@/types/mojang";
+import type { CachedPlayer } from "@/types/player";
+import { Platform } from "@/types/server";
+import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
+import { CachedJavaMinecraftServer } from "@/types/server/java-server";
 
 /**
  * Get a player by their username or UUID.

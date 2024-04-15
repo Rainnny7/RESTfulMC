@@ -1,7 +1,7 @@
 /**
  * An A record.
  */
-interface ARecord extends DNSRecord {
+export interface ARecord extends DNSRecord {
 	/**
 	 * The address of this record, undefined if unresolved.
 	 */
@@ -11,7 +11,7 @@ interface ARecord extends DNSRecord {
 /**
  * An SRV record.
  */
-interface SRVRecord extends DNSRecord {
+export interface SRVRecord extends DNSRecord {
 	/**
 	 * The priority of this record.
 	 */
@@ -36,7 +36,7 @@ interface SRVRecord extends DNSRecord {
 /**
  * A representation of a DNS record.
  */
-type DNSRecord = {
+export type DNSRecord = {
 	/**
 	 * The type of this record.
 	 */

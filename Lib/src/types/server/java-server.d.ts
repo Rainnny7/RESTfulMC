@@ -1,4 +1,4 @@
-import { MinecraftServer } from "../server";
+import { MinecraftServer } from "@/types/server";
 
 /**
  * A cacheable {@link JavaMinecraftServer}.
@@ -14,7 +14,7 @@ export interface CachedJavaMinecraftServer extends JavaMinecraftServer {
 /**
  * A Java edition {@link MinecraftServer}.
  */
-interface JavaMinecraftServer extends MinecraftServer {
+export interface JavaMinecraftServer extends MinecraftServer {
 	/**
 	 * The version information of this server.
 	 */
@@ -70,7 +70,7 @@ interface JavaMinecraftServer extends MinecraftServer {
 /**
  * Version information for a server.
  */
-type Version = {
+export type Version = {
 	/**
 	 * The version name of the server.
 	 */
@@ -100,7 +100,7 @@ type Version = {
 /**
  * The favicon for a server.
  */
-type Favicon = {
+export type Favicon = {
 	/**
 	 * The raw Base64 encoded favicon.
 	 */
@@ -118,7 +118,7 @@ type Favicon = {
  * This is for servers on 1.12 or below.
  * </p>
  */
-type ModInfo = {
+export type ModInfo = {
 	/**
 	 * The type of modded server this is.
 	 */
@@ -133,7 +133,7 @@ type ModInfo = {
 /**
  * A legacy Forge mod for a server.
  */
-type LegacyForgeMod = {
+export type LegacyForgeMod = {
 	/**
 	 * The name of this mod.
 	 */
@@ -151,7 +151,7 @@ type LegacyForgeMod = {
  * This is for servers on 1.13 and above.
  * </p>
  */
-type ForgeData = {
+export type ForgeData = {
 	/**
 	 * The list of channels on this server, empty if none.
 	 */
@@ -180,7 +180,7 @@ type ForgeData = {
 /**
  * A Forge channel for a server.
  */
-type ForgeChannel = {
+export type ForgeChannel = {
 	/**
 	 * The name of this channel.
 	 */
@@ -200,7 +200,7 @@ type ForgeChannel = {
 /**
  * A modern Forge mod for a server.
  */
-type ModernForgeMod = {
+export type ModernForgeMod = {
 	/**
 	 * The name of this mod.
 	 */

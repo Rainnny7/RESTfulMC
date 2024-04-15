@@ -1,4 +1,4 @@
-import { MinecraftServer } from "../server";
+import { MinecraftServer } from "@/types/server";
 
 /**
  * A cacheable {@link BedrockMinecraftServer}.
@@ -14,7 +14,7 @@ export interface CachedBedrockMinecraftServer extends BedrockMinecraftServer {
 /**
  * A Bedrock edition {@link MinecraftServer}.
  */
-interface BedrockMinecraftServer extends MinecraftServer {
+export interface BedrockMinecraftServer extends MinecraftServer {
 	/**
 	 * The ID of this server.
 	 */
@@ -39,12 +39,12 @@ interface BedrockMinecraftServer extends MinecraftServer {
 /**
  * The edition of a Bedrock server.
  */
-type Edition = "MCPE" | "MCEE";
+export type Edition = "MCPE" | "MCEE";
 
 /**
  * Version information for a server.
  */
-type Version = {
+export type Version = {
 	/**
 	 * The protocol version of the server.
 	 */
@@ -59,7 +59,7 @@ type Version = {
 /**
  * The gamemode of a server.
  */
-type GameMode = {
+export type GameMode = {
 	/**
 	 * The name of this gamemode.
 	 */

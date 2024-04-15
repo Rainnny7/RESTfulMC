@@ -11,6 +11,11 @@
 		"allowJs": true,
 		"noEmit": true,
 		"outDir": "dist",
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"paths": {
+			"@/*": ["./*"],
+			"@/lib/*": ["./src/lib/*"],
+			"@/types/*": ["./src/types/*"]
+		}
 	}
 }

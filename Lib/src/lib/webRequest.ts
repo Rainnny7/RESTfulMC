@@ -1,4 +1,4 @@
-import { ErrorResponse } from "../types/generic";
+import { ErrorResponse } from "@/types/generic";
 
 const ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
 

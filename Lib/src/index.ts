@@ -1,1 +1,1 @@
-export * from "./lib/restfulmc";
+export * from "@/lib/restfulmc";

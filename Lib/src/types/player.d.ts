@@ -12,7 +12,7 @@ export interface CachedPlayer extends Player {
 /**
  * A Minecraft player.
  */
-type Player = {
+export type Player = {
 	/**
 	 * The unique id of this player.
 	 */
@@ -57,7 +57,7 @@ type Player = {
 /**
  * A skin for a {@link Player}.
  */
-type Skin = {
+export type Skin = {
 	/**
 	 * The texture URL of this skin.
 	 */
@@ -88,12 +88,12 @@ type Skin = {
 /**
  * Possible models for a skin.
  */
-type SkinModel = "default" | "slim";
+export type SkinModel = "default" | "slim";
 
 /**
  * A cape for a {@link Player}.
  */
-type Cape = {
+export type Cape = {
 	/**
 	 * The texture URL of this cape.
 	 */
@@ -103,7 +103,7 @@ type Cape = {
 /**
  * A property of a Mojang profile.
  */
-type ProfileProperty = {
+export type ProfileProperty = {
 	/**
 	 * The name of this property.
 	 */
@@ -124,4 +124,4 @@ type ProfileProperty = {
 /**
  * Profile actions that can
  */
-type ProfileAction = "FORCED_NAME_CHANGE" | "USING_BANNED_SKIN";
+export type ProfileAction = "FORCED_NAME_CHANGE" | "USING_BANNED_SKIN";
