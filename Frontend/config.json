@@ -1,0 +1,37 @@
+{
+	"siteName": "RESTfulMC",
+	"siteUrl": "http://localhost:3000",
+	"analyticsDomain": "mc.rainnny.club",
+	"metadata": {
+		"title": {
+			"default": "RESTfulMC",
+			"template": "%s 🞄 RESTfulMC"
+		},
+		"description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
+		"keywords": [
+			"java",
+			"minecraft",
+			"json",
+			"rest-api",
+			"restful",
+			"bedrock",
+			"springboot"
+		],
+		"icons": [
+			{
+				"rel": "icon",
+				"type": "image/png",
+				"sizes": "32x32",
+				"url": "/media/logo.webp"
+			}
+		]
+	},
+	"viewport": {
+		"themeColor": "minecraft-green-1"
+	},
+	"navbarLinks": {
+		"Player": "/player",
+		"Server": "/player",
+		"Mojang": "/mojang"
+	}
+}
