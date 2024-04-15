@@ -36,7 +36,7 @@ export type MinecraftServer = {
 /**
  * Player count data for a server.
  */
-export type Players = {
+type Players = {
 	/**
 	 * The online players on this server.
 	 */
@@ -56,7 +56,7 @@ export type Players = {
 /**
  * A sample player.
  */
-export type PlayerSample = {
+type PlayerSample = {
 	/**
 	 * The ID of this player.
 	 */
@@ -71,7 +71,7 @@ export type PlayerSample = {
 /**
  * The name of a sample player.
  */
-export type PlayerSampleName = {
+type PlayerSampleName = {
 	/**
 	 * The raw name.
 	 */
@@ -91,7 +91,7 @@ export type PlayerSampleName = {
 /**
  * The MOTD for a server.
  */
-export type MOTD = {
+type MOTD = {
 	/**
 	 * The raw MOTD lines.
 	 */
@@ -116,15 +116,10 @@ export enum Platform {
 	/**
 	 * The Java edition of Minecraft.
 	 */
-	Java,
+	JAVA = "java",
 
 	/**
 	 * The Bedrock edition of Minecraft.
 	 */
-	Bedrock,
+	BEDROCK = "bedrock",
 }
-
-/**
- * Types of a DNS record.
- */
-export type RecordType = "A" | "SRV";

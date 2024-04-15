@@ -57,7 +57,7 @@ export type Player = {
 /**
  * A skin for a {@link Player}.
  */
-export type Skin = {
+type Skin = {
 	/**
 	 * The texture URL of this skin.
 	 */
@@ -76,24 +76,49 @@ export type Skin = {
 	/**
 	 * URLs to the parts of this skin.
 	 * <p>
-	 * The key is the part name, and
-	 * the value is the URL.
+	 * The key is the part, and the
+	 * value is the URL to the part.
 	 * </p>
 	 */
 	parts: {
-		[key: string]: string;
+		[part in SkinPart]: string;
 	};
 };
 
 /**
  * Possible models for a skin.
  */
-export type SkinModel = "default" | "slim";
+enum SkinModel {
+	DEFAULT,
+	SLIM,
+}
+
+/**
+ * A part of a skin texture.
+ */
+export enum SkinPart {
+	HEAD_OVERLAY_FACE,
+	HEAD_TOP,
+	HEAD,
+	FACE,
+	HEAD_LEFT,
+	HEAD_RIGHT,
+	HEAD_BOTTOM,
+	HEAD_BACK,
+	BODY_FRONT,
+	BODY,
+	LEFT_ARM_TOP,
+	RIGHT_ARM_TOP,
+	LEFT_ARM_FRONT,
+	RIGHT_ARM_FRONT,
+	LEFT_LEG_FRONT,
+	RIGHT_LEG_FRONT,
+}
 
 /**
  * A cape for a {@link Player}.
  */
-export type Cape = {
+type Cape = {
 	/**
 	 * The texture URL of this cape.
 	 */
@@ -103,7 +128,7 @@ export type Cape = {
 /**
  * A property of a Mojang profile.
  */
-export type ProfileProperty = {
+type ProfileProperty = {
 	/**
 	 * The name of this property.
 	 */
@@ -124,4 +149,7 @@ export type ProfileProperty = {
 /**
  * Profile actions that can
  */
-export type ProfileAction = "FORCED_NAME_CHANGE" | "USING_BANNED_SKIN";
+enum ProfileAction {
+	FORCED_NAME_CHANGE,
+	USING_BANNED_SKIN,
+}
