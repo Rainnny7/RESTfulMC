@@ -28,7 +28,7 @@ export interface BedrockMinecraftServer extends MinecraftServer {
 	/**
 	 * The version information of this server.
 	 */
-	version: Version;
+	version: BedrockVersion;
 
 	/**
 	 * The gamemode of this server.
@@ -44,7 +44,7 @@ export type Edition = "MCPE" | "MCEE";
 /**
  * Version information for a server.
  */
-export type Version = {
+export type BedrockVersion = {
 	/**
 	 * The protocol version of the server.
 	 */

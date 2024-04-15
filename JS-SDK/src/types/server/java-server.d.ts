@@ -18,7 +18,7 @@ export interface JavaMinecraftServer extends MinecraftServer {
 	/**
 	 * The version information of this server.
 	 */
-	version: Version;
+	version: JavaVersion;
 
 	/**
 	 * The favicon of this server, undefined if none.
@@ -70,7 +70,7 @@ export interface JavaMinecraftServer extends MinecraftServer {
 /**
  * Version information for a server.
  */
-export type Version = {
+export type JavaVersion = {
 	/**
 	 * The version name of the server.
 	 */
