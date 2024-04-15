@@ -1,16 +1,16 @@
-name: Deploy Lib
+name: Publish JS SDK
 
 on:
   push:
     branches: ["master"]
-    paths: [".gitea/workflows/deploy-lib.yml", "Lib/**"]
+    paths: [".gitea/workflows/deploy-lib.yml", "JS-SDK/**"]
 
 jobs:
   docker:
     runs-on: "ubuntu-latest"
     defaults:
       run:
-        working-directory: "./Lib"
+        working-directory: "./JS-SDK"
 
     # Steps to run
     steps:
