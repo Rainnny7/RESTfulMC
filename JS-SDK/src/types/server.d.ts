@@ -112,7 +112,17 @@ export type MOTD = {
  * A platform a Minecraft
  * server can operate on.
  */
-export type Platform = "java" | "bedrock";
+export enum Platform {
+	/**
+	 * The Java edition of Minecraft.
+	 */
+	Java,
+
+	/**
+	 * The Bedrock edition of Minecraft.
+	 */
+	Bedrock,
+}
 
 /**
  * Types of a DNS record.

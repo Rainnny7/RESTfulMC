@@ -25,7 +25,7 @@ export const getMinecraftServer = (
 	platform: Platform,
 	hostname: string
 ): Promise<CachedJavaMinecraftServer | CachedBedrockMinecraftServer> =>
-	platform === "java"
+	platform === Platform.Java
 		? new WebRequest(
 				`/server/${platform}/${hostname}`
 		  ).execute<CachedJavaMinecraftServer>()
