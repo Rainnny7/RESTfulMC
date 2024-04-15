@@ -10,7 +10,7 @@ A simple, yet useful RESTful API for Minecraft utilizing Springboot.
 
 ### Table of Contents
 - [Getting Started](#getting-started)
-    - [JS Library](./JS-SDK)
+    - [JS SDK](./JS-SDK)
     - [Wiki](#wiki)
     - [Swagger API](#swagger-api)
 - [Contributing](#contributing)
