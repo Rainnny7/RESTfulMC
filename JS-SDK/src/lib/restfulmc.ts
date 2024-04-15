@@ -1,4 +1,4 @@
-import { makeWebRequest } from "@/lib/webRequest";
+import { WebRequest } from "@/lib/webRequest";
 import { MojangServerStatus } from "@/types/mojang";
 import type { CachedPlayer } from "@/types/player";
 import { Platform } from "@/types/server";
@@ -12,7 +12,7 @@ import { CachedJavaMinecraftServer } from "@/types/server/java-server";
  * @returns the promised player
  */
 export const getPlayer = (query: string): Promise<CachedPlayer> =>
-	makeWebRequest<CachedPlayer>(`/player/${query}`);
+	new WebRequest(`/player/${query}`).execute<CachedPlayer>();
 
 /**
  * Get a Minecraft server by its platform and hostname.
@@ -26,12 +26,12 @@ export const getMinecraftServer = (
 	hostname: string
 ): Promise<CachedJavaMinecraftServer | CachedBedrockMinecraftServer> =>
 	platform === "java"
-		? makeWebRequest<CachedJavaMinecraftServer>(
+		? new WebRequest(
 				`/server/${platform}/${hostname}`
-		  )
-		: makeWebRequest<CachedBedrockMinecraftServer>(
+		  ).execute<CachedJavaMinecraftServer>()
+		: new WebRequest(
 				`/server/${platform}/${hostname}`
-		  );
+		  ).execute<CachedBedrockMinecraftServer>();
 
 /**
  * Check if the server with the
@@ -41,7 +41,7 @@ export const getMinecraftServer = (
  * @returns the promised blocked status
  */
 export const isMojangBlocked = (hostname: string): Promise<boolean> =>
-	makeWebRequest<boolean>(`/server/blocked/${hostname}`);
+	new WebRequest(`/server/blocked/${hostname}`).execute<boolean>();
 
 /**
  * Get the status of Mojang servers.
@@ -49,4 +49,4 @@ export const isMojangBlocked = (hostname: string): Promise<boolean> =>
  * @returns the promised status
  */
 export const getMojangServerStatus = (): Promise<MojangServerStatus> =>
-	makeWebRequest<MojangServerStatus>("/mojang/status");
+	new WebRequest("/mojang/status").execute<MojangServerStatus>();
