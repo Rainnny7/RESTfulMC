@@ -1,4 +1,5 @@
 import { WebRequest } from "@/lib/web-request";
+import { HttpMethod } from "@/types/http-method";
 import { MojangServerStatusResponse } from "@/types/mojang/server-status-response";
 import { CachedPlayer } from "@/types/player/player";
 import { SkinPart } from "@/types/player/skin-part";
@@ -13,7 +14,7 @@ import { ServerPlatform } from "@/types/server/platform";
  * @returns the promised player
  */
 export const getPlayer = (query: string): Promise<CachedPlayer> =>
-	new WebRequest(`/player/${query}`).execute<CachedPlayer>();
+	new WebRequest(HttpMethod.GET, `/player/${query}`).execute<CachedPlayer>();
 
 /**
  * Get the part of a skin texture for
@@ -32,6 +33,7 @@ export const getSkinPart = (
 	size: number = 128
 ): Promise<ArrayBuffer> =>
 	new WebRequest(
+		HttpMethod.GET,
 		`/player/${part}/${query}.${extension}?size=${size}`
 	).execute<ArrayBuffer>();
 
@@ -48,9 +50,11 @@ export const getMinecraftServer = (
 ): Promise<CachedJavaMinecraftServer | CachedBedrockMinecraftServer> =>
 	platform === ServerPlatform.JAVA
 		? new WebRequest(
+				HttpMethod.GET,
 				`/server/${platform}/${hostname}`
 		  ).execute<CachedJavaMinecraftServer>()
 		: new WebRequest(
+				HttpMethod.GET,
 				`/server/${platform}/${hostname}`
 		  ).execute<CachedBedrockMinecraftServer>();
 
@@ -62,7 +66,7 @@ export const getMinecraftServer = (
  * @returns the promised blocked status
  */
 export const isMojangBlocked = (hostname: string): Promise<boolean> =>
-	new WebRequest(`/server/blocked/${hostname}`)
+	new WebRequest(HttpMethod.GET, `/server/blocked/${hostname}`)
 		.execute<{
 			blocked: boolean;
 		}>()
@@ -76,7 +80,10 @@ export const isMojangBlocked = (hostname: string): Promise<boolean> =>
  * @returns the primised server icon
  */
 export const getJavaServerFavicon = (hostname: string): Promise<ArrayBuffer> =>
-	new WebRequest(`/server/icon/${hostname}`).execute<ArrayBuffer>();
+	new WebRequest(
+		HttpMethod.GET,
+		`/server/icon/${hostname}`
+	).execute<ArrayBuffer>();
 
 /**
  * Get the status of Mojang servers.
@@ -84,4 +91,7 @@ export const getJavaServerFavicon = (hostname: string): Promise<ArrayBuffer> =>
  * @returns the promised status
  */
 export const getMojangServerStatus = (): Promise<MojangServerStatusResponse> =>
-	new WebRequest("/mojang/status").execute<MojangServerStatusResponse>();
+	new WebRequest(
+		HttpMethod.GET,
+		"/mojang/status"
+	).execute<MojangServerStatusResponse>();

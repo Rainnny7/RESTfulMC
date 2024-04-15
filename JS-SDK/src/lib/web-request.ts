@@ -1,4 +1,5 @@
 import { RestfulMCAPIError } from "@/types/error";
+import { HttpMethod } from "@/types/http-method";
 
 const API_ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
 
@@ -7,11 +8,17 @@ const API_ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
  */
 export class WebRequest {
 	/**
+	 * The HTTP method to use.
+	 */
+	method: HttpMethod;
+
+	/**
 	 * The endpoint to make the request to.
 	 */
 	endpoint: string;
 
-	constructor(endpoint: string) {
+	constructor(method: HttpMethod, endpoint: string) {
+		this.method = method;
 		this.endpoint = endpoint;
 	}
 
