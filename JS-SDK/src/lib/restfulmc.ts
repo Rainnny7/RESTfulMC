@@ -1,9 +1,9 @@
-import { MojangServerStatus } from "../types/mojang";
-import { CachedPlayer, SkinPart } from "../types/player";
-import { CachedBedrockMinecraftServer } from "../types/server/bedrock-server";
-import { CachedJavaMinecraftServer } from "../types/server/java-server";
-import { Platform } from "../types/server/server";
-import { WebRequest } from "./webRequest";
+import { MojangServerStatus } from "@/types/mojang";
+import { CachedPlayer, SkinPart } from "@/types/player";
+import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
+import { CachedJavaMinecraftServer } from "@/types/server/java-server";
+import { WebRequest } from "@/lib/webRequest";
+import { ServerPlatform } from "@/types/server/server";
 
 /**
  * Get a player by their username or UUID.
@@ -42,10 +42,10 @@ export const getSkinPart = (
  * @returns the promised server
  */
 export const getMinecraftServer = (
-	platform: Platform,
+	platform: ServerPlatform,
 	hostname: string
 ): Promise<CachedJavaMinecraftServer | CachedBedrockMinecraftServer> =>
-	platform === Platform.JAVA
+	platform === ServerPlatform.JAVA
 		? new WebRequest(
 				`/server/${platform}/${hostname}`
 		  ).execute<CachedJavaMinecraftServer>()

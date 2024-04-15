@@ -1,4 +1,4 @@
-import { ARecord, SRVRecord } from "../dns";
+import { ARecord, SRVRecord } from "@/types/dns";
 
 /**
  * A model representing a Minecraft server.
@@ -114,7 +114,7 @@ type MOTD = {
  * A platform a Minecraft
  * server can operate on.
  */
-export enum Platform {
+export enum ServerPlatform {
 	/**
 	 * The Java edition of Minecraft.
 	 */

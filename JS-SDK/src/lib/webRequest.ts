@@ -1,6 +1,6 @@
-import { ErrorResponse } from "../types/generic";
+import { ErrorResponse } from "@/types/generic";
 
-const ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
+const API_ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
 
 /**
  * Make a web request to the API.
@@ -23,7 +23,9 @@ export class WebRequest {
 	 */
 	execute = <T>(): Promise<T> =>
 		new Promise(async (resolve, reject) => {
-			const response: Response = await fetch(`${ENDPOINT}/${this.endpoint}`); // Request the player
+			const response: Response = await fetch(
+				`${API_ENDPOINT}/${this.endpoint}`
+			); // Send the request
 			const contentType: string | null = response.headers.get("Content-Type"); // Get the response content type
 
 			// Parse as Json

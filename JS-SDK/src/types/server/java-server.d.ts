@@ -1,4 +1,4 @@
-import { MinecraftServer } from "./server";
+import { MinecraftServer } from "@/types/server/server";
 
 /**
  * A cacheable {@link JavaMinecraftServer}.
