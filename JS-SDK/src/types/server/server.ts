@@ -1,4 +1,4 @@
-import { ARecord, SRVRecord } from "@/types/dns";
+import { ARecord, SRVRecord } from "@/types/dns/dns-record";
 
 /**
  * A model representing a Minecraft server.

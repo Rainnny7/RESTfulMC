@@ -1,8 +1,8 @@
 import { WebRequest } from "@/lib/web-request";
-import { MojangServerStatus } from "@/types/mojang";
+import { MojangServerStatusResponse } from "@/types/mojang/server-status-response";
 import { CachedPlayer } from "@/types/player/player";
 import { SkinPart } from "@/types/player/skin-part";
-import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
+import { CachedBedrockMinecraftServer } from "@/types/server/bedrock/server";
 import { CachedJavaMinecraftServer } from "@/types/server/java-server";
 import { ServerPlatform } from "@/types/server/platform";
 
@@ -83,5 +83,5 @@ export const getJavaServerFavicon = (hostname: string): Promise<ArrayBuffer> =>
  *
  * @returns the promised status
  */
-export const getMojangServerStatus = (): Promise<MojangServerStatus> =>
-	new WebRequest("/mojang/status").execute<MojangServerStatus>();
+export const getMojangServerStatus = (): Promise<MojangServerStatusResponse> =>
+	new WebRequest("/mojang/status").execute<MojangServerStatusResponse>();

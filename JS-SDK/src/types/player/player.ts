@@ -1,3 +1,5 @@
+import { ProfileAction } from "@/types/player/profile-action";
+import { SkinModel } from "@/types/player/skin-model";
 import { SkinPart } from "@/types/player/skin-part";
 
 /**
@@ -88,14 +90,6 @@ type Skin = {
 };
 
 /**
- * Possible models for a skin.
- */
-enum SkinModel {
-	DEFAULT,
-	SLIM,
-}
-
-/**
  * A cape for a {@link Player}.
  */
 type Cape = {
@@ -125,11 +119,3 @@ type ProfileProperty = {
 	 */
 	signature?: string | undefined;
 };
-
-/**
- * Profile actions that can
- */
-enum ProfileAction {
-	FORCED_NAME_CHANGE,
-	USING_BANNED_SKIN,
-}

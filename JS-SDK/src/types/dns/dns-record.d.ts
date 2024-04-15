@@ -1,3 +1,5 @@
+import { RecordType } from "@/type/dns/record-type";
+
 /**
  * An A record.
  */
@@ -47,11 +49,3 @@ export type DNSRecord = {
 	 */
 	ttl: number;
 };
-
-/**
- * Types of a DNS record.
- */
-enum RecordType {
-	A,
-	SRV,
-}

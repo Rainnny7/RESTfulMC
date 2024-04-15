@@ -1,3 +1,4 @@
+import { Edition } from "@/types/server/bedrock/edition";
 import { MinecraftServer } from "@/types/server/server";
 
 /**
@@ -34,14 +35,6 @@ export interface BedrockMinecraftServer extends MinecraftServer {
 	 * The gamemode of this server.
 	 */
 	gamemode: GameMode;
-}
-
-/**
- * The edition of a Bedrock server.
- */
-enum Edition {
-	MCPE,
-	MCEE,
 }
 
 /**

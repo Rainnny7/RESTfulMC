@@ -5,7 +5,7 @@ import {
 	isMojangBlocked,
 } from "@/index";
 import { RestfulMCAPIError } from "@/types/error";
-import { CachedBedrockMinecraftServer } from "@/types/server/bedrock-server";
+import { CachedBedrockMinecraftServer } from "@/types/server/bedrock/server";
 import { CachedJavaMinecraftServer } from "@/types/server/java-server";
 import { expect, test } from "bun:test";
 
