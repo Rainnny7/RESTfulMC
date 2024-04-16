@@ -1,6 +1,6 @@
-import Creeper from "./components/creeper";
-import { minecrafter } from "./font/fonts";
-import { cn } from "./lib/utils";
+import Creeper from "@/components/creeper";
+import { minecrafter } from "@/font/fonts";
+import { cn } from "@/lib/utils";
 
 /**
  * The 404 page.

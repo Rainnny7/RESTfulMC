@@ -1,7 +1,7 @@
 import Creeper from "@/components/creeper";
 import { minecrafter } from "@/font/fonts";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { cn } from "../../lib/utils";
 
 /**
  * The documentation page.

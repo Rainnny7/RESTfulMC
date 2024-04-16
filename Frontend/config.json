@@ -34,5 +34,19 @@
 		"Server": "/player",
 		"Mojang": "/mojang",
 		"Docs": "/docs"
-	}
+	},
+	"featuredItems": [
+		{
+			"name": "Player Lookup",
+			"description": "Wanna find a player? You can locate them here by their username or UUID.",
+			"image": "/media/featured/server.png",
+			"href": "/player"
+		},
+		{
+			"name": "Server Lookup",
+			"description": "Fugiat culpa est consequat nostrud exercitation ut id ex in.",
+			"image": "/media/featured/server.png",
+			"href": "/player"
+		}
+	]
 }

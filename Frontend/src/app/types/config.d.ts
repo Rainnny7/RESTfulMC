@@ -39,4 +39,35 @@ interface Config {
 	navbarLinks: {
 		[name: string]: string;
 	};
+
+	/**
+	 * Featured items for the landing page.
+	 */
+	featuredItems: FeaturedItemProps[];
 }
+
+/**
+ * Props for a featured item
+ * on the landing page.
+ */
+type FeaturedItemProps = {
+	/**
+	 * The name of this item.
+	 */
+	name: string;
+
+	/**
+	 * The description of this item.
+	 */
+	description: string;
+
+	/**
+	 * The image for this item.
+	 */
+	image: string;
+
+	/**
+	 * The href link for this item.
+	 */
+	href: string;
+};
