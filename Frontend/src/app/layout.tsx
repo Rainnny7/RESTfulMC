@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import ThemeProvider from "@/provider/theme-provider";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
-import "../globals.css";
+import "./globals.css";
 
 /**
  * Site metadata & viewport.
