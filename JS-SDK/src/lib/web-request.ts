@@ -30,9 +30,7 @@ export class WebRequest {
 	 */
 	execute = <T>(): Promise<T> =>
 		new Promise(async (resolve, reject) => {
-			const response: Response = await fetch(
-				`${API_ENDPOINT}/${this.endpoint}`
-			); // Send the request
+			const response: Response = await fetch(`${API_ENDPOINT}${this.endpoint}`); // Send the request
 			const contentType: string | null = response.headers.get("Content-Type"); // Get the response content type
 
 			// Parse as Json
