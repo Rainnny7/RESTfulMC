@@ -6,7 +6,7 @@ import { cn } from "../../lib/utils";
 /**
  * The documentation page.
  *
- * @returns the docs jsx
+ * @returns the page jsx
  */
 const DocsPage = (): JSX.Element => (
 	<main className="h-[64vh] flex flex-col gap-3 justify-center items-center">

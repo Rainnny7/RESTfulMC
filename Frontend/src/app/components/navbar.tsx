@@ -60,6 +60,8 @@ const Navbar = (): JSX.Element => (
 				<Link
 					className="flex gap-1.5 items-center"
 					href="https://github.com/Rainnny7/RESTfulMC"
+					rel="noopener noreferrer"
+					target="_blank"
 				>
 					{/* Star Count */}
 					<Suspense fallback={<Skeleton className="w-4 h-5 rounded-md" />}>
