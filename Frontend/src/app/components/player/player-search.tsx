@@ -23,7 +23,12 @@ const PlayerSearch = ({
 			className="flex flex-col gap-7 justify-center items-center"
 			action={handleRedirect}
 		>
-			<Input name="query" placeholder="Username / UUID" defaultValue={query} />
+			<Input
+				name="query"
+				placeholder="Username / UUID"
+				defaultValue={query}
+				maxLength={36}
+			/>
 			<MinecraftButton type="submit">Search</MinecraftButton>
 		</form>
 	);

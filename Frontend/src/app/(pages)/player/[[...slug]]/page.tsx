@@ -14,9 +14,16 @@ import { CachedPlayer, getPlayer, type RestfulMCAPIError } from "restfulmc-lib";
 const PlayerPage = async ({ params }: PageProps): Promise<JSX.Element> => {
 	let error: string | undefined = undefined; // The error to display
 	let result: CachedPlayer | undefined = undefined; // The player to display
-	const query: string | undefined = params.slug; // The query to search for
+	let query: string | undefined = params.slug?.[0]; // The query to search for
+
+	// Limit the query to 36 chars
+	if (query && query.length > 36) {
+		query = query.substr(0, 36);
+	}
+
+	// Try and get the player to display
 	try {
-		result = params.slug ? await getPlayer(query) : undefined; // Get the player to display
+		result = params.slug ? await getPlayer(query) : undefined;
 	} catch (err) {
 		error = (err as RestfulMCAPIError).message; // Set the error message
 	}
