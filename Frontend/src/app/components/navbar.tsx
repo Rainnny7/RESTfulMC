@@ -15,7 +15,7 @@ import { Suspense } from "react";
  * @returns the navbar jsx
  */
 const Navbar = (): JSX.Element => (
-	<nav className="fixed inset-x-0 flex h-16 px-12 justify-center sm:justify-between items-center bg-navbar-background">
+	<nav className="fixed inset-x-0 flex h-16 px-12 justify-center sm:justify-between items-center bg-navbar-background z-50">
 		{/* Left */}
 		<div className="flex gap-7 lg:gap-12 items-center transition-all transform-gpu">
 			{/* App Branding */}
