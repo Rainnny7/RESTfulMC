@@ -2,6 +2,6 @@
  * Possible models for a skin.
  */
 export enum SkinModel {
-	DEFAULT,
-	SLIM,
+	DEFAULT = "DEFAULT",
+	SLIM = "SLIM",
 }
