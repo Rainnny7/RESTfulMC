@@ -17,7 +17,7 @@ const MinecraftButton = ({
 	<Button
 		className={cn(
 			"before:absolute before:-inset-x-5 before:rotate-90 before:w-9 before:h-1 before:bg-minecraft-green-1", // Left Green Bar
-			"after:absolute after:inset-x-[91.5%] after:rotate-90 after:w-9 after:h-1 after:bg-minecraft-green-1", // Right Green Bar
+			"after:absolute after:right-[-1.24rem] after:rotate-90 after:w-9 after:h-1 after:bg-minecraft-green-1", // Right Green Bar
 			"relative h-11 px-5 bg-minecraft-green-2 hover:opacity-85 hover:bg-minecraft-green-2 rounded-none tracking-wide font-semibold uppercase transition-all transform-gpu", // Styling
 			className
 		)}
