@@ -7,7 +7,7 @@ import Hero from "@/components/landing/hero";
  * @returns the page jsx
  */
 const LandingPage = (): JSX.Element => (
-	<main>
+	<main className="px-3">
 		<Hero />
 		<FeaturedContent />
 	</main>

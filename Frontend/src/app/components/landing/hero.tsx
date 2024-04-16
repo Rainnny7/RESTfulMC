@@ -11,7 +11,7 @@ import Link from "next/link";
  */
 const Hero = (): JSX.Element => (
 	<div className="h-[70vh] flex flex-col gap-8 justify-center items-center">
-		<div className="px-3 flex flex-col gap-4 items-center text-center">
+		<div className="flex flex-col gap-4 items-center text-center">
 			{/* Title */}
 			<h1
 				className={cn("text-5xl text-minecraft-green-3", minecrafter.className)}
