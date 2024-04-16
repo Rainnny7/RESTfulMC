@@ -5,6 +5,7 @@ import { PageProps } from "@/types/page";
 import { Metadata } from "next";
 import Image from "next/image";
 import { CachedPlayer, getPlayer, type RestfulMCAPIError } from "restfulmc-lib";
+import PlayerResult from "../../../components/player/player-result";
 
 /**
  * The page to lookup a player.
@@ -34,7 +35,7 @@ const PlayerPage = async ({ params }: PageProps): Promise<JSX.Element> => {
 			<div className="flex gap-32">
 				{/* Header */}
 				<Image
-					className="pointer-events-none"
+					className="my-auto h-[28rem] pointer-events-none"
 					src="/media/players.webp"
 					alt="Minecraft Players"
 					width={632}
@@ -56,6 +57,9 @@ const PlayerPage = async ({ params }: PageProps): Promise<JSX.Element> => {
 
 					{/* Search */}
 					<PlayerSearch query={query} />
+
+					{/* Player Result */}
+					{result && <PlayerResult player={result} />}
 				</div>
 			</div>
 		</main>
