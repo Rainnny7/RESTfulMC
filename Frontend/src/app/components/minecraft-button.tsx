@@ -25,7 +25,7 @@ const MinecraftButton = ({
 		style={{
 			// Above and below the button shadow
 			boxShadow:
-				"inset 0 -4px 0 hsl(var(--minecraft-green-1)), inset 0 4px 0 hsl(var(--minecraft-green-3));",
+				"inset 0 -4px 0 hsl(var(--minecraft-green-1)), inset 0 4px 0 hsl(var(--minecraft-green-3))",
 		}}
 		{...props}
 	>
