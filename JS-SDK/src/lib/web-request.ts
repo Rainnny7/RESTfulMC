@@ -1,7 +1,7 @@
 import { RestfulMCAPIError } from "@/types/error";
 import { HttpMethod } from "@/types/http-method";
 
-const API_ENDPOINT = "https://mc.rainnny.club"; // The API endpoint to use
+const API_ENDPOINT = "https://api.restfulmc.cc"; // The API endpoint to use
 
 /**
  * Make a web request to the API.
