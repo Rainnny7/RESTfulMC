@@ -3,7 +3,7 @@ import { minecrafter } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 
 const Hero = (): JSX.Element => (
-	<div className="flex flex-col gap-4 justify-center items-center h-screen">
+	<div className="h-[85vh] flex flex-col gap-4 justify-center items-center pointer-events-none">
 		{/* Title */}
 		<h1
 			className={cn("text-5xl text-minecraft-green-3", minecrafter.className)}

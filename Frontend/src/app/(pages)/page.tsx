@@ -1,3 +1,4 @@
+import FeaturedContent from "@/components/landing/featured-content";
 import Hero from "@/components/landing/hero";
 
 /**
@@ -8,6 +9,7 @@ import Hero from "@/components/landing/hero";
 const LandingPage = (): JSX.Element => (
 	<main>
 		<Hero />
+		<FeaturedContent />
 	</main>
 );
 export default LandingPage;
