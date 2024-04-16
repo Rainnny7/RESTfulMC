@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * @returns the page jsx
  */
 const NotFoundPage = (): JSX.Element => (
-	<main className="h-[84vh] flex flex-col gap-3 justify-center items-center">
+	<main className="h-[84vh] flex flex-col gap-3 justify-center items-center pointer-events-none">
 		{/* Creeper */}
 		<Creeper />
 

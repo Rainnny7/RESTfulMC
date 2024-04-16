@@ -2,6 +2,21 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /**
+ * Props for this button.
+ */
+type MinecraftButtonProps = {
+	/**
+	 * The class name to apply to this button.
+	 */
+	className?: string;
+
+	/**
+	 * The children of this button.
+	 */
+	children: React.ReactNode;
+};
+
+/**
  * A Minecraft styled button.
  *
  * @returns the button jsx
@@ -10,10 +25,8 @@ const MinecraftButton = ({
 	className,
 	children,
 	...props
-}: Readonly<{
-	className?: string;
-	children: React.ReactNode;
-}>): JSX.Element => (
+}: React.ButtonHTMLAttributes<HTMLButtonElement> &
+	MinecraftButtonProps): JSX.Element => (
 	<Button
 		className={cn(
 			"before:absolute before:-inset-x-5 before:rotate-90 before:w-9 before:h-1 before:bg-minecraft-green-1", // Left Green Bar

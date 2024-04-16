@@ -11,13 +11,16 @@ import Link from "next/link";
 const DocsPage = (): JSX.Element => (
 	<main className="h-[64vh] flex flex-col gap-3 justify-center items-center">
 		{/* Creeper */}
-		<div className="absolute left-28 bottom-16">
+		<div className="absolute left-28 bottom-16 pointer-events-none">
 			<Creeper />
 		</div>
 
 		{/* Header */}
 		<h1
-			className={cn("text-6xl text-minecraft-green-3", minecrafter.className)}
+			className={cn(
+				"text-6xl text-minecraft-green-3 pointer-events-none",
+				minecrafter.className
+			)}
 		>
 			Documentation
 		</h1>

@@ -32,11 +32,11 @@ const FeaturedItem = ({
 	href,
 }: FeaturedItemProps): JSX.Element => (
 	<Link
-		className={cn(
-			"pt-28 w-[19rem] h-80 flex flex-col gap-1 items-center rounded-3xl text-center backdrop-blur-md hover:scale-[1.01] transition-all transform-gpu",
-			"bg-[url('" + image + "')] bg-center bg-cover bg-no-repeat" // Couldn't do inline variable interpolation, it threw an error
-		)}
+		className="pt-28 w-[19rem] h-80 flex flex-col gap-1 items-center bg-center bg-cover bg-no-repeat rounded-3xl text-center backdrop-blur-md hover:scale-[1.01] transition-all transform-gpu"
 		href={href}
+		style={{
+			backgroundImage: `url(${image})`,
+		}}
 	>
 		<h1
 			className={cn("text-3xl font-semibold text-white", minecrafter.className)}
