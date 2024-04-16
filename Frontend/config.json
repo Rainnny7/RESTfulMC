@@ -32,6 +32,7 @@
 	"navbarLinks": {
 		"Player": "/player",
 		"Server": "/player",
-		"Mojang": "/mojang"
+		"Mojang": "/mojang",
+		"Docs": "/docs"
 	}
 }

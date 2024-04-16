@@ -3,30 +3,12 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 const FeaturedContent = (): JSX.Element => (
-	<div className="-translate-y-40 flex justify-center items-center">
+	<div className="-translate-y-14 flex justify-center items-center">
 		<div className="grid grid-cols-2 gap-5">
 			<FeaturedItem
 				name="Player Lookup"
 				description="Id dolore elit mollit adipisicing adipisicing."
-				image="/media/test.avif"
-				href="/player"
-			/>
-			<FeaturedItem
-				name="Player Lookup"
-				description="Id dolore elit mollit adipisicing adipisicing."
-				image="/media/test.avif"
-				href="/player"
-			/>
-			<FeaturedItem
-				name="Player Lookup"
-				description="Id dolore elit mollit adipisicing adipisicing."
-				image="/media/test.avif"
-				href="/player"
-			/>
-			<FeaturedItem
-				name="Player Lookup"
-				description="Id dolore elit mollit adipisicing adipisicing."
-				image="/media/test.avif"
+				image="/media/featured/server.png"
 				href="/player"
 			/>
 		</div>
@@ -46,7 +28,7 @@ const FeaturedItem = ({
 }): JSX.Element => (
 	<Link
 		className={
-			"w-[19rem] h-80 flex flex-col justify-center items-center bg-[url('/media/featured/server.png')] bg-cover rounded-3xl text-center backdrop-blur-md hover:scale-[.99] transition-all transform-gpu"
+			"w-[19rem] h-80 flex flex-col justify-center items-center bg-[url('/media/featured/server.png')] bg-cover rounded-3xl text-center backdrop-blur-md hover:scale-[1.01] transition-all transform-gpu"
 		}
 		href={href}
 	>

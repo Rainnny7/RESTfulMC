@@ -1,10 +1,13 @@
+import GitHubStarCount from "@/components/github-star-count";
 import MinecraftButton from "@/components/minecraft-button";
+import { Skeleton } from "@/components/ui/skeleton";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { StarIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 /**
  * The navbar for the site.
@@ -25,7 +28,7 @@ const Navbar = (): JSX.Element => (
 			>
 				{/* Small Screens */}
 				<Image
-					className="flex md:hidden"
+					className="hidden sm:flex lg:hidden"
 					src="/media/logo.webp"
 					alt="Site Logo"
 					width={42}
@@ -33,7 +36,7 @@ const Navbar = (): JSX.Element => (
 				/>
 
 				{/* Large Screens */}
-				<span className="hidden md:flex">{config.siteName}</span>
+				<span className="hidden lg:flex">{config.siteName}</span>
 			</Link>
 
 			{/* Links */}
@@ -51,14 +54,23 @@ const Navbar = (): JSX.Element => (
 		</div>
 
 		{/* Social Buttons */}
-		<div className="hidden sm:flex">
+		<div className="hidden md:flex">
 			{/* Star on Github <3 */}
-			<MinecraftButton>
+			<MinecraftButton className="group/star">
 				<Link
 					className="flex gap-1.5 items-center"
 					href="https://github.com/Rainnny7/RESTfulMC"
 				>
-					<StarIcon width={22} height={22} />
+					{/* Star Count */}
+					<Suspense fallback={<Skeleton className="w-4 h-5 rounded-md" />}>
+						<GitHubStarCount />
+					</Suspense>
+
+					<StarIcon
+						className="group-hover/star:text-orange-400 delay-0 transition-all transform-gpu"
+						width={22}
+						height={22}
+					/>
 					<span>Star on GitHub</span>
 				</Link>
 			</MinecraftButton>

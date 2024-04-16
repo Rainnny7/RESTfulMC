@@ -1,11 +1,11 @@
 import Navbar from "@/components/navbar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import config from "@/config";
+import { notoSans } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import ThemeProvider from "@/provider/theme-provider";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
-import { Noto_Sans } from "next/font/google";
 import "../globals.css";
 
 /**
@@ -13,11 +13,6 @@ import "../globals.css";
  */
 export const metadata: Metadata = config.metadata;
 export const viewport: Viewport = config.viewport;
-
-/**
- * The default Minecraft font to use.
- */
-const notoSans = Noto_Sans({ subsets: ["latin"] });
 
 /**
  * The root layout for this site.
