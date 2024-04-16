@@ -4,7 +4,7 @@
 The springboot API backend for RESTfulMC.
 
 ## Swagger API
-View the [Swagger API Docs](https://mc.rainnny.club/swagger-ui.html) for easy testing!
+View the [Swagger API Docs](https://api.restfulmc.cc/swagger-ui.html) for easy testing!
 
 ![Swagger Logo](https://cdn.rainnny.club/UoeVQF7wYGg4.png)
 
