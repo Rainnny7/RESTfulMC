@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import config from "@/config";
+import { cn } from "@/lib/utils";
 import ThemeProvider from "@/provider/theme-provider";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
@@ -31,7 +32,7 @@ const RootLayout = ({
 }>): JSX.Element => {
 	const analyticsDomain: string | undefined = config.analyticsDomain;
 	return (
-		<html lang="en" className={`scroll-smooth ${notoSans.className}`}>
+		<html lang="en" className={cn("scroll-smooth", notoSans.className)}>
 			<head>
 				{analyticsDomain && (
 					<PlausibleProvider

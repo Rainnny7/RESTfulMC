@@ -37,8 +37,11 @@
 		/* Navbar */
 		--navbar-background: 0 0% 7%;
 
-		/* Minecraft Colors */
-		--minecraft-green-1: 104 51% 43%;
+		/* Minecraft Colors (Dark -> Light) */
+		--minecraft-green-1: 108 56% 25%;
+		--minecraft-green-2: 107 55% 34%;
+		--minecraft-green-3: 104 51% 43%;
+		--minecraft-green-4: 103 50% 53%;
 	}
 }
 

@@ -51,6 +51,9 @@ const config = {
 				// Custom Colors
 				"navbar-background": "hsl(var(--navbar-background))",
 				"minecraft-green-1": "hsl(var(--minecraft-green-1))",
+				"minecraft-green-2": "hsl(var(--minecraft-green-2))",
+				"minecraft-green-3": "hsl(var(--minecraft-green-3))",
+				"minecraft-green-4": "hsl(var(--minecraft-green-4))",
 			},
 			borderRadius: {
 				lg: "var(--radius)",

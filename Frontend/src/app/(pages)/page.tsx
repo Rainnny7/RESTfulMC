@@ -1,11 +1,13 @@
+import Hero from "@/components/landing/hero";
+
 /**
- * The home page of the site.
+ * The landing page of the site.
  *
- * @returns the home page jsx
+ * @returns the landing page jsx
  */
-const HomePage = (): JSX.Element => (
-	<main className="flex justify-center items-center h-screen">
-		<span>Hello World</span>
+const LandingPage = (): JSX.Element => (
+	<main>
+		<Hero />
 	</main>
 );
-export default HomePage;
+export default LandingPage;
