@@ -1,16 +1,12 @@
 "use client";
 
-import GitHubStarCount from "@/components/github-star-count";
-import MinecraftButton from "@/components/minecraft-button";
-import { Skeleton } from "@/components/ui/skeleton";
+import GitHubStarButton from "@/components/github-star-button";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/lib/utils";
-import { StarIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Suspense } from "react";
 
 /**
  * The navbar for the site.
@@ -68,25 +64,7 @@ const Navbar = (): JSX.Element => {
 			{/* Social Buttons - Right */}
 			<div className="hidden md:flex">
 				{/* Star on Github <3 */}
-				<Link
-					href="https://github.com/Rainnny7/RESTfulMC"
-					rel="noopener noreferrer"
-					target="_blank"
-				>
-					<MinecraftButton className="flex gap-1.5 items-center group/star">
-						{/* Star Count */}
-						<Suspense fallback={<Skeleton className="w-4 h-5 rounded-md" />}>
-							<GitHubStarCount />
-						</Suspense>
-
-						<StarIcon
-							className="group-hover/star:text-orange-400 delay-0 transition-all transform-gpu"
-							width={22}
-							height={22}
-						/>
-						<span>Star on GitHub</span>
-					</MinecraftButton>
-				</Link>
+				<GitHubStarButton />
 			</div>
 		</nav>
 	);

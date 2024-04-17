@@ -1,3 +1,4 @@
+import GitHubStarButton from "@/components/github-star-button";
 import MinecraftButton from "@/components/minecraft-button";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
@@ -27,10 +28,15 @@ const Hero = (): JSX.Element => (
 		</div>
 
 		{/* Links */}
-		<div className="flex gap-10">
+		<div className="flex gap-5 xs:gap-10">
 			<Link href="/docs">
 				<MinecraftButton className="w-44 h-12">Get Started</MinecraftButton>
 			</Link>
+
+			{/* Star on Github <3 */}
+			<div className="md:hidden">
+				<GitHubStarButton />
+			</div>
 		</div>
 	</div>
 );
