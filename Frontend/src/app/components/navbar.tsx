@@ -26,7 +26,7 @@ const Navbar = (): JSX.Element => {
 				{/* App Branding */}
 				<Link
 					className={cn(
-						"text-3xl text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu",
+						"hidden sm:flex text-3xl text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu",
 						minecrafter.className
 					)}
 					href="/"
