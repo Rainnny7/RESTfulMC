@@ -25,9 +25,9 @@ const Hero = (): JSX.Element => (
 
 		{/* Links */}
 		<div className="flex gap-10">
-			<MinecraftButton className="w-44 h-12">
-				<Link href="/docs">Get Started</Link>
-			</MinecraftButton>
+			<Link href="/docs">
+				<MinecraftButton className="w-44 h-12">Get Started</MinecraftButton>
+			</Link>
 		</div>
 	</div>
 );
