@@ -27,32 +27,35 @@ const PlayerPage = async ({ params }: PageProps): Promise<JSX.Element> => {
 
 	// Render the page
 	return (
-		<main className="h-screen flex flex-col justify-center items-center">
-			<div className="flex gap-32">
-				{/* Header */}
+		<main className="px-3 h-screen flex justify-center items-center">
+			<div className="mt-0 sm:mt-[45rem] xl:mt-0 flex flex-col xl:flex-row xl:gap-24 2xl:gap-48 transition-all transform-gpu">
+				{/* Banner */}
 				<Image
-					className="my-auto h-[28rem] pointer-events-none"
+					className="hidden sm:flex xl:my-auto h-[28rem] pointer-events-none"
 					src="/media/players.webp"
 					alt="Minecraft Players"
 					width={632}
 					height={632}
 				/>
 
-				<div className="flex flex-col gap-7">
+				{/* Search */}
+				<div className="pb-16 xl:pb-0 flex flex-col gap-7">
 					<h1
 						className={cn(
-							"mt-20 text-6xl text-minecraft-green-3 pointer-events-none",
+							"mt-20 text-6xl text-minecraft-green-3 text-center pointer-events-none",
 							minecrafter.className
 						)}
 					>
 						Player Lookup
 					</h1>
 
-					{/* Error */}
-					{error && <p className="text-red-500">{error}</p>}
+					<div className="flex flex-col gap-5 px-10 xs:px-0">
+						{/* Error */}
+						{error && <p className="text-red-500">{error}</p>}
 
-					{/* Search */}
-					<PlayerSearch query={query} />
+						{/* Search */}
+						<PlayerSearch query={query} />
+					</div>
 
 					{/* Player Result */}
 					{result && <PlayerResult player={result} />}
