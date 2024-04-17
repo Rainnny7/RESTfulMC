@@ -8,6 +8,7 @@ import ThemeProvider from "@/provider/theme-provider";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
 import "./globals.css";
+import { ReactElement } from "react";
 
 /**
  * Site metadata & viewport.
@@ -22,32 +23,32 @@ export const viewport: Viewport = config.viewport;
  * @returns the layout jsx
  */
 const RootLayout = ({
-	children,
+    children,
 }: Readonly<{
-	children: React.ReactNode;
-}>): JSX.Element => {
-	const analyticsDomain: string | undefined = config.analyticsDomain;
-	return (
-		<html lang="en" className={cn("scroll-smooth", notoSans.className)}>
-			<head>
-				{analyticsDomain && (
-					<PlausibleProvider
-						domain={analyticsDomain}
-						customDomain="https://analytics.rainnny.club"
-						selfHosted
-					/>
-				)}
-			</head>
-			<body className="relative min-h-screen">
-				<ThemeProvider attribute="class" defaultTheme="dark">
-					<TooltipProvider>
-						<Navbar />
-						{children}
-						<Footer />
-					</TooltipProvider>
-				</ThemeProvider>
-			</body>
-		</html>
-	);
+    children: React.ReactNode;
+}>): ReactElement => {
+    const analyticsDomain: string | undefined = config.analyticsDomain;
+    return (
+        <html lang="en" className={cn("scroll-smooth", notoSans.className)}>
+            <head>
+                {analyticsDomain && (
+                    <PlausibleProvider
+                        domain={analyticsDomain}
+                        customDomain="https://analytics.rainnny.club"
+                        selfHosted
+                    />
+                )}
+            </head>
+            <body className="relative min-h-screen">
+                <ThemeProvider attribute="class" defaultTheme="dark">
+                    <TooltipProvider>
+                        <Navbar />
+                        {children}
+                        <Footer />
+                    </TooltipProvider>
+                </ThemeProvider>
+            </body>
+        </html>
+    );
 };
 export default RootLayout;
