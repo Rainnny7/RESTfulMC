@@ -1,7 +1,15 @@
 import Creeper from "@/components/creeper";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/lib/utils";
+import { Metadata } from "next";
 import Link from "next/link";
+
+/**
+ * Page metadata.
+ */
+export const metadata: Metadata = {
+	title: "Docs",
+};
 
 /**
  * The documentation page.
