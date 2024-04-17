@@ -14,7 +14,10 @@ const Hero = (): JSX.Element => (
 		<div className="flex flex-col gap-4 items-center text-center">
 			{/* Title */}
 			<h1
-				className={cn("text-6xl text-minecraft-green-3", minecrafter.className)}
+				className={cn(
+					"text-5xl sm:text-6xl text-minecraft-green-3",
+					minecrafter.className
+				)}
 			>
 				{config.siteName}
 			</h1>
