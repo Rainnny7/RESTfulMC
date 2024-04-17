@@ -14,6 +14,7 @@ const PlayerResult = ({
 		uniqueId,
 		username,
 		skin: { parts },
+		legacy,
 	},
 }: {
 	player: CachedPlayer;
@@ -23,16 +24,19 @@ const PlayerResult = ({
 		<div className="flex gap-5 items-center">
 			{/* Player Head */}
 			<Image
-				src={parts[SkinPart.HEAD]}
+				src={parts.HEAD}
 				alt={`${username}'s Head`}
 				width={128}
 				height={128}
 			/>
 
-			{/* Name & Unique ID */}
+			{/* Name, Unique ID, and Badges */}
 			<div className="flex flex-col gap-1.5">
 				<h1 className="text-xl font-bold text-minecraft-green-3">{username}</h1>
 				<code className="text-zinc-300">{uniqueId}</code>
+
+				{/* Legacy Badge */}
+				{legacy && <p className="text-sm font-semibold uppercase">Legacy</p>}
 			</div>
 		</div>
 
