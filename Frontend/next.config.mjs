@@ -4,7 +4,7 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "mc.rainnny.club",
+				hostname: "api.restfulmc.cc",
 			},
 		],
 	},
