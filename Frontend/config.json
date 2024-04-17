@@ -27,7 +27,7 @@
 		]
 	},
 	"viewport": {
-		"themeColor": "hsl(107 55% 34%)"
+		"themeColor": "#3C8627"
 	},
 	"navbarLinks": {
 		"Player": "/player",
