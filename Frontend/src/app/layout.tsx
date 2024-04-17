@@ -44,7 +44,7 @@ const RootLayout = ({
                     <TooltipProvider>
                         <Navbar />
                         {children}
-                        <Footer />
+                        {/*<Footer />*/}
                     </TooltipProvider>
                 </ThemeProvider>
             </body>
