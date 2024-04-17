@@ -1,6 +1,7 @@
 {
 	"siteName": "RESTfulMC",
 	"siteUrl": "http://localhost:3000",
+	"apiEndpoint": "https://api.restfulmc.cc",
 	"analyticsDomain": "restfulmc.cc",
 	"metadata": {
 		"title": {
