@@ -28,7 +28,7 @@ const PlayerResult = ({
                 href={`${config.apiEndpoint}/player/${username}`}
                 target="_blank"
             >
-                <Badge className="bg-minecraft-green-3 hover:bg-minecraft-green-3 hover:opacity-85 text-white font-semibold uppercase transition-all transform-gpu">
+                <Badge className="bg-minecraft-green-2 hover:bg-minecraft-green-2 hover:opacity-85 text-white font-semibold uppercase transition-all transform-gpu">
                     Raw Json
                 </Badge>
             </Link>
