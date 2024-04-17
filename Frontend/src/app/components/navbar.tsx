@@ -68,13 +68,14 @@ const Navbar = (): JSX.Element => {
 			{/* Social Buttons */}
 			<div className="hidden md:flex">
 				{/* Star on Github <3 */}
-				<MinecraftButton className="group/star">
-					<Link
-						className="flex gap-1.5 items-center"
-						href="https://github.com/Rainnny7/RESTfulMC"
-						rel="noopener noreferrer"
-						target="_blank"
-					>
+
+				<Link
+					className="flex gap-1.5 items-center"
+					href="https://github.com/Rainnny7/RESTfulMC"
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					<MinecraftButton className="group/star">
 						{/* Star Count */}
 						<Suspense fallback={<Skeleton className="w-4 h-5 rounded-md" />}>
 							<GitHubStarCount />
@@ -86,8 +87,8 @@ const Navbar = (): JSX.Element => {
 							height={22}
 						/>
 						<span>Star on GitHub</span>
-					</Link>
-				</MinecraftButton>
+					</MinecraftButton>
+				</Link>
 			</div>
 		</nav>
 	);
