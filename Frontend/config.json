@@ -27,7 +27,7 @@
 		]
 	},
 	"viewport": {
-		"themeColor": "hsl(var(--minecraft-green-2))"
+		"themeColor": "hsl(107 55% 34%)"
 	},
 	"navbarLinks": {
 		"Player": "/player",

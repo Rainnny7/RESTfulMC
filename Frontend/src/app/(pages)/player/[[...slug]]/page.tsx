@@ -79,7 +79,7 @@ export const generateMetadata = async ({
 		try {
 			const player: CachedPlayer = await getPlayer(query); // Get the player to embed
 			return Embed({
-				title: `${player.username}'s Profile${player.legacy && " (Legacy)"}`,
+				title: `${player.username}'s Profile`,
 				description: `UUID: ${player.uniqueId}\n\nClick to view data about this player.`,
 				thumbnail: player.skin.parts.HEAD,
 			});
