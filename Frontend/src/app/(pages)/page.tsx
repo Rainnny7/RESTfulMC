@@ -1,6 +1,7 @@
 import FeaturedContent from "@/components/landing/featured-content";
 import Hero from "@/components/landing/hero";
 import StatisticCounters from "@/components/landing/statistic-counters";
+import { ReactElement } from "react";
 
 /**
  * The landing page.

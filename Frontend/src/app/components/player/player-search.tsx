@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 
 import { Label } from "@/components/ui/label";
 import { redirect } from "next/navigation";
+import { ReactElement } from "react";
 
 /**
  * A component for searching for a player.
@@ -15,7 +16,7 @@ const PlayerSearch = ({
 }: {
     query: string | undefined;
 }): ReactElement => {
-    const handleRedirect = async (form: FormData) => {
+    const handleRedirect = async (form: FormData): Promise<void> => {
         "use server";
         redirect(`/player/${form.get("query")}`);
     };

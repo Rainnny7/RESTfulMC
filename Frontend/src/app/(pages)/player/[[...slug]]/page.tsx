@@ -114,7 +114,7 @@ export const generateMetadata = async ({
 const trimQuery = (query: string | undefined): string | undefined => {
     // Limit the query to 36 chars
     if (query && query.length > 36) {
-        query = query.substr(0, 36);
+        query = query.substring(0, 36);
     }
     return query;
 };

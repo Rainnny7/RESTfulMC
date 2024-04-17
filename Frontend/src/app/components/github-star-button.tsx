@@ -2,8 +2,14 @@ import MinecraftButton from "@/components/minecraft-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StarIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { Suspense } from "react";
+import { ReactElement, Suspense } from "react";
 
+/**
+ * The button to display the amount
+ * of stars the GitHub repository has.
+ *
+ * @returns the component jsx
+ */
 const GitHubStarButton = async (): Promise<ReactElement> => {
     return (
         <Link
@@ -35,7 +41,7 @@ const GitHubStarButton = async (): Promise<ReactElement> => {
  *
  * @returns the star count jsx
  */
-const GitHubStarCount = async (): Promise<JSX.Element> => {
+const GitHubStarCount = async (): Promise<ReactElement> => {
     const stars: number = await getStarCount(); // Get the repo star count
     return (
         <code className="px-1 rounded-md bg-minecraft-green-3/80">{stars}</code>

@@ -1,7 +1,5 @@
-import { Config } from "@/types/config";
-
 /**
  * The configuration for this app.
  */
-const config: Config = require("@/configJson");
+import config from "@/configJson";
 export default config;

@@ -8,7 +8,7 @@ import ThemeProvider from "@/provider/theme-provider";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
 import "./globals.css";
-import { ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 
 /**
  * Site metadata & viewport.
@@ -25,7 +25,7 @@ export const viewport: Viewport = config.viewport;
 const RootLayout = ({
     children,
 }: Readonly<{
-    children: React.ReactNode;
+    children: ReactNode;
 }>): ReactElement => {
     const analyticsDomain: string | undefined = config.analyticsDomain;
     return (
