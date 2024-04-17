@@ -11,31 +11,31 @@ import { redirect } from "next/navigation";
  * @returns the search component jsx
  */
 const PlayerSearch = ({
-	query,
+    query,
 }: {
-	query: string | undefined;
-}): JSX.Element => {
-	const handleRedirect = async (form: FormData) => {
-		"use server";
-		redirect(`/player/${form.get("query")}`);
-	};
-	return (
-		<form
-			className="flex flex-col gap-7 justify-center items-center"
-			action={handleRedirect}
-		>
-			<div className="w-full flex flex-col gap-3">
-				<Label htmlFor="query">Username or UUID</Label>
-				<Input
-					type="search"
-					name="query"
-					placeholder="Query..."
-					defaultValue={query}
-					maxLength={36}
-				/>
-			</div>
-			<MinecraftButton type="submit">Search</MinecraftButton>
-		</form>
-	);
+    query: string | undefined;
+}): ReactElement => {
+    const handleRedirect = async (form: FormData) => {
+        "use server";
+        redirect(`/player/${form.get("query")}`);
+    };
+    return (
+        <form
+            className="flex flex-col gap-7 justify-center items-center"
+            action={handleRedirect}
+        >
+            <div className="w-full flex flex-col gap-3">
+                <Label htmlFor="query">Username or UUID</Label>
+                <Input
+                    type="search"
+                    name="query"
+                    placeholder="Query..."
+                    defaultValue={query}
+                    maxLength={36}
+                />
+            </div>
+            <MinecraftButton type="submit">Search</MinecraftButton>
+        </form>
+    );
 };
 export default PlayerSearch;

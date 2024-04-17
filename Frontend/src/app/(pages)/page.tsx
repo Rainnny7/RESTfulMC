@@ -7,11 +7,11 @@ import StatisticCounters from "@/components/landing/statistic-counters";
  *
  * @returns the page jsx
  */
-const LandingPage = (): JSX.Element => (
-	<main className="px-3">
-		<Hero />
-		<FeaturedContent />
-		<StatisticCounters />
-	</main>
+const LandingPage = (): ReactElement => (
+    <main className="px-3">
+        <Hero />
+        <FeaturedContent />
+        <StatisticCounters />
+    </main>
 );
 export default LandingPage;
