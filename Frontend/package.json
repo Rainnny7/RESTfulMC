@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Braydon (Rainnny) <braydonrainnny@gmail.com>",
   "description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
-  "homepage": "https://mc.rainnny.club",
+  "homepage": "https://restfulmc.cc",
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
@@ -25,7 +25,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
-    "restfulmc-lib": "^1.1.1",
+    "restfulmc-lib": "^1.1.2",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7"
   },
