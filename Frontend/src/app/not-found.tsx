@@ -9,14 +9,14 @@ import { ReactElement } from "react";
  * @returns the page jsx
  */
 const NotFoundPage = (): ReactElement => (
-    <main className="h-[84vh] flex flex-col gap-3 justify-center items-center pointer-events-none">
+    <main className="h-[84vh] flex flex-col gap-3 justify-center items-center text-center pointer-events-none">
         {/* Creeper */}
         <Creeper />
 
         {/* Header */}
         <h1
             className={cn(
-                "text-6xl text-minecraft-green-3",
+                "text-5xl sm:text-6xl text-minecraft-green-3",
                 minecrafter.className
             )}
         >
