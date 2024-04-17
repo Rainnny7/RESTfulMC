@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import config from "@/config";
@@ -42,6 +43,7 @@ const RootLayout = ({
 					<TooltipProvider>
 						<Navbar />
 						{children}
+						<Footer />
 					</TooltipProvider>
 				</ThemeProvider>
 			</body>

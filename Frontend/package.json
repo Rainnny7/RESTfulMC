@@ -23,6 +23,7 @@
     "next-plausible": "^3.12.0",
     "next-themes": "^0.3.0",
     "react": "^18",
+    "react-countup": "^6.5.3",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
     "restfulmc-lib": "^1.1.2",

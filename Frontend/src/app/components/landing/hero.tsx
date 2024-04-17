@@ -10,11 +10,11 @@ import Link from "next/link";
  * @returns the hero jsx
  */
 const Hero = (): JSX.Element => (
-	<div className="h-[70vh] flex flex-col gap-8 justify-center items-center">
+	<div className="pt-56 pb-40 flex flex-col gap-8 justify-center items-center">
 		<div className="flex flex-col gap-4 items-center text-center">
 			{/* Title */}
 			<h1
-				className={cn("text-5xl text-minecraft-green-3", minecrafter.className)}
+				className={cn("text-6xl text-minecraft-green-3", minecrafter.className)}
 			>
 				{config.siteName}
 			</h1>

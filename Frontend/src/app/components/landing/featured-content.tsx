@@ -10,7 +10,7 @@ import Link from "next/link";
  * @returns the featured content jsx
  */
 const FeaturedContent = (): JSX.Element => (
-	<div className="-translate-y-14 flex justify-center items-center">
+	<div className="flex justify-center items-center">
 		<div className="max-w-2xl flex flex-wrap justify-center gap-5">
 			{config.featuredItems.map((item, index) => (
 				<FeaturedItem key={index} {...item} />

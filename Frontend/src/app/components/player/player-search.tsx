@@ -25,7 +25,7 @@ const PlayerSearch = ({
 			action={handleRedirect}
 		>
 			<div className="w-full flex flex-col gap-3">
-				<Label>Username or UUID</Label>
+				<Label htmlFor="query">Username or UUID</Label>
 				<Input
 					type="search"
 					name="query"
