@@ -13,7 +13,7 @@ A simple, yet useful RESTful API for Minecraft utilizing Springboot.
     - [Wiki](#wiki)
 - [SDKs](https://git.rainnny.club/Rainnny/RESTfulMC/wiki)
     - [JavaScript](./JS-SDK)
-- [Contributing](#contributing)
+- [Contributing](./CONTRIBUTING.md)
 
 ---
 
@@ -21,8 +21,3 @@ A simple, yet useful RESTful API for Minecraft utilizing Springboot.
 
 ### Wiki
 Hi there! Looking for usage? View the [Wiki](https://git.rainnny.club/Rainnny/RESTfulMC/wiki) for more information!
-
-## Contributing
-Made changes or improvements to RESTfulMC? Consider opening a [pull request](https://git.rainnny.club/Rainnny/RESTfulMC/pulls) to merge your changes into the project. Remember to stick with project conventions!
-
-This project follows [Semantic Versioning](https://semver.org).
