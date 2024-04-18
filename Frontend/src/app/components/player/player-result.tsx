@@ -119,18 +119,18 @@ const PlayerResult = ({
                 </div>
             </div>
         </ContextMenuTrigger>
-        <ContextMenuContent>
-            <ContextMenuItem>
-                <CopyButton content={username}>Copy Player Username</CopyButton>
-            </ContextMenuItem>
-            <ContextMenuItem>
-                <CopyButton content={uniqueId}>Copy Player UUID</CopyButton>
-            </ContextMenuItem>
-            <ContextMenuItem>
-                <CopyButton content={`${config.siteUrl}/player/${query}`}>
-                    Copy Share URL
-                </CopyButton>
-            </ContextMenuItem>
+        <ContextMenuContent className="flex flex-col">
+            <CopyButton content={username}>
+                <ContextMenuItem>Copy Player Username</ContextMenuItem>
+            </CopyButton>
+
+            <CopyButton content={uniqueId}>
+                <ContextMenuItem>Copy Player UUID</ContextMenuItem>
+            </CopyButton>
+
+            <CopyButton content={`${config.siteUrl}/player/${query}`}>
+                <ContextMenuItem>Copy Share URL</ContextMenuItem>
+            </CopyButton>
         </ContextMenuContent>
     </ContextMenu>
 );
