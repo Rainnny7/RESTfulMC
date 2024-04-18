@@ -10,6 +10,12 @@ type EmbedProps = {
     title: string;
 
     /**
+     * The color of this embed, undefined
+     * for no custom color.
+     */
+    color?: string | undefined;
+
+    /**
      * The description of the embed.
      */
     description: string;
@@ -28,6 +34,7 @@ type EmbedProps = {
  */
 const Embed = ({
     title,
+    color,
     description,
     thumbnail = "",
 }: EmbedProps): Metadata => {
@@ -45,6 +52,7 @@ const Embed = ({
         twitter: {
             card: "summary",
         },
+        themeColor: color,
     };
 };
 export default Embed;

@@ -59,7 +59,7 @@ const PlayerPage = async ({ params }: PageProps): Promise<ReactElement> => {
                     </div>
 
                     {/* Player Result */}
-                    {result && <PlayerResult player={result} />}
+                    {result && <PlayerResult query={query} player={result} />}
                 </div>
             </div>
         </main>
@@ -92,11 +92,13 @@ export const generateMetadata = async ({
             if (code === 400) {
                 return Embed({
                     title: "Invalid Player",
+                    color: "#EB4034",
                     description: "The player you searched for is invalid.",
                 });
             } else if (code === 404) {
                 return Embed({
                     title: "Player Not Found",
+                    color: "#EB4034",
                     description: "The player you searched for was not found.",
                 });
             }

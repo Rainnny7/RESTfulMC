@@ -8,7 +8,7 @@ import { ReactElement } from "react";
  */
 const StatisticCounters = (): ReactElement => (
     <div className="py-56 flex justify-center items-center">
-        <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-24">
+        <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-24 pointer-events-none">
             <Counter name="Testing" amount={1_000_000} />
             <Counter name="Testing" amount={1_000_000} />
             <Counter name="Testing" amount={1_000_000} />
