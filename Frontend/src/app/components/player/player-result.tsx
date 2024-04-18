@@ -11,7 +11,21 @@ import {
     ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import CopyButton from "@/components/copy-button";
-import * as querystring from "node:querystring";
+
+/**
+ * The props for a player result.
+ */
+type PlayerResultProps = {
+    /**
+     * The original query to lookup this player.
+     */
+    query: string | undefined;
+
+    /**
+     * The result of a search.
+     */
+    player: CachedPlayer;
+};
 
 /**
  * The result of a player search.
@@ -27,10 +41,7 @@ const PlayerResult = ({
         skin: { parts },
         legacy,
     },
-}: {
-    query: string;
-    player: CachedPlayer;
-}): ReactElement => (
+}: PlayerResultProps): ReactElement => (
     <ContextMenu>
         <ContextMenuTrigger>
             <div className="relative px-2 py-3 flex flex-col items-center bg-muted rounded-xl">
