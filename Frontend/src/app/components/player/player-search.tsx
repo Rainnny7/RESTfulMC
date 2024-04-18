@@ -21,16 +21,14 @@ type PlayerSearchProps = {
  * @param query the query to search for
  * @returns the search component jsx
  */
-const PlayerSearch = ({
-    query,
-}: PlayerSearchProps): ReactElement => {
+const PlayerSearch = ({ query }: PlayerSearchProps): ReactElement => {
     const handleRedirect = async (form: FormData): Promise<void> => {
         "use server";
         redirect(`/player/${form.get("query")}`);
     };
     return (
         <form
-            className="flex flex-col gap-7 items-center"
+            className="flex flex-col gap-7 justify-center items-center"
             action={handleRedirect}
         >
             <div className="w-full flex flex-col gap-3">

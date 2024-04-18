@@ -44,7 +44,7 @@ const ServerSearch = ({
     };
     return (
         <form
-            className="flex flex-col gap-7 items-center"
+            className="flex flex-col gap-7 justify-center items-center"
             action={handleRedirect}
         >
             <div className="w-full flex gap-2">
