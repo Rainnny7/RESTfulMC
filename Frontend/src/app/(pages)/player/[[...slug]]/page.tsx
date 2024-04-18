@@ -99,7 +99,10 @@ export const generateMetadata = async ({
             }
         }
     }
-    return {};
+    return Embed({
+        title: "Player Lookup",
+        description: "Search for a player to view their profile.",
+    });
 };
 
 /**

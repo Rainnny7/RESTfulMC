@@ -123,7 +123,10 @@ export const generateMetadata = async ({
             }
         }
     }
-    return {};
+    return Embed({
+        title: "Server Lookup",
+        description: "Search for a server to view its data.",
+    });
 };
 
 export default ServerPage;
