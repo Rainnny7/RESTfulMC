@@ -37,7 +37,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,11 +70,17 @@ public final class MojangController {
      */
     @GetMapping("/status")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> getStatus() throws BadRequestException {
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<Map<String, List<Map<String, Object>>>> getStatus() throws BadRequestException {
+        List<Map<String, Object>> servers = new ArrayList<>();
         for (Map.Entry<MojangServer, MojangServer.Status> entry : mojangService.getMojangServerStatuses().entrySet()) {
-            response.put(entry.getKey().getEndpoint(), entry.getValue().name());
+            MojangServer server = entry.getKey();
+
+            Map<String, Object> serverStatus = new HashMap<>();
+            serverStatus.put("name", server.getName());
+            serverStatus.put("endpoint", server.getEndpoint());
+            serverStatus.put("status", entry.getValue().name());
+            servers.add(serverStatus);
         }
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of("servers", servers));
     }
 }

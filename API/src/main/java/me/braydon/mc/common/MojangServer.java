@@ -39,13 +39,18 @@ import java.net.UnknownHostException;
  */
 @AllArgsConstructor @Getter @ToString
 public enum MojangServer {
-    SESSION("https://sessionserver.mojang.com"),
-    API("https://api.mojang.com"),
-    TEXTURES("https://textures.minecraft.net"),
-    ASSETS("https://assets.mojang.com"),
-    LIBRARIES("https://libraries.minecraft.net");
+    SESSION("Session Server", "https://sessionserver.mojang.com"),
+    API("Mojang API", "https://api.mojang.com"),
+    TEXTURES("Textures Server", "https://textures.minecraft.net"),
+    ASSETS("Assets Server", "https://assets.mojang.com"),
+    LIBRARIES("Libraries Server", "https://libraries.minecraft.net");
 
     private static final int STATUS_TIMEOUT = 7000;
+
+    /**
+     * The name of this server.
+     */
+    @NonNull private final String name;
 
     /**
      * The endpoint of this service.
