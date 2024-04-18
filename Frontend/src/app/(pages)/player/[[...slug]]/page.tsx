@@ -1,13 +1,14 @@
 import Embed from "@/components/embed";
 import PlayerResult from "@/components/player/player-result";
 import PlayerSearch from "@/components/player/player-search";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { PageProps } from "@/types/page";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { Metadata } from "next";
-import Image from "next/image";
-import { CachedPlayer, getPlayer, type RestfulMCAPIError } from "restfulmc-lib";
 import { ReactElement } from "react";
+import { CachedPlayer, getPlayer, type RestfulMCAPIError } from "restfulmc-lib";
 
 /**
  * The page to lookup a player.
@@ -29,38 +30,32 @@ const PlayerPage = async ({ params }: PageProps): Promise<ReactElement> => {
     // Render the page
     return (
         <main className="px-3 h-screen flex justify-center items-center">
-            <div className="mt-0 sm:mt-[45rem] xl:mt-0 flex flex-col xl:flex-row xl:gap-24 2xl:gap-48 transition-all transform-gpu">
-                {/* Banner */}
-                <Image
-                    className="hidden sm:flex xl:my-auto h-[28rem] pointer-events-none"
-                    src="/media/players.webp"
-                    alt="Minecraft Players"
-                    width={632}
-                    height={632}
-                />
+            <div className="flex flex-col gap-7">
+                <h1
+                    className={cn(
+                        "mt-20 text-6xl text-minecraft-green-3 text-center pointer-events-none",
+                        minecrafter.className
+                    )}
+                >
+                    Player Lookup
+                </h1>
 
-                {/* Search */}
-                <div className="pb-16 xl:pb-0 flex flex-col gap-7">
-                    <h1
-                        className={cn(
-                            "mt-20 text-6xl text-minecraft-green-3 text-center pointer-events-none",
-                            minecrafter.className
-                        )}
-                    >
-                        Player Lookup
-                    </h1>
+                <div className="flex flex-col gap-5 px-10 xs:px-0">
+                    {/* Error */}
+                    {error && (
+                        <Alert variant="destructive">
+                            <ExclamationCircleIcon width={20} height={20} />
+                            <AlertTitle>Error</AlertTitle>
+                            <AlertDescription>{error}</AlertDescription>
+                        </Alert>
+                    )}
 
-                    <div className="flex flex-col gap-5 px-10 xs:px-0">
-                        {/* Error */}
-                        {error && <p className="text-red-500">{error}</p>}
-
-                        {/* Search */}
-                        <PlayerSearch query={query} />
-                    </div>
-
-                    {/* Player Result */}
-                    {result && <PlayerResult query={query} player={result} />}
+                    {/* Search */}
+                    <PlayerSearch query={query} />
                 </div>
+
+                {/* Player Result */}
+                {result && <PlayerResult query={query} player={result} />}
             </div>
         </main>
     );
@@ -93,13 +88,13 @@ export const generateMetadata = async ({
                 return Embed({
                     title: "Invalid Player",
                     color: "#EB4034",
-                    description: "The player you searched for is invalid.",
+                    description: `The player ${query} is invalid.`,
                 });
             } else if (code === 404) {
                 return Embed({
                     title: "Player Not Found",
                     color: "#EB4034",
-                    description: "The player you searched for was not found.",
+                    description: `The player ${query} was not found.`,
                 });
             }
         }

@@ -1,53 +1,53 @@
 {
-	"siteName": "RESTfulMC",
-	"siteUrl": "http://localhost:3000",
-	"apiEndpoint": "https://api.restfulmc.cc",
-	"analyticsDomain": "restfulmc.cc",
-	"metadata": {
-		"title": {
-			"default": "RESTfulMC",
-			"template": "%s 🞄 RESTfulMC"
-		},
-		"description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
-		"keywords": [
-			"java",
-			"minecraft",
-			"json",
-			"rest-api",
-			"restful",
-			"bedrock",
-			"springboot"
-		],
-		"icons": [
-			{
-				"rel": "icon",
-				"type": "image/png",
-				"sizes": "32x32",
-				"url": "/media/logo.webp"
-			}
-		]
-	},
-	"viewport": {
-		"themeColor": "#3C8627"
-	},
-	"navbarLinks": {
-		"Player": "/player",
-		"Server": "/server",
-		"Mojang": "/mojang",
-		"Docs": "/docs"
-	},
-	"featuredItems": [
-		{
-			"name": "Player Lookup",
-			"description": "Wanna find a player? You can locate them here by their username or UUID.",
-			"image": "/media/featured/server.png",
-			"href": "/player"
-		},
-		{
-			"name": "Server Lookup",
-			"description": "Fugiat culpa est consequat nostrud exercitation ut id ex in.",
-			"image": "/media/featured/server.png",
-			"href": "/player"
-		}
-	]
+    "siteName": "RESTfulMC",
+    "siteUrl": "http://localhost:3000",
+    "apiEndpoint": "https://api.restfulmc.cc",
+    "analyticsDomain": "restfulmc.cc",
+    "metadata": {
+        "title": {
+            "default": "RESTfulMC",
+            "template": "%s 🞄 RESTfulMC"
+        },
+        "description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
+        "keywords": [
+            "java",
+            "minecraft",
+            "json",
+            "rest-api",
+            "restful",
+            "bedrock",
+            "springboot"
+        ],
+        "icons": [
+            {
+                "rel": "icon",
+                "type": "image/png",
+                "sizes": "32x32",
+                "url": "/media/logo.webp"
+            }
+        ]
+    },
+    "viewport": {
+        "themeColor": "#3C8627"
+    },
+    "navbarLinks": {
+        "Player": "/player",
+        "Server": "/server",
+        "Mojang": "/mojang",
+        "Docs": "/docs"
+    },
+    "featuredItems": [
+        {
+            "name": "Player Lookup",
+            "description": "Wanna find a player? You can locate them here by their username or UUID.",
+            "image": "/media/featured/server.jpg",
+            "href": "/player"
+        },
+        {
+            "name": "Server Lookup",
+            "description": "Fugiat culpa est consequat nostrud exercitation ut id ex in.",
+            "image": "/media/featured/server.jpg",
+            "href": "/player"
+        }
+    ]
 }

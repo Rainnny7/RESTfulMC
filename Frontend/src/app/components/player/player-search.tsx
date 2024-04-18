@@ -6,6 +6,16 @@ import { redirect } from "next/navigation";
 import { ReactElement } from "react";
 
 /**
+ * Props for a player search.
+ */
+type PlayerSearchProps = {
+    /**
+     * The original query to search for.
+     */
+    query: string | undefined;
+};
+
+/**
  * A component for searching for a player.
  *
  * @param query the query to search for
@@ -13,16 +23,14 @@ import { ReactElement } from "react";
  */
 const PlayerSearch = ({
     query,
-}: {
-    query: string | undefined;
-}): ReactElement => {
+}: PlayerSearchProps): ReactElement => {
     const handleRedirect = async (form: FormData): Promise<void> => {
         "use server";
         redirect(`/player/${form.get("query")}`);
     };
     return (
         <form
-            className="flex flex-col gap-7 justify-center items-center"
+            className="flex flex-col gap-7 items-center"
             action={handleRedirect}
         >
             <div className="w-full flex flex-col gap-3">
@@ -32,6 +40,7 @@ const PlayerSearch = ({
                     name="query"
                     placeholder="Query..."
                     defaultValue={query}
+                    required
                     maxLength={36}
                 />
             </div>
