@@ -103,7 +103,7 @@ export const generateMetadata = async ({
             ); // Get the server to embed
             return Embed({
                 title: `${capitialize(platform)} Server: ${server.hostname}`,
-                description: `There are ${server.players.online}/${server.players.max} playing here!\n\nClick to view data about this server.`,
+                description: `There are ${server.players.online.toLocaleString()}/${server.players.max.toLocaleString()} playing here!\n\nClick to view data about this server.`,
                 thumbnail: (server as CachedJavaMinecraftServer).favicon?.url,
             });
         } catch (err) {
