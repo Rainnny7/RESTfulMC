@@ -9,6 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { capitialize } from "@/lib/stringUtils";
 import { redirect } from "next/navigation";
 import { ReactElement } from "react";
 import { ServerPlatform } from "restfulmc-lib";
@@ -63,8 +64,7 @@ const ServerSearch = ({
                             {Object.values(ServerPlatform).map(
                                 (platform, index) => (
                                     <SelectItem key={index} value={platform}>
-                                        {platform.charAt(0).toUpperCase() +
-                                            platform.substring(1)}
+                                        {capitialize(platform)}
                                     </SelectItem>
                                 )
                             )}

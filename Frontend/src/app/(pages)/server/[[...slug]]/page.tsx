@@ -3,6 +3,7 @@ import ServerResult from "@/components/server/server-result";
 import ServerSearch from "@/components/server/server-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { minecrafter } from "@/font/fonts";
+import { capitialize } from "@/lib/stringUtils";
 import { cn } from "@/lib/utils";
 import { PageProps } from "@/types/page";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
@@ -94,15 +95,14 @@ export const generateMetadata = async ({
     // Try and get the server to display
     if (platform && hostname) {
         try {
-            const serverPlatform: ServerPlatform = platform as ServerPlatform;
             const server:
                 | CachedJavaMinecraftServer
                 | CachedBedrockMinecraftServer = await getMinecraftServer(
-                serverPlatform,
+                platform as ServerPlatform,
                 hostname
             ); // Get the server to embed
             return Embed({
-                title: `${serverPlatform} Server: ${server.hostname}`,
+                title: `${capitialize(platform)} Server: ${server.hostname}`,
                 description: `There are ${server.players.online}/${server.players.max} playing here!\n\nClick to view data about this server.`,
                 thumbnail: (server as CachedJavaMinecraftServer).favicon?.url,
             });
