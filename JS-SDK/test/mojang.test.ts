@@ -8,6 +8,6 @@ import { expect, test } from "bun:test";
  * successful.
  */
 test("ensureServerStatusCheckSuccess", async () => {
-	const status: MojangServerStatusResponse = await getMojangServerStatus(); // Get Mojang service status
-	expect(status).toBeDefined();
+	const response: MojangServerStatusResponse = await getMojangServerStatus(); // Get Mojang service status
+	expect(response).toBeDefined();
 });
