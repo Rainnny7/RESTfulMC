@@ -18,6 +18,12 @@ export const metadata: Metadata = {
 };
 
 /**
+ * Force the page to be dynamic, so
+ * it will be regenerated on every request
+ */
+export const dynamic: string = "force-dynamic";
+
+/**
  * The page to view the
  * status of Mojang servers.
  *
