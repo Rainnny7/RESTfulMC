@@ -10,7 +10,7 @@ import Background from "../components/landing/background";
  * @returns the page jsx
  */
 const LandingPage = (): ReactElement => (
-    <main className="flex flex-col gap-14">
+    <main className="flex flex-col gap-10">
         {/* Hero */}
         <div className="relative">
             <Background />
