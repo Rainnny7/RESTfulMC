@@ -1,8 +1,8 @@
 "use client";
 
-import { useToast } from "@/components/ui/use-toast";
 import copy from "clipboard-copy";
 import { ReactElement, ReactNode } from "react";
+import { toast } from "sonner";
 
 /**
  * Props for the copy button.
@@ -37,19 +37,13 @@ const CopyButton = ({
     children,
     showToast,
 }: CopyButtonProps): ReactElement => {
-    const { toast } = useToast();
     const handleClick = async (): Promise<void> => {
         await copy(content); // Copy to the clipboard
 
         // Show a toast when copied
         if (showToast) {
-            toast({
-                title: "Copied",
-                description: (
-                    <>
-                        Copied <b>{content}</b> to your clipboard
-                    </>
-                ),
+            toast("Copied", {
+                description: `Copied "${content}" to your clipboard`,
             });
         }
     };
