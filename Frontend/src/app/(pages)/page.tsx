@@ -2,6 +2,7 @@ import FeaturedContent from "@/components/landing/featured-content";
 import Hero from "@/components/landing/hero";
 import StatisticCounters from "@/components/landing/statistic-counters";
 import { ReactElement } from "react";
+import Background from "../components/landing/background";
 
 /**
  * The landing page.
@@ -9,10 +10,18 @@ import { ReactElement } from "react";
  * @returns the page jsx
  */
 const LandingPage = (): ReactElement => (
-    <main className="px-3">
-        <Hero />
-        <FeaturedContent />
-        <StatisticCounters />
+    <main className="flex flex-col gap-14">
+        {/* Hero */}
+        <div className="relative">
+            <Background />
+            <Hero />
+        </div>
+
+        {/* Content */}
+        <div className="px-3">
+            <FeaturedContent />
+            <StatisticCounters />
+        </div>
     </main>
 );
 export default LandingPage;
