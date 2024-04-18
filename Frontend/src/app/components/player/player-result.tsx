@@ -1,16 +1,16 @@
-import Image from "next/image";
-import Link from "next/link";
-import { CachedPlayer, SkinPart } from "restfulmc-lib";
-import { ReactElement } from "react";
+import CopyButton from "@/components/copy-button";
 import { Badge } from "@/components/ui/badge";
-import config from "@/config";
 import {
     ContextMenu,
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import CopyButton from "@/components/copy-button";
+import config from "@/config";
+import Image from "next/image";
+import Link from "next/link";
+import { ReactElement } from "react";
+import { CachedPlayer, SkinPart } from "restfulmc-lib";
 
 /**
  * The props for a player result.
@@ -120,15 +120,15 @@ const PlayerResult = ({
             </div>
         </ContextMenuTrigger>
         <ContextMenuContent className="flex flex-col">
-            <CopyButton content={username}>
+            <CopyButton content={username} showToast>
                 <ContextMenuItem>Copy Player Username</ContextMenuItem>
             </CopyButton>
 
-            <CopyButton content={uniqueId}>
+            <CopyButton content={uniqueId} showToast>
                 <ContextMenuItem>Copy Player UUID</ContextMenuItem>
             </CopyButton>
 
-            <CopyButton content={`${config.siteUrl}/player/${query}`}>
+            <CopyButton content={`${config.siteUrl}/player/${query}`} showToast>
                 <ContextMenuItem>Copy Share URL</ContextMenuItem>
             </CopyButton>
         </ContextMenuContent>

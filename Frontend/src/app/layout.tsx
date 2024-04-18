@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import config from "@/config";
 import { notoSans } from "@/font/fonts";
@@ -6,8 +7,8 @@ import { cn } from "@/lib/utils";
 import ThemeProvider from "@/provider/theme-provider";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
-import "./globals.css";
 import { ReactElement, ReactNode } from "react";
+import "./globals.css";
 
 /**
  * Site metadata & viewport.
@@ -45,6 +46,9 @@ const RootLayout = ({
                         {children}
                         {/*<Footer />*/}
                     </TooltipProvider>
+
+                    {/* Toasts */}
+                    <Toaster />
                 </ThemeProvider>
             </body>
         </html>
