@@ -1,8 +1,17 @@
+"use client";
+
 import MinecraftButton from "@/components/minecraft-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StarIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { ReactElement, Suspense } from "react";
+import {
+    Dispatch,
+    ReactElement,
+    SetStateAction,
+    Suspense,
+    useEffect,
+    useState,
+} from "react";
 
 /**
  * The button to display the amount
@@ -10,7 +19,27 @@ import { ReactElement, Suspense } from "react";
  *
  * @returns the component jsx
  */
-const GitHubStarButton = async (): Promise<ReactElement> => {
+const GitHubStarButton = (): ReactElement => {
+    const [stars, setStars]: [
+        number | undefined,
+        Dispatch<SetStateAction<number | undefined>>
+    ] = useState<number | undefined>(undefined); // The stars of the repository
+
+    useEffect(() => {
+        const fetchStars = async (): Promise<void> => {
+            const response: Response = await fetch(
+                "https://api.github.com/repos/Rainnny7/RESTfulMC",
+                { next: { revalidate: 300 } } // Revalidate every 5 minutes
+            );
+            const json: any = await response.json(); // Get the JSON response
+            setStars(json.stargazers_count); // Set the stars
+            console.log("fetch stars");
+        };
+        if (stars === undefined) {
+            fetchStars(); // Fetch the stars
+        }
+    }, [stars]);
+
     return (
         <Link
             href="https://github.com/Rainnny7/RESTfulMC"
@@ -22,7 +51,9 @@ const GitHubStarButton = async (): Promise<ReactElement> => {
                 <Suspense
                     fallback={<Skeleton className="w-4 h-5 rounded-md" />}
                 >
-                    <GitHubStarCount />
+                    <code className="px-1 rounded-md bg-minecraft-green-3/80">
+                        {stars || 0}
+                    </code>
                 </Suspense>
 
                 <StarIcon
@@ -34,33 +65,6 @@ const GitHubStarButton = async (): Promise<ReactElement> => {
             </MinecraftButton>
         </Link>
     );
-};
-
-/**
- * The github star count component.
- *
- * @returns the star count jsx
- */
-const GitHubStarCount = async (): Promise<ReactElement> => {
-    const stars: number = await getStarCount(); // Get the repo star count
-    return (
-        <code className="px-1 rounded-md bg-minecraft-green-3/80">{stars}</code>
-    );
-};
-
-/**
- * Get the amount of stars
- * the repository has.
- *
- * @returns the star count
- */
-const getStarCount = async (): Promise<number> => {
-    const response: Response = await fetch(
-        "https://api.github.com/repos/Rainnny7/RESTfulMC",
-        { next: { revalidate: 300 } } // Revalidate every 5 minutes
-    );
-    const json: any = await response.json(); // Get the JSON response
-    return json.stargazers_count; // Return the stars
 };
 
 export default GitHubStarButton;

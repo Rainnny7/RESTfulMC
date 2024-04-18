@@ -17,7 +17,7 @@ import { ReactElement } from "react";
 const Navbar = (): ReactElement => {
     const path: string = usePathname(); // Get the current path
     return (
-        <nav className="fixed inset-x-0 flex h-16 sm:px-12 justify-center sm:justify-between items-center bg-navbar-background z-50">
+        <nav className="fixed inset-x-0 flex h-16 px-5 sm:px-12 justify-center sm:justify-between items-center bg-navbar-background z-50">
             {/* Left */}
             <div className="flex gap-3 xs:gap-7 lg:gap-12 items-center transition-all transform-gpu">
                 {/* App Branding */}
