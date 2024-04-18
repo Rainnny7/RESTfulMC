@@ -44,9 +44,9 @@ const PlayerResult = ({
 }: PlayerResultProps): ReactElement => (
     <ContextMenu>
         <ContextMenuTrigger>
-            <div className="relative px-2 py-3 flex flex-col items-center bg-muted rounded-xl">
+            <div className="relative px-2 py-7 flex flex-col items-center bg-muted rounded-xl">
                 {/* Raw Json */}
-                <div className="absolute top-[7.25rem] right-5">
+                <div className="absolute top-2 right-2">
                     <Link
                         href={`${config.apiEndpoint}/player/${username}`}
                         target="_blank"
