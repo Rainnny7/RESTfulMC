@@ -32,7 +32,7 @@
     "react-countup": "^6.5.3",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
-    "restfulmc-lib": "^1.1.2",
+    "restfulmc-lib": "^1.1.3",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7"
