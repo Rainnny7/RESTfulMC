@@ -36,7 +36,7 @@ const DocsPage = (): ReactElement => (
         <h2 className="text-2xl">
             This page is still under construction, however we do have a{" "}
             <Link
-                className="text-minecraft-green-4"
+                className="text-minecraft-green-4 pointer-events-auto"
                 href="https://git.rainnny.club/Rainnny/RESTfulMC/wiki"
             >
                 Wiki
