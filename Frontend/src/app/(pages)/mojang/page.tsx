@@ -73,7 +73,7 @@ const MojangStatusPage = async (): Promise<ReactElement> => {
                             {/* Status */}
                             <h2
                                 className={cn(
-                                    "font-semibold",
+                                    "font-semibold pointer-events-none",
                                     statusStyles[status]
                                 )}
                             >
