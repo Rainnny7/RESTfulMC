@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     branches: ["master"]
-    paths: [".gitea/workflows/deploy-frontend.yml", "Frontend/**"]
+    paths: [".gitea/workflows/deploy-frontend.yml", "Frontend/**", "!Frontend/README.md"]
 
 jobs:
   docker:
