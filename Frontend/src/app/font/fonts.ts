@@ -11,5 +11,5 @@ export const notoSans: NextFont = Noto_Sans({ subsets: ["latin"] });
  * The Minecraft font to use for the site.
  */
 export const minecrafter: NextFont = localFont({
-	src: "../font/Minecrafter.ttf",
+    src: "../font/Minecrafter.ttf",
 });
