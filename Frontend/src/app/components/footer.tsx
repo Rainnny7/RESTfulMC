@@ -35,11 +35,6 @@ const Footer = (): ReactElement => (
                         {config.siteName}
                     </h1>
                 </div>
-
-                {/* Disclaimer */}
-                <p className="absolute bottom-7 font-medium opacity-65">
-                    Not affiliated with Mojang or Microsoft.
-                </p>
             </div>
 
             {/* Links */}
@@ -80,6 +75,11 @@ const Footer = (): ReactElement => (
                     )
                 )}
             </div>
+
+            {/* Disclaimer */}
+            <p className="absolute inset-x-0 bottom-7 flex justify-center font-medium opacity-65">
+                Not affiliated with Mojang or Microsoft.
+            </p>
         </div>
     </footer>
 );
