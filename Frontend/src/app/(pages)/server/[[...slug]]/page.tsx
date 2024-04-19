@@ -111,13 +111,11 @@ export const generateMetadata = async ({
             if (code === 400) {
                 return Embed({
                     title: "Invalid Platform or Hostname",
-                    color: "#EB4034",
                     description: `The platform ${platform} or hostname ${hostname} is invalid.`,
                 });
             } else if (code === 404) {
                 return Embed({
                     title: "Server Not Found",
-                    color: "#EB4034",
                     description: `The server ${hostname} was not found.`,
                 });
             }
