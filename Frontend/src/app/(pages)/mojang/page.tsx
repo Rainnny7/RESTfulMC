@@ -63,6 +63,8 @@ const MojangStatusPage = async (): Promise<ReactElement> => {
                                 <Link
                                     href={server.endpoint}
                                     className="text-xs text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
                                 >
                                     <code>{server.endpoint}</code>
                                 </Link>
