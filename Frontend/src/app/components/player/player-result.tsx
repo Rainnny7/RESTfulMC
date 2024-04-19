@@ -62,7 +62,7 @@ const PlayerResult = ({
                     <div className="flex gap-5 items-center">
                         {/* Player Head */}
                         <Image
-                            className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32"
+                            className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 pointer-events-none"
                             src={parts.HEAD}
                             alt={`${username}'s Head`}
                             width={128}

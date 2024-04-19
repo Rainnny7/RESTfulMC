@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import {
     CachedBedrockMinecraftServer,
     CachedJavaMinecraftServer,
@@ -23,13 +23,13 @@ type ServerResultProps = {
  * @param server the server to display
  * @returns the server result jsx
  */
-const ServerResult = ({ server }: ServerResultProps): ReactNode => {
+const ServerResult = ({ server }: ServerResultProps): ReactElement => {
     const favicon: string | undefined = (server as CachedJavaMinecraftServer)
         .favicon?.url; // The favicon of the server (TODO: bedrock)
     return (
         <div
             className={cn(
-                "w-[29rem] relative p-2 flex gap-2 rounded-lg",
+                "w-[29rem] relative p-2 flex gap-2 rounded-lg pointer-events-none",
                 'bg-[url("/media/server-background.png")]'
             )}
         >
@@ -44,14 +44,17 @@ const ServerResult = ({ server }: ServerResultProps): ReactNode => {
             {/* Name & MOTD */}
             <div className="flex flex-col">
                 <h1>{server.hostname}</h1>
-                {server.motd.html.map((line, index) => {
-                    return (
-                        <p
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: line }}
-                        ></p>
-                    );
-                })}
+                {server.motd.html.map(
+                    (line: string, index: number): ReactElement => {
+                        return (
+                            <p
+                                key={index}
+                                className="pointer-events-auto"
+                                dangerouslySetInnerHTML={{ __html: line }}
+                            ></p>
+                        );
+                    }
+                )}
             </div>
 
             {/* Ping */}

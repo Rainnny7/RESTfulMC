@@ -110,9 +110,9 @@ export const generateMetadata = async ({
             const code: number = (err as RestfulMCAPIError).code; // Get the error status code
             if (code === 400) {
                 return Embed({
-                    title: "Invalid Hostname",
+                    title: "Invalid Platform or Hostname",
                     color: "#EB4034",
-                    description: `The hostname ${hostname} is invalid.`,
+                    description: `The platform ${platform} or hostname ${hostname} is invalid.`,
                 });
             } else if (code === 404) {
                 return Embed({
