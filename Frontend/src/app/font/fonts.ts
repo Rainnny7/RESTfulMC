@@ -13,3 +13,7 @@ export const notoSans: NextFont = Noto_Sans({ subsets: ["latin"] });
 export const minecrafter: NextFont = localFont({
     src: "../font/Minecrafter.ttf",
 });
+
+export const minecraft: NextFont = localFont({
+    src: "../font/Minecraft.otf",
+});

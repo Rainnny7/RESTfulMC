@@ -6,6 +6,7 @@ import {
     CachedJavaMinecraftServer,
 } from "restfulmc-lib";
 import config from "@/config";
+import { minecraft } from "@/font/fonts";
 
 /**
  * The props for a server result.
@@ -30,7 +31,7 @@ const ServerResult = ({ server }: ServerResultProps): ReactElement => {
         <div
             className={cn(
                 "w-[29rem] relative p-2 flex gap-2 rounded-lg pointer-events-none",
-                'bg-[url("/media/server-background.png")]'
+                `bg-[url("/media/server-background.png")] ${minecraft.className}`
             )}
         >
             {/* Favicon */}
