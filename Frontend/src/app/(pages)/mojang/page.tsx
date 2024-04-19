@@ -4,9 +4,9 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ReactElement } from "react";
 import {
+    getMojangServerStatus,
     MojangServerStatus,
     MojangServerStatusResponse,
-    getMojangServerStatus,
 } from "restfulmc-lib";
 
 /**

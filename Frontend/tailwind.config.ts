@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+
 const { screens } = require("tailwindcss/defaultTheme");
 
 const config = {

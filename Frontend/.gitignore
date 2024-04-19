@@ -1,6 +1,8 @@
 node_modules
-.next/
+.idea/
 .fleet/
 .vscode/
+.VSCodeCounter/
+.next/
 .env*.local
 next-env.d.ts

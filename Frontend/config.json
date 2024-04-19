@@ -49,5 +49,17 @@
             "image": "/media/featured/server.jpg",
             "href": "/server"
         }
-    ]
+    ],
+    "footerLinks": {
+        "Utilities": {
+            "Player Query": "/player",
+            "Server Query": "/server",
+            "Mojang Status": "/mojang"
+        },
+        "Resources": {
+            "Source Code": "https://github.com/Rainnny7/RESTfulMC",
+            "Wiki": "https://git.rainnny.club/Rainnny/RESTfulMC/wiki",
+            "SwaggerUI": "https://api.restfulmc.cc/swagger-ui.html"
+        }
+    }
 }

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
  * @returns the page jsx
  */
 const DocsPage = (): ReactElement => (
-    <main className="h-[84vh] flex flex-col gap-3 justify-center items-center text-center pointer-events-none">
+    <main className="h-screen flex flex-col gap-3 justify-center items-center text-center pointer-events-none">
         {/* Creeper */}
         <Creeper />
 

@@ -41,15 +41,39 @@ interface Config {
      * link, and the value is the URL.
      * </p>
      */
-    navbarLinks: {
-        [name: string]: string;
-    };
+    navbarLinks: NavbarLink;
 
     /**
      * Featured items for the landing page.
      */
     featuredItems: FeaturedItemProps[];
+
+    /**
+     * Links to display on the footer.
+     */
+    footerLinks: FooterLink;
 }
+
+/**
+ * The links for the navbar.
+ */
+type NavbarLinks = {
+    [name: string]: string;
+};
+
+/**
+ * Links for the footer.
+ */
+type FooterLinks = {
+    [header: string]: FooterLink;
+};
+
+/**
+ * A link on the footer.
+ */
+type FooterLink = {
+    [name: string]: string;
+};
 
 /**
  * Props for a featured item

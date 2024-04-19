@@ -2,11 +2,11 @@ import { ReactElement } from "react";
 import { cn } from "../../lib/utils";
 
 /**
- * The background component.
+ * The background hero component.
  *
  * @returns the background jsx
  */
-const Background = (): ReactElement => (
+const HeroBackground = (): ReactElement => (
     <div
         className={cn(
             "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:bg-black/65", // Dark Overlay
@@ -15,4 +15,4 @@ const Background = (): ReactElement => (
         )}
     />
 );
-export default Background;
+export default HeroBackground;

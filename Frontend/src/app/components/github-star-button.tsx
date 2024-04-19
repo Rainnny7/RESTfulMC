@@ -33,7 +33,6 @@ const GitHubStarButton = (): ReactElement => {
             );
             const json: any = await response.json(); // Get the JSON response
             setStars(json.stargazers_count); // Set the stars
-            console.log("fetch stars");
         };
         if (stars === undefined) {
             fetchStars(); // Fetch the stars

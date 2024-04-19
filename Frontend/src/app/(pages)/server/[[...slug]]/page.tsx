@@ -12,9 +12,9 @@ import { ReactElement } from "react";
 import {
     CachedBedrockMinecraftServer,
     CachedJavaMinecraftServer,
-    ServerPlatform,
     getMinecraftServer,
     type RestfulMCAPIError,
+    ServerPlatform,
 } from "restfulmc-lib";
 
 /**

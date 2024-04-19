@@ -1,14 +1,15 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import config from "@/config";
 import { notoSans } from "@/font/fonts";
 import { cn } from "@/lib/utils";
-import ThemeProvider from "@/provider/theme-provider";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
 import { ReactElement, ReactNode } from "react";
 import "./globals.css";
+import ThemeProvider from "@/provider/theme-provider";
 
 /**
  * Site metadata & viewport.
@@ -44,7 +45,7 @@ const RootLayout = ({
                     <TooltipProvider>
                         <Navbar />
                         {children}
-                        {/*<Footer />*/}
+                        <Footer />
                     </TooltipProvider>
 
                     {/* Toasts */}
