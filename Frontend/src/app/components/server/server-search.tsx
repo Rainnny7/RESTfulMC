@@ -9,7 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { capitialize } from "@/lib/stringUtils";
+import { capitalize } from "@/lib/stringUtils";
 import { redirect } from "next/navigation";
 import { ReactElement } from "react";
 import { ServerPlatform } from "restfulmc-lib";
@@ -67,7 +67,7 @@ const ServerSearch = ({
                                     index: number
                                 ): ReactElement => (
                                     <SelectItem key={index} value={platform}>
-                                        {capitialize(platform)}
+                                        {capitalize(platform)}
                                     </SelectItem>
                                 )
                             )}

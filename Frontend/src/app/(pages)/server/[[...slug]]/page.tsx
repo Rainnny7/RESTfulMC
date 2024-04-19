@@ -3,7 +3,7 @@ import ServerResult from "@/components/server/server-result";
 import ServerSearch from "@/components/server/server-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { minecrafter } from "@/font/fonts";
-import { capitialize } from "@/lib/stringUtils";
+import { capitalize } from "@/lib/stringUtils";
 import { cn } from "@/lib/utils";
 import { PageProps } from "@/types/page";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
@@ -102,7 +102,7 @@ export const generateMetadata = async ({
                 hostname
             ); // Get the server to embed
             return Embed({
-                title: `${capitialize(platform)} Server: ${server.hostname}`,
+                title: `${capitalize(platform)} Server: ${server.hostname}`,
                 description: `There are ${server.players.online.toLocaleString()}/${server.players.max.toLocaleString()} playing here!\n\nClick to view data about this server.`,
                 thumbnail: (server as CachedJavaMinecraftServer).favicon?.url,
             });
