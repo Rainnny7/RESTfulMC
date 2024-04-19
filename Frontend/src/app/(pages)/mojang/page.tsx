@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import {
     getMojangServerStatus,
+    MojangServer,
     MojangServerStatus,
     MojangServerStatusResponse,
 } from "restfulmc-lib";
@@ -46,42 +47,44 @@ const MojangStatusPage = async (): Promise<ReactElement> => {
 
             {/* Server Statuses */}
             <div className="w-[25rem] xs:w-[29rem] sm:w-[33.5rem] px-5 py-3.5 flex flex-col gap-2.5 bg-muted rounded-xl divide-y-2 divide-zinc-700/40 transition-all transform-gpu">
-                {servers.map((server, index) => {
-                    const status: MojangServerStatus = server.status; // The status of the server
-                    return (
-                        <div
-                            key={index}
-                            className={cn(
-                                "flex justify-between items-center",
-                                index > 0 && "pt-2"
-                            )}
-                        >
-                            <div className="flex flex-col gap-0.5">
-                                <h1 className="pointer-events-none">
-                                    {server.name}
-                                </h1>
-                                <Link
-                                    href={server.endpoint}
-                                    className="text-xs text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu"
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                >
-                                    <code>{server.endpoint}</code>
-                                </Link>
-                            </div>
-
-                            {/* Status */}
-                            <h2
+                {servers.map(
+                    (server: MojangServer, index: number): ReactElement => {
+                        const status: MojangServerStatus = server.status; // The status of the server
+                        return (
+                            <div
+                                key={index}
                                 className={cn(
-                                    "font-semibold pointer-events-none",
-                                    statusStyles[status]
+                                    "flex justify-between items-center",
+                                    index > 0 && "pt-2"
                                 )}
                             >
-                                {status}
-                            </h2>
-                        </div>
-                    );
-                })}
+                                <div className="flex flex-col gap-0.5">
+                                    <h1 className="pointer-events-none">
+                                        {server.name}
+                                    </h1>
+                                    <Link
+                                        href={server.endpoint}
+                                        className="text-xs text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu"
+                                        rel="noopener noreferrer"
+                                        target="_blank"
+                                    >
+                                        <code>{server.endpoint}</code>
+                                    </Link>
+                                </div>
+
+                                {/* Status */}
+                                <h2
+                                    className={cn(
+                                        "font-semibold pointer-events-none",
+                                        statusStyles[status]
+                                    )}
+                                >
+                                    {status}
+                                </h2>
+                            </div>
+                        );
+                    }
+                )}
             </div>
         </main>
     );
@@ -90,7 +93,9 @@ const MojangStatusPage = async (): Promise<ReactElement> => {
 /**
  * The styles for each status.
  */
-const statusStyles: any = {
+const statusStyles: {
+    [status: string]: string;
+} = {
     ONLINE: "text-green-500",
     DEGRADED: "text-yellow-500",
     OFFLINE: "text-red-500",

@@ -17,13 +17,12 @@ import { ReactElement } from "react";
 const Navbar = (): ReactElement => {
     const path: string = usePathname(); // Get the current path
     return (
-        <nav className="fixed inset-x-0 flex h-16 px-5 sm:px-12 justify-center sm:justify-between items-center bg-navbar-background z-50">
-            {/* Left */}
-            <div className="flex gap-3 xs:gap-7 lg:gap-12 items-center transition-all transform-gpu">
-                {/* App Branding */}
+        <nav className="fixed inset-x-0 flex h-16 px-2.5 xs:px-5 sm:px-12 bg-navbar-background transition-all transform-gpu z-50">
+            <div className="relative w-full flex justify-between items-center">
+                {/* App Branding - Left */}
                 <Link
                     className={cn(
-                        "text-3xl text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu",
+                        "text-3xl text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu z-50",
                         minecrafter.className
                     )}
                     href="/"
@@ -41,33 +40,35 @@ const Navbar = (): ReactElement => {
                     <span className="hidden lg:flex">{config.siteName}</span>
                 </Link>
 
-                {/* Links */}
-                <div className="flex gap-7">
-                    {Object.entries(config.navbarLinks).map(
-                        (link: [string, string], index: number) => {
-                            const url: string = link[1]; // The href of the link
-                            let active: boolean = path.startsWith(url); // Is this the active link?
-                            return (
-                                <Link
-                                    key={index}
-                                    className={cn(
-                                        "font-semibold uppercase hover:text-minecraft-green-4 transition-all transform-gpu",
-                                        active && "text-minecraft-green-4"
-                                    )}
-                                    href={url}
-                                >
-                                    {link[0]}
-                                </Link>
-                            );
-                        }
-                    )}
+                {/* Center - Links */}
+                <div className="absolute inset-x-0 md:left-20 lg:left-0 flex justify-center md:justify-start lg:justify-center">
+                    <div className="flex gap-7">
+                        {Object.entries(config.navbarLinks).map(
+                            (link: [string, string], index: number) => {
+                                const url: string = link[1]; // The href of the link
+                                let active: boolean = path.startsWith(url); // Is this the active link?
+                                return (
+                                    <Link
+                                        key={index}
+                                        className={cn(
+                                            "font-semibold uppercase hover:text-minecraft-green-4 transition-all transform-gpu",
+                                            active && "text-minecraft-green-4"
+                                        )}
+                                        href={url}
+                                    >
+                                        {link[0]}
+                                    </Link>
+                                );
+                            }
+                        )}
+                    </div>
                 </div>
-            </div>
 
-            {/* Social Buttons - Right */}
-            <div className="hidden md:flex">
-                {/* Star on Github <3 */}
-                <GitHubStarButton />
+                {/* Social Buttons - Right */}
+                <div className="hidden md:flex">
+                    {/* Star on Github <3 */}
+                    <GitHubStarButton />
+                </div>
             </div>
         </nav>
     );

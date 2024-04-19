@@ -101,19 +101,24 @@ const PlayerResult = ({
                                         part === SkinPart.FACE ||
                                         part === SkinPart.BODY_FLAT
                                 )
-                                .map(([part, url], index) => (
-                                    <Link
-                                        key={index}
-                                        href={url}
-                                        target="_blank"
-                                    >
-                                        <img
-                                            className="h-20 sm:h-24 md:h-28 hover:scale-[1.02] transition-all transform-gpu"
-                                            src={url}
-                                            alt={`${username}'s ${part}`}
-                                        />
-                                    </Link>
-                                ))}
+                                .map(
+                                    (
+                                        [part, url]: [string, string],
+                                        index: number
+                                    ) => (
+                                        <Link
+                                            key={index}
+                                            href={url}
+                                            target="_blank"
+                                        >
+                                            <img
+                                                className="h-20 sm:h-24 md:h-28 hover:scale-[1.02] transition-all transform-gpu"
+                                                src={url}
+                                                alt={`${username}'s ${part}`}
+                                            />
+                                        </Link>
+                                    )
+                                )}
                         </div>
                     </div>
                 </div>

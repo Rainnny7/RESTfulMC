@@ -12,6 +12,7 @@ type EmbedProps = {
     /**
      * The color of this embed, undefined
      * for no custom color.
+     * // TODO: make this work lol
      */
     color?: string | undefined;
 
@@ -52,7 +53,6 @@ const Embed = ({
         twitter: {
             card: "summary",
         },
-        themeColor: color,
     };
 };
 export default Embed;

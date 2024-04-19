@@ -22,7 +22,7 @@ import {
 const GitHubStarButton = (): ReactElement => {
     const [stars, setStars]: [
         number | undefined,
-        Dispatch<SetStateAction<number | undefined>>
+        Dispatch<SetStateAction<number | undefined>>,
     ] = useState<number | undefined>(undefined); // The stars of the repository
 
     useEffect(() => {

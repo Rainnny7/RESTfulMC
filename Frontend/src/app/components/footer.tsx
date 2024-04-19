@@ -6,6 +6,11 @@ import { minecrafter } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { FooterLinks } from "@/types/config";
 
+/**
+ * The footer for the site.
+ *
+ * @returns the footer jsx
+ */
 const Footer = (): ReactElement => (
     <footer
         className={cn(

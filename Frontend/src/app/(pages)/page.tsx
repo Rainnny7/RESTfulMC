@@ -2,7 +2,7 @@ import FeaturedContent from "@/components/landing/featured-content";
 import Hero from "@/components/landing/hero";
 import StatisticCounters from "@/components/landing/statistic-counters";
 import { ReactElement } from "react";
-import HeroBackground from "../components/landing/background";
+import HeroBackground from "@/components/landing/background";
 
 /**
  * The landing page.

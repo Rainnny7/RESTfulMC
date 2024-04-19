@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement } from "react";
 import {
     CachedBedrockMinecraftServer,
     CachedJavaMinecraftServer,
 } from "restfulmc-lib";
-import config from "../../config";
+import config from "@/config";
 
 /**
  * The props for a server result.
@@ -25,7 +25,7 @@ type ServerResultProps = {
  */
 const ServerResult = ({ server }: ServerResultProps): ReactElement => {
     const favicon: string | undefined = (server as CachedJavaMinecraftServer)
-        .favicon?.url; // The favicon of the server (TODO: bedrock)
+        .favicon?.url; // The favicon of the server
     return (
         <div
             className={cn(

@@ -62,7 +62,10 @@ const ServerSearch = ({
                         </SelectTrigger>
                         <SelectContent>
                             {Object.values(ServerPlatform).map(
-                                (platform, index) => (
+                                (
+                                    platform: ServerPlatform,
+                                    index: number
+                                ): ReactElement => (
                                     <SelectItem key={index} value={platform}>
                                         {capitialize(platform)}
                                     </SelectItem>
