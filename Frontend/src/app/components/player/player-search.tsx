@@ -40,6 +40,7 @@ const PlayerSearch = ({ query }: PlayerSearchProps): ReactElement => {
                     defaultValue={query}
                     required
                     maxLength={36}
+                    autoComplete="off"
                 />
             </div>
             <MinecraftButton type="submit">Search</MinecraftButton>

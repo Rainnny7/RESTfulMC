@@ -85,6 +85,7 @@ const ServerSearch = ({
                         defaultValue={hostname}
                         required
                         maxLength={36}
+                        autoComplete="off"
                     />
                 </div>
             </div>
