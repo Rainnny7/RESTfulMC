@@ -4,6 +4,7 @@
   "author": "Braydon (Rainnny) <braydonrainnny@gmail.com>",
   "description": "A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
   "homepage": "https://restfulmc.cc",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
