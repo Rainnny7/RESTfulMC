@@ -10,13 +10,6 @@ type EmbedProps = {
     title: string;
 
     /**
-     * The color of this embed, undefined
-     * for no custom color.
-     * // TODO: make this work lol
-     */
-    color?: string | undefined;
-
-    /**
      * The description of the embed.
      */
     description: string;
@@ -35,7 +28,6 @@ type EmbedProps = {
  */
 const Embed = ({
     title,
-    color,
     description,
     thumbnail = "",
 }: EmbedProps): Metadata => {

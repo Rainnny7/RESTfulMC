@@ -6,7 +6,7 @@ import { minecrafter } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { PageProps } from "@/types/page";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { ReactElement } from "react";
 import { CachedPlayer, getPlayer, type RestfulMCAPIError } from "restfulmc-lib";
 
@@ -65,44 +65,37 @@ const PlayerPage = async ({ params }: PageProps): Promise<ReactElement> => {
  * Generate metadata for this page.
  *
  * @param params the route params
- * @param searchParams the search params
  * @returns the generated metadata
  */
 export const generateMetadata = async ({
     params,
 }: PageProps): Promise<Metadata> => {
-    const query: string | undefined = trimQuery(params.slug?.[0]); // The query to embed for
+    const embed: Metadata | undefined = await getPageEmbed(
+        trimQuery(params.slug?.[0])
+    ); // Get the page embed
 
-    // Try and get the player to display
-    if (query) {
-        try {
-            const player: CachedPlayer = await getPlayer(query); // Get the player to embed
-            return Embed({
-                title: `${player.username}'s Profile`,
-                description: `UUID: ${player.uniqueId}\n\nClick to view data about this player.`,
-                thumbnail: player.skin.parts.HEAD,
-            });
-        } catch (err) {
-            const code: number = (err as RestfulMCAPIError).code; // Get the error status code
-            if (code === 400) {
-                return Embed({
-                    title: "Invalid Player",
-                    color: "#EB4034",
-                    description: `The player ${query} is invalid.`,
-                });
-            } else if (code === 404) {
-                return Embed({
-                    title: "Player Not Found",
-                    color: "#EB4034",
-                    description: `The player ${query} was not found.`,
-                });
-            }
-        }
-    }
-    return Embed({
-        title: "Player Lookup",
-        description: "Search for a player to view their profile.",
-    });
+    // Return the page embed
+    return embed
+        ? embed
+        : Embed({
+              title: "Player Lookup",
+              description: "Search for a player to view their profile.",
+          });
+};
+
+/**
+ * Generate the viewport for this page.
+ *
+ * @param params the route params
+ * @returns the generated metadata
+ */
+export const generateViewport = async ({
+    params,
+}: PageProps): Promise<Viewport> => {
+    const embed: Metadata | undefined = await getPageEmbed(
+        trimQuery(params.slug?.[0])
+    ); // Get the page embed
+    return embed ? {} : { themeColor: "#FF5555" };
 };
 
 /**
@@ -117,6 +110,41 @@ const trimQuery = (query: string | undefined): string | undefined => {
         query = query.substring(0, 36);
     }
     return query;
+};
+
+/**
+ * Get the embed for this page.
+ *
+ * @param query the query to embed, if any
+ * @returns the page embed
+ */
+const getPageEmbed = async (
+    query: string | undefined
+): Promise<Metadata | undefined> => {
+    if (!query) {
+        return undefined;
+    }
+    try {
+        const player: CachedPlayer = await getPlayer(query); // Get the player to embed
+        return Embed({
+            title: `${player.username}'s Profile`,
+            description: `UUID: ${player.uniqueId}\n\nClick to view data about this player.`,
+            thumbnail: player.skin.parts.HEAD,
+        });
+    } catch (err) {
+        const code: number = (err as RestfulMCAPIError).code; // Get the error status code
+        if (code === 400) {
+            return Embed({
+                title: "Invalid Player",
+                description: `The player ${query} is invalid.`,
+            });
+        } else if (code === 404) {
+            return Embed({
+                title: "Player Not Found",
+                description: `The player ${query} was not found.`,
+            });
+        }
+    }
 };
 
 export default PlayerPage;
