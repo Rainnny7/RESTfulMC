@@ -12,9 +12,11 @@ const DocumentationLayout = ({
 }: Readonly<{
     children: ReactNode;
 }>): ReactElement => (
-    <section className="h-screen flex flex-col justify-center items-center">
-        <Sidebar />
-        {children}
+    <section className="h-screen flex justify-center items-center">
+        <div className="flex gap-10">
+            <Sidebar />
+            {children}
+        </div>
     </section>
 );
 export default DocumentationLayout;

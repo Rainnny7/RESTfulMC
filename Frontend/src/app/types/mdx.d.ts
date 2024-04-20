@@ -25,7 +25,7 @@ type MDXMetadata = {
     /**
      * The slug of the file, defined once read.
      */
-    slug: string;
+    slug?: string | undefined;
 
     /**
      * The metadata of the file.
