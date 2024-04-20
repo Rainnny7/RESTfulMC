@@ -71,10 +71,15 @@ export const generateMetadata = async ({
     params,
 }: PageProps): Promise<Metadata> => {
     const query: string | undefined = trimQuery(params.slug?.[0]);
-    let embed: Metadata | undefined;
+    let embed: Metadata | undefined; // The player embed, if any
     if (query) {
         try {
-            embed = await getPlayerEmbed(query); // Get the player embed
+            const player: CachedPlayer = await getPlayer(query); // Get the player to embed
+            return Embed({
+                title: `${player.username}'s Profile`,
+                description: `UUID: ${player.uniqueId}\n\nClick to view data about this player.`,
+                thumbnail: player.skin.parts.HEAD,
+            });
         } catch (err) {
             const code: number = (err as RestfulMCAPIError).code; // Get the error status code
             if (code === 400) {
@@ -112,7 +117,7 @@ export const generateViewport = async ({
     const query: string | undefined = trimQuery(params.slug?.[0]);
     if (query) {
         try {
-            await getPlayerEmbed(query); // Try and get the player embed
+            await getPlayer(query); // Try and get the player embed
             return { themeColor: "#55FF55" }; // Online
         } catch (err) {
             return { themeColor: "#AA0000" }; // Error
@@ -133,26 +138,6 @@ const trimQuery = (query: string | undefined): string | undefined => {
         query = query.substring(0, 36);
     }
     return query;
-};
-
-/**
- * Get the embed for this page.
- *
- * @param query the query to embed, if any
- * @returns the page embed
- */
-const getPlayerEmbed = async (
-    query: string | undefined
-): Promise<Metadata | undefined> => {
-    if (!query) {
-        return undefined;
-    }
-    const player: CachedPlayer = await getPlayer(query); // Get the player to embed
-    return Embed({
-        title: `${player.username}'s Profile`,
-        description: `UUID: ${player.uniqueId}\n\nClick to view data about this player.`,
-        thumbnail: player.skin.parts.HEAD,
-    });
 };
 
 export default PlayerPage;
