@@ -22,7 +22,10 @@ export const getDocsContent = (): DocsContentMetadata[] =>
 export const getMetadata = <T extends MDXMetadata>(directory: string): T[] => {
     const files: string[] = fs
         .readdirSync(directory)
-        .filter((file: string): boolean => path.extname(file) === ".mdx"); // Read the MDX files
+        .filter((file: string): boolean => {
+            const extension: string = path.extname(file); // The file extension
+            return extension === ".md" || extension === ".mdx";
+        }); // Read the MDX files
     return files.map((file: string): T => {
         const filePath: string = path.join(directory, file); // The path of the file
         return {
