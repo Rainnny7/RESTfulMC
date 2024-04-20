@@ -8,12 +8,15 @@ import localFont from "next/font/local";
 export const notoSans: NextFont = Noto_Sans({ subsets: ["latin"] });
 
 /**
- * The Minecraft font to use for the site.
+ * The Minecraft header font to use for the site.
  */
 export const minecrafter: NextFont = localFont({
     src: "../font/Minecrafter.ttf",
 });
 
+/**
+ * The regular Minecraft font to use for the site.
+ */
 export const minecraft: NextFont = localFont({
-    src: "../font/Minecraft.otf",
+    src: "../font/Minecraft.ttf",
 });
