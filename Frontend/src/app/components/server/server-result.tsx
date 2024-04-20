@@ -30,45 +30,55 @@ const ServerResult = ({ server }: ServerResultProps): ReactElement => {
     return (
         <div
             className={cn(
-                "w-[29rem] relative p-2 flex gap-2 rounded-lg pointer-events-none",
+                "w-[37.5rem] relative p-1.5 py-1 flex gap-2 items-center pointer-events-none",
                 `bg-[url("/media/dirt-background.png")] bg-center bg-repeat ${minecraft.className}`
             )}
         >
             {/* Favicon */}
             <Image
+                className="h-16 w-16"
                 src={favicon || `${config.apiEndpoint}/server/icon/fallback`}
                 alt={`${server.hostname}'s Favicon`}
                 width={64}
                 height={64}
             />
 
-            {/* Name & MOTD */}
-            <div className="flex flex-col">
-                <h1>{server.hostname}</h1>
-                {server.motd.html.map(
-                    (line: string, index: number): ReactElement => {
-                        return (
-                            <p
-                                key={index}
-                                className="pointer-events-auto"
-                                dangerouslySetInnerHTML={{ __html: line }}
-                            ></p>
-                        );
-                    }
-                )}
-            </div>
+            {/* Content */}
+            <div className="-translate-y-1 w-full h-full flex flex-col gap-1">
+                {/* Name & Ping */}
+                <div className="w-full flex justify-between">
+                    <h1>{server.hostname}</h1>
 
-            {/* Ping */}
-            <div className="absolute top-0.5 right-0.5 flex gap-1 items-center">
-                <p>
-                    {server.players.online}/{server.players.max}
-                </p>
-                <Image
-                    src="/media/full-ping.png"
-                    alt="Ping!"
-                    width={28}
-                    height={28}
-                />
+                    {/* Players & Ping */}
+                    <div className="flex gap-1 items-center">
+                        <p className="text-[#AAAAAA]">
+                            {server.players.online}
+                            <span className="text-[#555555]">/</span>
+                            {server.players.max}
+                        </p>
+                        <Image
+                            src="/media/ping-full.png"
+                            alt="Ping!"
+                            width={21}
+                            height={21}
+                        />
+                    </div>
+                </div>
+
+                {/* MOTD */}
+                <div className="w-full flex flex-col">
+                    {server.motd.html.map(
+                        (line: string, index: number): ReactElement => {
+                            return (
+                                <p
+                                    key={index}
+                                    className="leading-[1.15rem] pointer-events-auto"
+                                    dangerouslySetInnerHTML={{ __html: line }}
+                                ></p>
+                            );
+                        }
+                    )}
+                </div>
             </div>
         </div>
     );
