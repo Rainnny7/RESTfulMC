@@ -16,7 +16,6 @@ import {
     type RestfulMCAPIError,
     ServerPlatform,
 } from "restfulmc-lib";
-import { FastAverageColor, FastAverageColorResult } from "fast-average-color";
 
 /**
  * The page to lookup a server.
@@ -144,25 +143,8 @@ export const generateViewport = async ({
     const hostname: string | undefined = params.slug?.[1]; // The hostname of the server to search for
     if (platform && hostname) {
         try {
-            const server:
-                | CachedJavaMinecraftServer
-                | CachedBedrockMinecraftServer = await getMinecraftServer(
-                platform as ServerPlatform,
-                hostname
-            ); // Get the server to embed
-
-            let color: string = "#55FF55";
-
-            // Get the average color of the server favicon
-            if (platform == ServerPlatform.JAVA) {
-                const averageColor: FastAverageColorResult =
-                    await new FastAverageColor().getColorAsync(
-                        (server as CachedJavaMinecraftServer).favicon?.url || ""
-                    );
-                color = averageColor.hex;
-            }
-
-            return { themeColor: color }; // Online
+            await getMinecraftServer(platform as ServerPlatform, hostname); // Get the server to embed
+            return { themeColor: "#55FF55" }; // Online
         } catch (err) {
             return { themeColor: "#AA0000" }; // Error
         }
