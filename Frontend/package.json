@@ -29,6 +29,7 @@
     "class-variance-authority": "^0.7.0",
     "clipboard-copy": "^4.0.1",
     "clsx": "^2.1.0",
+    "fast-average-color": "^9.4.0",
     "lucide-react": "^0.372.0",
     "next": "14.2.2",
     "next-plausible": "^3.12.0",
