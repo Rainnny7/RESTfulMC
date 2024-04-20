@@ -2,7 +2,7 @@ import GitHubStarButton from "@/components/github-star-button";
 import MinecraftButton from "@/components/minecraft-button";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import Link from "next/link";
 import { ReactElement } from "react";
 

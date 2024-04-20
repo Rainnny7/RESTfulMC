@@ -1,11 +1,6 @@
 import CopyButton from "@/components/copy-button";
 import { Badge } from "@/components/ui/badge";
-import {
-    ContextMenu,
-    ContextMenuContent,
-    ContextMenuItem,
-    ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu";
 import config from "@/config";
 import Image from "next/image";
 import Link from "next/link";

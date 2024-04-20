@@ -4,14 +4,7 @@ import MinecraftButton from "@/components/minecraft-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StarIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import {
-    Dispatch,
-    ReactElement,
-    SetStateAction,
-    Suspense,
-    useEffect,
-    useState,
-} from "react";
+import { Dispatch, ReactElement, SetStateAction, Suspense, useEffect, useState } from "react";
 
 /**
  * The button to display the amount

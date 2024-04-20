@@ -24,7 +24,8 @@
 			"@/provider/*": ["./src/app/provider/*"],
 			"@/font/*": ["./src/app/font/*"],
 			"@/types/*": ["./src/app/types/*"],
-			"@/lib/*": ["./src/app/lib/*"],
+			"@/lib/*": ["./src/app/common/*"],
+			"@/markdown/*": ["./src/markdown/*"],
 			"@/configJson": ["./config.json"]
 		}
 	},

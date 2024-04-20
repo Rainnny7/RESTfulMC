@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import config from "@/config";
 import { notoSans } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import type { Metadata, Viewport } from "next";
 import PlausibleProvider from "next-plausible";
 import { ReactElement, ReactNode } from "react";

@@ -3,7 +3,7 @@ import PlayerResult from "@/components/player/player-result";
 import PlayerSearch from "@/components/player/player-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import { PageProps } from "@/types/page";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { Metadata, Viewport } from "next";
@@ -70,7 +70,7 @@ const PlayerPage = async ({ params }: PageProps): Promise<ReactElement> => {
 export const generateMetadata = async ({
     params,
 }: PageProps): Promise<Metadata> => {
-    const embed: Metadata | undefined = await getPageEmbed(
+    const embed: Metadata | undefined = await getPlayerEmbed(
         trimQuery(params.slug?.[0])
     ); // Get the page embed
 
@@ -92,10 +92,10 @@ export const generateMetadata = async ({
 export const generateViewport = async ({
     params,
 }: PageProps): Promise<Viewport> => {
-    const embed: Metadata | undefined = await getPageEmbed(
+    const embed: Metadata | undefined = await getPlayerEmbed(
         trimQuery(params.slug?.[0])
     ); // Get the page embed
-    return embed ? {} : { themeColor: "#FF5555" };
+    return embed ? {} : { themeColor: "#AA0000" };
 };
 
 /**
@@ -118,7 +118,7 @@ const trimQuery = (query: string | undefined): string | undefined => {
  * @param query the query to embed, if any
  * @returns the page embed
  */
-const getPageEmbed = async (
+const getPlayerEmbed = async (
     query: string | undefined
 ): Promise<Metadata | undefined> => {
     if (!query) {

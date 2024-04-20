@@ -4,7 +4,7 @@ const { screens } = require("tailwindcss/defaultTheme");
 
 const config = {
     darkMode: ["class"],
-    content: ["./src/app/**/*.{ts,tsx}"],
+    content: ["./src/app/**/*.{ts,tsx,mdx}"],
     theme: {
         container: {
             center: true,

@@ -1,5 +1,5 @@
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ReactElement } from "react";

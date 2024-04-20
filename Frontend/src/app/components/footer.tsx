@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import { FooterLinks } from "@/types/config";
 
 /**

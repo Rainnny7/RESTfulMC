@@ -1,6 +1,6 @@
 import Creeper from "@/components/creeper";
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import { ReactElement } from "react";
 
 /**

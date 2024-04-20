@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import Image from "next/image";
 import { ReactElement } from "react";
 import {

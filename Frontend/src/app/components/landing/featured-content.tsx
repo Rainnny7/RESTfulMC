@@ -1,6 +1,6 @@
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import { FeaturedItemProps } from "@/types/config";
 import Link from "next/link";
 import { ReactElement } from "react";

@@ -1,7 +1,7 @@
 "use client";
 
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import CountUp from "react-countup";
 import { ReactElement } from "react";
 

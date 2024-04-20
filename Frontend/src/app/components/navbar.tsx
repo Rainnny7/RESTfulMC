@@ -3,7 +3,7 @@
 import GitHubStarButton from "@/components/github-star-button";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/common/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
