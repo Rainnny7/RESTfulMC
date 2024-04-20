@@ -70,9 +70,26 @@ const PlayerPage = async ({ params }: PageProps): Promise<ReactElement> => {
 export const generateMetadata = async ({
     params,
 }: PageProps): Promise<Metadata> => {
-    const embed: Metadata | undefined = await getPlayerEmbed(
-        trimQuery(params.slug?.[0])
-    ); // Get the page embed
+    const query: string | undefined = trimQuery(params.slug?.[0]);
+    let embed: Metadata | undefined;
+    if (query) {
+        try {
+            embed = await getPlayerEmbed(query); // Get the player embed
+        } catch (err) {
+            const code: number = (err as RestfulMCAPIError).code; // Get the error status code
+            if (code === 400) {
+                return Embed({
+                    title: "Invalid Player",
+                    description: `The player ${query} is invalid.`,
+                });
+            } else if (code === 404) {
+                return Embed({
+                    title: "Player Not Found",
+                    description: `The player ${query} was not found.`,
+                });
+            }
+        }
+    }
 
     // Return the page embed
     return embed
@@ -92,10 +109,16 @@ export const generateMetadata = async ({
 export const generateViewport = async ({
     params,
 }: PageProps): Promise<Viewport> => {
-    const embed: Metadata | undefined = await getPlayerEmbed(
-        trimQuery(params.slug?.[0])
-    ); // Get the page embed
-    return embed ? {} : { themeColor: "#AA0000" };
+    const query: string | undefined = trimQuery(params.slug?.[0]);
+    if (query) {
+        try {
+            await getPlayerEmbed(query); // Try and get the player embed
+            return { themeColor: "#55FF55" }; // Online
+        } catch (err) {
+            return { themeColor: "#AA0000" }; // Error
+        }
+    }
+    return {};
 };
 
 /**
@@ -124,27 +147,12 @@ const getPlayerEmbed = async (
     if (!query) {
         return undefined;
     }
-    try {
-        const player: CachedPlayer = await getPlayer(query); // Get the player to embed
-        return Embed({
-            title: `${player.username}'s Profile`,
-            description: `UUID: ${player.uniqueId}\n\nClick to view data about this player.`,
-            thumbnail: player.skin.parts.HEAD,
-        });
-    } catch (err) {
-        const code: number = (err as RestfulMCAPIError).code; // Get the error status code
-        if (code === 400) {
-            return Embed({
-                title: "Invalid Player",
-                description: `The player ${query} is invalid.`,
-            });
-        } else if (code === 404) {
-            return Embed({
-                title: "Player Not Found",
-                description: `The player ${query} was not found.`,
-            });
-        }
-    }
+    const player: CachedPlayer = await getPlayer(query); // Get the player to embed
+    return Embed({
+        title: `${player.username}'s Profile`,
+        description: `UUID: ${player.uniqueId}\n\nClick to view data about this player.`,
+        thumbnail: player.skin.parts.HEAD,
+    });
 };
 
 export default PlayerPage;
