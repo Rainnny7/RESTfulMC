@@ -30,7 +30,7 @@ const ServerResult = ({ server }: ServerResultProps): ReactElement => {
     return (
         <div
             className={cn(
-                "w-[37.5rem] relative p-1.5 py-1 flex gap-2 items-center pointer-events-none",
+                "w-[37.5rem] relative p-1.5 flex gap-2 items-center pointer-events-none",
                 `bg-[url("/media/dirt-background.png")] bg-center bg-repeat ${minecraft.className}`
             )}
         >
@@ -59,8 +59,8 @@ const ServerResult = ({ server }: ServerResultProps): ReactElement => {
                         <Image
                             src="/media/ping-full.png"
                             alt="Ping!"
-                            width={21}
-                            height={21}
+                            width={20}
+                            height={20}
                         />
                     </div>
                 </div>
