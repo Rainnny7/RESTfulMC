@@ -31,7 +31,7 @@ const ServerResult = ({ server }: ServerResultProps): ReactElement => {
         <div
             className={cn(
                 "w-[29rem] relative p-2 flex gap-2 rounded-lg pointer-events-none",
-                `bg-[url("/media/server-background.png")] ${minecraft.className}`
+                `bg-[url("/media/dirt-background.png")] bg-center bg-repeat ${minecraft.className}`
             )}
         >
             {/* Favicon */}
