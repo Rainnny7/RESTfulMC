@@ -11,9 +11,7 @@ const METADATA_REGEX: RegExp = /---\s*([\s\S]*?)\s*---/;
  * display in the docs.
  */
 export const getDocsContent = (): DocsContentMetadata[] =>
-    getMetadata<DocsContentMetadata>(
-        path.join(process.cwd(), "src", "markdown", "docs")
-    );
+    getMetadata<DocsContentMetadata>(path.join(process.cwd(), "docs"));
 
 /**
  * Get the metadata of mdx
