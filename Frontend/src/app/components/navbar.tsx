@@ -30,7 +30,7 @@ const Navbar = (): ReactElement => {
                     {/* Small Screens */}
                     <Image
                         className="lg:hidden"
-                        src="/media/logo.webp"
+                        src="/media/logo.png"
                         alt="Site Logo"
                         width={42}
                         height={42}

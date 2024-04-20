@@ -25,7 +25,7 @@ const Footer = (): ReactElement => (
                 {/* Logo & Site Name */}
                 <div className="flex gap-7 items-center">
                     <Image
-                        src="/media/logo.webp"
+                        src="/media/logo.png"
                         alt="Site Logo"
                         width={56}
                         height={56}
