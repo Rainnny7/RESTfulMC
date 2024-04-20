@@ -3,11 +3,11 @@ import ServerResult from "@/components/server/server-result";
 import ServerSearch from "@/components/server/server-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { minecrafter } from "@/font/fonts";
-import { capitalize } from "@/app/common/stringUtils";
-import { cn } from "@/app/common/utils";
+import { capitalize } from "@/lib/stringUtils";
+import { cn } from "@/lib/utils";
 import { PageProps } from "@/types/page";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { ReactElement } from "react";
 import {
     CachedBedrockMinecraftServer,
@@ -91,8 +91,7 @@ export const generateMetadata = async ({
 }: PageProps): Promise<Metadata> => {
     const platform: string | undefined = params.slug?.[0]; // The platform to search for
     const hostname: string | undefined = params.slug?.[1]; // The hostname of the server to search for
-
-    // Try and get the server to display
+    let embed: Metadata | undefined; // The server embed, if any
     if (platform && hostname) {
         try {
             const server:
@@ -121,10 +120,36 @@ export const generateMetadata = async ({
             }
         }
     }
-    return Embed({
-        title: "Server Lookup",
-        description: "Search for a server to view its data.",
-    });
+
+    // Return the page embed
+    return embed
+        ? embed
+        : Embed({
+              title: "Server Lookup",
+              description: "Search for a server to view its data.",
+          });
+};
+
+/**
+ * Generate the viewport for this page.
+ *
+ * @param params the route params
+ * @returns the generated metadata
+ */
+export const generateViewport = async ({
+    params,
+}: PageProps): Promise<Viewport> => {
+    const platform: string | undefined = params.slug?.[0]; // The platform to search for
+    const hostname: string | undefined = params.slug?.[1]; // The hostname of the server to search for
+    if (platform && hostname) {
+        try {
+            await getMinecraftServer(platform as ServerPlatform, hostname); // Get the server embed
+            return { themeColor: "#55FF55" }; // Online
+        } catch (err) {
+            return { themeColor: "#AA0000" }; // Error
+        }
+    }
+    return {};
 };
 
 export default ServerPage;
