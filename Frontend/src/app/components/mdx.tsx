@@ -49,22 +49,22 @@ const components: any = {
     ),
 
     // Tables
-    table: ({ children }: { children: any }) => (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    {children?.[0].props?.children?.props?.children}
-                </TableRow>
-            </TableHeader>
-            <TableBody>{children?.[1].props?.children}</TableBody>
-        </Table>
-    ),
-    th: ({ children }: { children: ReactNode }) => (
-        <TableHead>{children}</TableHead>
-    ),
-    td: ({ children }: { children: ReactNode }) => (
-        <TableCell>{children}</TableCell>
-    ),
+    // table: ({ children }: { children: any }) => (
+    //     <Table>
+    //         <TableHeader>
+    //             <TableRow>
+    //                 {children?.[0].props?.children?.props?.children}
+    //             </TableRow>
+    //         </TableHeader>
+    //         <TableBody>{children?.[1].props?.children}</TableBody>
+    //     </Table>
+    // ),
+    // th: ({ children }: { children: ReactNode }) => (
+    //     <TableHead>{children}</TableHead>
+    // ),
+    // td: ({ children }: { children: ReactNode }) => (
+    //     <TableCell>{children}</TableCell>
+    // ),
 };
 
 /**
