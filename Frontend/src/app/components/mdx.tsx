@@ -63,7 +63,7 @@ const components: any = {
         <p className="leading-4 text-zinc-300/80">{children}</p>
     ),
     ul: ({ children }: { children: ReactNode }): ReactElement => (
-        <ul className="list-disc list-inside">{children}</ul>
+        <ul className="px-3 list-disc list-inside">{children}</ul>
     ),
 
     // Tables

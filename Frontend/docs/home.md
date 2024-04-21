@@ -8,8 +8,8 @@ summary: 'Get started with RESTfulMC! duis numquam himenaeos lectus quisque assu
 Welcome to the RESTfulMC documentation! feugait pertinax duis laudem vix integer tempus conubia graece interpretaris
 
 ## Table of Contents
-* [Get started with RESTfulMC!](#get-started-with-restfulmc)
-  * [Features](#features)
+- [Get started with RESTfulMC!](#get-started-with-restfulmc)
+  - [Features](#features)
 
 ## Features
 Some of the core features of RESTfulMC include:
