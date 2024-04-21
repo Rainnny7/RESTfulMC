@@ -21,7 +21,7 @@ const Footer = (): ReactElement => (
     >
         <div className="xl:px-40 pb-14 md:pb-0 flex flex-col md:flex-row justify-around items-center z-50 w-full h-full transition-all transform-gpu">
             {/* Branding */}
-            <div className="flex flex-col justify-center pointer-events-none">
+            <div className="flex flex-col justify-center select-none pointer-events-none">
                 {/* Logo & Site Name */}
                 <div className="flex gap-7 items-center">
                     <Image
@@ -50,7 +50,7 @@ const Footer = (): ReactElement => (
                             {/* Header */}
                             <h1
                                 className={cn(
-                                    "text-2xl xs:text-3xl text-minecraft-green-3 pointer-events-none",
+                                    "text-2xl xs:text-3xl text-minecraft-green-3 select-none pointer-events-none",
                                     minecrafter.className
                                 )}
                             >

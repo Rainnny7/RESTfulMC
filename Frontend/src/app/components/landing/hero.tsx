@@ -13,7 +13,7 @@ import { ReactElement } from "react";
  */
 const Hero = (): ReactElement => (
     <div className="pt-56 pb-40 flex flex-col gap-8 justify-center items-center">
-        <div className="flex flex-col gap-4 items-center text-center pointer-events-none">
+        <div className="flex flex-col gap-4 items-center text-center select-none pointer-events-none">
             {/* Title */}
             <h1
                 className={cn(

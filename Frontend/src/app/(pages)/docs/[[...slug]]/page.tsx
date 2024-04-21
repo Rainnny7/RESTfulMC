@@ -71,7 +71,7 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
                     </Breadcrumb>
 
                     {/* Publish Date */}
-                    <p className="text-zinc-400 pointer-events-none">
+                    <p className="text-zinc-400 select-none pointer-events-none">
                         Published on{" "}
                         {moment(content.published, "MM-DD-YYYY").format(
                             "MMMM Do YYYY"

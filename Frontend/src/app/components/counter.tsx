@@ -31,6 +31,7 @@ type CounterProps = {
 /**
  * A counter component.
  *
+ * @param name the name of the counter
  * @param amount the amount to count up to
  * @param duration the optional duration of the count up
  * @returns the counter jsx

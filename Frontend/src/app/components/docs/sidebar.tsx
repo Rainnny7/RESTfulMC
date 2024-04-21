@@ -1,10 +1,10 @@
 import { ReactElement } from "react";
-import { Input } from "@/components/ui/input";
-import { getDocsContent } from "@/lib/mdxUtils";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { capitalize } from "@/lib/stringUtils";
 import { minecrafter } from "@/font/fonts";
+import { getDocsContent } from "@/lib/mdxUtils";
+import QuickSearch from "@/components/docs/search/search-input";
 
 /**
  * The sidebar for the docs page.
@@ -23,13 +23,8 @@ const Sidebar = ({ activeSlug }: { activeSlug: string }): ReactElement => {
     return (
         <div className="hidden h-full px-3 py-5 xl:flex flex-col items-center">
             <div className="fixed w-56 flex flex-col gap-5">
-                {/* Search */}
-                <Input
-                    type="search"
-                    name="search"
-                    placeholder="Quick search..."
-                    disabled
-                />
+                {/* Quick Search */}
+                <QuickSearch />
 
                 {/* Links */}
                 <div className="flex flex-col gap-7">
@@ -45,7 +40,7 @@ const Sidebar = ({ activeSlug }: { activeSlug: string }): ReactElement => {
                                 {/* Category */}
                                 <h1
                                     className={cn(
-                                        "text-xl text-minecraft-green-4",
+                                        "text-xl text-minecraft-green-4 select-none pointer-events-none",
                                         minecrafter.className
                                     )}
                                 >
