@@ -11,6 +11,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { capitalize } from "@/lib/stringUtils";
+import { CustomMDX } from "@/mdx-components";
 
 /**
  * The page to display content
@@ -59,6 +60,9 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
                     )}
                 </BreadcrumbList>
             </Breadcrumb>
+
+            {/* Content */}
+            <CustomMDX source={content.content} />
         </main>
     );
 };

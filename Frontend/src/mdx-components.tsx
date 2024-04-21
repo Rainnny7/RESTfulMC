@@ -1,10 +1,20 @@
-import type { MDXComponents } from "mdx/types";
+import { ReactElement, ReactNode } from "react";
+import { MDXRemote } from "remote-mdx/rsc";
 
-export const useMDXComponents = (components: MDXComponents): MDXComponents => {
-    return {
-        h1: ({ children }) => (
-            <h1 className="text-6xl font-semibold">{children}</h1>
-        ),
-        ...components,
-    };
+const components: any = {
+    h1: ({ children }: { children: ReactNode }) => (
+        <h1 className="text-3xl">{children}</h1>
+    ),
+};
+
+export const CustomMDX = (props: any): ReactElement => {
+    return (
+        <MDXRemote
+            {...props}
+            components={{
+                ...components,
+                ...(props.components || {}),
+            }}
+        />
+    );
 };
