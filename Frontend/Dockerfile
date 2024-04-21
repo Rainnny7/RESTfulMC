@@ -21,8 +21,8 @@ RUN bun run build
 FROM base AS runner
 WORKDIR /usr/src/app
 
-RUN addgroup --system --gid 1001 nextjs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1007 nextjs
+RUN adduser --system --uid 1007 nextjs
 
 RUN mkdir .next
 RUN chown nextjs:nextjs .next
