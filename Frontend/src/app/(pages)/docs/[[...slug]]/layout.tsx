@@ -9,7 +9,8 @@ export const dynamic = "force-static";
 /**
  * The layout for the docs page.
  *
- * @param children the children of this layout
+ * @param params the params of the request
+ * @param render the children to render
  * @returns the layout jsx
  */
 const DocumentationLayout = ({

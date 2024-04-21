@@ -55,23 +55,31 @@ const Sidebar = ({ activeSlug }: { activeSlug: string }): ReactElement => {
                                 {/* Links */}
                                 <div className="flex flex-col border-l border-zinc-700">
                                     {categoryContent.map(
-                                        (content, contentIndex) => (
-                                            <Link
-                                                key={contentIndex}
-                                                className={cn(
-                                                    "pl-3 -ml-px text-zinc-200 hover:opacity-85 transition-all transform-gpu",
-                                                    activeSlug ===
-                                                        content.slug &&
-                                                        "border-l border-minecraft-green-4"
-                                                )}
-                                                href={
-                                                    `/docs/${content.slug}` ||
-                                                    "#"
-                                                }
-                                            >
-                                                {content.title}
-                                            </Link>
-                                        )
+                                        (
+                                            content: DocsContentMetadata,
+                                            contentIndex: number
+                                        ): ReactElement => {
+                                            const active: boolean =
+                                                (!activeSlug &&
+                                                    content.slug === "home") ||
+                                                activeSlug === content.slug;
+                                            return (
+                                                <Link
+                                                    key={contentIndex}
+                                                    className={cn(
+                                                        "pl-3 -ml-px text-zinc-200 hover:opacity-85 transition-all transform-gpu",
+                                                        active &&
+                                                            "border-l border-minecraft-green-4"
+                                                    )}
+                                                    href={
+                                                        `/docs/${content.slug}` ||
+                                                        "#"
+                                                    }
+                                                >
+                                                    {content.title}
+                                                </Link>
+                                            );
+                                        }
                                     )}
                                 </div>
                             </div>

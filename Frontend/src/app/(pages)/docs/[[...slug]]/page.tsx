@@ -20,7 +20,7 @@ import Image from "next/image";
  * The page to display content
  * from an MDX file on the docs.
  *
- * @param slug the slug of the mdx file
+ * @param params the params of the request
  * @return the page jsx
  */
 const ContentPage = ({ params }: PageProps): ReactElement => {
