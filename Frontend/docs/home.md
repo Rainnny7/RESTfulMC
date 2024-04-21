@@ -9,7 +9,7 @@ Welcome to the RESTfulMC documentation! feugait pertinax duis laudem vix integer
 
 ## Table of Contents
 * [Get started with RESTfulMC!](#get-started-with-restfulmc)
-    * [Features](#features)
+  * [Features](#features)
 
 ## Features
 Some of the core features of RESTfulMC include:
