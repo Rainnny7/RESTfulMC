@@ -53,10 +53,10 @@ const components: any = {
         <Table>
             <TableHeader>
                 <TableRow>
-                    {children?.[0].props.children.props.children}
+                    {children?.[0].props?.children?.props?.children}
                 </TableRow>
             </TableHeader>
-            <TableBody>{children?.[1].props.children}</TableBody>
+            <TableBody>{children?.[1].props?.children}</TableBody>
         </Table>
     ),
     th: ({ children }: { children: ReactNode }) => (
