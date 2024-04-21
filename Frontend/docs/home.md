@@ -14,7 +14,7 @@ Welcome to the RESTfulMC documentation! feugait pertinax duis laudem vix integer
 ## Features
 Some of the core features of RESTfulMC include:
 
-| Feature                  |                                                            Description                                                             |
-|--------------------------|:----------------------------------------------------------------------------------------------------------------------------------:|
+| Feature                  | Description                                                                                                                        |
+|--------------------------|------------------------------------------------------------------------------------------------------------------------------------|
 | [Player Lookup](/player) | praesent omittam mollis maximus has pretium mediocritatem eripuit interesset adversarium inceptos tempor placerat deserunt tritani |
-| [Server Lookup](/server) |     sapien faucibus numquam ponderum utamur himenaeos menandri tation regione integer aliquam qualisque equidem euismod tortor     |
+| [Server Lookup](/server) | sapien faucibus numquam ponderum utamur himenaeos menandri tation regione integer aliquam qualisque equidem euismod tortor         |
