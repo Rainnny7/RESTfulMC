@@ -17,8 +17,8 @@ import { ReactElement } from "react";
 const Navbar = (): ReactElement => {
     const path: string = usePathname(); // Get the current path
     return (
-        <nav className="fixed inset-x-0 flex h-16 px-2.5 xs:px-5 sm:px-12 bg-navbar-background transition-all transform-gpu z-50">
-            <div className="relative w-full flex justify-between items-center">
+        <nav className="fixed inset-x-0 flex h-16 px-3 xs:px-5 sm:px-12 bg-navbar-background transition-all transform-gpu z-50">
+            <div className="w-full flex justify-between items-center">
                 {/* App Branding - Left */}
                 <Link
                     className={cn(
@@ -41,7 +41,7 @@ const Navbar = (): ReactElement => {
                 </Link>
 
                 {/* Center - Links */}
-                <div className="absolute inset-x-0 md:left-20 lg:left-0 flex justify-center md:justify-start lg:justify-center">
+                <div className="ml-auto absolute right-3 xs:inset-x-0 md:left-28 lg:left-0 flex justify-center md:justify-start lg:justify-center">
                     <div className="flex gap-7">
                         {Object.entries(config.navbarLinks).map(
                             (link: [string, string], index: number) => {

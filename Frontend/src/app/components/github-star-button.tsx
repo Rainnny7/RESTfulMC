@@ -45,7 +45,7 @@ const GitHubStarButton = (): ReactElement => {
             rel="noopener noreferrer"
             target="_blank"
         >
-            <MinecraftButton className="flex gap-1.5 items-center group/star">
+            <MinecraftButton className="px-3 xs:px-5 flex gap-1.5 items-center group/star">
                 {/* Star Count */}
                 <Suspense
                     fallback={<Skeleton className="w-4 h-5 rounded-md" />}

@@ -29,9 +29,9 @@ const Hero = (): ReactElement => (
         </div>
 
         {/* Links */}
-        <div className="flex gap-5 xs:gap-10">
+        <div className="flex gap-3.5 xs:gap-5 sm:gap-10">
             <Link href="/docs">
-                <MinecraftButton className="w-44 h-12">
+                <MinecraftButton className="w-36 xs:w-44 h-12">
                     Get Started
                 </MinecraftButton>
             </Link>
