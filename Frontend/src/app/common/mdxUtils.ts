@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
-import path from "node:path";
 import { Stats } from "node:fs";
+import path from "node:path";
 
 /**
  * The regex to match for metadata.

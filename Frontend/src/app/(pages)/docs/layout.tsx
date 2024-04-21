@@ -12,8 +12,8 @@ const DocumentationLayout = ({
 }: Readonly<{
     children: ReactNode;
 }>): ReactElement => (
-    <section className="h-screen pt-64 flex justify-center">
-        <div className="flex gap-10">
+    <section className="min-h-screen py-28 flex justify-center">
+        <div className="flex flex-wrap gap-32 divide-x-2">
             <Sidebar />
             {children}
         </div>

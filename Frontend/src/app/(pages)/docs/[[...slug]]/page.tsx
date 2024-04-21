@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import { getDocsContent } from "@/lib/mdxUtils";
 import { PageProps } from "@/types/page";
 import { notFound } from "next/navigation";
+import moment from "moment";
 
 import {
     Breadcrumb,
@@ -11,7 +12,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { capitalize } from "@/lib/stringUtils";
-import { CustomMDX } from "@/mdx-components";
+import { CustomMDX } from "@/components/mdx";
 
 /**
  * The page to display content
@@ -35,7 +36,7 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
     const splitSlug: string[] = content.slug?.split("/") || [];
 
     return (
-        <main>
+        <main className="pl-7 flex flex-col gap-3.5">
             {/* Breadcrumb */}
             <Breadcrumb>
                 <BreadcrumbList className="text-minecraft-green-4">
@@ -60,6 +61,12 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
                     )}
                 </BreadcrumbList>
             </Breadcrumb>
+
+            {/* Publish Date */}
+            <p className="text-zinc-400 pointer-events-none">
+                Published on{" "}
+                {moment(content.published, "MM-DD-YYYY").format("MMMM Do YYYY")}
+            </p>
 
             {/* Content */}
             <CustomMDX source={content.content} />
