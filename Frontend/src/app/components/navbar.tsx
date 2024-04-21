@@ -32,8 +32,8 @@ const Navbar = (): ReactElement => {
                         className="lg:hidden"
                         src="/media/logo.png"
                         alt="Site Logo"
-                        width={42}
-                        height={42}
+                        width={38}
+                        height={38}
                     />
 
                     {/* Large Screens */}
