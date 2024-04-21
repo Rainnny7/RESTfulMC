@@ -15,25 +15,31 @@ import {
  * The MDX components to style.
  */
 const components: any = {
-    h1: ({ children }: { children: ReactNode }) => (
+    h1: ({ children }: { children: ReactNode }): ReactElement => (
         <Heading size="text-4xl">{children}</Heading>
     ),
-    h2: ({ children }: { children: ReactNode }) => (
+    h2: ({ children }: { children: ReactNode }): ReactElement => (
         <Heading size="text-3xl">{children}</Heading>
     ),
-    h3: ({ children }: { children: ReactNode }) => (
+    h3: ({ children }: { children: ReactNode }): ReactElement => (
         <Heading size="text-2xl">{children}</Heading>
     ),
-    h4: ({ children }: { children: ReactNode }) => (
+    h4: ({ children }: { children: ReactNode }): ReactElement => (
         <Heading size="text-xl">{children}</Heading>
     ),
-    h5: ({ children }: { children: ReactNode }) => (
+    h5: ({ children }: { children: ReactNode }): ReactElement => (
         <Heading size="text-lg">{children}</Heading>
     ),
-    h6: ({ children }: { children: ReactNode }) => (
+    h6: ({ children }: { children: ReactNode }): ReactElement => (
         <Heading size="text-md">{children}</Heading>
     ),
-    a: ({ href, children }: { href: string; children: ReactNode }) => (
+    a: ({
+        href,
+        children,
+    }: {
+        href: string;
+        children: ReactNode;
+    }): ReactElement => (
         <a
             className="text-minecraft-green-4 cursor-pointer hover:opacity-85 transition-all transform-gpu"
             href={href}
@@ -41,30 +47,30 @@ const components: any = {
             {children}
         </a>
     ),
-    p: ({ children }: { children: ReactNode }) => (
+    p: ({ children }: { children: ReactNode }): ReactElement => (
         <p className="leading-4 text-zinc-300/80">{children}</p>
     ),
-    ul: ({ children }: { children: ReactNode }) => (
+    ul: ({ children }: { children: ReactNode }): ReactElement => (
         <ul className="list-disc list-inside">{children}</ul>
     ),
 
     // Tables
-    // table: ({ children }: { children: any }) => (
-    //     <Table>
-    //         <TableHeader>
-    //             <TableRow>
-    //                 {children?.[0].props?.children?.props?.children}
-    //             </TableRow>
-    //         </TableHeader>
-    //         <TableBody>{children?.[1].props?.children}</TableBody>
-    //     </Table>
-    // ),
-    // th: ({ children }: { children: ReactNode }) => (
-    //     <TableHead>{children}</TableHead>
-    // ),
-    // td: ({ children }: { children: ReactNode }) => (
-    //     <TableCell>{children}</TableCell>
-    // ),
+    table: ({ children }: { children: any }) => (
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    {children?.[0].props?.children?.props?.children}
+                </TableRow>
+            </TableHeader>
+            <TableBody>{children?.[1].props?.children}</TableBody>
+        </Table>
+    ),
+    th: ({ children }: { children: ReactNode }) => (
+        <TableHead>{children}</TableHead>
+    ),
+    td: ({ children }: { children: ReactNode }) => (
+        <TableCell>{children}</TableCell>
+    ),
 };
 
 /**
@@ -83,9 +89,6 @@ export const CustomMDX = (props: any): ReactElement => (
         options={{
             mdxOptions: {
                 remarkPlugins: [remarkGfm],
-                remarkRehypeOptions: {
-                    passThrough: ["link"],
-                },
             },
         }}
     />

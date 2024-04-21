@@ -37,6 +37,7 @@
     "clipboard-copy": "^4.0.1",
     "clsx": "^2.1.0",
     "lucide-react": "^0.372.0",
+    "mdast-util-frontmatter": "^2.0.1",
     "moment": "^2.30.1",
     "next": "14.2.2",
     "next-plausible": "^3.12.0",
