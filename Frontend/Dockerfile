@@ -1,11 +1,11 @@
-FROM fascinated/docker-images:nodejs_20_with_yarn AS base
+FROM imbios/bun-node AS base
 
 
 # Install dependencies
 FROM base AS depends
 WORKDIR /usr/src/app
-COPY package.json* yarn.lock* ./
-RUN yarn install --frozen-lockfile --quiet
+COPY package.json* bun.lockb* ./
+RUN bun install --frozen-lockfile --quiet
 
 
 # Build the app
@@ -14,7 +14,7 @@ WORKDIR /usr/src/app
 COPY --from=depends /usr/src/app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
-RUN yarn run build
+RUN bun run build
 
 
 # Run the app
@@ -43,4 +43,4 @@ EXPOSE 80
 ENV PORT 80
 
 USER nextjs
-CMD ["yarn", "start"]
+CMD ["bun", "start"]

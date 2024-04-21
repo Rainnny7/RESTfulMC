@@ -19,7 +19,4 @@ Some of the core features of RESTfulMC include:
 | [Player Lookup](/player) | praesent omittam mollis maximus has pretium mediocritatem eripuit |
 | [Server Lookup](/server) | sapien faucibus numquam ponderum utamur himenaeos menandri tation |
 
-## Test
-bla bla bla
-
 ---
