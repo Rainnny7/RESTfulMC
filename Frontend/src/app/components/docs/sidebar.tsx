@@ -1,35 +1,85 @@
 import { ReactElement } from "react";
 import { Input } from "@/components/ui/input";
 import { getDocsContent } from "@/lib/mdxUtils";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { capitalize } from "@/lib/stringUtils";
+import { minecrafter } from "@/font/fonts";
 
 /**
  * The sidebar for the docs page.
  *
  * @returns the sidebar jsx
  */
-const Sidebar = (): ReactElement => (
-    <div className="hidden h-full px-3 py-5 xl:flex flex-col items-center">
-        <div className="fixed w-56 flex flex-col gap-2.5">
-            {/* Search */}
-            <Input
-                type="search"
-                name="search"
-                placeholder="Quick search..."
-                disabled
-            />
+const Sidebar = ({ activeSlug }: { activeSlug: string }): ReactElement => {
+    const groupedContent: Record<string, DocsContentMetadata[]> = {};
+    for (let content of getDocsContent()) {
+        const categoryKey: string = content.slug?.split("/")[0] || "home"; // The key of the category
+        if (!groupedContent[categoryKey]) {
+            groupedContent[categoryKey] = [];
+        }
+        groupedContent[categoryKey].push(content);
+    }
+    return (
+        <div className="hidden h-full px-3 py-5 xl:flex flex-col items-center">
+            <div className="fixed w-56 flex flex-col gap-5">
+                {/* Search */}
+                <Input
+                    type="search"
+                    name="search"
+                    placeholder="Quick search..."
+                    disabled
+                />
 
-            {/* Links */}
-            <div className="flex flex-col gap-1">
-                {getDocsContent().map(
-                    (
-                        content: DocsContentMetadata,
-                        index: number
-                    ): ReactElement => (
-                        <div key={index}>{content.title}</div>
-                    )
-                )}
+                {/* Links */}
+                <div className="flex flex-col gap-7">
+                    {Object.entries(groupedContent).map(
+                        (
+                            [category, categoryContent]: [
+                                string,
+                                DocsContentMetadata[],
+                            ],
+                            index: number
+                        ): ReactElement => (
+                            <div key={index} className="flex flex-col gap-1.5">
+                                {/* Category */}
+                                <h1
+                                    className={cn(
+                                        "text-xl text-minecraft-green-4",
+                                        minecrafter.className
+                                    )}
+                                >
+                                    {capitalize(category)}
+                                </h1>
+
+                                {/* Links */}
+                                <div className="flex flex-col border-l border-zinc-700">
+                                    {categoryContent.map(
+                                        (content, contentIndex) => (
+                                            <Link
+                                                key={contentIndex}
+                                                className={cn(
+                                                    "pl-3 -ml-px text-zinc-200 hover:opacity-85 transition-all transform-gpu",
+                                                    activeSlug ===
+                                                        content.slug &&
+                                                        "border-l border-minecraft-green-4"
+                                                )}
+                                                href={
+                                                    `/docs/${content.slug}` ||
+                                                    "#"
+                                                }
+                                            >
+                                                {content.title}
+                                            </Link>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                        )
+                    )}
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 export default Sidebar;
