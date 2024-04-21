@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { capitalize } from "@/lib/stringUtils";
 import { minecrafter } from "@/font/fonts";
 import { getDocsContent } from "@/lib/mdxUtils";
-import QuickSearch from "@/components/docs/search/search-input";
+import QuickSearchDialog from "@/components/docs/search/search-dialog";
 
 /**
  * The sidebar for the docs page.
@@ -24,7 +24,7 @@ const Sidebar = ({ activeSlug }: { activeSlug: string }): ReactElement => {
         <div className="hidden h-full px-3 py-5 xl:flex flex-col items-center">
             <div className="fixed w-56 flex flex-col gap-5">
                 {/* Quick Search */}
-                <QuickSearch />
+                <QuickSearchDialog />
 
                 {/* Links */}
                 <div className="flex flex-col gap-7">

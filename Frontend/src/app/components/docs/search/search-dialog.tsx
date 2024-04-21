@@ -1,146 +1,103 @@
 "use client";
 
+import { ReactElement, useEffect, useState } from "react";
 import {
-    AnchorHTMLAttributes,
-    ChangeEvent,
-    HTMLAttributes,
-    ReactElement,
-    useState,
-} from "react";
-import {
-    DialogClose,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 /**
- * Content for the search dialog.
+ * The dialog for quickly searching the docs.
  *
  * @return the content jsx
  */
-const SearchDialogContent = (): ReactElement => {
-    const [label, setLabel] = useState<string | undefined>(undefined);
+const QuickSearchDialog = (): ReactElement => {
+    const [open, setOpen] = useState<boolean>(false);
     const [results, setResults] = useState<DocsContentMetadata[] | undefined>(
         undefined
     ); // The search results
+    const router: AppRouterInstance = useRouter();
 
-    /**
-     * Search the docs with the given query.
-     */
-    const search = async (
-        event: ChangeEvent<HTMLInputElement>
-    ): Promise<void> => {
-        const query: string = event.target.value; // Get the query to search for
-        const tooShort: boolean = query.length < 3;
-
-        // No query or too short
-        if (!query || tooShort || query.length > 64) {
-            // Display warning
-            if (query) {
-                setLabel(
-                    tooShort
-                        ? "Please enter at least 3 characters"
-                        : "Your input is too long"
-                );
-            }
-            setResults(undefined);
-            return;
+    // Fetch the default results when the page loads
+    useEffect((): void => {
+        if (!results) {
+            const fetchDefaults = async () => {
+                const response: Response = await fetch("/api/docs/search"); // Search the docs
+                // setLabel(undefined); // Clear the label
+                setResults((await response.json()) as DocsContentMetadata[]);
+            };
+            fetchDefaults();
         }
-        const response: Response = await fetch(
-            `/api/docs/search?query=${query}`
-        ); // Search the docs
-        setLabel(undefined); // Clear the label
-        setResults((await response.json()) as DocsContentMetadata[]);
-    };
+    }, [results]);
 
     // Render the contents
     return (
         <>
-            {/* Header */}
-            <DialogHeader className="flex flex-col gap-2">
-                <DialogTitle>Quick Search</DialogTitle>
-                <DialogDescription>
-                    Quickly find the documentation you&apos;re looking for by
-                    typing in a few terms.
-                </DialogDescription>
-
-                {/* Query Input */}
-                <div className="space-y-1.5">
-                    <Label htmlFor="search">
-                        {label || "Start typing to get started"}
-                    </Label>
-                    <Input
-                        type="search"
-                        name="search"
-                        placeholder="Query..."
-                        onChange={search}
+            {/* Button to open */}
+            <div onClick={() => setOpen(true)}>
+                <div className="absolute top-2.5 left-3 z-10">
+                    <MagnifyingGlassIcon
+                        className="absolute"
+                        width={22}
+                        height={22}
                     />
                 </div>
-            </DialogHeader>
 
-            {/* Results */}
-            <div className="flex flex-col gap-2">
-                {results?.length === 0 && (
-                    <p className="text-red-500">No Results</p>
-                )}
-                {results?.map(
-                    (
-                        result: DocsContentMetadata,
-                        index: number
-                    ): ReactElement => (
-                        <SearchResultEntry key={index} result={result} />
-                    )
-                )}
+                <Input
+                    className="pl-10"
+                    type="search"
+                    name="search"
+                    placeholder="Quick search..."
+                    readOnly
+                />
             </div>
 
-            {/* Footer */}
-            <DialogFooter className="sm:justify-start">
-                <DialogClose asChild>
-                    <Button type="button" variant="secondary">
-                        Close
-                    </Button>
-                </DialogClose>
-            </DialogFooter>
+            {/* Dialog */}
+            <CommandDialog open={open} onOpenChange={setOpen}>
+                {/* Input */}
+                <CommandInput placeholder="Start typing to get started..." />
+
+                {/* Results */}
+                <CommandList>
+                    <CommandEmpty className="text-center text-red-500">
+                        No results were found.
+                    </CommandEmpty>
+
+                    <CommandGroup heading="Results">
+                        {results?.map(
+                            (
+                                result: DocsContentMetadata,
+                                index: number
+                            ): ReactElement => (
+                                <CommandItem
+                                    key={index}
+                                    className="flex flex-col gap-1 items-start"
+                                    onSelect={() =>
+                                        router.push(`/docs/${result.slug}`)
+                                    }
+                                >
+                                    <h1 className="text-minecraft-green-3 font-bold">
+                                        {result.title}
+                                    </h1>
+                                    <p className="text-zinc-300/85">
+                                        {result.summary}
+                                    </p>
+                                </CommandItem>
+                            )
+                        )}
+                    </CommandGroup>
+                </CommandList>
+            </CommandDialog>
         </>
     );
 };
 
-/**
- * The props for a search result entry.
- */
-type SearchResultEntryProps = {
-    /**
-     * The search result to display.
-     */
-    result: DocsContentMetadata;
-};
-
-/**
- * A search result entry.
- *
- * @param result the result to display
- * @param props the additional props
- * @return the result jsx
- */
-const SearchResultEntry = ({
-    result,
-    ...props
-}: AnchorHTMLAttributes<HTMLAnchorElement> &
-    SearchResultEntryProps): ReactElement => (
-    <Link
-        className="p-3 flex flex-col gap-1.5 bg-muted rounded-xl"
-        href={`/docs/${result.slug}`}
-        {...props}
-    >
-        <h1 className="font-semibold text-minecraft-green-4">{result.title}</h1>
-        <p className="font-light text-zinc-200">{result.summary}</p>
-    </Link>
-);
-
-export default SearchDialogContent;
+export default QuickSearchDialog;
