@@ -33,7 +33,7 @@ const Footer = (): ReactElement => (
 
                     <h1
                         className={cn(
-                            "text-5xl md:text-4xl lg:text-5xl text-minecraft-green-3",
+                            "text-4xl sm:text-5xl md:text-4xl lg:text-5xl text-minecraft-green-3",
                             minecrafter.className
                         )}
                     >
@@ -50,7 +50,7 @@ const Footer = (): ReactElement => (
                             {/* Header */}
                             <h1
                                 className={cn(
-                                    "text-3xl text-minecraft-green-3 pointer-events-none",
+                                    "text-2xl xs:text-3xl text-minecraft-green-3 pointer-events-none",
                                     minecrafter.className
                                 )}
                             >
@@ -82,7 +82,7 @@ const Footer = (): ReactElement => (
             </div>
 
             {/* Disclaimer */}
-            <p className="absolute inset-x-0 bottom-7 flex justify-center font-medium opacity-65">
+            <p className="absolute inset-x-0 bottom-5 flex justify-center font-medium opacity-50">
                 Not affiliated with Mojang or Microsoft.
             </p>
         </div>
