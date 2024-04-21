@@ -2,6 +2,11 @@ import { ReactElement, ReactNode } from "react";
 import Sidebar from "@/components/docs/sidebar";
 
 /**
+ * Force the layout to be static.
+ */
+export const dynamic = "force-static";
+
+/**
  * The layout for the docs page.
  *
  * @param children the children of this layout
