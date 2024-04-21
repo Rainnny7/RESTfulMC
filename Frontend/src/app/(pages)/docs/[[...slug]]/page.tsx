@@ -40,7 +40,7 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
     return (
         <main className="px-7 flex flex-col gap-2">
             {/* Header */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-10">
                 <div className="flex flex-col gap-3">
                     {/* Breadcrumb */}
                     <Breadcrumb>
@@ -81,6 +81,7 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
 
                 {/* View on Git */}
                 <Link
+                    className="hover:opacity-85 transition-all transform-gpu"
                     href={`https://git.rainnny.club/Rainnny/RESTfulMC/src/branch/master/Frontend/docs/${content.slug}${content.extension}`}
                     rel="noopener noreferrer"
                     target="_blank"
