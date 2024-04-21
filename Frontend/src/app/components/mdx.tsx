@@ -16,22 +16,34 @@ import {
  */
 const components: any = {
     h1: ({ children }: { children: ReactNode }): ReactElement => (
-        <Heading size="text-4xl">{children}</Heading>
+        <Heading size={1} className="text-4xl">
+            {children}
+        </Heading>
     ),
     h2: ({ children }: { children: ReactNode }): ReactElement => (
-        <Heading size="text-3xl">{children}</Heading>
+        <Heading size={2} className="text-3xl">
+            {children}
+        </Heading>
     ),
     h3: ({ children }: { children: ReactNode }): ReactElement => (
-        <Heading size="text-2xl">{children}</Heading>
+        <Heading size={3} className="text-2xl">
+            {children}
+        </Heading>
     ),
     h4: ({ children }: { children: ReactNode }): ReactElement => (
-        <Heading size="text-xl">{children}</Heading>
+        <Heading size={4} className="text-xl">
+            {children}
+        </Heading>
     ),
     h5: ({ children }: { children: ReactNode }): ReactElement => (
-        <Heading size="text-lg">{children}</Heading>
+        <Heading size={5} className="text-lg">
+            {children}
+        </Heading>
     ),
     h6: ({ children }: { children: ReactNode }): ReactElement => (
-        <Heading size="text-md">{children}</Heading>
+        <Heading size={5} className="text-md">
+            {children}
+        </Heading>
     ),
     a: ({
         href,
@@ -97,16 +109,21 @@ export const CustomMDX = (props: any): ReactElement => (
 /**
  * A heading component.
  *
- * @param size the size of the heading.
+ * @param className the class name of the heading
+ * @param size the size of the heading
  * @param children the children within the heading
  * @return the heading jsx
  */
 const Heading = ({
+    className,
     size,
     children,
 }: {
-    size: string;
+    className: string;
+    size: number;
     children: ReactNode;
 }): ReactElement => (
-    <h1 className={cn("pt-2.5 font-bold", size)}>{children}</h1>
+    <h1 className={cn("pt-2.5 font-bold", size >= 2 && "pt-7", className)}>
+        {children}
+    </h1>
 );
