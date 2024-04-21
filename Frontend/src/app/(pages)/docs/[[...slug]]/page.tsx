@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { capitalize } from "@/lib/stringUtils";
 import { CustomMDX } from "@/components/mdx";
+import Link from "next/link";
+import Image from "next/image";
 
 /**
  * The page to display content
@@ -36,7 +38,7 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
     const splitSlug: string[] = content.slug?.split("/") || [];
 
     return (
-        <main className="pl-7 flex flex-col gap-3.5">
+        <main className="relative pl-7 flex flex-col gap-3.5">
             {/* Breadcrumb */}
             <Breadcrumb>
                 <BreadcrumbList className="text-minecraft-green-4">
@@ -61,15 +63,28 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
                     )}
                 </BreadcrumbList>
             </Breadcrumb>
-
             {/* Publish Date */}
             <p className="text-zinc-400 pointer-events-none">
                 Published on{" "}
                 {moment(content.published, "MM-DD-YYYY").format("MMMM Do YYYY")}
             </p>
-
             {/* Content */}
             <CustomMDX source={content.content} />
+
+            {/* View on Git */}
+            <Link
+                className="absolute left-10 bottom-7"
+                href={`https://git.rainnny.club/Rainnny/RESTfulMC/src/branch/master/Frontend/docs/${content.slug}${content.extension}`}
+                rel="noopener noreferrer"
+                target="_blank"
+            >
+                <Image
+                    src="/media/github-white-logo.svg"
+                    alt="GitHub Logo"
+                    width={26}
+                    height={26}
+                />
+            </Link>
         </main>
     );
 };

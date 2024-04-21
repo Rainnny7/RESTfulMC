@@ -49,6 +49,7 @@ const getMetadata = <T extends MDXMetadata>(
                 .replace(/\\/g, "/") // Normalize the path
                 .replace(/\.mdx?$/, "")
                 .substring(1),
+            extension: path.extname(file),
             ...parseMetadata<T>(fs.readFileSync(filePath, "utf-8")),
         }; // Map each file to its metadata
     });

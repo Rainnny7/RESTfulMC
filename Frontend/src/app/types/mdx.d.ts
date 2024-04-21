@@ -28,6 +28,11 @@ type MDXMetadata = {
     slug?: string | undefined;
 
     /**
+     * The extension of the file, defined once read.
+     */
+    extension?: string | undefined;
+
+    /**
      * The metadata of the file.
      */
     metadata: {
