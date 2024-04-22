@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { capitalize } from "@/lib/stringUtils";
 import { minecrafter } from "@/font/fonts";
 import { getDocsContent } from "@/lib/mdxUtils";
-import QuickSearchDialog from "@/components/docs/search/search-dialog";
+import QuickSearchDialog from "@/components/docs/search-dialog";
 
 /**
  * The sidebar for the docs page.
