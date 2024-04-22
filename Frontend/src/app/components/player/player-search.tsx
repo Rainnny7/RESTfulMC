@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { redirect } from "next/navigation";
 import { ReactElement } from "react";
+import SimpleTooltip from "@/components/simple-tooltip";
 
 /**
  * Props for a player search.
@@ -18,7 +19,7 @@ type PlayerSearchProps = {
 /**
  * A component for searching for a player.
  *
- * @param query the query to search for
+ * @param query the original query to search for
  * @returns the search component jsx
  */
 const PlayerSearch = ({ query }: PlayerSearchProps): ReactElement => {
@@ -31,6 +32,7 @@ const PlayerSearch = ({ query }: PlayerSearchProps): ReactElement => {
             className="flex flex-col gap-7 justify-center items-center"
             action={handleRedirect}
         >
+            {/* Input */}
             <div className="w-full flex flex-col gap-3">
                 <Label htmlFor="query">Username or UUID</Label>
                 <Input
@@ -43,7 +45,11 @@ const PlayerSearch = ({ query }: PlayerSearchProps): ReactElement => {
                     autoComplete="off"
                 />
             </div>
-            <MinecraftButton type="submit">Search</MinecraftButton>
+
+            {/* Search */}
+            <SimpleTooltip content="Click to search">
+                <MinecraftButton type="submit">Search</MinecraftButton>
+            </SimpleTooltip>
         </form>
     );
 };

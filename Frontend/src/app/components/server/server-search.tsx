@@ -13,6 +13,7 @@ import { capitalize } from "@/app/common/string-utils";
 import { redirect } from "next/navigation";
 import { ReactElement } from "react";
 import { ServerPlatform } from "restfulmc-lib";
+import SimpleTooltip from "@/components/simple-tooltip";
 
 /**
  * Props for a server search.
@@ -21,7 +22,7 @@ type ServerSearchProps = {
     /**
      * The original platform to query for.
      */
-    platform: string | undefined;
+    platform: ServerPlatform | undefined;
 
     /**
      * The original hostname to query for.
@@ -32,7 +33,8 @@ type ServerSearchProps = {
 /**
  * A component for searching for a server.
  *
- * @param query the query to search for
+ * @param platform the original platform to query for
+ * @param hostname original hostname to query for
  * @returns the search component jsx
  */
 const ServerSearch = ({
@@ -48,15 +50,12 @@ const ServerSearch = ({
             className="flex flex-col gap-7 justify-center items-center"
             action={handleRedirect}
         >
+            {/* Input */}
             <div className="w-full flex gap-2">
                 {/* Platform Selection */}
                 <div className="flex flex-col gap-3">
                     <Label htmlFor="platform">Platform</Label>
-                    <Select
-                        name="platform"
-                        defaultValue={platform || "java"}
-                        required
-                    >
+                    <Select name="platform" defaultValue={platform} required>
                         <SelectTrigger className="w-28">
                             <SelectValue />
                         </SelectTrigger>
@@ -89,7 +88,11 @@ const ServerSearch = ({
                     />
                 </div>
             </div>
-            <MinecraftButton type="submit">Search</MinecraftButton>
+
+            {/* Search */}
+            <SimpleTooltip content="Click to search">
+                <MinecraftButton type="submit">Search</MinecraftButton>
+            </SimpleTooltip>
         </form>
     );
 };

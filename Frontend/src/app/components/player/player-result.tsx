@@ -12,6 +12,7 @@ import { ReactElement } from "react";
 import { CachedPlayer, SkinPart } from "restfulmc-lib";
 import CodeDialog from "@/components/code/code-dialog";
 import RawJson from "@/components/badge/raw-json";
+import SimpleTooltip from "@/components/simple-tooltip";
 
 /**
  * The props for a player result.
@@ -85,7 +86,9 @@ const PlayerResult = ({ query, player }: PlayerResultProps): ReactElement => (
                     {/* Skin Parts */}
                     <div className="pt-3 w-[90%] flex flex-col gap-3">
                         {/* Header */}
-                        <h1 className="font-semibold uppercase">Skin Parts</h1>
+                        <h1 className="font-semibold uppercase select-none pointer-events-none">
+                            Skin Parts
+                        </h1>
 
                         {/* Skin Parts */}
                         <div className="flex gap-5">
@@ -101,17 +104,18 @@ const PlayerResult = ({ query, player }: PlayerResultProps): ReactElement => (
                                         [part, url]: [string, string],
                                         index: number
                                     ) => (
-                                        <Link
+                                        <SimpleTooltip
                                             key={index}
-                                            href={url}
-                                            target="_blank"
+                                            content={`Click to view ${player.username}'s ${part}`}
                                         >
-                                            <img
-                                                className="h-20 sm:h-24 md:h-28 hover:scale-[1.02] transition-all transform-gpu"
-                                                src={url}
-                                                alt={`${player.username}'s ${part}`}
-                                            />
-                                        </Link>
+                                            <Link href={url} target="_blank">
+                                                <img
+                                                    className="h-20 sm:h-24 md:h-28 hover:scale-[1.02] transition-all transform-gpu"
+                                                    src={url}
+                                                    alt={`${player.username}'s ${part}`}
+                                                />
+                                            </Link>
+                                        </SimpleTooltip>
                                     )
                                 )}
                         </div>

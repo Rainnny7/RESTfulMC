@@ -12,7 +12,7 @@ type SimpleTooltipProps = {
     /**
      * The content to display in the tooltip.
      */
-    content: string;
+    content: string | ReactNode;
 
     /**
      * The children to render in this tooltip.
