@@ -71,7 +71,6 @@ export const generateMetadata = async ({
     params,
 }: PageProps): Promise<Metadata> => {
     const query: string | undefined = trimQuery(params.slug?.[0]);
-    let embed: Metadata | undefined; // The player embed, if any
     if (query) {
         try {
             const player: CachedPlayer = await getPlayer(query); // Get the player to embed
@@ -81,28 +80,18 @@ export const generateMetadata = async ({
                 thumbnail: player.skin.parts.HEAD,
             });
         } catch (err) {
-            const code: number = (err as RestfulMCAPIError).code; // Get the error status code
-            if (code === 400) {
-                return Embed({
-                    title: "Invalid Player",
-                    description: `The player ${query} is invalid.`,
-                });
-            } else if (code === 404) {
-                return Embed({
-                    title: "Player Not Found",
-                    description: `The player ${query} was not found.`,
-                });
-            }
+            return Embed({
+                title: "Player Not Found",
+                description: `The player ${query} was not found.`,
+            });
         }
     }
 
     // Return the page embed
-    return embed
-        ? embed
-        : Embed({
-              title: "Player Lookup",
-              description: "Search for a player to view their profile.",
-          });
+    return Embed({
+        title: "Player Lookup",
+        description: "Search for a player to view their profile.",
+    });
 };
 
 /**

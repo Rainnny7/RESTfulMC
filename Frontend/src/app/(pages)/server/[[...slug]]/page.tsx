@@ -91,7 +91,6 @@ export const generateMetadata = async ({
 }: PageProps): Promise<Metadata> => {
     const platform: string | undefined = params.slug?.[0]; // The platform to search for
     const hostname: string | undefined = params.slug?.[1]; // The hostname of the server to search for
-    let embed: Metadata | undefined; // The server embed, if any
     if (platform && hostname) {
         try {
             const server:
@@ -106,28 +105,18 @@ export const generateMetadata = async ({
                 thumbnail: (server as CachedJavaMinecraftServer).favicon?.url,
             });
         } catch (err) {
-            const code: number = (err as RestfulMCAPIError).code; // Get the error status code
-            if (code === 400) {
-                return Embed({
-                    title: "Invalid Platform or Hostname",
-                    description: `The platform ${platform} or hostname ${hostname} is invalid.`,
-                });
-            } else if (code === 404) {
-                return Embed({
-                    title: "Server Not Found",
-                    description: `The server ${hostname} was not found.`,
-                });
-            }
+            return Embed({
+                title: "Server Not Found",
+                description: `The server ${hostname} was not found.`,
+            });
         }
     }
 
     // Return the page embed
-    return embed
-        ? embed
-        : Embed({
-              title: "Server Lookup",
-              description: "Search for a server to view its data.",
-          });
+    return Embed({
+        title: "Server Lookup",
+        description: "Search for a server to view its data.",
+    });
 };
 
 /**
