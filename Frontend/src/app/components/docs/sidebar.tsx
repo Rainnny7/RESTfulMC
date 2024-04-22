@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { capitalize } from "@/lib/stringUtils";
+import { capitalize } from "@/lib/string-utils";
 import { minecrafter } from "@/font/fonts";
-import { getDocsContent } from "@/lib/mdxUtils";
+import { getDocsContent } from "@/lib/mdx-utils";
 import QuickSearchDialog from "@/components/docs/search-dialog";
 
 /**

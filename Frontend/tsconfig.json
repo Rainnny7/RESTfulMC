@@ -25,6 +25,7 @@
 			"@/font/*": ["./src/app/font/*"],
 			"@/types/*": ["./src/app/types/*"],
 			"@/lib/*": ["./src/app/common/*"],
+			"@/lib": ["./src/app/common/utils.ts"],
 			"@/markdown/*": ["./src/markdown/*"],
 			"@/configJson": ["./config.json"]
 		}

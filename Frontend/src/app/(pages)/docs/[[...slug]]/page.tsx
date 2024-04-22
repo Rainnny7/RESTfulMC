@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { getDocsContent } from "@/lib/mdxUtils";
+import { getDocsContent } from "@/lib/mdx-utils";
 import { PageProps } from "@/types/page";
 import { notFound } from "next/navigation";
 import moment from "moment";
@@ -11,7 +11,7 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { capitalize } from "@/lib/stringUtils";
+import { capitalize } from "@/lib/string-utils";
 import { CustomMDX } from "@/components/mdx";
 import Link from "next/link";
 import Image from "next/image";

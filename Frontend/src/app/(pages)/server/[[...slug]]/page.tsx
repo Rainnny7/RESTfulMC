@@ -3,7 +3,7 @@ import ServerResult from "@/components/server/server-result";
 import ServerSearch from "@/components/server/server-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { minecrafter } from "@/font/fonts";
-import { capitalize } from "@/lib/stringUtils";
+import { capitalize } from "@/lib/string-utils";
 import { cn } from "@/lib/utils";
 import { PageProps } from "@/types/page";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";

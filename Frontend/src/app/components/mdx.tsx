@@ -11,15 +11,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import {
-    atomOneDark,
-    nord,
-    ocean,
-    solarizedDark,
-    stackoverflowDark,
-} from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { capitalize } from "@/lib/stringUtils";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import Image from "next/image";
+import CodeHighlighter from "@/components/code-highlighter";
 
 /**
  * The MDX components to style.
@@ -78,39 +72,11 @@ const components: any = {
     }: {
         className: string;
         children: any;
-    }): ReactElement => {
-        const language: string | undefined = className?.replace(
-            "language-",
-            ""
-        ); // The language of the code, if any
-        return language ? (
-            <div className="relative max-w-5xl">
-                <SyntaxHighlighter
-                    className="!bg-muted/70 break-all rounded-lg"
-                    language={language}
-                    style={atomOneDark}
-                    wrapLongLines
-                >
-                    {children}
-                </SyntaxHighlighter>
-
-                {/* Language Icon */}
-                <div className="absolute top-0 right-0 px-2 py-0.5 flex gap-2 items-center text-white/75 bg-zinc-700/50 rounded select-none pointer-events-none">
-                    <Image
-                        src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${language}/${language}-original.svg`}
-                        alt={`${language} Language Icon`}
-                        width={20}
-                        height={20}
-                    />
-                    {capitalize(language)}
-                </div>
-            </div>
-        ) : (
-            <code className="p-2 max-w-5xl block bg-muted/70 break-all rounded-lg">
-                {children}
-            </code>
-        );
-    },
+    }): ReactElement => (
+        <CodeHighlighter language={className?.replace("language-", "")}>
+            {children}
+        </CodeHighlighter>
+    ),
     ul: ({ children }: { children: ReactNode }): ReactElement => (
         <ul className="px-3 list-disc list-inside">{children}</ul>
     ),

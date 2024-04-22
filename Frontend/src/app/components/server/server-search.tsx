@@ -9,7 +9,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { capitalize } from "@/app/common/stringUtils";
+import { capitalize } from "@/app/common/string-utils";
 import { redirect } from "next/navigation";
 import { ReactElement } from "react";
 import { ServerPlatform } from "restfulmc-lib";
