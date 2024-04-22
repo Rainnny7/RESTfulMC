@@ -18,6 +18,7 @@ import {
     solarizedDark,
     stackoverflowDark,
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { capitalize } from "@/lib/stringUtils";
 
 /**
  * The MDX components to style.
@@ -77,17 +78,28 @@ const components: any = {
         className: string;
         children: any;
     }): ReactElement => {
-        return className ? (
-            <SyntaxHighlighter
-                className="max-w-5xl !bg-muted break-all rounded-lg"
-                language={className.replace("language-", "")}
-                style={atomOneDark}
-                wrapLongLines
-            >
-                {children}
-            </SyntaxHighlighter>
+        const language: string | undefined = className?.replace(
+            "language-",
+            ""
+        ); // The language of the code, if any
+        return language ? (
+            <div className="relative max-w-5xl">
+                <SyntaxHighlighter
+                    className="!bg-muted/70 break-all rounded-lg"
+                    language={language}
+                    style={atomOneDark}
+                    wrapLongLines
+                >
+                    {children}
+                </SyntaxHighlighter>
+
+                {/* Language Icon */}
+                <div className="absolute top-0 right-0 px-2 py-0.5 bg-zinc-700/50 rounded select-none pointer-events-none">
+                    {capitalize(language)}
+                </div>
+            </div>
         ) : (
-            <code className="p-2 max-w-5xl block bg-muted rounded-lg">
+            <code className="p-2 max-w-5xl block bg-muted/70 break-all rounded-lg">
                 {children}
             </code>
         );
