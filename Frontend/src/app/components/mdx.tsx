@@ -10,6 +10,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import {
+    atomOneDark,
+    nord,
+    ocean,
+    solarizedDark,
+    stackoverflowDark,
+} from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 /**
  * The MDX components to style.
@@ -62,6 +70,28 @@ const components: any = {
     p: ({ children }: { children: ReactNode }): ReactElement => (
         <p className="leading-4 text-zinc-300/80">{children}</p>
     ),
+    code: ({
+        className,
+        children,
+    }: {
+        className: string;
+        children: any;
+    }): ReactElement => {
+        return className ? (
+            <SyntaxHighlighter
+                className="max-w-5xl !bg-muted break-all rounded-lg"
+                language={className.replace("language-", "")}
+                style={atomOneDark}
+                wrapLongLines
+            >
+                {children}
+            </SyntaxHighlighter>
+        ) : (
+            <code className="p-2 max-w-5xl block bg-muted rounded-lg">
+                {children}
+            </code>
+        );
+    },
     ul: ({ children }: { children: ReactNode }): ReactElement => (
         <ul className="px-3 list-disc list-inside">{children}</ul>
     ),

@@ -31,6 +31,21 @@ summary: 'Get started with RESTfulMC! duis numquam himenaeos lectus quisque assu
 # Heading level 1
 I really like using Markdown.
 
+```
+"use client";
+
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { type ThemeProviderProps } from "next-themes/dist/types";
+
+/**
+ * The provider of themes!!
+ */
+const ThemeProvider = ({ children, ...props }: ThemeProviderProps) => (
+    <NextThemesProvider {...props}>{children}</NextThemesProvider>
+);
+export default ThemeProvider;
+```
+
 ```typescript
 "use client";
 
