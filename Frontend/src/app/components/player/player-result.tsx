@@ -109,11 +109,14 @@ const PlayerResult = ({ query, player }: PlayerResultProps): ReactElement => (
                                             content={`Click to view ${player.username}'s ${part}`}
                                         >
                                             <Link href={url} target="_blank">
-                                                <img
-                                                    className="h-20 sm:h-24 md:h-28 hover:scale-[1.02] transition-all transform-gpu"
-                                                    src={url}
-                                                    alt={`${player.username}'s ${part}`}
-                                                />
+                                                <div className="relative w-20 h-20">
+                                                    <Image
+                                                        className="object-contain hover:scale-[1.02] transition-all transform-gpu"
+                                                        src={url}
+                                                        alt={`${player.username}'s ${part}`}
+                                                        fill
+                                                    />
+                                                </div>
                                             </Link>
                                         </SimpleTooltip>
                                     )
