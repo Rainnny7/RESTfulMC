@@ -9,6 +9,8 @@ import {
     MojangServerStatus,
     MojangServerStatusResponse,
 } from "restfulmc-lib";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import SimpleTooltip from "@/components/simple-tooltip";
 
 /**
  * Page metadata.
@@ -62,14 +64,22 @@ const MojangStatusPage = async (): Promise<ReactElement> => {
                                     <h1 className="pointer-events-none">
                                         {server.name}
                                     </h1>
-                                    <Link
-                                        href={server.endpoint}
-                                        className="text-xs text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        <code>{server.endpoint}</code>
-                                    </Link>
+                                    <SimpleTooltip content="Click to open">
+                                        <Link
+                                            href={server.endpoint}
+                                            className="text-xs text-minecraft-green-3 hover:opacity-85 transition-all transform-gpu"
+                                            rel="noopener noreferrer"
+                                            target="_blank"
+                                        >
+                                            <code className="flex gap-1 items-center">
+                                                <span>{server.endpoint}</span>
+                                                <ArrowTopRightOnSquareIcon
+                                                    width={16}
+                                                    height={16}
+                                                />
+                                            </code>
+                                        </Link>
+                                    </SimpleTooltip>
                                 </div>
 
                                 {/* Status */}
