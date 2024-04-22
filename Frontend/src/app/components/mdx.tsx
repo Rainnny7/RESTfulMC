@@ -94,7 +94,7 @@ const components: any = {
                 </SyntaxHighlighter>
 
                 {/* Language Icon */}
-                <div className="absolute top-0 right-0 px-2 py-0.5 bg-zinc-700/50 rounded select-none pointer-events-none">
+                <div className="absolute top-0 right-0 px-2 py-0.5 text-white/75 bg-zinc-700/50 rounded select-none pointer-events-none">
                     {capitalize(language)}
                 </div>
             </div>
