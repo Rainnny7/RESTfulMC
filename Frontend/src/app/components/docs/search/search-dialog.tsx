@@ -72,8 +72,8 @@ const QuickSearchDialog = (): ReactElement => {
                 />
 
                 <div className="absolute top-1.5 right-3">
-                    <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                        <span className="text-xs">⌘</span>K
+                    <kbd className="h-5 px-1.5 inline-flex gap-1 items-center bg-muted font-medium text-muted-foreground rounded select-none pointer-events-none">
+                        <span>⌘</span>K
                     </kbd>
                 </div>
             </div>
