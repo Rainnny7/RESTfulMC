@@ -4,7 +4,7 @@ import Creeper from "@/components/creeper";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/app/common/utils";
 import { ReactElement, useEffect } from "react";
-import MinecraftButton from "@/components/minecraft-button";
+import MinecraftButton from "@/components/button/minecraft-button";
 
 /**
  * The error page.

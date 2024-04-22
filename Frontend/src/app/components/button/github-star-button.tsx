@@ -1,6 +1,6 @@
 "use client";
 
-import MinecraftButton from "@/components/minecraft-button";
+import MinecraftButton from "@/components/button/minecraft-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StarIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";

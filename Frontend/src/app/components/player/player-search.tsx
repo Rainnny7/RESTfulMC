@@ -1,4 +1,4 @@
-import MinecraftButton from "@/components/minecraft-button";
+import MinecraftButton from "@/components/button/minecraft-button";
 import { Input } from "@/components/ui/input";
 
 import { Label } from "@/components/ui/label";

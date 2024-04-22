@@ -1,4 +1,4 @@
-import CopyButton from "@/components/copy-button";
+import CopyButton from "@/components/button/copy-button";
 import {
     ContextMenu,
     ContextMenuContent,
@@ -11,7 +11,7 @@ import Link from "next/link";
 import { ReactElement } from "react";
 import { CachedPlayer, SkinPart } from "restfulmc-lib";
 import CodeDialog from "@/components/code/code-dialog";
-import RawJsonBadge from "@/components/raw-json-badge";
+import RawJson from "@/components/badge/raw-json";
 
 /**
  * The props for a player result.
@@ -45,7 +45,7 @@ const PlayerResult = ({ query, player }: PlayerResultProps): ReactElement => (
                         title="Raw Player Data"
                         description={`The raw JSON data for the player ${player.username}:`}
                         language="json"
-                        trigger={<RawJsonBadge />}
+                        trigger={<RawJson />}
                     >
                         {JSON.stringify(player, undefined, 4)}
                     </CodeDialog>

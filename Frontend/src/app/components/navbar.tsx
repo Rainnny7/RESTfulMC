@@ -1,6 +1,6 @@
 "use client";
 
-import GitHubStarButton from "@/components/github-star-button";
+import GitHubStarButton from "@/components/button/github-star-button";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/app/common/utils";

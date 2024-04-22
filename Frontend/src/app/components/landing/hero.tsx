@@ -1,5 +1,5 @@
-import GitHubStarButton from "@/components/github-star-button";
-import MinecraftButton from "@/components/minecraft-button";
+import GitHubStarButton from "@/components/button/github-star-button";
+import MinecraftButton from "@/components/button/minecraft-button";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/app/common/utils";

@@ -8,7 +8,7 @@ import {
 import config from "@/config";
 import { minecraft } from "@/font/fonts";
 import CodeDialog from "@/components/code/code-dialog";
-import RawJsonBadge from "@/components/raw-json-badge";
+import RawJson from "@/components/badge/raw-json";
 
 /**
  * The props for a server result.
@@ -95,7 +95,7 @@ const ServerResult = ({ server }: ServerResultProps): ReactElement => {
                 title="Raw Server Data"
                 description={`The raw JSON data for the player ${server.hostname}:`}
                 language="json"
-                trigger={<RawJsonBadge />}
+                trigger={<RawJson />}
             >
                 {JSON.stringify(server, undefined, 4)}
             </CodeDialog>

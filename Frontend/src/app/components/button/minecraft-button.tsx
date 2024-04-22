@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { cn } from "@/app/common/utils";
+import { cn } from "@/lib";
 import { ButtonHTMLAttributes, ReactElement, ReactNode } from "react";
 
 /**
