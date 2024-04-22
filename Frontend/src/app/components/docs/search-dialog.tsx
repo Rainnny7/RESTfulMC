@@ -54,7 +54,10 @@ const QuickSearchDialog = (): ReactElement => {
     return (
         <>
             {/* Button to open */}
-            <div onClick={() => setOpen(true)}>
+            <div
+                className="hover:opacity-85 transition-all transform-gpu"
+                onClick={() => setOpen(true)}
+            >
                 <div className="absolute top-2.5 left-3 z-10">
                     <MagnifyingGlassIcon
                         className="absolute"
