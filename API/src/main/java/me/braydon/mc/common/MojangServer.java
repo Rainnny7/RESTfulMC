@@ -43,7 +43,8 @@ public enum MojangServer {
     API("Mojang API", "https://api.mojang.com"),
     TEXTURES("Textures Server", "https://textures.minecraft.net"),
     ASSETS("Assets Server", "https://assets.mojang.com"),
-    LIBRARIES("Libraries Server", "https://libraries.minecraft.net");
+    LIBRARIES("Libraries Server", "https://libraries.minecraft.net"),
+    SERVICES("Minecraft Services", "https://api.minecraftservices.com");
 
     private static final int STATUS_TIMEOUT = 7000;
 
