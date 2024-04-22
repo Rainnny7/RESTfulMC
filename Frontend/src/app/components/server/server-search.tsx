@@ -1,3 +1,5 @@
+"use client";
+
 import MinecraftButton from "@/components/button/minecraft-button";
 import { Input } from "@/components/ui/input";
 
@@ -10,10 +12,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { capitalize } from "@/app/common/string-utils";
-import { redirect } from "next/navigation";
-import { ReactElement } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, ReactElement, useState } from "react";
 import { ServerPlatform } from "restfulmc-lib";
 import SimpleTooltip from "@/components/simple-tooltip";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { Loader2 } from "lucide-react";
 
 /**
  * Props for a server search.
@@ -22,7 +26,7 @@ type ServerSearchProps = {
     /**
      * The original platform to query for.
      */
-    platform: ServerPlatform | undefined;
+    platform: string | undefined;
 
     /**
      * The original hostname to query for.
@@ -41,21 +45,36 @@ const ServerSearch = ({
     platform,
     hostname,
 }: ServerSearchProps): ReactElement => {
-    const handleRedirect = async (form: FormData): Promise<void> => {
-        "use server";
-        redirect(`/server/${form.get("platform")}/${form.get("hostname")}`);
+    const router: AppRouterInstance = useRouter();
+    const [loading, setLoading] = useState<boolean>(false); // If the search is loading
+
+    const handleRedirect = async (
+        event: FormEvent<HTMLFormElement>
+    ): Promise<void> => {
+        setLoading(true); // Start loading
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Get the form data
+        const form: FormData = new FormData(event.currentTarget);
+        router.push(`/server/${form.get("platform")}/${form.get("hostname")}`);
     };
+
+    // Render the search form
     return (
         <form
             className="flex flex-col gap-7 justify-center items-center"
-            action={handleRedirect}
+            onSubmit={handleRedirect}
         >
             {/* Input */}
             <div className="w-full flex gap-2">
                 {/* Platform Selection */}
                 <div className="flex flex-col gap-3">
                     <Label htmlFor="platform">Platform</Label>
-                    <Select name="platform" defaultValue={platform} required>
+                    <Select
+                        name="platform"
+                        defaultValue={platform || "java"}
+                        required
+                    >
                         <SelectTrigger className="w-28">
                             <SelectValue />
                         </SelectTrigger>
@@ -91,7 +110,12 @@ const ServerSearch = ({
 
             {/* Search */}
             <SimpleTooltip content="Click to search">
-                <MinecraftButton type="submit">Search</MinecraftButton>
+                <MinecraftButton type="submit" disabled={loading}>
+                    {loading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Search
+                </MinecraftButton>
             </SimpleTooltip>
         </form>
     );
