@@ -19,6 +19,7 @@ import {
     stackoverflowDark,
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { capitalize } from "@/lib/stringUtils";
+import Image from "next/image";
 
 /**
  * The MDX components to style.
@@ -94,7 +95,13 @@ const components: any = {
                 </SyntaxHighlighter>
 
                 {/* Language Icon */}
-                <div className="absolute top-0 right-0 px-2 py-0.5 text-white/75 bg-zinc-700/50 rounded select-none pointer-events-none">
+                <div className="absolute top-0 right-0 px-2 py-0.5 flex gap-2 items-center text-white/75 bg-zinc-700/50 rounded select-none pointer-events-none">
+                    <Image
+                        src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${language}/${language}-original.svg`}
+                        alt={`${language} Language Icon`}
+                        width={20}
+                        height={20}
+                    />
                     {capitalize(language)}
                 </div>
             </div>
