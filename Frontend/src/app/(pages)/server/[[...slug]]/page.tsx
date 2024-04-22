@@ -16,6 +16,7 @@ import {
     type RestfulMCAPIError,
     ServerPlatform,
 } from "restfulmc-lib";
+import ServerRecommendations from "@/components/server/server-recommendations";
 
 /**
  * The page to lookup a server.
@@ -43,38 +44,43 @@ const ServerPage = async ({ params }: PageProps): Promise<ReactElement> => {
 
     // Render the page
     return (
-        <main className="px-3 h-screen flex justify-center items-center">
+        <main className="px-3 h-screen flex flex-col gap-7 justify-center items-center">
             <div className="flex flex-col gap-7">
-                <h1
-                    className={cn(
-                        "mt-20 text-6xl text-minecraft-green-3 text-center select-none pointer-events-none",
-                        minecrafter.className
-                    )}
-                >
-                    Server Lookup
-                </h1>
+                {/* Header */}
+                <div className="relative flex flex-col gap-7">
+                    <h1
+                        className={cn(
+                            "mt-20 text-6xl text-minecraft-green-3 text-center select-none pointer-events-none",
+                            minecrafter.className
+                        )}
+                    >
+                        Server Lookup
+                    </h1>
 
-                <div className="flex flex-col gap-5 px-10 xs:px-14 sm:px-0 transition-all transform-gpu">
-                    {/* Error */}
-                    {error && (
-                        <Alert variant="destructive">
-                            <ExclamationCircleIcon width={20} height={20} />
-                            <AlertTitle>Error</AlertTitle>
-                            <AlertDescription>{error}</AlertDescription>
-                        </Alert>
-                    )}
+                    <div className="flex flex-col gap-5 px-10 xs:px-14 sm:px-0 transition-all transform-gpu">
+                        {/* Error */}
+                        {error && (
+                            <Alert variant="destructive">
+                                <ExclamationCircleIcon width={20} height={20} />
+                                <AlertTitle>Error</AlertTitle>
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        )}
 
-                    {/* Search */}
-                    <ServerSearch platform={platform} hostname={hostname} />
-                </div>
-
-                {/* Server Result */}
-                {result && (
-                    <div className="flex justify-center scale-[.71] xs:scale-75 sm:scale-100 transition-all transform-gpu">
-                        <ServerResult server={result} />
+                        {/* Search */}
+                        <ServerSearch platform={platform} hostname={hostname} />
                     </div>
-                )}
+                </div>
             </div>
+
+            {/* Server Result & Recommendations */}
+            {result ? (
+                <div className="flex justify-center scale-[.71] xs:scale-75 sm:scale-100 transition-all transform-gpu">
+                    <ServerResult server={result} />
+                </div>
+            ) : (
+                <ServerRecommendations />
+            )}
         </main>
     );
 };
