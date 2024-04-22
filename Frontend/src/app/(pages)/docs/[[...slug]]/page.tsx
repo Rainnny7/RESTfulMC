@@ -17,6 +17,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import Embed from "@/components/embed";
+import SimpleTooltip from "@/components/simple-tooltip";
 
 /**
  * The page to display content
@@ -82,19 +83,21 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
                 </div>
 
                 {/* View on Git */}
-                <Link
-                    className="hover:opacity-85 transition-all transform-gpu"
-                    href={`https://git.rainnny.club/Rainnny/RESTfulMC/src/branch/master/Frontend/docs/${content.slug}${content.extension}`}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                >
-                    <Image
-                        src="/media/github-white-logo.svg"
-                        alt="GitHub Logo"
-                        width={26}
-                        height={26}
-                    />
-                </Link>
+                <SimpleTooltip content="Click to view on Git">
+                    <Link
+                        className="hover:opacity-85 transition-all transform-gpu"
+                        href={`https://git.rainnny.club/Rainnny/RESTfulMC/src/branch/master/Frontend/docs/${content.slug}${content.extension}`}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        <Image
+                            src="/media/github-white-logo.svg"
+                            alt="GitHub Logo"
+                            width={26}
+                            height={26}
+                        />
+                    </Link>
+                </SimpleTooltip>
             </div>
 
             {/* Content */}
