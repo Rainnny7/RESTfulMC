@@ -38,7 +38,7 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
     const splitSlug: string[] = content.slug?.split("/") || [];
 
     return (
-        <main className="px-7 flex flex-col gap-2">
+        <main className="max-w-3xl xl:min-w-[52.5rem] 2xl:max-w-3xl px-3 xs:px-5 xl:px-7 flex flex-col gap-2 transition-all transform-gpu">
             {/* Header */}
             <div className="flex justify-between items-center gap-10">
                 <div className="flex flex-col gap-3">

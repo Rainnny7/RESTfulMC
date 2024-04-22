@@ -25,7 +25,7 @@ const DocumentationLayout = ({
     ); // The active slug of this page
     return (
         <section className="min-h-screen py-32 pb-52 flex justify-center">
-            <div className="flex flex-wrap gap-32 divide-x-2">
+            <div className="flex flex-wrap gap-32 xl:divide-x-2">
                 <Sidebar activeSlug={activeSlug} />
                 {children}
             </div>

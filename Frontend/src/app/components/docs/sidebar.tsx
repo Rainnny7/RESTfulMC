@@ -21,8 +21,8 @@ const Sidebar = ({ activeSlug }: { activeSlug: string }): ReactElement => {
         groupedContent[categoryKey].push(content);
     }
     return (
-        <div className="hidden h-full px-3 pb-5 xl:flex flex-col items-center">
-            <div className="fixed w-56 flex flex-col gap-5">
+        <div className="hidden h-full px-3 pb-5 xl:flex flex-wrap flex-col items-center">
+            <div className="fixed w-52 2xl:w-56 flex flex-col gap-5 transition-all transform-gpu">
                 {/* Quick Search */}
                 <QuickSearchDialog />
 
