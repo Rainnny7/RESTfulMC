@@ -30,7 +30,7 @@ const ServerRecommendations = (): ReactElement => (
         {/* Header */}
         <h1
             className={cn(
-                "text-xl text-minecraft-green-3",
+                "text-xl text-minecraft-green-3 select-none pointer-events-none",
                 minecrafter.className
             )}
         >
