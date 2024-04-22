@@ -5,6 +5,8 @@ import { ServerPlatform } from "restfulmc-lib";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import SimpleTooltip from "@/components/simple-tooltip";
+import { capitalize } from "@/lib/string-utils";
 
 /**
  * The recommendations for a server.
@@ -45,18 +47,22 @@ const ServerRecommendations = (): ReactElement => (
                     index: number
                 ): ReactElement => (
                     <Link key={index} href={`/server/${platform}/${hostname}`}>
-                        <Button
-                            className="px-10 flex gap-2.5 font-semibold hover:opacity-85 transition-all transform-gpu"
-                            variant="outline"
+                        <SimpleTooltip
+                            content={`Click to test ${capitalize(platform)} server`}
                         >
-                            <Image
-                                src={`/media/platform/${platform}.png`}
-                                alt=""
-                                width={26}
-                                height={26}
-                            />
-                            <span>{hostname}</span>
-                        </Button>
+                            <Button
+                                className="px-10 flex gap-2.5 font-semibold hover:opacity-85 transition-all transform-gpu"
+                                variant="outline"
+                            >
+                                <Image
+                                    src={`/media/platform/${platform}.png`}
+                                    alt=""
+                                    width={26}
+                                    height={26}
+                                />
+                                <span>{hostname}</span>
+                            </Button>
+                        </SimpleTooltip>
                     </Link>
                 )
             )}
