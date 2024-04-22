@@ -1,5 +1,4 @@
 import CopyButton from "@/components/copy-button";
-import { Badge } from "@/components/ui/badge";
 import {
     ContextMenu,
     ContextMenuContent,
@@ -11,6 +10,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReactElement } from "react";
 import { CachedPlayer, SkinPart } from "restfulmc-lib";
+import CodeDialog from "@/components/code/code-dialog";
+import RawJsonBadge from "@/components/raw-json-badge";
 
 /**
  * The props for a player result.
@@ -30,41 +31,35 @@ type PlayerResultProps = {
 /**
  * The result of a player search.
  *
+ * @param query the original query to lookup this player
  * @param player the player to display
  * @returns the player result jsx
  */
-const PlayerResult = ({
-    query,
-    player: {
-        uniqueId,
-        username,
-        skin: { parts },
-        legacy,
-    },
-}: PlayerResultProps): ReactElement => (
+const PlayerResult = ({ query, player }: PlayerResultProps): ReactElement => (
     <ContextMenu>
         <ContextMenuTrigger>
             <div className="relative px-2 py-7 flex flex-col items-center bg-muted rounded-xl">
                 {/* Raw Json */}
                 <div className="absolute top-2 right-2">
-                    <Link
-                        href={`${config.apiEndpoint}/player/${username}`}
-                        target="_blank"
+                    <CodeDialog
+                        title="Raw Player Data"
+                        description={`The raw JSON data for the player ${player.username}:`}
+                        language="json"
+                        trigger={<RawJsonBadge />}
                     >
-                        <Badge className="bg-minecraft-green-2 hover:bg-minecraft-green-2 hover:opacity-85 text-white font-semibold uppercase transition-all transform-gpu">
-                            Raw Json
-                        </Badge>
-                    </Link>
+                        {JSON.stringify(player, undefined, 4)}
+                    </CodeDialog>
                 </div>
 
+                {/* Result */}
                 <div className="w-full flex flex-col gap-3 justify-center items-center divide-y divide-zinc-700">
                     {/* Details */}
                     <div className="flex gap-5 items-center">
                         {/* Player Head */}
                         <Image
                             className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 pointer-events-none"
-                            src={parts.HEAD}
-                            alt={`${username}'s Head`}
+                            src={player.skin.parts.HEAD}
+                            alt={`${player.username}'s Head`}
                             width={128}
                             height={128}
                         />
@@ -72,14 +67,14 @@ const PlayerResult = ({
                         {/* Name, Unique ID, and Badges */}
                         <div className="flex flex-col gap-1.5">
                             <h1 className="text-xl font-bold text-minecraft-green-3">
-                                {username}
+                                {player.username}
                             </h1>
                             <code className="text-xs xs:text-sm text-zinc-300">
-                                {uniqueId}
+                                {player.uniqueId}
                             </code>
 
                             {/* Legacy Badge */}
-                            {legacy && (
+                            {player.legacy && (
                                 <p className="text-sm font-semibold uppercase">
                                     Legacy
                                 </p>
@@ -94,7 +89,7 @@ const PlayerResult = ({
 
                         {/* Skin Parts */}
                         <div className="flex gap-5">
-                            {Object.entries(parts)
+                            {Object.entries(player.skin.parts)
                                 .filter(
                                     ([part]) =>
                                         part === SkinPart.HEAD ||
@@ -114,7 +109,7 @@ const PlayerResult = ({
                                             <img
                                                 className="h-20 sm:h-24 md:h-28 hover:scale-[1.02] transition-all transform-gpu"
                                                 src={url}
-                                                alt={`${username}'s ${part}`}
+                                                alt={`${player.username}'s ${part}`}
                                             />
                                         </Link>
                                     )
@@ -125,11 +120,11 @@ const PlayerResult = ({
             </div>
         </ContextMenuTrigger>
         <ContextMenuContent className="flex flex-col">
-            <CopyButton content={username} showToast>
+            <CopyButton content={player.username} showToast>
                 <ContextMenuItem>Copy Player Username</ContextMenuItem>
             </CopyButton>
 
-            <CopyButton content={uniqueId} showToast>
+            <CopyButton content={player.uniqueId} showToast>
                 <ContextMenuItem>Copy Player UUID</ContextMenuItem>
             </CopyButton>
 

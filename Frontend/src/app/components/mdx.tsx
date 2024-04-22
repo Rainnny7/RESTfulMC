@@ -10,10 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import Image from "next/image";
-import CodeHighlighter from "@/components/code-highlighter";
+import CodeHighlighter from "@/components/code/code-highlighter";
 
 /**
  * The MDX components to style.
@@ -73,7 +70,10 @@ const components: any = {
         className: string;
         children: any;
     }): ReactElement => (
-        <CodeHighlighter language={className?.replace("language-", "")}>
+        <CodeHighlighter
+            className="max-w-5xl"
+            language={className?.replace("language-", "")}
+        >
             {children}
         </CodeHighlighter>
     ),
