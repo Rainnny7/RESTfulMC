@@ -15,6 +15,8 @@ import { capitalize } from "@/lib/stringUtils";
 import { CustomMDX } from "@/components/mdx";
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
+import Embed from "@/components/embed";
 
 /**
  * The page to display content
@@ -100,4 +102,38 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
         </main>
     );
 };
+
+/**
+ * Generate metadata for this page.
+ *
+ * @param params the route params
+ * @returns the generated metadata
+ */
+export const generateMetadata = async ({
+    params,
+}: PageProps): Promise<Metadata> => {
+    const slug: string = ((params.slug as string[]) || undefined)?.join("/"); // The slug of the content
+    let embed: Metadata | undefined; // The content embed, if any
+    if (slug) {
+        const content: DocsContentMetadata | undefined = getDocsContent().find(
+            (metadata: DocsContentMetadata): boolean => metadata.slug === slug
+        ); // Get the content based on the provided slug
+        if (content) {
+            return Embed({
+                title: content.title,
+                description: content.summary,
+            });
+        }
+    }
+
+    // Return the page embed
+    return embed
+        ? embed
+        : Embed({
+              title: "Documentation",
+              description:
+                  "Need help with RESTfulMC? You've come to the right place!",
+          });
+};
+
 export default ContentPage;
