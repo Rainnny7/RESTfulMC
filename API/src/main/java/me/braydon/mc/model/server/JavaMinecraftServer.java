@@ -180,6 +180,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
                 }
             }
             JavaMinecraftVersion minecraftVersion = JavaMinecraftVersion.byProtocol(protocol);
+            if (minecraftVersion == JavaMinecraftVersion.UNKNOWN) {
+                minecraftVersion = null;
+            }
             return new Version(name, platform, protocol, supportedVersions, minecraftVersion == null ? null : minecraftVersion.getName());
         }
     }
