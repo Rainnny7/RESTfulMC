@@ -19,9 +19,9 @@ const Footer = (): ReactElement => (
             `after:absolute after:top-0 after:left-0 after:-translate-y-20 after:w-full after:h-20 after:bg-[url("/media/dark-wool-transition.png")] after:bg-center after:bg-repeat` // Top Border
         )}
     >
-        <div className="xl:px-40 pb-14 md:pb-0 flex flex-col md:flex-row justify-around items-center z-50 w-full h-full transition-all transform-gpu">
+        <div className="xl:px-40 pb-14 md:pb-0 flex flex-col gap-7 md:flex-row md:gap-0 justify-around items-center z-50 w-full h-full transition-all transform-gpu">
             {/* Branding */}
-            <div className="flex flex-col justify-center select-none pointer-events-none">
+            <div className="flex flex-col gap-1 justify-center select-none pointer-events-none">
                 {/* Logo & Site Name */}
                 <div className="flex gap-7 items-center">
                     <Image
@@ -39,6 +39,23 @@ const Footer = (): ReactElement => (
                     >
                         {config.siteName}
                     </h1>
+                </div>
+
+                {/* Copyright */}
+                <div className="flex justify-center text-center text-zinc-400/80">
+                    <p className="max-w-xs sm:max-w-sm">
+                        Made with <span className="animate-pulse">💚</span> by{" "}
+                        <Link
+                            className="text-minecraft-green-4 opacity-100 hover:opacity-85 pointer-events-auto transition-all transform-gpu"
+                            href="https://github.com/Rainnny7"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            Braydon
+                        </Link>
+                        . Copyright © {new Date().getFullYear()}, All Rights
+                        Reserved.
+                    </p>
                 </div>
             </div>
 
@@ -82,7 +99,7 @@ const Footer = (): ReactElement => (
             </div>
 
             {/* Disclaimer */}
-            <p className="absolute inset-x-0 bottom-5 flex justify-center font-medium opacity-50">
+            <p className="absolute inset-x-0 bottom-2 flex justify-center text-zinc-400/80">
                 Not affiliated with Mojang or Microsoft.
             </p>
         </div>

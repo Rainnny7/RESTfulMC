@@ -33,7 +33,7 @@ const PlayerPage = async ({ params }: PageProps): Promise<ReactElement> => {
             <div className="flex flex-col gap-7">
                 <h1
                     className={cn(
-                        "mt-20 text-6xl text-minecraft-green-3 text-center select-none pointer-events-none",
+                        "mt-16 text-6xl text-minecraft-green-3 text-center select-none pointer-events-none",
                         minecrafter.className
                     )}
                 >

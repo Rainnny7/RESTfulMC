@@ -47,10 +47,10 @@ const ServerPage = async ({ params }: PageProps): Promise<ReactElement> => {
         <main className="px-3 h-screen flex flex-col gap-7 justify-center items-center">
             <div className="flex flex-col gap-7">
                 {/* Header */}
-                <div className="relative flex flex-col gap-7">
+                <div className="flex flex-col gap-7">
                     <h1
                         className={cn(
-                            "mt-20 text-6xl text-minecraft-green-3 text-center select-none pointer-events-none",
+                            "mt-16 text-6xl text-minecraft-green-3 text-center select-none pointer-events-none",
                             minecrafter.className
                         )}
                     >
