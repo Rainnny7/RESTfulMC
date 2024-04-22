@@ -54,7 +54,7 @@ const ServerPage = async ({ params }: PageProps): Promise<ReactElement> => {
                     Server Lookup
                 </h1>
 
-                <div className="flex flex-col gap-5 px-10 xs:px-16 transition-all transform-gpu">
+                <div className="flex flex-col gap-5 px-10 xs:px-14 sm:px-0 transition-all transform-gpu">
                     {/* Error */}
                     {error && (
                         <Alert variant="destructive">
