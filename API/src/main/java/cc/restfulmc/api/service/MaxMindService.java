@@ -108,11 +108,12 @@ public final class MaxMindService {
      * Lookup a city by the given address.
      *
      * @param address the address
-     * @return the city response
+     * @return the city response, null if none
      */
-    @SneakyThrows @NonNull
+    @SneakyThrows
     public CityResponse lookupCity(@NonNull InetAddress address) {
-        return getDatabase(Database.CITY).city(address);
+        DatabaseReader database = getDatabase(Database.CITY);
+        return database == null ? null : database.city(address);
     }
 
     /**
@@ -181,9 +182,8 @@ public final class MaxMindService {
      * Get the reader for the given database.
      *
      * @param database the database to get
-     * @return the database reader
+     * @return the database reader, null if none
      */
-    @NonNull
     public DatabaseReader getDatabase(@NonNull Database database) {
         return databases.get(database);
     }
