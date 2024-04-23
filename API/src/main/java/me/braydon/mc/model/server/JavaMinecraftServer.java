@@ -123,7 +123,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
      */
     private boolean mojangBanned;
 
-    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records, GeoLocation geo,
+    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, DNSRecord[] records, GeoLocation geo,
                                 @NonNull Version version, @NonNull Players players, @NonNull MOTD motd, Favicon favicon,
                                 String software, Plugin[] plugins, ModInfo modInfo, ForgeData forgeData, String world,
                                 boolean queryEnabled, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports,
@@ -149,13 +149,13 @@ public final class JavaMinecraftServer extends MinecraftServer {
      * @param hostname the hostname of the server
      * @param ip the IP address of the server
      * @param port the port of the server
-     * @param records the DNS records of the server
+     * @param records the DNS records of the server, if any
      * @param statusToken the status token
      * @param challengeStatusToken the challenge status token, null if none
      * @return the Java Minecraft server
      */
     @NonNull
-    public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records,
+    public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, DNSRecord[] records,
                                              @NonNull JavaServerStatusToken statusToken, JavaServerChallengeStatusToken challengeStatusToken) {
         String motdString = statusToken.getDescription() instanceof String ? (String) statusToken.getDescription() : null;
         if (motdString == null) { // Not a string motd, convert from Json

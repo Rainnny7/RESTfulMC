@@ -438,9 +438,10 @@ public final class MojangService {
                 throw new BadRequestException("Invalid port defined");
             }
         }
+        String cacheKey = "%s-%s".formatted(platform.name(), lookupHostname.replace(":", "-"));
 
         // Check the cache for the server
-        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById("%s-%s".formatted(platform.name(), lookupHostname));
+        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(cacheKey);
         if (cached.isPresent()) { // Respond with the cache if present
             log.info("Found server in cache: {}", hostname);
             return cached.get();
@@ -466,7 +467,11 @@ public final class MojangService {
         CityResponse geo = null; // The server's Geo location
         try {
             log.info("Looking up Geo location data for {}...", ip);
-            geo = maxMindService.lookupCity(InetAddress.getByName(ip)); // Get the Geo location
+
+            InetAddress address = InetAddress.getByName(ip);
+            if (!address.isAnyLocalAddress()) { // Get the Geo location
+                geo = maxMindService.lookupCity(address);
+            }
         } catch (Exception ex) {
             log.error("Failed looking up Geo location data for %s:".formatted(ip), ex);
         }
@@ -481,7 +486,7 @@ public final class MojangService {
         }
 
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
-                platform.name() + "-" + lookupHostname, response, System.currentTimeMillis()
+                cacheKey, response, System.currentTimeMillis()
         );
 
         // Get the blocked status of the Java server

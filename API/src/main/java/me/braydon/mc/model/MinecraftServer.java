@@ -64,9 +64,9 @@ public class MinecraftServer {
     @EqualsAndHashCode.Include private final int port;
 
     /**
-     * The DNS records resolved for this server.
+     * The DNS records resolved for this server, null if none.
      */
-    @NonNull private final DNSRecord[] records;
+    private final DNSRecord[] records;
 
     /**
      * The Geo location of this server, null if unknown.

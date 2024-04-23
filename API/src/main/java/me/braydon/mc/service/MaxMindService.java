@@ -30,7 +30,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
-import me.braydon.mc.common.EnvironmentUtils;
 import org.apache.commons.io.FileUtils;
 import org.codehaus.plexus.archiver.tar.TarGZipUnArchiver;
 import org.springframework.beans.factory.annotation.Value;
