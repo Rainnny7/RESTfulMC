@@ -54,6 +54,41 @@
         </plugins>
     </build>
 
+    <!-- A profile to generate a javadoc, used when deploying to Maven -->
+    <profiles>
+        <profile>
+            <id>gen-javadocs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.6.3</version>
+                        <configuration>
+                            <stylesheetfile>${project.basedir}/stylesheet/javadoc-stylesheet.css</stylesheetfile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>gen-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <!-- Distribution Repos -->
+    <distributionManagement>
+        <repository>
+            <id>rainnny-repo-public</id>
+            <url>https://maven.rainnny.club/public</url>
+        </repository>
+    </distributionManagement>
+
     <!-- Dependencies -->
     <dependencies>
         <dependency>
