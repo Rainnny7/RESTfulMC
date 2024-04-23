@@ -1,5 +1,5 @@
 name: DemoSpigotPlugin
-main: me.braydon.demo.DemoSpigotPlugin
+main: cc.restfulmc.demo.DemoSpigotPlugin
 version: ${project.version}-${git.commit.id.abbrev}
 author: Braydon (Rainnny)
 website: https://restfulmc.cc

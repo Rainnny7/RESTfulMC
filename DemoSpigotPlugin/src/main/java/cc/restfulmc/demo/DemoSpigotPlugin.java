@@ -1,7 +1,7 @@
-package me.braydon.demo;
+package cc.restfulmc.demo;
 
+import cc.restfulmc.demo.listener.ServerPingListener;
 import com.comphenix.protocol.ProtocolLibrary;
-import me.braydon.demo.listener.ServerPingListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**

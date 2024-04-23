@@ -1,11 +1,11 @@
-package me.braydon.demo.listener;
+package cc.restfulmc.demo.listener;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
-import me.braydon.demo.DemoSpigotPlugin;
+import cc.restfulmc.demo.DemoSpigotPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
