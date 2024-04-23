@@ -35,19 +35,9 @@ public final class EnvironmentUtils {
      * Is the app running in a production environment?
      */
     @Getter private static final boolean production;
-
-    /**
-     * Is the app running in a test environment?
-     */
-    @Getter private static boolean testing;
-
     static {
         // Are we running on production?
         String appEnv = System.getenv("APP_ENV");
         production = appEnv != null && (appEnv.equals("production"));
-
-        // Are we running on a test environment?
-        String testEnv = System.getenv("SPRING_TEST");
-        testing = testEnv != null && (testEnv.equals("true"));
     }
 }
