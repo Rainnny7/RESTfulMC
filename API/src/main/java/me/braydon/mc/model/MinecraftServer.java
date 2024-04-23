@@ -23,6 +23,11 @@
  */
 package me.braydon.mc.model;
 
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.Location;
 import lombok.*;
 import me.braydon.mc.common.ColorUtils;
 import me.braydon.mc.model.dns.DNSRecord;
@@ -41,7 +46,7 @@ import java.util.UUID;
  *
  * @author Braydon
  */
-@AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+@AllArgsConstructor @Setter @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
 public class MinecraftServer {
     /**
      * The hostname of this server.
@@ -64,6 +69,11 @@ public class MinecraftServer {
     @NonNull private final DNSRecord[] records;
 
     /**
+     * The Geo location of this server, null if unknown.
+     */
+    private GeoLocation geo;
+
+    /**
      * The player counts of this server.
      */
     @NonNull private final Players players;
@@ -72,6 +82,74 @@ public class MinecraftServer {
      * The MOTD of this server.
      */
     @NonNull private final MOTD motd;
+
+    /**
+     * The Geo location of a server.
+     */
+    @AllArgsConstructor @Getter @ToString
+    public static class GeoLocation {
+        /**
+         * The continent of this server.
+         */
+        @NonNull private final LocationData continent;
+
+        /**
+         * The country of this server.
+         */
+        @NonNull private final LocationData country;
+
+        /**
+         * The city of this server, null if unknown.
+         */
+        private final String city;
+
+        /**
+         * The latitude of this server.
+         */
+        private final double latitude;
+
+        /**
+         * The longitude of this server.
+         */
+        private final double longitude;
+
+        /**
+         * Create new geo location data
+         * from the given city response.
+         *
+         * @param geo the geo city response
+         * @return the geo location
+         */
+        @NonNull
+        public static GeoLocation create(@NonNull CityResponse geo) {
+            Continent continent = geo.getContinent();
+            Country country = geo.getCountry();
+            City city = geo.getCity();
+            Location location = geo.getLocation();
+            return new GeoLocation(
+                    new LocationData(continent.getCode(), continent.getName()),
+                    new LocationData(country.getIsoCode(), country.getName()),
+                    city == null ? null : city.getName(),
+                    location.getLatitude(), location.getLongitude()
+            );
+        }
+
+        /**
+         * Data for a location.
+         */
+        @AllArgsConstructor @Getter @ToString
+        public static class LocationData {
+            /**
+             * The location code.
+             */
+            @NonNull private final String code;
+
+            /**
+             * The location name.
+             */
+            @NonNull private final String name;
+        }
+    }
 
     /**
      * Player count data for a server.

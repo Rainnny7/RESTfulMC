@@ -107,12 +107,26 @@
             <version>1.20-R0.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-archiver</artifactId>
+            <version>4.9.2</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- DNS Lookup -->
         <dependency>
             <groupId>com.github.dnsjava</groupId>
             <artifactId>dnsjava</artifactId>
             <version>v3.5.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- GeoIP -->
+        <dependency>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>4.2.0</version>
             <scope>compile</scope>
         </dependency>
 

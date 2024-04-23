@@ -27,6 +27,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
+import com.maxmind.geoip2.model.CityResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
@@ -65,6 +66,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -90,6 +92,11 @@ public final class MojangService {
 
     private static final Splitter DOT_SPLITTER = Splitter.on('.');
     private static final Joiner DOT_JOINER = Joiner.on('.');
+
+    /**
+     * The MaxMind service to use for Geo lookups.
+     */
+    @NonNull private final MaxMindService maxMindService;
 
     /**
      * The cache repository for {@link Player}'s by their username.
@@ -135,8 +142,9 @@ public final class MojangService {
     private final ExpiringSet<String> blockedServersCache = new ExpiringSet<>(ExpirationPolicy.CREATED, 10L, TimeUnit.MINUTES);
 
     @Autowired
-    public MojangService(@NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache,
+    public MojangService(@NonNull MaxMindService maxMindService, @NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache,
                          @NonNull SkinPartTextureCacheRepository skinPartTextureCache, @NonNull MinecraftServerCacheRepository minecraftServerCache) {
+        this.maxMindService = maxMindService;
         this.playerNameCache = playerNameCache;
         this.playerCache = playerCache;
         this.skinPartTextureCache = skinPartTextureCache;
@@ -454,11 +462,24 @@ public final class MojangService {
             log.info("Resolved hostname: {} -> {}", hostname, ip);
         }
 
+        // Attempt to perform a Geo lookup on the server
+        CityResponse geo = null; // The server's Geo location
+        try {
+            log.info("Looking up Geo location data for {}...", ip);
+            geo = maxMindService.lookupCity(InetAddress.getByName(ip)); // Get the Geo location
+        } catch (Exception ex) {
+            log.error("Failed looking up Geo location data for %s:".formatted(ip), ex);
+        }
+
         // Build our server model, cache it, and then return it
         MinecraftServer response = platform.getPinger().ping(hostname, ip, port, records.toArray(new DNSRecord[0])); // Ping the server and await a response
         if (response == null) { // No response from ping
             throw new ResourceNotFoundException("Server didn't respond to ping");
         }
+        if (geo != null) { // Update Geo location data in the server if present
+            response.setGeo(MinecraftServer.GeoLocation.create(geo));
+        }
+
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
                 platform.name() + "-" + lookupHostname, response, System.currentTimeMillis()
         );
@@ -567,6 +588,9 @@ public final class MojangService {
         return blocked;
     }
 
+    /**
+     * Cleanup when the app is destroyed.
+     */
     @PreDestroy
     public void cleanup() {
         mojangServerStatuses.clear();

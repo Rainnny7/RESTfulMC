@@ -123,11 +123,12 @@ public final class JavaMinecraftServer extends MinecraftServer {
      */
     private boolean mojangBanned;
 
-    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records, @NonNull Version version,
-                                @NonNull Players players, @NonNull MOTD motd, Favicon favicon, String software, Plugin[] plugins,
-                                ModInfo modInfo, ForgeData forgeData, String world, boolean queryEnabled, boolean previewsChat,
-                                boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
-        super(hostname, ip, port, records, players, motd);
+    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records, GeoLocation geo,
+                                @NonNull Version version, @NonNull Players players, @NonNull MOTD motd, Favicon favicon,
+                                String software, Plugin[] plugins, ModInfo modInfo, ForgeData forgeData, String world,
+                                boolean queryEnabled, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports,
+                                boolean mojangBanned) {
+        super(hostname, ip, port, records, geo, players, motd);
         this.version = version;
         this.favicon = favicon;
         this.software = software;
@@ -173,7 +174,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
         }
         String world = challengeStatusToken == null ? null : challengeStatusToken.getMap(); // The main server world
 
-        return new JavaMinecraftServer(hostname, ip, port, records, statusToken.getVersion().detailedCopy(), Players.create(statusToken.getPlayers()),
+        return new JavaMinecraftServer(hostname, ip, port, records, null, statusToken.getVersion().detailedCopy(), Players.create(statusToken.getPlayers()),
                 MOTD.create(motdString), Favicon.create(statusToken.getFavicon(), hostname), software, plugins, statusToken.getModInfo(),
                 statusToken.getForgeData(), world, challengeStatusToken != null, statusToken.isPreviewsChat(),
                 statusToken.isEnforcesSecureChat(), statusToken.isPreventsChatReports(), false
