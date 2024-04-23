@@ -48,7 +48,7 @@ public final class EnvironmentUtils {
 
         // Are we running in a test?
         try {
-            Class.forName("org.junit.Test");
+            Class.forName("org.junit.jupiter.engine.JupiterTestEngine");
             testing = true;
         } catch (ClassNotFoundException ignored) {
             // Safely ignore
