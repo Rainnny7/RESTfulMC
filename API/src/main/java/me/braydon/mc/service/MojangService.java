@@ -356,10 +356,13 @@ public final class MojangService {
         } catch (BadRequestException | ResourceNotFoundException ignored) {
             // Safely ignore these, we will use the default server icon
         }
-        if (icon == null) { // Use the default server icon
-            icon = DEFAULT_SERVER_ICON;
+        try {
+            assert icon != null;
+            return Base64.getDecoder().decode(icon); // Return the decoded favicon
+        } catch (Exception ex) { // Use the default server icon
+            log.error("Failed getting server favicon for %s:".formatted(hostname), ex);
+            return Base64.getDecoder().decode(DEFAULT_SERVER_ICON);
         }
-        return Base64.getDecoder().decode(icon); // Return the decoded favicon
     }
 
     /**
