@@ -1,0 +1,53 @@
+name: Publish Java SDK
+
+on:
+  push:
+    branches: ["master"]
+    paths:
+      [".gitea/workflows/publish-java-sdk.yml", "Java-SDK/**", "!Java-SDK/README.md"]
+
+jobs:
+  docker:
+    strategy:
+      matrix:
+        java-version: ["17"]
+        maven-version: ["3.8.5"]
+    runs-on: "ubuntu-latest"
+    defaults:
+      run:
+        working-directory: "./Java-SDK"
+
+    # Steps to run
+    steps:
+      # Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Setup Java and Maven
+      - name: Set up JDK and Maven
+        uses: s4u/setup-maven-action@v1.12.0
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: "zulu"
+          maven-version: ${{ matrix.maven-version }}
+
+      # Configure Maven settings
+      - name: Maven Settings
+        uses: s4u/maven-settings-action@v2.8.0
+        with:
+          servers: |-
+            [
+              {
+                "id": "rainnny-repo-public",
+                "username": "${{ secrets.PRIVATE_MAVEN_USER }}",
+                "password": "${{ secrets.PRIVATE_MAVEN_PASS }}"
+              }
+            ]
+
+      # Build the project
+      - name: Maven Build
+        run: mvn clean package -e -T6C
+
+      # Publish to Maven
+      - name: Publish to Maven
+        run: mvn deploy -Pgen-javadocs -B -Dstyle.color=always --update-snapshots -e -T6C
