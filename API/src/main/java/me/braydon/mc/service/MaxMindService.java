@@ -72,7 +72,7 @@ public final class MaxMindService {
     @PostConstruct
     public void onInitialize() {
         // Load the databases
-        if (EnvironmentUtils.isProduction()) {
+        if (!license.equals("CHANGE_ME")) {
             loadDatabases();
         }
     }
