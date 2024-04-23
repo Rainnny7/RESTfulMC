@@ -28,6 +28,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
@@ -564,5 +565,12 @@ public final class MojangService {
             blockedServersCache.add(hostname);
         }
         return blocked;
+    }
+
+    @PreDestroy
+    public void cleanup() {
+        mojangServerStatuses.clear();
+        bannedServerHashes.clear();
+        blockedServersCache.clear();
     }
 }
