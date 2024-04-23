@@ -21,35 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.common.packet.impl.bedrock;
+package me.braydon.mc.common.packet.impl.java.udp;
 
 import lombok.Getter;
 import lombok.NonNull;
-import me.braydon.mc.common.packet.MinecraftBedrockPacket;
-import me.braydon.mc.model.server.BedrockMinecraftServer;
+import me.braydon.mc.common.packet.JavaQueryPacket;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This packet is sent by the server to the client in
- * response to the {@link BedrockPacketUnconnectedPing}.
+ * response to the {@link JavaQueryFullStatRequestPacket}.
  *
  * @author Braydon
- * @see <a href="https://wiki.vg/Raknet_Protocol#Unconnected_Pong">Protocol Docs</a>
+ * @see <a href="https://wiki.vg/Query#Response_3">Query Protocol Docs</a>
  */
 @Getter
-public final class BedrockPacketUnconnectedPong implements MinecraftBedrockPacket {
-    private static final byte ID = 0x1C; // The ID of the packet
-
+public final class JavaQueryFullStatResponsePacket extends JavaQueryPacket {
     /**
      * The response from the server, null if none.
      */
-    private String response;
+    private Map<String, String> response;
 
     /**
      * Process this packet.
@@ -60,26 +56,24 @@ public final class BedrockPacketUnconnectedPong implements MinecraftBedrockPacke
     @Override
     public void process(@NonNull DatagramSocket socket) throws IOException {
         // Handle receiving of the packet
-        byte[] receiveData = new byte[2048];
+        byte[] receiveData = new byte[1024];
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         socket.receive(receivePacket);
 
-        // Construct a buffer from the received packet
-        ByteBuffer buffer = ByteBuffer.wrap(receivePacket.getData()).order(ByteOrder.LITTLE_ENDIAN);
-        byte id = buffer.get(); // The received packet id
-        if (id == ID) {
-            String response = new String(buffer.array(), StandardCharsets.UTF_8).trim(); // Extract the response
+        // Construct a response from the received packet.
+        Map<String, String> response = new HashMap<>();
 
-            // Trim the length of the response (short) from the
-            // start of the string, which begins with the edition name
-            for (BedrockMinecraftServer.Edition edition : BedrockMinecraftServer.Edition.values()) {
-                int startIndex = response.indexOf(edition.name());
-                if (startIndex != -1) {
-                    response = response.substring(startIndex);
-                    break;
-                }
+        String previousEntry = null;
+        for (byte[] bytes : split(trim(receivePacket.getData()))) {
+            String entry = new String(bytes); // The entry
+
+            if (previousEntry != null) {
+                response.put(previousEntry, entry);
+                previousEntry = null;
+                continue;
             }
-            this.response = response;
+            previousEntry = entry;
         }
+        this.response = response;
     }
 }

@@ -21,44 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.common.packet.impl.java;
+package me.braydon.mc.common.packet.impl.java.tcp;
 
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
-import me.braydon.mc.common.packet.MinecraftJavaPacket;
+import me.braydon.mc.common.packet.TCPPacket;
 
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 /**
- * This packet is sent by the client to the server to set
- * the hostname, port, and protocol version of the client.
+ * This packet is sent by the client to the server to request the
+ * status of the server. The server will respond with a json object
+ * containing the server's status.
  *
  * @author Braydon
- * @see <a href="https://wiki.vg/Protocol#Handshake">Protocol Docs</a>
+ * @see <a href="https://wiki.vg/Protocol#Status_Request">Protocol Docs</a>
  */
-@AllArgsConstructor @ToString
-public final class JavaPacketHandshakingInSetProtocol extends MinecraftJavaPacket {
+@Getter
+public final class JavaStatusInStartPacket extends TCPPacket {
     private static final byte ID = 0x00; // The ID of the packet
-    private static final int STATUS_HANDSHAKE = 1; // The status handshake ID
 
     /**
-     * The hostname of the server.
+     * The response json from the server, null if none.
      */
-    @NonNull private final String hostname;
-
-    /**
-     * The port of the server.
-     */
-    private final int port;
-
-    /**
-     * The protocol version of the server.
-     */
-    private final int protocolVersion;
+    private String response;
 
     /**
      * Process this packet.
@@ -69,19 +57,29 @@ public final class JavaPacketHandshakingInSetProtocol extends MinecraftJavaPacke
      */
     @Override
     public void process(@NonNull DataInputStream inputStream, @NonNull DataOutputStream outputStream) throws IOException {
-        try (ByteArrayOutputStream handshakeBytes = new ByteArrayOutputStream();
-             DataOutputStream handshake = new DataOutputStream(handshakeBytes)
-        ) {
-            handshake.writeByte(ID); // Write the ID of the packet
-            writeVarInt(handshake, protocolVersion); // Write the protocol version
-            writeVarInt(handshake, hostname.length()); // Write the length of the hostname
-            handshake.writeBytes(hostname); // Write the hostname
-            handshake.writeShort(port); // Write the port
-            writeVarInt(handshake, STATUS_HANDSHAKE); // Write the status handshake ID
+        // Send the status request
+        outputStream.writeByte(0x01); // Size of packet
+        outputStream.writeByte(ID);
 
-            // Write the handshake bytes to the output stream
-            writeVarInt(outputStream, handshakeBytes.size());
-            outputStream.write(handshakeBytes.toByteArray());
+        // Read the status response
+        readVarInt(inputStream); // Size of the response
+        int id = readVarInt(inputStream);
+        if (id == -1) { // The stream was prematurely ended
+            throw new IOException("Server prematurely ended stream.");
+        } else if (id != ID) { // Invalid packet ID
+            throw new IOException("Server returned invalid packet ID.");
         }
+
+        int length = readVarInt(inputStream); // Length of the response
+        if (length == -1) { // The stream was prematurely ended
+            throw new IOException("Server prematurely ended stream.");
+        } else if (length == 0) {
+            throw new IOException("Server returned unexpected value.");
+        }
+
+        // Get the json response
+        byte[] data = new byte[length];
+        inputStream.readFully(data);
+        response = new String(data);
     }
 }

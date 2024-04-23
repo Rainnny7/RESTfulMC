@@ -431,11 +431,11 @@ public final class MojangService {
         }
 
         // Check the cache for the server
-        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById("%s-%s".formatted(platform.name(), lookupHostname));
-        if (cached.isPresent()) { // Respond with the cache if present
-            log.info("Found server in cache: {}", hostname);
-            return cached.get();
-        }
+//        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById("%s-%s".formatted(platform.name(), lookupHostname));
+//        if (cached.isPresent()) { // Respond with the cache if present
+//            log.info("Found server in cache: {}", hostname);
+//            return cached.get();
+//        }
         List<DNSRecord> records = new ArrayList<>(); // The resolved DNS records for the server
 
         SRVRecord srvRecord = platform == MinecraftServer.Platform.JAVA ? DNSUtils.resolveSRV(hostname) : null; // Resolve the SRV record
@@ -467,7 +467,7 @@ public final class MojangService {
             ((JavaMinecraftServer) minecraftServer.getValue()).setMojangBanned(isServerBlocked(hostname));
         }
 
-        minecraftServerCache.save(minecraftServer);
+//        minecraftServerCache.save(minecraftServer);
         log.info("Cached server: {}", hostname);
         minecraftServer.setCached(-1L); // Set to -1 to indicate it's not cached in the response
         return minecraftServer;

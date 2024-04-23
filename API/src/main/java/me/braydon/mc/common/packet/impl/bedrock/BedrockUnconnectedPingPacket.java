@@ -24,7 +24,7 @@
 package me.braydon.mc.common.packet.impl.bedrock;
 
 import lombok.NonNull;
-import me.braydon.mc.common.packet.MinecraftBedrockPacket;
+import me.braydon.mc.common.packet.UDPPacket;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -40,7 +40,7 @@ import java.nio.ByteOrder;
  * @author Braydon
  * @see <a href="https://wiki.vg/Raknet_Protocol#Unconnected_Ping">Protocol Docs</a>
  */
-public final class BedrockPacketUnconnectedPing implements MinecraftBedrockPacket {
+public final class BedrockUnconnectedPingPacket extends UDPPacket {
     private static final byte ID = 0x01; // The ID of the packet
     private static final byte[] MAGIC = { 0, -1, -1, 0, -2, -2, -2, -2, -3, -3, -3, -3, 18, 52, 86, 120 };
 

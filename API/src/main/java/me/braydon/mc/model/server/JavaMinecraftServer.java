@@ -29,10 +29,15 @@ import me.braydon.mc.common.JavaMinecraftVersion;
 import me.braydon.mc.config.AppConfig;
 import me.braydon.mc.model.MinecraftServer;
 import me.braydon.mc.model.dns.DNSRecord;
+import me.braydon.mc.model.token.JavaServerChallengeStatusToken;
 import me.braydon.mc.model.token.JavaServerStatusToken;
 import me.braydon.mc.service.MojangService;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A Java edition {@link MinecraftServer}.
@@ -52,6 +57,12 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private final Favicon favicon;
 
     /**
+     * The plugins on this server, present if
+     * query is on and plugins are present.
+     */
+    private final Plugin[] plugins;
+
+    /**
      * The Forge mod information for this server, null if none.
      * <p>
      * This is for servers on 1.12 or below.
@@ -66,6 +77,16 @@ public final class JavaMinecraftServer extends MinecraftServer {
      * </p>
      */
     private final ForgeData forgeData;
+
+    /**
+     * The main world of this server, present if query is on.
+     */
+    private final String world;
+
+    /**
+     * Does this server support querying?
+     */
+    private final boolean queryEnabled;
 
     /**
      * Does this server preview chat?
@@ -98,13 +119,16 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private boolean mojangBanned;
 
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records, @NonNull Version version,
-                                @NonNull Players players, @NonNull MOTD motd, Favicon favicon, ModInfo modInfo, ForgeData forgeData,
-                                boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
+                                @NonNull Players players, @NonNull MOTD motd, Favicon favicon, Plugin[] plugins, ModInfo modInfo, ForgeData forgeData,
+                                String world, boolean queryEnabled, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
         super(hostname, ip, port, records, players, motd);
         this.version = version;
         this.favicon = favicon;
+        this.plugins = plugins;
         this.modInfo = modInfo;
         this.forgeData = forgeData;
+        this.world = world;
+        this.queryEnabled = queryEnabled;
         this.previewsChat = previewsChat;
         this.enforcesSecureChat = enforcesSecureChat;
         this.preventsChatReports = preventsChatReports;
@@ -118,19 +142,33 @@ public final class JavaMinecraftServer extends MinecraftServer {
      * @param ip the IP address of the server
      * @param port the port of the server
      * @param records the DNS records of the server
-     * @param token the status token
+     * @param statusToken the status token
+     * @param challengeStatusToken the challenge status token, null if none
      * @return the Java Minecraft server
      */
     @NonNull
-    public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port,
-                                             @NonNull DNSRecord[] records, @NonNull JavaServerStatusToken token) {
-        String motdString = token.getDescription() instanceof String ? (String) token.getDescription() : null;
+    public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records,
+                                             @NonNull JavaServerStatusToken statusToken, JavaServerChallengeStatusToken challengeStatusToken) {
+        String motdString = statusToken.getDescription() instanceof String ? (String) statusToken.getDescription() : null;
         if (motdString == null) { // Not a string motd, convert from Json
-            motdString = new TextComponent(ComponentSerializer.parse(AppConfig.GSON.toJson(token.getDescription()))).toLegacyText();
+            motdString = new TextComponent(ComponentSerializer.parse(AppConfig.GSON.toJson(statusToken.getDescription()))).toLegacyText();
         }
-        return new JavaMinecraftServer(hostname, ip, port, records, token.getVersion().detailedCopy(), Players.create(token.getPlayers()),
-                MOTD.create(motdString), Favicon.create(token.getFavicon(), hostname), token.getModInfo(), token.getForgeData(),
-                token.isPreviewsChat(), token.isEnforcesSecureChat(), token.isPreventsChatReports(), false
+
+        // Get the plugins from the challenge token
+        Plugin[] plugins = null;
+        if (challengeStatusToken != null) {
+            List<Plugin> list = new ArrayList<>();
+            for (Map.Entry<String, String> entry : challengeStatusToken.getPlugins().entrySet()) {
+                list.add(new Plugin(entry.getKey(), entry.getValue()));
+            }
+            plugins = list.toArray(new Plugin[0]);
+        }
+        String world = challengeStatusToken == null ? null : challengeStatusToken.getMap();
+
+        return new JavaMinecraftServer(hostname, ip, port, records, statusToken.getVersion().detailedCopy(), Players.create(statusToken.getPlayers()),
+                MOTD.create(motdString), Favicon.create(statusToken.getFavicon(), hostname), plugins, statusToken.getModInfo(), statusToken.getForgeData(),
+                world, challengeStatusToken != null, statusToken.isPreviewsChat(), statusToken.isEnforcesSecureChat(),
+                statusToken.isPreventsChatReports(), false
         );
     }
 
@@ -218,6 +256,22 @@ public final class JavaMinecraftServer extends MinecraftServer {
                     AppConfig.INSTANCE.getServerPublicUrl() + "/server/icon/" + hostname
             );
         }
+    }
+
+    /**
+     * A plugin for a server.
+     */
+    @AllArgsConstructor @Getter @ToString
+    public static class Plugin {
+        /**
+         * The name of this plugin.
+         */
+        @NonNull private final String name;
+
+        /**
+         * The version of this plugin.
+         */
+        @NonNull private final String version;
     }
 
     /**

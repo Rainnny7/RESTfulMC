@@ -36,7 +36,7 @@ import java.io.IOException;
  * @author Braydon
  * @see <a href="https://wiki.vg/Protocol">Protocol Docs</a>
  */
-public abstract class MinecraftJavaPacket {
+public abstract class TCPPacket {
     /**
      * Process this packet.
      *

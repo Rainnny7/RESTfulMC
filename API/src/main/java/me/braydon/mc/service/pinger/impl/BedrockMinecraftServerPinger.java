@@ -25,8 +25,8 @@ package me.braydon.mc.service.pinger.impl;
 
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import me.braydon.mc.common.packet.impl.bedrock.BedrockPacketUnconnectedPing;
-import me.braydon.mc.common.packet.impl.bedrock.BedrockPacketUnconnectedPong;
+import me.braydon.mc.common.packet.impl.bedrock.BedrockUnconnectedPingPacket;
+import me.braydon.mc.common.packet.impl.bedrock.BedrockUnconnectedPongPacket;
 import me.braydon.mc.exception.impl.BadRequestException;
 import me.braydon.mc.exception.impl.ResourceNotFoundException;
 import me.braydon.mc.model.dns.DNSRecord;
@@ -60,7 +60,7 @@ public final class BedrockMinecraftServerPinger implements MinecraftServerPinger
      */
     @Override
     public BedrockMinecraftServer ping(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records) {
-        log.info("Pinging {}:{}...", hostname, port);
+        log.info("Opening UDP connection to {}:{}...", hostname, port);
         long before = System.currentTimeMillis(); // Timestamp before pinging
 
         // Open a socket connection to the server
@@ -69,13 +69,13 @@ public final class BedrockMinecraftServerPinger implements MinecraftServerPinger
             socket.connect(new InetSocketAddress(hostname, port));
 
             long ping = System.currentTimeMillis() - before; // Calculate the ping
-            log.info("Pinged {}:{} in {}ms", hostname, port, ping);
+            log.info("UDP Connection to {}:{} opened. Ping: {}ms", hostname, port, ping);
 
             // Send the unconnected ping packet
-            new BedrockPacketUnconnectedPing().process(socket);
+            new BedrockUnconnectedPingPacket().process(socket);
 
             // Handle the received unconnected pong packet
-            BedrockPacketUnconnectedPong unconnectedPong = new BedrockPacketUnconnectedPong();
+            BedrockUnconnectedPongPacket unconnectedPong = new BedrockUnconnectedPongPacket();
             unconnectedPong.process(socket);
             String response = unconnectedPong.getResponse();
             if (response == null) { // No pong response
