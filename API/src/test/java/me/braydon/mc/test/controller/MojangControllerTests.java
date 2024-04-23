@@ -21,11 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package me.braydon.mc.test.controller;
+package cc.restfulmc.api.test.controller;
 
 import lombok.NonNull;
-import me.braydon.mc.controller.MojangController;
-import me.braydon.mc.test.config.TestRedisConfig;
+import cc.restfulmc.api.controller.MojangController;
+import cc.restfulmc.api.test.config.TestRedisConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

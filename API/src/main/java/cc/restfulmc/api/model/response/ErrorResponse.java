@@ -21,47 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model.response;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import lombok.Getter;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import lombok.ToString;
+import org.springframework.http.HttpStatus;
 
-import java.io.IOException;
+import java.util.Date;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A response representing an error.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@Getter @ToString
+public final class ErrorResponse {
+    /**
+     * The status code of this error.
+     */
+    @NonNull private final HttpStatus status;
 
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The HTTP code of this error.
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
+    private final int code;
 
     /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
+     * The message of this error.
      */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    @NonNull private final String message;
+
+    /**
+     * The timestamp this error occurred.
+     */
+    @NonNull private final Date timestamp;
+
+    public ErrorResponse(@NonNull HttpStatus status, @NonNull String message) {
+        this.status = status;
+        code = status.value();
+        this.message = message;
+        timestamp = new Date();
     }
 }

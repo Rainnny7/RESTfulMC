@@ -21,47 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.common.packet.impl.java.udp;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import lombok.Getter;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import cc.restfulmc.api.common.packet.JavaQueryPacket;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * This packet is sent by the server to the client in
+ * response to the {@link JavaQueryHandshakeRequestPacket}.
  *
  * @author Braydon
+ * @see <a href="https://wiki.vg/Query#Response">Query Protocol Docs</a>
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@Getter
+public final class JavaQueryHandshakeResponsePacket extends JavaQueryPacket {
+    /**
+     * The response from the server.
+     */
+    private byte[] response;
 
     /**
-     * Start up the mock Redis server.
+     * Process this packet.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param socket the socket to process the packet for
+     * @throws IOException if an I/O error occurs
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
+    @Override
+    public void process(@NonNull DatagramSocket socket) throws IOException {
+        // Handle receiving of the packet
+        byte[] receiveData = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        socket.receive(receivePacket);
 
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+        // Set the response to the integer value of the received data
+        response = intToBytes(Integer.parseInt(new String(receivePacket.getData()).trim()));
     }
 }

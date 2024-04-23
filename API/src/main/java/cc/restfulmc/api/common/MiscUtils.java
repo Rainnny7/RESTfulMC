@@ -21,47 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.common;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import lombok.experimental.UtilityClass;
 
-import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
- * Test configuration for
- * a mock Redis server.
- *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@UtilityClass
+public final class MiscUtils {
+    private static final Pattern USERNAME_REGEX = Pattern.compile("^[a-zA-Z0-9_]{2,16}$");
+    private static final List<String> WHITELISTED_NAMES = Arrays.asList("8", "g");
 
     /**
-     * Start up the mock Redis server.
+     * Check if the given username is a valid.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param username the username to check
+     * @return whether the username is valid
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    public static boolean isUsernameValid(@NonNull String username) {
+        if (WHITELISTED_NAMES.contains(username.toLowerCase())) { // Name is whitelisted
+            return true;
+        }
+        return USERNAME_REGEX.matcher(username).matches();
     }
 }

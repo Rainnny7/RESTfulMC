@@ -21,47 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.exception.impl;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import lombok.experimental.StandardException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * This exception is raised
+ * when a resource is not found.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
-    /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
-     */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
-}
+@StandardException
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public final class ResourceNotFoundException extends RuntimeException { }

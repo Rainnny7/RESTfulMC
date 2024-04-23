@@ -21,47 +21,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.common;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import lombok.experimental.UtilityClass;
 
 /**
- * Test configuration for
- * a mock Redis server.
- *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
+@UtilityClass
+public final class IPUtils {
+    private static final String[] IP_HEADERS = new String[] {
+        "CF-Connecting-IP",
+        "X-Forwarded-For"
+    };
+    
     /**
-     * Start up the mock Redis server.
+     * Get the real IP from the given request.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param request the request
+     * @return the real IP
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    @NonNull
+    public static String getRealIp(@NonNull HttpServletRequest request) {
+        String ip = request.getRemoteAddr();
+        for (String headerName : IP_HEADERS) {
+            String header = request.getHeader(headerName);
+            if (header == null) {
+                continue;
+            }
+            if (!header.contains(",")) { // Handle single IP
+                ip = header;
+                break;
+            }
+            // Handle multiple IPs
+            String[] ips = header.split(",");
+            for (String ipHeader : ips) {
+                ip = ipHeader;
+                break;
+            }
+        }
+        return ip;
     }
 }

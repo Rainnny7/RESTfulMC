@@ -21,47 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+package cc.restfulmc.api.model;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * Profile actions that can
+ * be taken on a {@link Player}.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+public enum ProfileAction {
+    /**
+     * The player is required to change their
+     * username before accessing Multiplayer.
+     */
+    FORCED_NAME_CHANGE,
 
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The player is using a banned skin.
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
+    USING_BANNED_SKIN
 }

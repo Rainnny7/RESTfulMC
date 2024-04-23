@@ -21,47 +21,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model.dns.impl;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import cc.restfulmc.api.model.dns.DNSRecord;
 
-import java.io.IOException;
+import java.net.InetSocketAddress;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * An SRV record implementation.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
+@NoArgsConstructor @Setter @Getter @ToString(callSuper = true)
+public final class SRVRecord extends DNSRecord {
+    /**
+     * The priority of this record.
+     */
+    private int priority;
 
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
+    /**
+     * The weight of this record.
+     */
+    private int weight;
+
+    /**
+     * The port of this record.
+     */
+    private int port;
+
+    /**
+     * The target of this record.
+     */
+    @NonNull private String target;
+
+    public SRVRecord(@NonNull org.xbill.DNS.SRVRecord bootstrap) {
+        super(Type.SRV, bootstrap.getTTL());
+        priority = bootstrap.getPriority();
+        weight = bootstrap.getWeight();
+        port = bootstrap.getPort();
+        target = bootstrap.getTarget().toString().replaceFirst("\\.$", "");
     }
 
     /**
-     * Start up the mock Redis server.
+     * Get a socket address from
+     * the target and port.
      *
-     * @throws IOException if there was an issue starting the server
+     * @return the socket address
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    @NonNull @JsonIgnore
+    public InetSocketAddress getSocketAddress() {
+        return new InetSocketAddress(target, port);
     }
 }

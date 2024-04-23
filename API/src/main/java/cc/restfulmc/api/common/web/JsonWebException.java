@@ -21,47 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.common.web;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import lombok.Getter;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * This exception is raised when a
+ * {@link JsonWebRequest} encounters an error.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
+@Getter
+public class JsonWebException extends RuntimeException {
+    /**
+     * The status code of the response.
+     */
+    private final int statusCode;
 
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
+    protected JsonWebException(int statusCode, @NonNull String message) {
+        super(message);
+        this.statusCode = statusCode;
     }
 
-    /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
-     */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    protected JsonWebException(int statusCode, @NonNull Throwable cause) {
+        super(cause);
+        this.statusCode = statusCode;
     }
 }

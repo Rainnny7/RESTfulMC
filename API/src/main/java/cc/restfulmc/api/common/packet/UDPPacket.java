@@ -21,47 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.common.packet;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * Represents a packet in the
+ * Minecraft Bedrock protocol.
  *
  * @author Braydon
+ * @see <a href="https://wiki.vg/Raknet_Protocol">Protocol Docs</a>
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
+public abstract class UDPPacket {
     /**
-     * Start up the mock Redis server.
+     * Process this packet.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param socket the socket to process the packet for
+     * @throws IOException if an I/O error occurs
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
+    public abstract void process(@NonNull DatagramSocket socket) throws IOException;
 }

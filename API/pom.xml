@@ -11,7 +11,7 @@
     </parent>
 
     <!-- Project Details -->
-    <groupId>me.braydon</groupId>
+    <groupId>cc.restfulmc</groupId>
     <artifactId>RESTfulMC</artifactId>
     <version>1.0.0</version>
     <description>A simple, yet useful RESTful API for Minecraft utilizing Springboot.</description>

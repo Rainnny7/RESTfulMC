@@ -21,47 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model.cache;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import lombok.*;
+import cc.restfulmc.api.model.MinecraftServer;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
-import java.io.IOException;
+import java.io.Serializable;
 
 /**
- * Test configuration for
- * a mock Redis server.
- *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@AllArgsConstructor @Setter @Getter @ToString
+@RedisHash(value = "server", timeToLive = 60L) // 1 minute (in seconds)
+public final class CachedMinecraftServer implements Serializable {
+    /**
+     * The id of this cache element.
+     */
+    @Id @JsonIgnore @NonNull private final String id;
 
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The cached server.
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
+    @JsonUnwrapped @NonNull private final MinecraftServer value;
 
     /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
+     * The unix timestamp of when this
+     * server was cached, -1 if not cached.
      */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
+    private long cached;
 }

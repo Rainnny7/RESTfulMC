@@ -21,47 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.repository;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import cc.restfulmc.api.model.cache.CachedSkinPartTexture;
+import cc.restfulmc.api.model.skin.ISkinPart;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A cache repository for skin texture parts.
  *
  * @author Braydon
+ * @see ISkinPart for skin parts
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
-    /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
-     */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
-}
+public interface SkinPartTextureCacheRepository extends CrudRepository<CachedSkinPartTexture, String> { }

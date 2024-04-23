@@ -21,47 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model.token;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import lombok.ToString;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A token representing a Mojang username to UUID response.
  *
  * @author Braydon
+ * @see <a href="https://wiki.vg/Mojang_API#Username_to_UUID">Mojang API</a>
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
+@AllArgsConstructor @Getter @ToString
+public final class MojangUsernameToUUIDToken {
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The id of the username.
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
+    @NonNull private final String id;
 }

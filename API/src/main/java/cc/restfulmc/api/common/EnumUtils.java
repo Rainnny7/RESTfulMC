@@ -21,47 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.common;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import lombok.experimental.UtilityClass;
 
 /**
- * Test configuration for
- * a mock Redis server.
- *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
+@UtilityClass
+public final class EnumUtils {
     /**
-     * Start up the mock Redis server.
+     * Get the enum constant of the specified enum type with the specified name.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param enumType the enum type
+     * @param name     the name of the constant to return
+     * @param <T>      the type of the enum
+     * @return the enum constant of the specified enum type with the specified name
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    public <T extends Enum<T>> T getEnumConstant(@NonNull Class<T> enumType, @NonNull String name) {
+        try {
+            return Enum.valueOf(enumType, name);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
     }
 }

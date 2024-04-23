@@ -21,47 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import com.google.gson.JsonObject;
+import lombok.*;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A cape for a {@link Player}.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@AllArgsConstructor(access = AccessLevel.PRIVATE) @Getter @ToString
+public final class Cape {
+    /**
+     * The texture URL of this cape.
+     */
+    @NonNull private final String url;
 
     /**
-     * Start up the mock Redis server.
+     * Build a cape from the given Json object.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param jsonObject the json object to build from
+     * @return the built cape
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    public static Cape fromJsonObject(JsonObject jsonObject) {
+        if (jsonObject == null) { // No object to parse
+            return null;
+        }
+        return new Cape(jsonObject.get("url").getAsString());
     }
 }

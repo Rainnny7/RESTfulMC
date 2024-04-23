@@ -21,47 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model.dns.impl;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import lombok.*;
+import cc.restfulmc.api.model.dns.DNSRecord;
 
-import java.io.IOException;
+import java.net.InetAddress;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * An A record implementation.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
+@NoArgsConstructor @Setter @Getter @ToString(callSuper = true)
+public final class ARecord extends DNSRecord {
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The address of this record, null if unresolved.
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
+    private String address;
 
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    public ARecord(@NonNull org.xbill.DNS.ARecord bootstrap) {
+        super(Type.A, bootstrap.getTTL());
+        InetAddress address = bootstrap.getAddress();
+        this.address = address == null ? null : address.getHostAddress();
     }
 }

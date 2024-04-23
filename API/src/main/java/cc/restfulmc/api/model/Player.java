@@ -21,47 +21,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import lombok.*;
+import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.token.MojangProfileToken;
 
-import java.io.IOException;
+import java.util.UUID;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A model representing a player.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+public class Player {
+    /**
+     * The unique id of this player.
+     */
+    @EqualsAndHashCode.Include @NonNull private final UUID uniqueId;
 
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The username of this player.
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
+    @NonNull private final String username;
 
     /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
+     * The skin of this player.
      */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
+    @NonNull private final Skin skin;
+
+    /**
+     * The cape of this player, null if none.
+     */
+    private final Cape cape;
+
+    /**
+     * The raw profile properties of this player.
+     */
+    @NonNull private final MojangProfileToken.ProfileProperty[] properties;
+
+    /**
+     * The profile actions this player has, null if none.
+     */
+    private final ProfileAction[] profileActions;
+
+    /**
+     * Is this player legacy?
+     * <p>
+     * A "Legacy" player is a player that
+     * has not yet migrated to a Mojang account.
+     * </p>
+     */
+    private final boolean legacy;
 }

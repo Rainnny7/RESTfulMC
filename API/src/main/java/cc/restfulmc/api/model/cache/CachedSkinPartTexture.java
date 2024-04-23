@@ -21,47 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model.cache;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
-import java.io.IOException;
+import java.io.Serializable;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A cache for a skin part texture.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@AllArgsConstructor @Getter @ToString
+@RedisHash(value = "skinPart", timeToLive = 15L * 60L) // 15 minutes (in seconds)
+public final class CachedSkinPartTexture implements Serializable {
+    /**
+     * The id of this cache element.
+     * <p>
+     * This ID is in the given format:
+     * skinPart:<query>-<part>-<renderOverlays>-<size>-<ext>
+     * </p>
+     */
+    @Id private transient final String id;
 
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The cached texture;
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
+    private final byte[] texture;
 }

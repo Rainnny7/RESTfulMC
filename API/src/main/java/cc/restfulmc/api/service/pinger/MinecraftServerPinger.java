@@ -21,47 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.service.pinger;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import cc.restfulmc.api.model.MinecraftServer;
+import cc.restfulmc.api.model.dns.DNSRecord;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A {@link MinecraftServerPinger} is
+ * used to ping a {@link MinecraftServer}.
  *
+ * @param <T> the type of server to ping
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
+public interface MinecraftServerPinger<T extends MinecraftServer> {
     /**
-     * Start up the mock Redis server.
+     * Ping the server with the given hostname and port.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param hostname the hostname of the server
+     * @param ip       the ip of the server, null if unresolved
+     * @param port     the port of the server
+     * @param records the DNS records of the server
+     * @return the server that was pinged
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
-    }
+    T ping(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records);
 }

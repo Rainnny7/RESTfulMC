@@ -21,47 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.model.dns;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
-
-import java.io.IOException;
+import lombok.*;
 
 /**
- * Test configuration for
- * a mock Redis server.
+ * A representation of a DNS record.
  *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
+@NoArgsConstructor @AllArgsConstructor @Setter @Getter @ToString
+public abstract class DNSRecord {
+    /**
+     * The type of this record.
+     */
+    @NonNull private Type type;
 
     /**
-     * Start up the mock Redis server.
-     *
-     * @throws IOException if there was an issue starting the server
+     * The TTL (Time To Live) of this record.
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
+    private long ttl;
 
     /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
+     * Types of a record.
      */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    public enum Type {
+        A, SRV
     }
 }

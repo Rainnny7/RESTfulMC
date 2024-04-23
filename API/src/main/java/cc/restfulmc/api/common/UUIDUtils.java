@@ -21,47 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.api.test.config;
+package cc.restfulmc.api.common;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
-import org.springframework.boot.test.context.TestConfiguration;
-import redis.embedded.RedisServer;
+import lombok.experimental.UtilityClass;
 
-import java.io.IOException;
+import java.util.UUID;
 
 /**
- * Test configuration for
- * a mock Redis server.
- *
  * @author Braydon
  */
-@TestConfiguration
-public class TestRedisConfig {
-    @NonNull private final RedisServer server;
-
-    public TestRedisConfig() throws IOException {
-        server = new RedisServer(); // Construct the mock server
-    }
-
+@UtilityClass
+public final class UUIDUtils {
     /**
-     * Start up the mock Redis server.
+     * Add dashes to an untrimmed uuid.
      *
-     * @throws IOException if there was an issue starting the server
+     * @param trimmed the untrimmed uuid
+     * @return the uuid with dashes
      */
-    @PostConstruct
-    public void onInitialize() throws IOException {
-        server.start();
-    }
-
-    /**
-     * Shutdown the running mock Redis server.
-     *
-     * @throws IOException if there was an issue stopping the server
-     */
-    @PreDestroy
-    public void housekeeping() throws IOException {
-        server.stop();
+    @NonNull
+    public static UUID addDashes(@NonNull String trimmed) {
+        StringBuilder builder = new StringBuilder(trimmed);
+        for (int i = 0, pos = 20; i < 4; i++, pos -= 4) {
+            builder.insert(pos, "-");
+        }
+        return UUID.fromString(builder.toString());
     }
 }
