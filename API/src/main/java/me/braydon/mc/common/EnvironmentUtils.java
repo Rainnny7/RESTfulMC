@@ -43,15 +43,11 @@ public final class EnvironmentUtils {
 
     static {
         // Are we running on production?
-        String env = System.getenv("APP_ENV");
-        production = env != null && (env.equals("production"));
+        String appEnv = System.getenv("APP_ENV");
+        production = appEnv != null && (appEnv.equals("production"));
 
-        // Are we running in a test?
-        try {
-            Class.forName("org.junit.jupiter.engine.JupiterTestEngine");
-            testing = true;
-        } catch (ClassNotFoundException ignored) {
-            // Safely ignore
-        }
+        // Are we running on a test environment?
+        String testEnv = System.getenv("SPRING_TEST");
+        testing = testEnv != null && (testEnv.equals("true"));
     }
 }
