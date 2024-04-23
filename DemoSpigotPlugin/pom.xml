@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--Project Details-->
+    <groupId>me.braydon</groupId>
+    <artifactId>DemoSpigotPlugin</artifactId>
+    <version>1.0.0</version>
+
+    <!-- Properties -->
+    <properties>
+        <java.version>8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Used for compiling the source code with the proper Java version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+
+                    <!-- Enable incremental builds, this is reversed due to -->
+                    <!-- a bug as seen in https://issues.apache.org/jira/browse/MCOMPILER-209 -->
+                    <useIncrementalCompilation>false</useIncrementalCompilation>
+                </configuration>
+            </plugin>
+
+            <!-- Handles shading of dependencies in the final output jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Used for generating a git properties file during build -->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>4.9.10</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <prefix>git</prefix>
+                    <dotGitDirectory>$PROJECT.BASEDIR$/.git</dotGitDirectory>
+                    <injectAllReactorProjects>true</injectAllReactorProjects>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>src/main/resources/git.properties</generateGitPropertiesFilename>
+                    <commitIdGenerationMode>full</commitIdGenerationMode>
+                    <dateFormatTimeZone>$USER.TIMEZONE$</dateFormatTimeZone>
+                    <dateFormat>MM-dd-yyyy@HH:mm:ss</dateFormat>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>^git.branch$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.user.name$</includeOnlyProperty>
+                    </includeOnlyProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <!-- Filter the resources dir for placeholders -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <!-- Repos -->
+    <repositories>
+        <repository>
+            <id>rainnny-repo-serverjars</id>
+            <url>https://maven.rainnny.club/serverjars</url>
+        </repository>
+
+        <!-- Used by ProtocolLib -->
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Server Jars -->
+        <dependency>
+            <groupId>org.github</groupId>
+            <artifactId>PaperSpigot</artifactId>
+            <version>1.8.8</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Libraries -->
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.8.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

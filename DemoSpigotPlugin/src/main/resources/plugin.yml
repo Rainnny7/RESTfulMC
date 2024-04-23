@@ -1,0 +1,6 @@
+name: DemoSpigotPlugin
+main: me.braydon.demo.DemoSpigotPlugin
+version: ${project.version}-${git.commit.id.abbrev}
+author: Braydon (Rainnny)
+website: https://restfulmc.cc
+depend: [ProtocolLib]
