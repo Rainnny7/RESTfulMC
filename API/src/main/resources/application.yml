@@ -11,6 +11,11 @@ logging:
   file:
     path: "./logs"
 
+# MaxMind Configuration
+# Used for IP Geo location
+maxmind:
+  license: "CHANGE_ME"
+
 # Spring Configuration
 spring:
   data:

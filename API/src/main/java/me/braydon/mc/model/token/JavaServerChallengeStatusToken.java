@@ -45,6 +45,11 @@ public final class JavaServerChallengeStatusToken {
     @NonNull private final String map;
 
     /**
+     * The software of this server.
+     */
+    @NonNull private final String software;
+
+    /**
      * The plugins of this server.
      */
     private final Map<String, String> plugins;
@@ -58,11 +63,14 @@ public final class JavaServerChallengeStatusToken {
      */
     @NonNull
     public static JavaServerChallengeStatusToken create(@NonNull Map<String, String> rawData) {
+        String[] splitPlugins = rawData.get("plugins").split(": ");
+        String software = splitPlugins[0]; // The server software
+
         Map<String, String> plugins = new HashMap<>();
-        for (String plugin : rawData.get("plugins").split(": ")[1].split("; ")) {
+        for (String plugin : splitPlugins[1].split("; ")) {
             String[] split = plugin.split(" ");
             plugins.put(split[0], split[1]);
         }
-        return new JavaServerChallengeStatusToken(rawData.get("map"), plugins);
+        return new JavaServerChallengeStatusToken(rawData.get("map"), software, plugins);
     }
 }

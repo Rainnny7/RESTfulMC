@@ -139,6 +139,14 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
         }
     }
 
+    /**
+     * Ping a server and retrieve its challenge status token.
+     *
+     * @param hostname the hostname to ping
+     * @param port the port to ping
+     * @return the challenge token
+     * @throws IOException if an I/O error occurs
+     */
     @NonNull
     private JavaServerChallengeStatusToken retrieveChallengeStatusToken(@NonNull String hostname, int port) throws IOException {
         log.info("Opening UDP connection to {}:{}...", hostname, port);

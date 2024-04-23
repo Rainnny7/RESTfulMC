@@ -57,6 +57,11 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private final Favicon favicon;
 
     /**
+     * The software of this server, present if query is on.
+     */
+    private final String software;
+
+    /**
      * The plugins on this server, present if
      * query is on and plugins are present.
      */
@@ -119,11 +124,13 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private boolean mojangBanned;
 
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, @NonNull DNSRecord[] records, @NonNull Version version,
-                                @NonNull Players players, @NonNull MOTD motd, Favicon favicon, Plugin[] plugins, ModInfo modInfo, ForgeData forgeData,
-                                String world, boolean queryEnabled, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
+                                @NonNull Players players, @NonNull MOTD motd, Favicon favicon, String software, Plugin[] plugins,
+                                ModInfo modInfo, ForgeData forgeData, String world, boolean queryEnabled, boolean previewsChat,
+                                boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
         super(hostname, ip, port, records, players, motd);
         this.version = version;
         this.favicon = favicon;
+        this.software = software;
         this.plugins = plugins;
         this.modInfo = modInfo;
         this.forgeData = forgeData;
@@ -153,6 +160,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
         if (motdString == null) { // Not a string motd, convert from Json
             motdString = new TextComponent(ComponentSerializer.parse(AppConfig.GSON.toJson(statusToken.getDescription()))).toLegacyText();
         }
+        String software = challengeStatusToken == null ? null : challengeStatusToken.getSoftware(); // The server software
 
         // Get the plugins from the challenge token
         Plugin[] plugins = null;
@@ -163,12 +171,12 @@ public final class JavaMinecraftServer extends MinecraftServer {
             }
             plugins = list.toArray(new Plugin[0]);
         }
-        String world = challengeStatusToken == null ? null : challengeStatusToken.getMap();
+        String world = challengeStatusToken == null ? null : challengeStatusToken.getMap(); // The main server world
 
         return new JavaMinecraftServer(hostname, ip, port, records, statusToken.getVersion().detailedCopy(), Players.create(statusToken.getPlayers()),
-                MOTD.create(motdString), Favicon.create(statusToken.getFavicon(), hostname), plugins, statusToken.getModInfo(), statusToken.getForgeData(),
-                world, challengeStatusToken != null, statusToken.isPreviewsChat(), statusToken.isEnforcesSecureChat(),
-                statusToken.isPreventsChatReports(), false
+                MOTD.create(motdString), Favicon.create(statusToken.getFavicon(), hostname), software, plugins, statusToken.getModInfo(),
+                statusToken.getForgeData(), world, challengeStatusToken != null, statusToken.isPreviewsChat(),
+                statusToken.isEnforcesSecureChat(), statusToken.isPreventsChatReports(), false
         );
     }
 
