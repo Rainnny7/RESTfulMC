@@ -52,6 +52,6 @@ public final class ServerPingListener extends PacketAdapter {
         }
         ping.setPlayers(playerSamples);
 
-        ping.setVersionName("RESTfulMC");
+        ping.setVersionName("RESTfulMC Demo");
     }
 }
