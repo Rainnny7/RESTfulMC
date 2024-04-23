@@ -14,6 +14,7 @@ import { capitalize } from "@/lib/string-utils";
 const RECOMMENDATIONS: {
     [hostname: string]: ServerPlatform;
 } = {
+    "demo.restfulmc.cc": ServerPlatform.JAVA,
     "hypixel.net": ServerPlatform.JAVA,
     "cubecraft.net": ServerPlatform.JAVA,
     "wildprison.net": ServerPlatform.JAVA,
