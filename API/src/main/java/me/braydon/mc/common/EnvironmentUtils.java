@@ -35,8 +35,23 @@ public final class EnvironmentUtils {
      * Is the app running in a production environment?
      */
     @Getter private static final boolean production;
-    static { // Are we running on production?
+
+    /**
+     * Is the app running in a test environment?
+     */
+    @Getter private static boolean testing;
+
+    static {
+        // Are we running on production?
         String env = System.getenv("APP_ENV");
         production = env != null && (env.equals("production"));
+
+        // Are we running in a test?
+        try {
+            Class.forName("org.junit.Test");
+            testing = true;
+        } catch (ClassNotFoundException ignored) {
+            // Safely ignore
+        }
     }
 }
