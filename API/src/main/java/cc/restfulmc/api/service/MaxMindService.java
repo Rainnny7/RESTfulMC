@@ -25,6 +25,7 @@ package cc.restfulmc.api.service;
 
 import com.maxmind.db.CHMCache;
 import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -113,7 +114,12 @@ public final class MaxMindService {
     @SneakyThrows
     public CityResponse lookupCity(@NonNull InetAddress address) {
         DatabaseReader database = getDatabase(Database.CITY);
-        return database == null ? null : database.city(address);
+        try {
+            return database == null ? null : database.city(address);
+        } catch (AddressNotFoundException ignored) {
+            // Safely ignore this and return null instead
+            return null;
+        }
     }
 
     /**
