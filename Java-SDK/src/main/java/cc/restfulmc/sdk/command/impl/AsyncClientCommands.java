@@ -27,6 +27,7 @@ import cc.restfulmc.sdk.client.ClientConfig;
 import cc.restfulmc.sdk.client.RESTfulMCClient;
 import cc.restfulmc.sdk.command.ClientCommands;
 import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
+import cc.restfulmc.sdk.response.MojangServerStatus;
 import cc.restfulmc.sdk.response.Player;
 import cc.restfulmc.sdk.response.server.MinecraftServer;
 import lombok.NonNull;
@@ -67,5 +68,27 @@ public final class AsyncClientCommands extends ClientCommands {
     @NonNull
     public <T extends MinecraftServer> CompletableFuture<T> getMinecraftServer(@NonNull MinecraftServer.Platform platform, @NonNull String hostname) {
         return CompletableFuture.supplyAsync(() -> sendGetMinecraftServerRequest(platform, hostname));
+    }
+
+    /**
+     * Check if the server with the
+     * given hostname is blocked by Mojang.
+     *
+     * @param hostname the hostname of the server
+     * @return whether the server is blocked
+     * @throws RESTfulMCAPIException in the future if an api error occurs
+     */
+    public CompletableFuture<Boolean> isMojangBlocked(@NonNull String hostname) {
+        return CompletableFuture.supplyAsync(() -> sendIsServerBlockedRequest(hostname));
+    }
+
+    /**
+     * Get the status of Mojang servers.
+     *
+     * @return the status of Mojang servers
+     * @throws RESTfulMCAPIException in the future if an api error occurs
+     */
+    public CompletableFuture<MojangServerStatus> getMojangStatus() {
+        return CompletableFuture.supplyAsync(this::sendGetMojangStatusRequest);
     }
 }

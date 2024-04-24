@@ -27,6 +27,7 @@ import cc.restfulmc.sdk.client.ClientConfig;
 import cc.restfulmc.sdk.client.RESTfulMCClient;
 import cc.restfulmc.sdk.command.ClientCommands;
 import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
+import cc.restfulmc.sdk.response.MojangServerStatus;
 import cc.restfulmc.sdk.response.Player;
 import cc.restfulmc.sdk.response.server.MinecraftServer;
 import lombok.NonNull;
@@ -65,5 +66,27 @@ public final class SyncClientCommands extends ClientCommands {
     @NonNull
     public <T extends MinecraftServer> T getMinecraftServer(@NonNull MinecraftServer.Platform platform, @NonNull String hostname) throws RESTfulMCAPIException {
         return sendGetMinecraftServerRequest(platform, hostname);
+    }
+
+    /**
+     * Check if the server with the
+     * given hostname is blocked by Mojang.
+     *
+     * @param hostname the hostname of the server
+     * @return whether the server is blocked
+     * @throws RESTfulMCAPIException if an api error occurs
+     */
+    public boolean isMojangBlocked(@NonNull String hostname) throws RESTfulMCAPIException {
+        return sendIsServerBlockedRequest(hostname);
+    }
+
+    /**
+     * Get the status of Mojang servers.
+     *
+     * @return the status of Mojang servers
+     * @throws RESTfulMCAPIException if an api error occurs
+     */
+    public MojangServerStatus getMojangStatus() throws RESTfulMCAPIException {
+        return sendGetMojangStatusRequest();
     }
 }

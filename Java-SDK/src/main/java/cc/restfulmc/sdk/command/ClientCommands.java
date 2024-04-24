@@ -26,8 +26,10 @@ package cc.restfulmc.sdk.command;
 import cc.restfulmc.sdk.client.ClientConfig;
 import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
 import cc.restfulmc.sdk.request.APIWebRequest;
+import cc.restfulmc.sdk.response.MojangServerStatus;
 import cc.restfulmc.sdk.response.Player;
 import cc.restfulmc.sdk.response.server.MinecraftServer;
+import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -75,5 +77,31 @@ public abstract class ClientCommands {
         return (T) APIWebRequest.builder()
                 .endpoint(config.getApiEndpoint() + "/server/" + platform.name() + "/" + hostname)
                 .build().execute(platform.getServerClass());
+    }
+
+    /**
+     * Check if the server with the
+     * given hostname is blocked by Mojang.
+     *
+     * @param hostname the hostname of the server
+     * @return whether the server is blocked
+     * @throws RESTfulMCAPIException if an api error occurs
+     */
+    protected final boolean sendIsServerBlockedRequest(@NonNull String hostname) throws RESTfulMCAPIException {
+        return APIWebRequest.builder()
+                .endpoint(config.getApiEndpoint() + "/server/blocked/" + hostname)
+                .build().execute(JsonObject.class).get("blocked").getAsBoolean();
+    }
+
+    /**
+     * Get the status of Mojang servers.
+     *
+     * @return the status of Mojang servers
+     * @throws RESTfulMCAPIException if an api error occurs
+     */
+    protected final MojangServerStatus sendGetMojangStatusRequest() throws RESTfulMCAPIException {
+        return APIWebRequest.builder()
+                .endpoint(config.getApiEndpoint() + "/mojang/status")
+                .build().execute(MojangServerStatus.class);
     }
 }
