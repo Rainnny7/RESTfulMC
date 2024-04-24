@@ -26,7 +26,9 @@ package cc.restfulmc.sdk.command.impl;
 import cc.restfulmc.sdk.client.ClientConfig;
 import cc.restfulmc.sdk.client.RESTfulMCClient;
 import cc.restfulmc.sdk.command.ClientCommands;
+import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
 import cc.restfulmc.sdk.response.Player;
+import cc.restfulmc.sdk.response.server.MinecraftServer;
 import lombok.NonNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -46,9 +48,24 @@ public final class AsyncClientCommands extends ClientCommands {
      *
      * @param query the player uuid or username
      * @return the found player
+     * @throws RESTfulMCAPIException in the future if an api error occurs
      */
     @NonNull
     public CompletableFuture<Player> getPlayer(@NonNull String query) {
         return CompletableFuture.supplyAsync(() -> sendGetPlayerRequest(query));
+    }
+
+    /**
+     * Get a Minecraft server by its platform and hostname.
+     *
+     * @param platform the platform of the server
+     * @param hostname the hostname of the server
+     * @return the server
+     * @param <T> the server type
+     * @throws RESTfulMCAPIException in the future if an api error occurs
+     */
+    @NonNull
+    public <T extends MinecraftServer> CompletableFuture<T> getMinecraftServer(@NonNull MinecraftServer.Platform platform, @NonNull String hostname) {
+        return CompletableFuture.supplyAsync(() -> sendGetMinecraftServerRequest(platform, hostname));
     }
 }

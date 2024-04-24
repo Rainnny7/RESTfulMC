@@ -26,7 +26,9 @@ package cc.restfulmc.sdk.command.impl;
 import cc.restfulmc.sdk.client.ClientConfig;
 import cc.restfulmc.sdk.client.RESTfulMCClient;
 import cc.restfulmc.sdk.command.ClientCommands;
+import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
 import cc.restfulmc.sdk.response.Player;
+import cc.restfulmc.sdk.response.server.MinecraftServer;
 import lombok.NonNull;
 
 /**
@@ -44,9 +46,24 @@ public final class SyncClientCommands extends ClientCommands {
      *
      * @param query the player uuid or username
      * @return the found player
+     * @throws RESTfulMCAPIException if an api error occurs
      */
     @NonNull
-    public Player getPlayer(@NonNull String query) {
+    public Player getPlayer(@NonNull String query) throws RESTfulMCAPIException {
         return sendGetPlayerRequest(query);
+    }
+
+    /**
+     * Get a Minecraft server by its platform and hostname.
+     *
+     * @param platform the platform of the server
+     * @param hostname the hostname of the server
+     * @return the server
+     * @param <T> the server type
+     * @throws RESTfulMCAPIException if an api error occurs
+     */
+    @NonNull
+    public <T extends MinecraftServer> T getMinecraftServer(@NonNull MinecraftServer.Platform platform, @NonNull String hostname) throws RESTfulMCAPIException {
+        return sendGetMinecraftServerRequest(platform, hostname);
     }
 }

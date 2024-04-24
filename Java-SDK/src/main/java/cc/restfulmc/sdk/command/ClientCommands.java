@@ -24,9 +24,14 @@
 package cc.restfulmc.sdk.command;
 
 import cc.restfulmc.sdk.client.ClientConfig;
+import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
 import cc.restfulmc.sdk.request.APIWebRequest;
 import cc.restfulmc.sdk.response.Player;
-import lombok.*;
+import cc.restfulmc.sdk.response.server.MinecraftServer;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
 
 /**
  * An executor to make
@@ -46,11 +51,29 @@ public abstract class ClientCommands {
      *
      * @param query the player uuid or username
      * @return the found player
+     * @throws RESTfulMCAPIException if an api error occurs
      */
-    @NonNull @SneakyThrows
-    protected final Player sendGetPlayerRequest(@NonNull String query) {
+    @NonNull
+    protected final Player sendGetPlayerRequest(@NonNull String query) throws RESTfulMCAPIException {
         return APIWebRequest.builder()
                 .endpoint(config.getApiEndpoint() + "/player/" + query)
                 .build().execute(Player.class);
+    }
+
+    /**
+     * Get a Minecraft server by its platform and hostname.
+     *
+     * @param platform the platform of the server
+     * @param hostname the hostname of the server
+     * @return the server
+     * @param <T> the server type
+     * @throws RESTfulMCAPIException if an api error occurs
+     */
+    @NonNull @SuppressWarnings("unchecked")
+    protected final <T extends MinecraftServer> T sendGetMinecraftServerRequest(@NonNull MinecraftServer.Platform platform,
+                                                                                @NonNull String hostname) throws RESTfulMCAPIException {
+        return (T) APIWebRequest.builder()
+                .endpoint(config.getApiEndpoint() + "/server/" + platform.name() + "/" + hostname)
+                .build().execute(platform.getServerClass());
     }
 }

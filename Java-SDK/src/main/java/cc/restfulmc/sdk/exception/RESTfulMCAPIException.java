@@ -37,7 +37,7 @@ import lombok.ToString;
  * @author Braydon
  */
 @Getter @ToString
-public final class RestfulMCAPIException extends Exception {
+public final class RESTfulMCAPIException extends RuntimeException {
     /**
      * The status code of this error.
      */
@@ -53,11 +53,11 @@ public final class RestfulMCAPIException extends Exception {
      */
     @NonNull private final String timestamp;
 
-    public RestfulMCAPIException(@NonNull String json) {
+    public RESTfulMCAPIException(@NonNull String json) {
         this(RESTfulMCClient.GSON.fromJson(json, JsonObject.class));
     }
 
-    private RestfulMCAPIException(@NonNull JsonObject jsonObject) {
+    private RESTfulMCAPIException(@NonNull JsonObject jsonObject) {
         super(jsonObject.get("message").getAsString());
         status = jsonObject.get("status").getAsString();
         code = jsonObject.get("code").getAsInt();

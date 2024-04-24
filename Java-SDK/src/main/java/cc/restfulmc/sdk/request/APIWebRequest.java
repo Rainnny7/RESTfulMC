@@ -24,7 +24,7 @@
 package cc.restfulmc.sdk.request;
 
 import cc.restfulmc.sdk.client.RESTfulMCClient;
-import cc.restfulmc.sdk.exception.RestfulMCAPIException;
+import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -45,8 +45,16 @@ public final class APIWebRequest {
      */
     @NonNull private final String endpoint;
 
+    /**
+     * Execute this request.
+     *
+     * @param responseType the response type class
+     * @return the response
+     * @param <T> the response type
+     * @throws RESTfulMCAPIException if an api error occurs
+     */
     @SneakyThrows @NonNull
-    public <T> T execute(@NonNull Class<T> responseType) {
+    public <T> T execute(@NonNull Class<T> responseType) throws RESTfulMCAPIException {
         Request request = new Request.Builder()
                 .url(endpoint)
                 .build(); // Build the request
@@ -54,7 +62,7 @@ public final class APIWebRequest {
             int status = response.code(); // The response status code
             String json = response.body().string(); // The json response
             if (status != 200) { // Not 200 (OK), throw an exception
-                throw new RestfulMCAPIException(json);
+                throw new RESTfulMCAPIException(json);
             }
             return RESTfulMCClient.GSON.fromJson(json, responseType); // Return the response
         }
