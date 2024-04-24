@@ -52,36 +52,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- Used for generating a git properties file during build -->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>4.9.10</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <prefix>git</prefix>
-                    <dotGitDirectory>$PROJECT.BASEDIR$/.git</dotGitDirectory>
-                    <injectAllReactorProjects>true</injectAllReactorProjects>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>src/main/resources/git.properties</generateGitPropertiesFilename>
-                    <commitIdGenerationMode>full</commitIdGenerationMode>
-                    <dateFormatTimeZone>$USER.TIMEZONE$</dateFormatTimeZone>
-                    <dateFormat>MM-dd-yyyy@HH:mm:ss</dateFormat>
-                    <includeOnlyProperties>
-                        <includeOnlyProperty>^git.branch$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
-                        <includeOnlyProperty>^git.build.user.name$</includeOnlyProperty>
-                    </includeOnlyProperties>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 

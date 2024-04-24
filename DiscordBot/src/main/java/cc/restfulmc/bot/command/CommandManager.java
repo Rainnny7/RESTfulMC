@@ -18,6 +18,9 @@ import java.util.List;
  * @author Braydon
  */
 public final class CommandManager extends ListenerAdapter {
+    /**
+     * The registered slash commands.
+     */
     private final List<SlashCommand> commands = Collections.synchronizedList(new ArrayList<>());
 
     public CommandManager(@NonNull DiscordBot bot, @NonNull RESTfulMCClient apiClient) {
