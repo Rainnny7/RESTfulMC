@@ -23,17 +23,6 @@
  */
 package cc.restfulmc.api.service;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-import com.google.common.hash.Hashing;
-import com.maxmind.geoip2.model.CityResponse;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
 import cc.restfulmc.api.common.*;
 import cc.restfulmc.api.common.web.JsonWebException;
 import cc.restfulmc.api.common.web.JsonWebRequest;
@@ -59,6 +48,17 @@ import cc.restfulmc.api.repository.MinecraftServerCacheRepository;
 import cc.restfulmc.api.repository.PlayerCacheRepository;
 import cc.restfulmc.api.repository.PlayerNameCacheRepository;
 import cc.restfulmc.api.repository.SkinPartTextureCacheRepository;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import com.google.common.hash.Hashing;
+import com.maxmind.geoip2.model.CityResponse;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import net.jodah.expiringmap.ExpirationPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -471,10 +471,8 @@ public final class MojangService {
         try {
             log.info("Looking up Geo location data for {}...", ip);
 
-            InetAddress address = InetAddress.getByName(ip);
-            if (!address.isAnyLocalAddress()) { // Get the Geo location
-                geo = maxMindService.lookupCity(address);
-            }
+            InetAddress address = InetAddress.getByName(ip == null ? hostname : ip);
+            geo = maxMindService.lookupCity(address);
         } catch (Exception ex) {
             log.error("Failed looking up Geo location data for %s:".formatted(ip), ex);
         }
