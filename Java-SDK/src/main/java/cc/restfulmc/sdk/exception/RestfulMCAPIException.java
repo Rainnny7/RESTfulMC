@@ -24,12 +24,16 @@
 package cc.restfulmc.sdk.exception;
 
 import cc.restfulmc.sdk.client.RESTfulMCClient;
+import cc.restfulmc.sdk.request.APIWebRequest;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
 /**
+ * This exception is raised when an error
+ * occurs while making an {@link APIWebRequest}.
+ *
  * @author Braydon
  */
 @Getter @ToString

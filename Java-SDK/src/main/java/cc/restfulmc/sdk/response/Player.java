@@ -25,6 +25,8 @@ package cc.restfulmc.sdk.response;
 
 import lombok.*;
 
+import java.util.Base64;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -47,6 +49,26 @@ public final class Player extends CacheableResponse {
     @NonNull private final String username;
 
     /**
+     * The skin of this player.
+     */
+    @NonNull private final Skin skin;
+
+    /**
+     * The cape of this player, null if none.
+     */
+    private final Cape cape;
+
+    /**
+     * The raw profile properties of this player.
+     */
+    @NonNull private final ProfileProperty[] properties;
+
+    /**
+     * The profile actions this player has, null if none.
+     */
+    private final ProfileAction[] profileActions;
+
+    /**
      * Is this player legacy?
      * <p>
      * A "Legacy" player is a player that
@@ -54,4 +76,137 @@ public final class Player extends CacheableResponse {
      * </p>
      */
     private final boolean legacy;
+
+    /**
+     * A skin for a player.
+     */
+    @AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+    public static class Skin {
+        /**
+         * The texture URL of the skin.
+         */
+        @EqualsAndHashCode.Include @NonNull private final String url;
+
+        /**
+         * The model of this skin.
+         */
+        @NonNull private final SkinModel model;
+
+        /**
+         * Is this skin legacy?
+         */
+        private final boolean legacy;
+
+        /**
+         * URLs for the parts of this skin.
+         */
+        private final Map<SkinPart, String> parts;
+    }
+
+    /**
+     * A model of a skin.
+     */
+    public enum SkinModel {
+        DEFAULT, SLIM
+    }
+
+    /**
+     * A part of a skin.
+     */
+    public enum SkinPart {
+        // Overlays
+        HEAD_OVERLAY_FACE,
+
+        // Head
+        HEAD_TOP,
+        HEAD,
+        FACE,
+        HEAD_LEFT,
+        HEAD_RIGHT,
+        HEAD_BOTTOM,
+        HEAD_BACK,
+
+        // Body
+        BODY_FLAT,
+        BODY_FRONT,
+
+        // Arms
+        LEFT_ARM_TOP,
+        RIGHT_ARM_TOP,
+
+        LEFT_ARM_FRONT,
+        RIGHT_ARM_FRONT,
+
+        // Legs
+        LEFT_LEG_FRONT,
+        RIGHT_LEG_FRONT;
+    }
+
+    /**
+     * A skin for a player.
+     */
+    @AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+    public static class Cape {
+        /**
+         * The texture URL of the cape.
+         */
+        @EqualsAndHashCode.Include @NonNull private final String url;
+    }
+
+    /**
+     * A property of a player's profile.
+     */
+    @AllArgsConstructor @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+    public static class ProfileProperty {
+        /**
+         * The name of this property.
+         */
+        @EqualsAndHashCode.Include @NonNull private final String name;
+
+        /**
+         * The value of this property.
+         */
+        @NonNull private final String value;
+
+        /**
+         * The Base64 signature of this property, null if none.
+         */
+        private String signature;
+
+        /**
+         * Get the decoded value
+         * of this property.
+         *
+         * @return the decoded value
+         */
+        @NonNull
+        public String getDecodedValue() {
+            return new String(Base64.getDecoder().decode(value));
+        }
+
+        /**
+         * Is this property signed?
+         *
+         * @return whether this property has a signature
+         */
+        public boolean isSigned() {
+            return signature != null;
+        }
+    }
+
+    /**
+     * Actions that can be taken on a player's profile.
+     */
+    public enum ProfileAction {
+        /**
+         * The player is required to change their
+         * username before accessing Multiplayer.
+         */
+        FORCED_NAME_CHANGE,
+
+        /**
+         * The player is using a banned skin.
+         */
+        USING_BANNED_SKIN
+    }
 }
