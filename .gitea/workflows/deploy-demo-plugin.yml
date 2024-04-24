@@ -34,10 +34,18 @@ jobs:
       - name: Build Jar
         run: mvn clean package -q -T4C
 
-      # TODO: upload jar via ftp
-      - name: Upload Jar
-        run: echo "Upload jar to FTP"
+      # Upload the built jar to the Demo server via SFTP
+      - name: Upload Jar via SFTP
+        uses: Dylan700/sftp-upload-action@latest
+        with:
+          server: ${{ secrets.DEMO_SFTP_SERVER }}
+          port: 2022
+          username: ${{ secrets.DEMO_SFTP_USER }}
+          password: ${{ secrets.DEMO_SFTP_PASS }}
+          uploads: |
+            ./target/DemoSpigotPlugin.jar => ./plugins
 
+      # Restart the remote Demo server
       - name: Restart Remote Server
         uses: hwalker928/ptero-gitsync@v1.0
         with:
