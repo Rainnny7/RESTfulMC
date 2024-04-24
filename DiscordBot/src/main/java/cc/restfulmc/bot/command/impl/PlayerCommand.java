@@ -57,7 +57,7 @@ public final class PlayerCommand extends SlashCommand {
             long cached = player.getCached(); // The timestamp the player was cached
             event.getHook().sendMessageEmbeds(new EmbedBuilder()
                     .setColor(0x55FF55)
-                    .setTitle("<:grass_block:1232798337300828181> Player Response", "https://api.restfulmc.cc/player/" + queryValue)
+                    .setTitle("<:steve:1232815662599114753> Player Response", "https://api.restfulmc.cc/player/" + queryValue)
                     .addField("Unique ID", player.getUniqueId().toString(), true)
                     .addField("Username", player.getUsername(), true)
                     .addField("Legacy", player.isLegacy() ? "Yes" : "No", true)
