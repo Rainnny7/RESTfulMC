@@ -25,7 +25,13 @@ package cc.restfulmc.sdk;
 
 import cc.restfulmc.sdk.client.ClientConfig;
 import cc.restfulmc.sdk.client.RESTfulMCClient;
+import cc.restfulmc.sdk.command.impl.SyncClientCommands;
+import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
+import cc.restfulmc.sdk.response.MojangServerStatus;
 import cc.restfulmc.sdk.response.Player;
+import cc.restfulmc.sdk.response.server.BedrockMinecraftServer;
+import cc.restfulmc.sdk.response.server.JavaMinecraftServer;
+import cc.restfulmc.sdk.response.server.MinecraftServer;
 import lombok.SneakyThrows;
 
 /**
@@ -35,7 +41,43 @@ public final class Testy {
     @SneakyThrows
     public static void main(String[] args) {
         RESTfulMCClient client = new RESTfulMCClient(ClientConfig.defaultConfig()); // Create the client
-        Player player = client.sync().getPlayer("Rainnny");
-        System.out.println("player = " + player);
+        SyncClientCommands sync = client.sync(); // Get synchronous commands
+
+        // Get a player
+        try {
+            Player player = sync.getPlayer("rAINnny");
+            System.out.printf("%s's UUID is %s%n", player.getUsername(), player.getUniqueId());
+        } catch (RESTfulMCAPIException ex) {
+            if (ex.getCode() == 400 || ex.getCode() == 404) {
+                System.out.println("Player not found!");
+            }
+        }
+
+        // Get a Java Minecraft server
+        try {
+            JavaMinecraftServer server = sync.getMinecraftServer(MinecraftServer.Platform.JAVA, "hypixel.net");
+            MinecraftServer.Players players = server.getPlayers();
+            System.out.printf("%s has %s/%s players online%n", server.getHostname(), players.getOnline(), players.getMax());
+        } catch (RESTfulMCAPIException ex) {
+            if (ex.getCode() == 400 || ex.getCode() == 404) {
+                System.out.println("Server not found!");
+            }
+        }
+
+        // Get a Bedrock Minecraft server
+        try {
+            BedrockMinecraftServer server = sync.getMinecraftServer(MinecraftServer.Platform.BEDROCK, "wildprison.bedrock.minehut.gg");
+            MinecraftServer.Players players = server.getPlayers();
+            System.out.printf("%s has %s/%s players online%n", server.getHostname(), players.getOnline(), players.getMax());
+        } catch (RESTfulMCAPIException ex) {
+            if (ex.getCode() == 400 || ex.getCode() == 404) {
+                System.out.println("Server not found!");
+            }
+        }
+
+        System.out.println("mojang blocked? = " + sync.isMojangBlocked("arkhamnetwork.org"));
+
+        MojangServerStatus status = sync.getMojangStatus();
+        System.out.println("status = " + status.getServers()[0]);
     }
 }
