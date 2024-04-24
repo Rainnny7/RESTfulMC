@@ -18,6 +18,7 @@
     </properties>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <!-- Used for compiling the source code with the proper Java version -->
             <plugin>
