@@ -53,10 +53,21 @@ public abstract class SlashCommand {
      * @param apiError the api error to reply with
      */
     protected final void replyWithApiError(@NonNull SlashCommandInteractionEvent event, @NonNull RESTfulMCAPIException apiError) {
+        replyWithGenericError(event, apiError.getCode() + " | API Error", apiError.getLocalizedMessage());
+    }
+
+    /**
+     * Reply to an interaction with a generic error.
+     *
+     * @param event the event to reply to
+     * @param title the title of the error
+     * @param description the description of the error
+     */
+    protected final void replyWithGenericError(@NonNull SlashCommandInteractionEvent event, @NonNull String title, @NonNull String description) {
         event.getHook().sendMessageEmbeds(new EmbedBuilder()
                 .setColor(0xAA0000)
-                .setTitle(apiError.getCode() + " | API Error")
-                .setDescription(apiError.getMessage())
+                .setTitle(title)
+                .setDescription(description)
                 .build()).queue();
     }
 }

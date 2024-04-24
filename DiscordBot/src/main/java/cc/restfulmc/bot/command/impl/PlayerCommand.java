@@ -5,6 +5,7 @@ import cc.restfulmc.sdk.client.RESTfulMCClient;
 import cc.restfulmc.sdk.exception.RESTfulMCAPIException;
 import cc.restfulmc.sdk.response.Player;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -16,6 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 /**
  * @author Braydon
  */
+@Slf4j(topic = "Server Lookup Command")
 public final class PlayerCommand extends SlashCommand {
     /**
      * The API client to use for lookups.
@@ -49,7 +51,7 @@ public final class PlayerCommand extends SlashCommand {
                 if (ex.getCause() instanceof RESTfulMCAPIException apiError) {
                     replyWithApiError(event, apiError);
                 } else { // Only print real errors
-                    ex.printStackTrace();
+                    log.error("Failed fetching player:", ex);
                 }
                 return;
             }

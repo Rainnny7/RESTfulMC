@@ -2,6 +2,7 @@ package cc.restfulmc.bot.command;
 
 import cc.restfulmc.bot.DiscordBot;
 import cc.restfulmc.bot.command.impl.PlayerCommand;
+import cc.restfulmc.bot.command.impl.ServerCommand;
 import cc.restfulmc.sdk.client.RESTfulMCClient;
 import lombok.NonNull;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -20,7 +21,9 @@ public final class CommandManager extends ListenerAdapter {
     private final List<SlashCommand> commands = Collections.synchronizedList(new ArrayList<>());
 
     public CommandManager(@NonNull DiscordBot bot, @NonNull RESTfulMCClient apiClient) {
+        // Register commands
         registerCommand(new PlayerCommand(apiClient));
+        registerCommand(new ServerCommand(apiClient));
 
         // Update the commands on Discord
         CommandListUpdateAction updateCommands = bot.getJda().updateCommands();
