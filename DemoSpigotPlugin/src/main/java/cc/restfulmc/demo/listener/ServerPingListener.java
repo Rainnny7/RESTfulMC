@@ -21,7 +21,8 @@ public final class ServerPingListener extends PacketAdapter {
             "Hello World!",
             "Rainnny was here",
             "Star on GitHub!",
-            "restfulmc.cc"
+            "restfulmc.cc",
+            "discord.restfulmc.cc"
     };
     private static final String[] PLAYERS = new String[] {
             "Rainnny", "Notch", "jeb_", "hypixel", "Dinnerbone", "C418", "g", "hey"
