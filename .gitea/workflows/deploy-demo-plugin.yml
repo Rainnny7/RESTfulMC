@@ -42,7 +42,7 @@ jobs:
       # Upload the built jar to the
       # remote server and restart it
       - name: Upload Jar and Restart Remote Server
-        uses: rexlmanu/pterodactyl-upload-action@v2.1
+        uses: rexlmanu/pterodactyl-upload-action@v2.4
         with:
           panel-host: ${{ secrets.PTERO_URL }}
           api-key: ${{ secrets.PTERO_API_KEY }}
