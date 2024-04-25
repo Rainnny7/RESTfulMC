@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.DEMO_SFTP_USER }}
           password: ${{ secrets.DEMO_SFTP_PASS }}
           uploads: |
-            ./target/DemoSpigotPlugin.jar => ./plugins
+            ./target/DemoSpigotPlugin.jar => /plugins
 
       # Restart the remote Demo server
       - name: Restart Remote Server
