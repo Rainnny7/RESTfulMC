@@ -32,7 +32,7 @@ jobs:
 
       # Build and package the jar
       - name: Build Jar
-        run: mvn clean package -q -T4C
+        run: mvn clean package -T4C
 
       # Upload the built jar to the Demo server via SFTP
       - name: Upload Jar via SFTP
