@@ -3,7 +3,12 @@ name: Deploy Demo Plugin
 on:
   push:
     branches: ["master"]
-    paths: [".gitea/workflows/deploy-demo-plugin.yml", "DemoSpigotPlugin/**", "!DemoSpigotPlugin/README.md"]
+    paths:
+      [
+        ".gitea/workflows/deploy-demo-plugin.yml",
+        "DemoSpigotPlugin/**",
+        "!DemoSpigotPlugin/README.md",
+      ]
 
 jobs:
   docker:
@@ -36,14 +41,14 @@ jobs:
 
       # Upload the built jar to the Demo server via SFTP
       - name: Upload Jar via SFTP
-        uses: Dylan700/sftp-upload-action@latest
+        uses: Creepios/sftp-action@v1.0.3
         with:
-          server: ${{ secrets.DEMO_SFTP_SERVER }}
+          host: ${{ secrets.DEMO_SFTP_SERVER }}
           port: 2022
           username: ${{ secrets.DEMO_SFTP_USER }}
           password: ${{ secrets.DEMO_SFTP_PASS }}
-          uploads: |
-            ./target/DemoSpigotPlugin.jar => ./plugins
+          localPath: "./target/DemoSpigotPlugin.jar"
+          remotePath: "./plugins"
 
       # Restart the remote Demo server
       - name: Restart Remote Server
