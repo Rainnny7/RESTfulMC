@@ -48,7 +48,7 @@ jobs:
           username: ${{ secrets.DEMO_SFTP_USER }}
           password: ${{ secrets.DEMO_SFTP_PASS }}
           localPath: "./target/DemoSpigotPlugin.jar"
-          remotePath: "./plugins"
+          remotePath: "/plugins"
 
       # Restart the remote Demo server
       - name: Restart Remote Server
