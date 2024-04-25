@@ -34,6 +34,8 @@ jobs:
       - name: Build Jar
         run: mvn clean package -T4C
 
+      - run: pwd
+
       # Upload the built jar to the Demo server via SFTP
       - name: Upload Jar via SFTP
         uses: Dylan700/sftp-upload-action@latest
