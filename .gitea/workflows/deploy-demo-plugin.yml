@@ -34,18 +34,16 @@ jobs:
       - name: Build Jar
         run: mvn clean package -T4C
 
-      - run: pwd
-
       # Upload the built jar to the Demo server via SFTP
       - name: Upload Jar via SFTP
-        uses: Dylan700/sftp-upload-action@latest
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           server: ${{ secrets.DEMO_SFTP_SERVER }}
           port: 2022
           username: ${{ secrets.DEMO_SFTP_USER }}
           password: ${{ secrets.DEMO_SFTP_PASS }}
-          uploads: |
-            ./target/DemoSpigotPlugin.jar => /plugins
+          local_path: "./target/DemoSpigotPlugin.jar"
+          remote_path: "/plugins"
 
       # Restart the remote Demo server
       - name: Restart Remote Server
