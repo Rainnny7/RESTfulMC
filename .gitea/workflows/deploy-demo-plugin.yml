@@ -39,21 +39,14 @@ jobs:
       - name: Build Jar
         run: mvn clean package -q -T4C
 
-      # Upload the built jar to the Demo server via SFTP
-      - name: Upload Jar via SFTP
-        uses: Creepios/sftp-action@v1.0.3
+      # Upload the built jar to the
+      # remote server and restart it
+      - name: Upload Jar and Restart Remote Server
+        uses: rexlmanu/pterodactyl-upload-action
         with:
-          host: ${{ secrets.DEMO_SFTP_SERVER }}
-          port: 2022
-          username: ${{ secrets.DEMO_SFTP_USER }}
-          password: ${{ secrets.DEMO_SFTP_PASS }}
-          localPath: "./target/DemoSpigotPlugin.jar"
-          remotePath: "/plugins"
-
-      # Restart the remote Demo server
-      - name: Restart Remote Server
-        uses: hwalker928/ptero-gitsync@v1.0
-        with:
-          panel-url: ${{ secrets.PTERO_URL }}
+          panel-host: ${{ secrets.PTERO_URL }}
           api-key: ${{ secrets.PTERO_API_KEY }}
           server-id: ${{ secrets.DEMO_SERVER_ID }}
+          source: "./target/DemoSpigotPlugin.jar"
+          target: "./plugins"
+          restart: true # Restart after upload
