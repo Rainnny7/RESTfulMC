@@ -17,6 +17,7 @@ cmake-build-*/
 *.iws
 out/
 build/
+jars/
 target/
 .idea_modules/
 atlassian-ide-plugin.xml
