@@ -1,4 +1,4 @@
-import { ARecord, SRVRecord } from "@/types/dns/dns-record";
+import {ARecord, SRVRecord} from "@/types/dns/dns-record";
 
 /**
  * A model representing a Minecraft server.
@@ -25,6 +25,11 @@ export type MinecraftServer = {
 	records: ARecord | SRVRecord[];
 
 	/**
+	 * The Geo location of this server, undefined if unknown.
+	 */
+	geo?: GeoLocation | undefined;
+
+	/**
 	 * The player counts of this server.
 	 */
 	players: Players;
@@ -34,6 +39,51 @@ export type MinecraftServer = {
 	 */
 	motd: MOTD;
 };
+
+/**
+ * The Geo location of a server.
+ */
+type GeoLocation = {
+	/**
+	 * The continent of this server.
+	 */
+	continent: LocationData;
+
+	/**
+	 * The country of this server.
+	 */
+	country: LocationData;
+
+	/**
+	 * The city of this server, undefined if unknown.
+	 */
+	city?: string | undefined;
+
+	/**
+	 * The latitude of this server.
+	 */
+	latitude: number;
+
+	/**
+	 * The longitude of this server.
+	 */
+	longitude: number;
+}
+
+/**
+ * Data for a location.
+ */
+type LocationData = {
+	/**
+	 * The location code.
+	 */
+	code: string;
+
+	/**
+	 * The location name.
+	 */
+	name: string;
+}
 
 /**
  * Player count data for a server.

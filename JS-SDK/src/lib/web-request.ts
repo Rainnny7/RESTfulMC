@@ -1,5 +1,5 @@
-import { RestfulMCAPIError } from "@/types/error";
-import { HttpMethod } from "@/types/http-method";
+import {RestfulMCAPIError} from "@/types/error";
+import {HttpMethod} from "@/types/http-method";
 
 const API_ENDPOINT = "https://api.restfulmc.cc"; // The API endpoint to use
 

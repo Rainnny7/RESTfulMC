@@ -1,4 +1,4 @@
-import { MojangServerStatus } from "@/types/mojang/server-status";
+import {MojangServerStatus} from "@/types/mojang/server-status";
 
 /**
  * Represents the status of

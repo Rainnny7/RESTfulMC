@@ -1,6 +1,6 @@
-import { ProfileAction } from "@/types/player/profile-action";
-import { SkinModel } from "@/types/player/skin-model";
-import { SkinPart } from "@/types/player/skin-part";
+import {ProfileAction} from "@/types/player/profile-action";
+import {SkinModel} from "@/types/player/skin-model";
+import {SkinPart} from "@/types/player/skin-part";
 
 /**
  * A cacheable {@link Player}.

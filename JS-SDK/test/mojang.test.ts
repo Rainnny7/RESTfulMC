@@ -1,6 +1,6 @@
-import { getMojangServerStatus } from "@/index";
-import { MojangServerStatusResponse } from "@/types/mojang/server-status-response";
-import { expect, test } from "bun:test";
+import {getMojangServerStatus} from "@/index";
+import {MojangServerStatusResponse} from "@/types/mojang/server-status-response";
+import {expect, test} from "bun:test";
 
 /**
  * Run a test to ensure retrieving

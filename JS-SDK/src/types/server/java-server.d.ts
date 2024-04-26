@@ -1,4 +1,4 @@
-import { MinecraftServer } from "@/types/server/server";
+import {MinecraftServer} from "@/types/server/server";
 
 /**
  * A cacheable {@link JavaMinecraftServer}.
@@ -26,6 +26,17 @@ export interface JavaMinecraftServer extends MinecraftServer {
 	favicon?: Favicon | undefined;
 
 	/**
+	 * The software of this server, present if query is on.
+	 */
+	software?: string | undefined;
+
+	/**
+	 * The plugins on this server, present if
+	 * query is on and plugins are present.
+	 */
+	plugins?: Plugin[] | undefined;
+
+	/**
 	 * The Forge mod information for this server, undefined if none.
 	 * <p>
 	 * This is for servers on 1.12 or below.
@@ -40,6 +51,16 @@ export interface JavaMinecraftServer extends MinecraftServer {
 	 * </p>
 	 */
 	forgeData?: ForgeData | undefined;
+
+	/**
+	 * The main world of this server, present if query is on.
+	 */
+	world?: string | undefined;
+
+	/**
+	 * Does this server support querying?
+	 */
+	queryEnabled: boolean;
 
 	/**
 	 * Does this server preview chat?
@@ -110,6 +131,21 @@ type Favicon = {
 	 * The URL to the favicon.
 	 */
 	url: string;
+};
+
+/**
+ * A plugin for a server.
+ */
+type Plugin = {
+	/**
+	 * The name of this plugin.
+	 */
+	name: string;
+
+	/**
+	 * The version of this plugin.
+	 */
+	version: string;
 };
 
 /**

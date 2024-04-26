@@ -1,8 +1,8 @@
-import { getPlayer, getSkinPart } from "@/index";
-import { RestfulMCAPIError } from "@/types/error";
-import { CachedPlayer } from "@/types/player/player";
-import { SkinPart } from "@/types/player/skin-part";
-import { expect, test } from "bun:test";
+import {getPlayer, getSkinPart} from "@/index";
+import {RestfulMCAPIError} from "@/types/error";
+import {CachedPlayer} from "@/types/player/player";
+import {SkinPart} from "@/types/player/skin-part";
+import {expect, test} from "bun:test";
 
 /**
  * Run a test to ensure retrieving

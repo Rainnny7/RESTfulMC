@@ -1,13 +1,8 @@
-import {
-	ServerPlatform,
-	getJavaServerFavicon,
-	getMinecraftServer,
-	isMojangBlocked,
-} from "@/index";
-import { RestfulMCAPIError } from "@/types/error";
-import { CachedBedrockMinecraftServer } from "@/types/server/bedrock/server";
-import { CachedJavaMinecraftServer } from "@/types/server/java-server";
-import { expect, test } from "bun:test";
+import {getJavaServerFavicon, getMinecraftServer, isMojangBlocked, ServerPlatform,} from "@/index";
+import {RestfulMCAPIError} from "@/types/error";
+import {CachedBedrockMinecraftServer} from "@/types/server/bedrock/server";
+import {CachedJavaMinecraftServer} from "@/types/server/java-server";
+import {expect, test} from "bun:test";
 
 /**
  * Run a test to ensure retrieving a

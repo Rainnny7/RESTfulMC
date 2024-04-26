@@ -1,5 +1,5 @@
-import { Edition } from "@/types/server/bedrock/edition";
-import { MinecraftServer } from "@/types/server/server";
+import {Edition} from "@/types/server/bedrock/edition";
+import {MinecraftServer} from "@/types/server/server";
 
 /**
  * A cacheable {@link BedrockMinecraftServer}.

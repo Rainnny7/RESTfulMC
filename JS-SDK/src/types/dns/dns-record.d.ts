@@ -1,4 +1,4 @@
-import { RecordType } from "@/type/dns/record-type";
+import {RecordType} from "@/type/dns/record-type";
 
 /**
  * An A record.
