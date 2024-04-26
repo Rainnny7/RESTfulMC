@@ -21,14 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { AnchorHTMLAttributes, ReactElement, ReactNode } from "react";
+import Link, { LinkProps } from "next/link";
 
 /**
- * Capitalize the first
- * character in the given input.
- *
- * @param input the input to capitalize
- * @returns the capitalized input
+ * The props for this link.
  */
-export const capitalize = (input: string): string => {
-    return input.charAt(0).toUpperCase() + input.slice(1);
+type SimpleLinkProps = {
+    /**
+     * Whether to use the noRef attribute.
+     */
+    noRef?: boolean;
+
+    /**
+     * Should the link be opened in a new tab?
+     */
+    newTab?: boolean;
+
+    /**
+     * The children of the link.
+     */
+    children: ReactNode;
 };
+
+/**
+ * A wrapper for the NextJS link component.
+ *
+ * @return the link jsx
+ */
+const SimpleLink = ({
+    noRef,
+    newTab,
+    children,
+    ...props
+}: AnchorHTMLAttributes<HTMLAnchorElement> &
+    LinkProps &
+    SimpleLinkProps): ReactElement => (
+    <Link
+        rel={`${noRef && "noopener noreferrer"}`}
+        target={`${newTab && "_blank"}`}
+        {...props}
+    >
+        {children}
+    </Link>
+);
+export default SimpleLink;

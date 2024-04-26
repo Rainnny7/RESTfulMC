@@ -1,12 +1,35 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Braydon (Rainnny).
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 import { ReactElement } from "react";
 import { cn } from "@/lib";
 import { minecrafter } from "@/font/fonts";
 import { ServerPlatform } from "restfulmc-lib";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
 import SimpleTooltip from "@/components/simple-tooltip";
 import { capitalize } from "@/lib/string-utils";
+import SimpleLink from "@/components/simple-link";
 
 /**
  * The recommendations for a server.
@@ -47,7 +70,10 @@ const ServerRecommendations = (): ReactElement => (
                     [hostname, platform]: [string, ServerPlatform],
                     index: number
                 ): ReactElement => (
-                    <Link key={index} href={`/server/${platform}/${hostname}`}>
+                    <SimpleLink
+                        key={index}
+                        href={`/server/${platform}/${hostname}`}
+                    >
                         <SimpleTooltip
                             content={`Click to test ${capitalize(platform)} server`}
                         >
@@ -64,7 +90,7 @@ const ServerRecommendations = (): ReactElement => (
                                 <span>{hostname}</span>
                             </Button>
                         </SimpleTooltip>
-                    </Link>
+                    </SimpleLink>
                 )
             )}
         </div>

@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Braydon (Rainnny).
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 import CopyButton from "@/components/button/copy-button";
 import {
     ContextMenu,
@@ -7,12 +30,12 @@ import {
 } from "@/components/ui/context-menu";
 import config from "@/config";
 import Image from "next/image";
-import Link from "next/link";
 import { ReactElement } from "react";
 import { CachedPlayer, SkinPart } from "restfulmc-lib";
 import CodeDialog from "@/components/code/code-dialog";
 import RawJson from "@/components/badge/raw-json";
 import SimpleTooltip from "@/components/simple-tooltip";
+import SimpleLink from "@/components/simple-link";
 
 /**
  * The props for a player result.
@@ -108,7 +131,7 @@ const PlayerResult = ({ query, player }: PlayerResultProps): ReactElement => (
                                             key={index}
                                             content={`Click to view ${player.username}'s ${part}`}
                                         >
-                                            <Link href={url} target="_blank">
+                                            <SimpleLink href={url} newTab>
                                                 <div className="relative w-20 h-20">
                                                     <Image
                                                         className="object-contain hover:scale-[1.02] transition-all transform-gpu"
@@ -117,7 +140,7 @@ const PlayerResult = ({ query, player }: PlayerResultProps): ReactElement => (
                                                         fill
                                                     />
                                                 </div>
-                                            </Link>
+                                            </SimpleLink>
                                         </SimpleTooltip>
                                     )
                                 )}

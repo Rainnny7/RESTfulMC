@@ -1,12 +1,35 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Braydon (Rainnny).
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { ReactElement } from "react";
 import config from "@/config";
 import { minecrafter } from "@/font/fonts";
 import { cn } from "@/app/common/utils";
 import { FooterLinks } from "@/types/config";
+import SimpleLink from "@/components/simple-link";
 
 /**
  * The footer for the site.
@@ -47,14 +70,14 @@ const Footer = (): ReactElement => (
                 <div className="flex justify-center text-center text-zinc-400/80">
                     <p className="max-w-xs sm:max-w-sm">
                         Made with <span className="animate-pulse">💚</span> by{" "}
-                        <Link
+                        <SimpleLink
                             className="text-minecraft-green-4 opacity-100 hover:opacity-85 pointer-events-auto transition-all transform-gpu"
                             href="https://github.com/Rainnny7"
-                            rel="noopener noreferrer"
-                            target="_blank"
+                            noRef
+                            newTab
                         >
                             Braydon
-                        </Link>
+                        </SimpleLink>
                         . Copyright © {new Date().getFullYear()}, All Rights
                         Reserved.
                     </p>
@@ -85,13 +108,13 @@ const Footer = (): ReactElement => (
                                         [name, url]: [string, string],
                                         linkIndex: number
                                     ): ReactElement => (
-                                        <Link
+                                        <SimpleLink
                                             key={linkIndex}
                                             className="font-semibold hover:opacity-85 transition-all transform-gpu"
                                             href={url}
                                         >
                                             {name}
-                                        </Link>
+                                        </SimpleLink>
                                     )
                                 )}
                             </div>

@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 Braydon (Rainnny).
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 import { ReactElement } from "react";
 import { getDocsContent } from "@/lib/mdx-utils";
 import { PageProps } from "@/types/page";
@@ -13,11 +36,11 @@ import {
 } from "@/components/ui/breadcrumb";
 import { capitalize } from "@/lib/string-utils";
 import { CustomMDX } from "@/components/mdx";
-import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import Embed from "@/components/embed";
 import SimpleTooltip from "@/components/simple-tooltip";
+import SimpleLink from "@/components/simple-link";
 
 /**
  * The page to display content
@@ -84,11 +107,11 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
 
                 {/* View on Git */}
                 <SimpleTooltip content="Click to view on Git">
-                    <Link
+                    <SimpleLink
                         className="hover:opacity-85 transition-all transform-gpu"
                         href={`https://git.rainnny.club/Rainnny/RESTfulMC/src/branch/master/Frontend/docs/${content.slug}${content.extension}`}
-                        rel="noopener noreferrer"
-                        target="_blank"
+                        noRef
+                        newTab
                     >
                         <Image
                             src="/media/github-white-logo.svg"
@@ -96,7 +119,7 @@ const ContentPage = ({ params }: PageProps): ReactElement => {
                             width={26}
                             height={26}
                         />
-                    </Link>
+                    </SimpleLink>
                 </SimpleTooltip>
             </div>
 
