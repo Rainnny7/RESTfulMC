@@ -21,47 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.sdk.client;
+package cc.restfulmc.sdk.response.server.dns;
 
-import cc.restfulmc.sdk.command.impl.AsyncClientCommands;
-import cc.restfulmc.sdk.command.impl.SyncClientCommands;
-import cc.restfulmc.sdk.response.server.dns.DNSRecord;
-import cc.restfulmc.sdk.serializer.DNSRecordSerializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.AccessLevel;
+import cc.restfulmc.sdk.response.server.dns.impl.ARecord;
+import cc.restfulmc.sdk.response.server.dns.impl.SRVRecord;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
+import lombok.ToString;
 
 /**
+ * A representation of a DNS record.
+ *
  * @author Braydon
  */
-@Getter @Accessors(fluent = true)
-public final class RESTfulMCClient {
-    public static final Gson GSON = new GsonBuilder()
-            .serializeNulls()
-            .registerTypeAdapter(DNSRecord.class, new DNSRecordSerializer())
-            .create();
+@AllArgsConstructor @Getter @ToString
+public abstract class DNSRecord {
+    /**
+     * The type of this record.
+     */
+    @NonNull private final Type type;
 
     /**
-     * The config for this client.
+     * The TTL (Time To Live) of this record.
      */
-    @NonNull @Getter(AccessLevel.NONE) private final ClientConfig config;
+    private final long ttl;
 
     /**
-     * Synchronized commands for this client.
+     * Types of a record.
      */
-    @NonNull private final SyncClientCommands sync;
+    @AllArgsConstructor @Getter
+    public enum Type {
+        A(ARecord.class),
+        SRV(SRVRecord.class);
 
-    /**
-     * Asynchronous commands for this client.
-     */
-    @NonNull private final AsyncClientCommands async;
-
-    public RESTfulMCClient(@NonNull ClientConfig config) {
-        this.config = config;
-        sync = new SyncClientCommands(config);
-        async = new AsyncClientCommands(config);
+        /**
+         * The record class for this type.
+         */
+        @NonNull private final Class<? extends DNSRecord> recordClass;
     }
 }

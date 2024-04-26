@@ -24,6 +24,7 @@
 package cc.restfulmc.sdk.response.server;
 
 import cc.restfulmc.sdk.response.CacheableResponse;
+import cc.restfulmc.sdk.response.server.dns.DNSRecord;
 import lombok.*;
 
 import java.util.UUID;
@@ -51,6 +52,11 @@ public abstract class MinecraftServer extends CacheableResponse {
      * The port of this server.
      */
     @EqualsAndHashCode.Include private final int port;
+
+    /**
+     * The DNS records resolved for this server, null if none.
+     */
+    private final DNSRecord[] records;
 
     /**
      * The Geo location of this server, null if unknown.

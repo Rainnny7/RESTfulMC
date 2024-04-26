@@ -21,47 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.sdk.client;
+package cc.restfulmc.sdk.response.server.dns.impl;
 
-import cc.restfulmc.sdk.command.impl.AsyncClientCommands;
-import cc.restfulmc.sdk.command.impl.SyncClientCommands;
 import cc.restfulmc.sdk.response.server.dns.DNSRecord;
-import cc.restfulmc.sdk.serializer.DNSRecordSerializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
+import lombok.ToString;
 
 /**
+ * An SRV record implementation.
+ *
  * @author Braydon
  */
-@Getter @Accessors(fluent = true)
-public final class RESTfulMCClient {
-    public static final Gson GSON = new GsonBuilder()
-            .serializeNulls()
-            .registerTypeAdapter(DNSRecord.class, new DNSRecordSerializer())
-            .create();
+@Getter @ToString(callSuper = true)
+public final class SRVRecord extends DNSRecord {
+    /**
+     * The priority of this record.
+     */
+    private final int priority;
 
     /**
-     * The config for this client.
+     * The weight of this record.
      */
-    @NonNull @Getter(AccessLevel.NONE) private final ClientConfig config;
+    private final int weight;
 
     /**
-     * Synchronized commands for this client.
+     * The port of this record.
      */
-    @NonNull private final SyncClientCommands sync;
+    private final int port;
 
     /**
-     * Asynchronous commands for this client.
+     * The target of this record.
      */
-    @NonNull private final AsyncClientCommands async;
+    @NonNull private final String target;
 
-    public RESTfulMCClient(@NonNull ClientConfig config) {
-        this.config = config;
-        sync = new SyncClientCommands(config);
-        async = new AsyncClientCommands(config);
+    public SRVRecord(@NonNull Type type, long ttl, int priority, int weight, int port, @NonNull String target) {
+        super(type, ttl);
+        this.priority = priority;
+        this.weight = weight;
+        this.port = port;
+        this.target = target;
     }
 }

@@ -21,47 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.sdk.client;
+package cc.restfulmc.sdk.response.server.dns.impl;
 
-import cc.restfulmc.sdk.command.impl.AsyncClientCommands;
-import cc.restfulmc.sdk.command.impl.SyncClientCommands;
 import cc.restfulmc.sdk.response.server.dns.DNSRecord;
-import cc.restfulmc.sdk.serializer.DNSRecordSerializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
+import lombok.ToString;
 
 /**
+ * An A record implementation.
+ *
  * @author Braydon
  */
-@Getter @Accessors(fluent = true)
-public final class RESTfulMCClient {
-    public static final Gson GSON = new GsonBuilder()
-            .serializeNulls()
-            .registerTypeAdapter(DNSRecord.class, new DNSRecordSerializer())
-            .create();
-
+@Getter @ToString(callSuper = true)
+public final class ARecord extends DNSRecord {
     /**
-     * The config for this client.
+     * The address of this record, null if unresolved.
      */
-    @NonNull @Getter(AccessLevel.NONE) private final ClientConfig config;
+    private final String address;
 
-    /**
-     * Synchronized commands for this client.
-     */
-    @NonNull private final SyncClientCommands sync;
-
-    /**
-     * Asynchronous commands for this client.
-     */
-    @NonNull private final AsyncClientCommands async;
-
-    public RESTfulMCClient(@NonNull ClientConfig config) {
-        this.config = config;
-        sync = new SyncClientCommands(config);
-        async = new AsyncClientCommands(config);
+    public ARecord(@NonNull Type type, long ttl, String address) {
+        super(type, ttl);
+        this.address = address;
     }
 }

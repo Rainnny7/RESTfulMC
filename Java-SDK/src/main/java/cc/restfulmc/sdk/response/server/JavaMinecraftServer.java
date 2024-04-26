@@ -23,6 +23,7 @@
  */
 package cc.restfulmc.sdk.response.server;
 
+import cc.restfulmc.sdk.response.server.dns.DNSRecord;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -107,11 +108,12 @@ public class JavaMinecraftServer extends MinecraftServer {
      */
     private final boolean mojangBanned;
 
-    public JavaMinecraftServer(@NonNull String hostname, String ip, int port, GeoLocation geo, @NonNull Players players,
-                               @NonNull MOTD motd, @NonNull Version version, Favicon favicon, String software, Plugin[] plugins,
-                               ModInfo modInfo, ForgeData forgeData, String world, boolean queryEnabled, boolean previewsChat,
-                               boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
-        super(hostname, ip, port, geo, players, motd);
+    public JavaMinecraftServer(@NonNull String hostname, String ip, int port, DNSRecord[] records, GeoLocation geo,
+                               @NonNull Players players, @NonNull MOTD motd, @NonNull Version version, Favicon favicon,
+                               String software, Plugin[] plugins, ModInfo modInfo, ForgeData forgeData, String world,
+                               boolean queryEnabled, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports,
+                               boolean mojangBanned) {
+        super(hostname, ip, port, records, geo, players, motd);
         this.version = version;
         this.favicon = favicon;
         this.software = software;

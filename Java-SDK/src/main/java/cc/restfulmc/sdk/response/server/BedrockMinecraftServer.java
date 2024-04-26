@@ -23,6 +23,7 @@
  */
 package cc.restfulmc.sdk.response.server;
 
+import cc.restfulmc.sdk.response.server.dns.DNSRecord;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -55,10 +56,10 @@ public final class BedrockMinecraftServer extends MinecraftServer {
      */
     @NonNull private final GameMode gamemode;
 
-    public BedrockMinecraftServer(@NonNull String hostname, String ip, int port, GeoLocation geo,@NonNull Players players,
-                                  @NonNull MOTD motd, @NonNull String id, @NonNull Edition edition, @NonNull Version version,
-                                  @NonNull GameMode gamemode) {
-        super(hostname, ip, port, geo, players, motd);
+    public BedrockMinecraftServer(@NonNull String hostname, String ip, int port, DNSRecord[] records, GeoLocation geo,
+                                  @NonNull Players players, @NonNull MOTD motd, @NonNull String id, @NonNull Edition edition,
+                                  @NonNull Version version, @NonNull GameMode gamemode) {
+        super(hostname, ip, port, records, geo, players, motd);
         this.id = id;
         this.edition = edition;
         this.version = version;

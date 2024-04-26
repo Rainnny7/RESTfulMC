@@ -21,47 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package cc.restfulmc.sdk.client;
+package cc.restfulmc.sdk.serializer;
 
-import cc.restfulmc.sdk.command.impl.AsyncClientCommands;
-import cc.restfulmc.sdk.command.impl.SyncClientCommands;
+import cc.restfulmc.sdk.client.RESTfulMCClient;
 import cc.restfulmc.sdk.response.server.dns.DNSRecord;
-import cc.restfulmc.sdk.serializer.DNSRecordSerializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.experimental.Accessors;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
 
 /**
+ * A custom deserializer for {@link DNSRecord}'s.
+ * <p>
+ * This serializer will take the "type" in a DNS
+ * record, and convert the record to the correct type.
+ * E.g: A -> ARecord, SRV -> SRVRecord, etc
+ * </p>
+ *
  * @author Braydon
  */
-@Getter @Accessors(fluent = true)
-public final class RESTfulMCClient {
-    public static final Gson GSON = new GsonBuilder()
-            .serializeNulls()
-            .registerTypeAdapter(DNSRecord.class, new DNSRecordSerializer())
-            .create();
-
-    /**
-     * The config for this client.
-     */
-    @NonNull @Getter(AccessLevel.NONE) private final ClientConfig config;
-
-    /**
-     * Synchronized commands for this client.
-     */
-    @NonNull private final SyncClientCommands sync;
-
-    /**
-     * Asynchronous commands for this client.
-     */
-    @NonNull private final AsyncClientCommands async;
-
-    public RESTfulMCClient(@NonNull ClientConfig config) {
-        this.config = config;
-        sync = new SyncClientCommands(config);
-        async = new AsyncClientCommands(config);
+public final class DNSRecordSerializer implements JsonDeserializer<DNSRecord> {
+    @Override
+    public DNSRecord deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
+        DNSRecord.Type recordType = DNSRecord.Type.valueOf(jsonElement.getAsJsonObject().get("type").getAsString()); // Get the record type
+        return RESTfulMCClient.GSON.fromJson(jsonElement, recordType.getRecordClass()); // Convert the record to the correct type
     }
 }
