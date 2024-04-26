@@ -32,6 +32,7 @@ import cc.restfulmc.sdk.response.Player;
 import cc.restfulmc.sdk.response.server.BedrockMinecraftServer;
 import cc.restfulmc.sdk.response.server.JavaMinecraftServer;
 import cc.restfulmc.sdk.response.server.MinecraftServer;
+import cc.restfulmc.sdk.response.server.dns.DNSRecord;
 import lombok.SneakyThrows;
 
 /**
@@ -58,6 +59,10 @@ public final class Testy {
             JavaMinecraftServer server = sync.getMinecraftServer(MinecraftServer.Platform.JAVA, "hypixel.net");
             MinecraftServer.Players players = server.getPlayers();
             System.out.printf("%s has %s/%s players online%n", server.getHostname(), players.getOnline(), players.getMax());
+
+            for (DNSRecord record : server.getRecords()) {
+                System.out.println("record = " + record);
+            }
         } catch (RESTfulMCAPIException ex) {
             if (ex.getCode() == 400 || ex.getCode() == 404) {
                 System.out.println("Server not found!");
