@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -49,9 +50,10 @@ public final class ServerPingListener {
         ));
 
         // Update the mod info
-        ModInfo modInfo = ping.getModinfo().orElse(ModInfo.DEFAULT);
-        modInfo.getMods().add(new ModInfo.Mod("bob", "1.0"));
-        modInfo.getMods().add(new ModInfo.Mod("ross", "1.0"));
+        ModInfo modInfo = new ModInfo(ModInfo.DEFAULT.getType(), Arrays.asList(
+                new ModInfo.Mod("bob", "1.0"),
+                new ModInfo.Mod("ross", "1.0")
+        ));
 
         // Set the ping response
         event.setPing(new ServerPing(version, players, motd, ping.getFavicon().orElse(null), modInfo));
