@@ -23,11 +23,11 @@
  */
 package cc.restfulmc.api.common.renderer;
 
-import lombok.NonNull;
-import lombok.SneakyThrows;
 import cc.restfulmc.api.common.ImageUtils;
 import cc.restfulmc.api.model.skin.ISkinPart;
 import cc.restfulmc.api.model.skin.Skin;
+import lombok.NonNull;
+import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

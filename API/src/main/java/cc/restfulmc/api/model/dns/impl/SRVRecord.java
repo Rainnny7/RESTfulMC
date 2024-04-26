@@ -23,9 +23,9 @@
  */
 package cc.restfulmc.api.model.dns.impl;
 
+import cc.restfulmc.api.model.dns.DNSRecord;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import cc.restfulmc.api.model.dns.DNSRecord;
 
 import java.net.InetSocketAddress;
 

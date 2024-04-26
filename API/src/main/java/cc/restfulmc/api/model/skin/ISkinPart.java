@@ -23,11 +23,11 @@
  */
 package cc.restfulmc.api.model.skin;
 
-import lombok.*;
 import cc.restfulmc.api.common.renderer.SkinRenderer;
 import cc.restfulmc.api.common.renderer.impl.BodySkinPartRenderer;
 import cc.restfulmc.api.common.renderer.impl.IsometricHeadSkinPartRenderer;
 import cc.restfulmc.api.common.renderer.impl.VanillaSkinPartRenderer;
+import lombok.*;
 
 import java.awt.image.BufferedImage;
 

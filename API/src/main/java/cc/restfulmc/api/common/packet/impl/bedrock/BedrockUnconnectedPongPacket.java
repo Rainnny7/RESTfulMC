@@ -23,10 +23,10 @@
  */
 package cc.restfulmc.api.common.packet.impl.bedrock;
 
-import lombok.Getter;
-import lombok.NonNull;
 import cc.restfulmc.api.common.packet.UDPPacket;
 import cc.restfulmc.api.model.server.BedrockMinecraftServer;
+import lombok.Getter;
+import lombok.NonNull;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

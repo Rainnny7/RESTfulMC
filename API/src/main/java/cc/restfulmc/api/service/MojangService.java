@@ -163,13 +163,13 @@ public final class MojangService {
         }, 0L, 60L * 3L * 1000L);
 
         // Schedule a task to fetch blocked
-        // servers from Mojang every 15 minutes.
+        // servers from Mojang every hour.
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 fetchBlockedServers();
             }
-        }, 0L, 60L * 15L * 1000L);
+        }, 0L, 60L * 60L * 1000L);
     }
 
     /**

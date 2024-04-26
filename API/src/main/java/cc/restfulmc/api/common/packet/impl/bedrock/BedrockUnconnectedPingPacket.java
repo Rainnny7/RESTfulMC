@@ -23,8 +23,8 @@
  */
 package cc.restfulmc.api.common.packet.impl.bedrock;
 
-import lombok.NonNull;
 import cc.restfulmc.api.common.packet.UDPPacket;
+import lombok.NonNull;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

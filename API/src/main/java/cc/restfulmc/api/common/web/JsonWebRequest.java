@@ -23,11 +23,11 @@
  */
 package cc.restfulmc.api.common.web;
 
+import cc.restfulmc.api.config.AppConfig;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import cc.restfulmc.api.config.AppConfig;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 

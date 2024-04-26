@@ -23,8 +23,8 @@
  */
 package cc.restfulmc.api.exception;
 
-import lombok.NonNull;
 import cc.restfulmc.api.model.response.ErrorResponse;
+import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

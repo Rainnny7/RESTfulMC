@@ -23,8 +23,8 @@
  */
 package cc.restfulmc.api.common.packet.impl.java.udp;
 
-import lombok.NonNull;
 import cc.restfulmc.api.common.packet.JavaQueryPacket;
+import lombok.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

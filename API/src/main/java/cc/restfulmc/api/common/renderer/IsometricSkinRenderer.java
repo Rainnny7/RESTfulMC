@@ -23,8 +23,8 @@
  */
 package cc.restfulmc.api.common.renderer;
 
-import lombok.NonNull;
 import cc.restfulmc.api.model.skin.ISkinPart;
+import lombok.NonNull;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

@@ -23,12 +23,12 @@
  */
 package cc.restfulmc.api.model.token;
 
+import cc.restfulmc.api.model.server.JavaMinecraftServer;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-import cc.restfulmc.api.model.server.JavaMinecraftServer;
 
 import java.util.UUID;
 

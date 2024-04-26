@@ -23,18 +23,18 @@
  */
 package cc.restfulmc.api.model;
 
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.Location;
-import lombok.*;
 import cc.restfulmc.api.common.ColorUtils;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.token.JavaServerStatusToken;
 import cc.restfulmc.api.service.pinger.MinecraftServerPinger;
 import cc.restfulmc.api.service.pinger.impl.BedrockMinecraftServerPinger;
 import cc.restfulmc.api.service.pinger.impl.JavaMinecraftServerPinger;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.Location;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

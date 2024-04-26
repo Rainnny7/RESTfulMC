@@ -23,16 +23,16 @@
  */
 package cc.restfulmc.api.model.cache;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
 import cc.restfulmc.api.model.Cape;
 import cc.restfulmc.api.model.Player;
 import cc.restfulmc.api.model.ProfileAction;
 import cc.restfulmc.api.model.skin.Skin;
 import cc.restfulmc.api.model.token.MojangProfileToken;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 

@@ -23,10 +23,10 @@
  */
 package cc.restfulmc.api.common.packet.impl.java.tcp;
 
+import cc.restfulmc.api.common.packet.TCPPacket;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
-import cc.restfulmc.api.common.packet.TCPPacket;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

@@ -23,9 +23,9 @@
  */
 package cc.restfulmc.api.model;
 
-import lombok.*;
 import cc.restfulmc.api.model.skin.Skin;
 import cc.restfulmc.api.model.token.MojangProfileToken;
+import lombok.*;
 
 import java.util.UUID;
 

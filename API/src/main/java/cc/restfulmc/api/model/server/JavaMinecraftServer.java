@@ -23,8 +23,6 @@
  */
 package cc.restfulmc.api.model.server;
 
-import com.google.gson.annotations.SerializedName;
-import lombok.*;
 import cc.restfulmc.api.common.JavaMinecraftVersion;
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.MinecraftServer;
@@ -32,6 +30,8 @@ import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.token.JavaServerChallengeStatusToken;
 import cc.restfulmc.api.model.token.JavaServerStatusToken;
 import cc.restfulmc.api.service.MojangService;
+import com.google.gson.annotations.SerializedName;
+import lombok.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 

@@ -23,10 +23,10 @@
  */
 package cc.restfulmc.api.model.cache;
 
+import cc.restfulmc.api.model.MinecraftServer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.*;
-import cc.restfulmc.api.model.MinecraftServer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 

@@ -23,16 +23,16 @@
  */
 package cc.restfulmc.api.controller;
 
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.NonNull;
-import lombok.extern.log4j.Log4j2;
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.MojangRateLimitException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.Player;
 import cc.restfulmc.api.model.cache.CachedPlayer;
 import cc.restfulmc.api.service.MojangService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

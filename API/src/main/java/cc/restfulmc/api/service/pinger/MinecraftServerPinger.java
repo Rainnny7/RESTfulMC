@@ -23,9 +23,9 @@
  */
 package cc.restfulmc.api.service.pinger;
 
-import lombok.NonNull;
 import cc.restfulmc.api.model.MinecraftServer;
 import cc.restfulmc.api.model.dns.DNSRecord;
+import lombok.NonNull;
 
 /**
  * A {@link MinecraftServerPinger} is

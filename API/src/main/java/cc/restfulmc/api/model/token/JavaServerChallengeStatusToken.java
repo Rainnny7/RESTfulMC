@@ -23,8 +23,8 @@
  */
 package cc.restfulmc.api.model.token;
 
-import lombok.*;
 import cc.restfulmc.api.model.server.JavaMinecraftServer;
+import lombok.*;
 
 import java.util.HashMap;
 import java.util.Map;

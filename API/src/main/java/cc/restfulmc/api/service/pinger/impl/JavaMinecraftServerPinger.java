@@ -23,8 +23,6 @@
  */
 package cc.restfulmc.api.service.pinger.impl;
 
-import lombok.NonNull;
-import lombok.extern.log4j.Log4j2;
 import cc.restfulmc.api.common.JavaMinecraftVersion;
 import cc.restfulmc.api.common.packet.impl.java.tcp.JavaHandshakingInSetProtocolPacket;
 import cc.restfulmc.api.common.packet.impl.java.tcp.JavaStatusInStartPacket;
@@ -40,6 +38,8 @@ import cc.restfulmc.api.model.server.JavaMinecraftServer;
 import cc.restfulmc.api.model.token.JavaServerChallengeStatusToken;
 import cc.restfulmc.api.model.token.JavaServerStatusToken;
 import cc.restfulmc.api.service.pinger.MinecraftServerPinger;
+import lombok.NonNull;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

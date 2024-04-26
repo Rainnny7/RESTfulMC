@@ -23,13 +23,13 @@
  */
 package cc.restfulmc.api.model.skin;
 
+import cc.restfulmc.api.common.ImageUtils;
+import cc.restfulmc.api.config.AppConfig;
+import cc.restfulmc.api.model.Player;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
 import lombok.*;
-import cc.restfulmc.api.common.ImageUtils;
-import cc.restfulmc.api.config.AppConfig;
-import cc.restfulmc.api.model.Player;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

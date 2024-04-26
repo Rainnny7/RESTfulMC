@@ -23,8 +23,8 @@
  */
 package cc.restfulmc.api.model.dns.impl;
 
-import lombok.*;
 import cc.restfulmc.api.model.dns.DNSRecord;
+import lombok.*;
 
 import java.net.InetAddress;
 

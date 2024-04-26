@@ -23,9 +23,9 @@
  */
 package cc.restfulmc.api.common.packet.impl.java.udp;
 
+import cc.restfulmc.api.common.packet.JavaQueryPacket;
 import lombok.Getter;
 import lombok.NonNull;
-import cc.restfulmc.api.common.packet.JavaQueryPacket;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

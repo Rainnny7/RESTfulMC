@@ -23,9 +23,9 @@
  */
 package cc.restfulmc.api.common.packet.impl.java.tcp;
 
+import cc.restfulmc.api.common.packet.TCPPacket;
 import lombok.Getter;
 import lombok.NonNull;
-import cc.restfulmc.api.common.packet.TCPPacket;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

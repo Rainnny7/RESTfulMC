@@ -23,9 +23,9 @@
  */
 package cc.restfulmc.api.model.server;
 
-import lombok.*;
 import cc.restfulmc.api.model.MinecraftServer;
 import cc.restfulmc.api.model.dns.DNSRecord;
+import lombok.*;
 
 /**
  * A Bedrock edition {@link MinecraftServer}.

@@ -23,13 +23,13 @@
  */
 package cc.restfulmc.api.model.token;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.JsonObject;
-import lombok.*;
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.Cape;
 import cc.restfulmc.api.model.ProfileAction;
 import cc.restfulmc.api.model.skin.Skin;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.JsonObject;
+import lombok.*;
 
 import java.util.Base64;
 

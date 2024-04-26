@@ -23,9 +23,9 @@
  */
 package cc.restfulmc.api.test.controller;
 
-import lombok.NonNull;
 import cc.restfulmc.api.controller.ServerController;
 import cc.restfulmc.api.test.config.TestRedisConfig;
+import lombok.NonNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

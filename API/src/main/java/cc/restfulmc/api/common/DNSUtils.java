@@ -23,11 +23,11 @@
  */
 package cc.restfulmc.api.common;
 
+import cc.restfulmc.api.model.dns.impl.ARecord;
+import cc.restfulmc.api.model.dns.impl.SRVRecord;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import cc.restfulmc.api.model.dns.impl.ARecord;
-import cc.restfulmc.api.model.dns.impl.SRVRecord;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.Type;
