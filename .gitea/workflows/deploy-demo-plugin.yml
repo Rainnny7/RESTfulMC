@@ -39,6 +39,8 @@ jobs:
       - name: Build Jar
         run: mvn clean package -q -T4C
 
+      - run: echo "Hello World" > hello.txt
+
       # Upload the built jar to the
       # remote server and restart it
       - name: Upload Jar and Restart Remote Server
@@ -47,6 +49,6 @@ jobs:
           panel-host: ${{ secrets.PTERO_URL }}
           api-key: ${{ secrets.PTERO_API_KEY }}
           server-id: ${{ secrets.DEMO_SERVER_ID }}
-          source: "jars/DemoSpigotPlugin.jar"
+          source: "hello.txt"
           target: "./"
           restart: true # Restart after upload
