@@ -48,5 +48,5 @@ jobs:
           api-key: ${{ secrets.PTERO_API_KEY }}
           server-id: ${{ secrets.DEMO_SERVER_ID }}
           source: "./target/DemoSpigotPlugin.jar"
-          target: "/home/container/plugins/"
+          target: "/plugins/"
           restart: true # Restart after upload
