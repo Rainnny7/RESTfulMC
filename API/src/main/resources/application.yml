@@ -11,6 +11,11 @@ logging:
   file:
     path: "./logs"
 
+# Sentry Configuration
+sentry:
+  dsn: https://87487c1562d043f79c09e77e4bc359b8@sentry.rainnny.club/2
+  tracesSampleRate: 1.0
+
 # MaxMind Configuration
 # Used for IP Geo location
 maxmind:
