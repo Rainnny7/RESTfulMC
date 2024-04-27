@@ -59,7 +59,7 @@ const SimpleLink = ({
     SimpleLinkProps): ReactElement => (
     <Link
         rel={`${noRef && "noopener noreferrer"}`}
-        target={`${newTab && "_blank"}`}
+        target={newTab ? "_blank" : "_self"}
         {...props}
     >
         {children}
