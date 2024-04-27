@@ -39,8 +39,8 @@ import SimpleLink from "@/components/simple-link";
 const Footer = (): ReactElement => (
     <footer
         className={cn(
-            `before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[url("/media/dark-wool-background.png")] before:bg-center before:bg-repeat`, // Background
-            "relative inset-x-0 bottom-0 h-72 flex justify-center items-center -z-10", // Styling
+            `before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[url("/media/dark-wool-background.png")] before:bg-center before:bg-repeat -z-10`, // Background
+            "relative inset-x-0 bottom-0 h-72 flex justify-center items-center z-10", // Styling
             `after:absolute after:top-0 after:left-0 after:-translate-y-20 after:w-full after:h-20 after:bg-[url("/media/dark-wool-transition.png")] after:bg-center after:bg-repeat after:-z-10` // Top Border
         )}
     >
@@ -124,7 +124,7 @@ const Footer = (): ReactElement => (
             </div>
 
             {/* Disclaimer */}
-            <p className="absolute inset-x-0 bottom-2 flex justify-center text-zinc-400/80">
+            <p className="absolute inset-x-0 bottom-2 flex justify-center text-zinc-400/80 select-none pointer-events-none">
                 Not affiliated with Mojang or Microsoft.
             </p>
         </div>
