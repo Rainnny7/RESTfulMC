@@ -98,7 +98,7 @@ const ServerPage = async ({ params }: PageProps): Promise<ReactElement> => {
 
             {/* Server Result & Recommendations */}
             {result ? (
-                <div className="flex justify-center scale-[.71] xs:scale-75 sm:scale-100 transition-all transform-gpu">
+                <div className="flex justify-center scale-[.71] xs:scale-75 sm:scale-90 md:scale-100 transition-all transform-gpu">
                     <ServerResult server={result} />
                 </div>
             ) : (
