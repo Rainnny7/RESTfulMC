@@ -33,7 +33,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@sentry/nextjs": "7.105.0",
+    "@sentry/nextjs": "7.112.2",
     "@types/mdx": "^2.0.13",
     "@types/react-syntax-highlighter": "^15.5.11",
     "class-variance-authority": "^0.7.0",
