@@ -65,7 +65,7 @@ const Navbar = (): ReactElement => {
 
                 {/* Center - Links */}
                 <div className="ml-auto absolute right-3 xs:inset-x-0 md:left-28 lg:left-0 flex justify-center md:justify-start lg:justify-center">
-                    <div className="flex gap-7">
+                    <div className="flex gap-3.5 xs:gap-7">
                         {Object.entries(config.navbarLinks).map(
                             (link: [string, string], index: number) => {
                                 const url: string = link[1]; // The href of the link
