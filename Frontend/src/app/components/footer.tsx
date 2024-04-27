@@ -40,8 +40,8 @@ const Footer = (): ReactElement => (
     <footer
         className={cn(
             `before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[url("/media/dark-wool-background.png")] before:bg-center before:bg-repeat`, // Background
-            "relative inset-x-0 bottom-0 h-72 flex justify-center items-center", // Styling
-            `after:absolute after:top-0 after:left-0 after:-translate-y-20 after:w-full after:h-20 after:bg-[url("/media/dark-wool-transition.png")] after:bg-center after:bg-repeat` // Top Border
+            "relative inset-x-0 bottom-0 h-72 flex justify-center items-center -z-10", // Styling
+            `after:absolute after:top-0 after:left-0 after:-translate-y-20 after:w-full after:h-20 after:bg-[url("/media/dark-wool-transition.png")] after:bg-center after:bg-repeat after:-z-10` // Top Border
         )}
     >
         <div className="xl:px-40 pb-14 md:pb-0 flex flex-col gap-7 md:flex-row md:gap-0 justify-around items-center z-50 w-full h-full transition-all transform-gpu">

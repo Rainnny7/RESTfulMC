@@ -59,7 +59,7 @@ const MojangStatusPage = async (): Promise<ReactElement> => {
     const { servers }: MojangServerStatusResponse =
         await getMojangServerStatus(); // Get Mojang server statuses
     return (
-        <main className="h-screen flex flex-col gap-7 justify-center items-center">
+        <main className="mb-32 xl:mb-24 2xl:mb-12 h-screen flex flex-col gap-7 justify-center items-center transition-all transform-gpu">
             {/* Header */}
             <h1
                 className={cn(

@@ -67,7 +67,7 @@ const ServerPage = async ({ params }: PageProps): Promise<ReactElement> => {
 
     // Render the page
     return (
-        <main className="px-3 h-screen flex flex-col gap-7 justify-center items-center">
+        <main className="mb-52 sm:mb-36 2xl:mb-12 px-3 h-screen flex flex-col gap-7 justify-center items-center transition-all transform-gpu">
             <div className="flex flex-col gap-7">
                 {/* Header */}
                 <div className="flex flex-col gap-7">

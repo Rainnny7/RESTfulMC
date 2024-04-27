@@ -52,7 +52,7 @@ const PlayerPage = async ({ params }: PageProps): Promise<ReactElement> => {
 
     // Render the page
     return (
-        <main className="px-3 h-screen flex justify-center items-center">
+        <main className="mb-32 xl:mb-24 2xl:mb-12 px-3 h-screen flex justify-center items-center transition-all transform-gpu">
             <div className="flex flex-col gap-7">
                 <h1
                     className={cn(
