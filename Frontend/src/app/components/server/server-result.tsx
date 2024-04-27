@@ -32,6 +32,7 @@ import config from "@/config";
 import { minecraft } from "@/font/fonts";
 import CodeDialog from "@/components/code/code-dialog";
 import RawJson from "@/components/badge/raw-json";
+import SimpleTooltip from "@/components/simple-tooltip";
 
 /**
  * The props for a server result.
@@ -113,15 +114,32 @@ const ServerResult = ({ server }: ServerResultProps): ReactElement => {
                 </div>
             </div>
 
-            {/* Raw Json */}
-            <CodeDialog
-                title="Raw Server Data"
-                description={`The raw JSON data for the player ${server.hostname}:`}
-                language="json"
-                trigger={<RawJson />}
-            >
-                {JSON.stringify(server, undefined, 4)}
-            </CodeDialog>
+            {/* Country & Raw Json */}
+            <div className="flex justify-center items-center gap-5 sm:gap-10 transition-all transform-gpu">
+                {/* Server Geo Location */}
+                {server.geo && (
+                    <SimpleTooltip
+                        content={`Located in ${server.geo.country.name}`}
+                    >
+                        <Image
+                            src={`https://flagcdn.com/w40/${server.geo.country.code.toLowerCase()}.png`}
+                            alt={`Country Flag for ${server.geo.country.name}`}
+                            width={36}
+                            height={36}
+                        />
+                    </SimpleTooltip>
+                )}
+
+                {/* Raw Json */}
+                <CodeDialog
+                    title="Raw Server Data"
+                    description={`The raw JSON data for the player ${server.hostname}:`}
+                    language="json"
+                    trigger={<RawJson />}
+                >
+                    {JSON.stringify(server, undefined, 4)}
+                </CodeDialog>
+            </div>
         </div>
     );
 };

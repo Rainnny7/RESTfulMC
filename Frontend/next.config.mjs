@@ -9,6 +9,10 @@ const nextConfig = {
 				protocol: "https",
 				hostname: "api.restfulmc.cc",
 			},
+			{
+				protocol: "https",
+				hostname: "flagcdn.com",
+			},
 		],
 	},
 	experimental: {
