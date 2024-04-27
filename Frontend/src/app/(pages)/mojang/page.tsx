@@ -71,7 +71,7 @@ const MojangStatusPage = async (): Promise<ReactElement> => {
             </h1>
 
             {/* Server Statuses */}
-            <div className="w-[25rem] xs:w-[29rem] sm:w-[33.5rem] px-5 py-3.5 flex flex-col gap-2.5 bg-muted rounded-xl divide-y-2 divide-zinc-700/40 transition-all transform-gpu">
+            <div className="w-[21.5rem] xs:w-[29rem] sm:w-[33.5rem] px-5 py-3.5 flex flex-col gap-2.5 bg-muted rounded-xl divide-y-2 divide-zinc-700/40 transition-all transform-gpu">
                 {servers.map(
                     (server: MojangServer, index: number): ReactElement => {
                         const status: MojangServerStatus = server.status; // The status of the server
