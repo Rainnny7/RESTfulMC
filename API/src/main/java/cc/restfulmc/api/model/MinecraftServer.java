@@ -142,7 +142,7 @@ public class MinecraftServer {
             /**
              * The location code.
              */
-            @NonNull private final String code;
+            private final String code;
 
             /**
              * The location name.
