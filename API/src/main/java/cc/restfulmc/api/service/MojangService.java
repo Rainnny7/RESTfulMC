@@ -303,7 +303,7 @@ public final class MojangService {
             return player;
         } catch (JsonWebException ex) {
             // No profile found, return null
-            if (ex.getStatusCode() == 400) {
+            if (ex.getStatusCode() == 204 || ex.getStatusCode() == 400) {
                 throw new ResourceNotFoundException("Player not found with query: %s".formatted(query));
             }
             throw ex;
