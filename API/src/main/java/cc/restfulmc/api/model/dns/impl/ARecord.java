@@ -18,7 +18,7 @@ public final class ARecord extends DNSRecord {
     private String address;
 
     public ARecord(@NonNull org.xbill.DNS.ARecord bootstrap) {
-        super(Type.A, bootstrap.getTTL());
+        super(Type.A, bootstrap.getName().toString(), bootstrap.getTTL());
         InetAddress address = bootstrap.getAddress();
         this.address = address == null ? null : address.getHostAddress();
     }

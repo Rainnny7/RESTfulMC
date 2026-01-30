@@ -34,7 +34,7 @@ public final class SRVRecord extends DNSRecord {
     @NonNull private String target;
 
     public SRVRecord(@NonNull org.xbill.DNS.SRVRecord bootstrap) {
-        super(Type.SRV, bootstrap.getTTL());
+        super(Type.SRV, bootstrap.getName().toString(), bootstrap.getTTL());
         priority = bootstrap.getPriority();
         weight = bootstrap.getWeight();
         port = bootstrap.getPort();

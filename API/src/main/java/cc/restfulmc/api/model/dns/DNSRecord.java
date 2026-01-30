@@ -15,6 +15,11 @@ public abstract class DNSRecord {
     @NonNull private Type type;
 
     /**
+     * The name of this record.
+     */
+    @NonNull private String name;
+
+    /**
      * The TTL (Time To Live) of this record.
      */
     private long ttl;
