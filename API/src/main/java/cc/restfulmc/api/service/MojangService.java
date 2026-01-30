@@ -29,6 +29,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
+import com.maxmind.geoip2.model.AsnResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
@@ -441,13 +442,17 @@ public final class MojangService {
             records.add(aRecord); // Going to need this for later
             log.info("Resolved hostname: {} -> {}", hostname, ip);
         }
-
         // Attempt to perform a Geo lookup on the server
-        MinecraftServer.GeoLocation geo = null; // The server's Geo location
+        MinecraftServer.AsnData asn = null;
+        MinecraftServer.GeoLocation geo = null;
         try {
-            log.info("Looking up Geo location data for {}...", ip);
+            log.info("Looking up ASN & Geo location data for {}...", ip);
 
             InetAddress address = InetAddress.getByName(ip == null ? hostname : ip);
+            AsnResponse asnResponse = maxMindService.lookupAsn(address);
+            if (asnResponse != null) {
+                asn = new MinecraftServer.AsnData(asnResponse.getAutonomousSystemNumber(), asnResponse.getAutonomousSystemOrganization());
+            }
             geo = maxMindService.lookup(address);
         } catch (Exception ex) {
             log.error("Failed looking up Geo location data for {}:", ip, ex);
@@ -458,7 +463,11 @@ public final class MojangService {
         if (response == null) { // No response from ping
             throw new ResourceNotFoundException("Server didn't respond to ping");
         }
-        if (geo != null) { // Update Geo location data in the server if present
+        // Update ASN & Geo location data in the server if present
+        if (asn != null) {
+            response.setAsn(asn);
+        }
+        if (geo != null) {
             response.setGeo(geo);
         }
 

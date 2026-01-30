@@ -31,10 +31,10 @@ public final class BedrockMinecraftServer extends MinecraftServer {
      */
     @NonNull private final GameMode gamemode;
 
-    private BedrockMinecraftServer(@NonNull String id, @NonNull String hostname, String ip, int port, GeoLocation geo,
-                                   DNSRecord[] records, @NonNull Edition edition, @NonNull Version version,
+    private BedrockMinecraftServer(@NonNull String id, @NonNull String hostname, String ip, int port, AsnData asn,
+                                   GeoLocation geo, DNSRecord[] records, @NonNull Edition edition, @NonNull Version version,
                                    @NonNull Players players, @NonNull MOTD motd, @NonNull GameMode gamemode) {
-        super(hostname, ip, port, records, geo, players, motd);
+        super(hostname, ip, port, records, asn, geo, players, motd);
         this.id = id;
         this.edition = edition;
         this.version = version;
@@ -59,7 +59,7 @@ public final class BedrockMinecraftServer extends MinecraftServer {
         Players players = new Players(Integer.parseInt(split[4]), Integer.parseInt(split[5]), null);
         MOTD motd = MOTD.create(split[1] + "\n" + split[7]);
         GameMode gameMode = new GameMode(split[8], split.length > 9 ? Integer.parseInt(split[9]) : -1);
-        return new BedrockMinecraftServer(split[6], hostname, ip, port, null, records, edition, version, players, motd, gameMode);
+        return new BedrockMinecraftServer(split[6], hostname, ip, port, null, null, records, edition, version, players, motd, gameMode);
     }
 
     /**

@@ -4,6 +4,8 @@ import cc.restfulmc.api.model.MinecraftServer;
 import com.maxmind.db.CHMCache;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import jakarta.annotation.PostConstruct;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.nio.file.Files;
@@ -82,6 +85,22 @@ public final class MaxMindService {
             log.info("Loaded database {}", database.getEdition());
         }
         log.info("Loaded {} database(s)", databases.size());
+    }
+
+    /**
+     * Lookup ASN data for the given address.
+     *
+     * @param address the address to lookup
+     * @return the asn data, null if unknown
+     */
+    public AsnResponse lookupAsn(@NonNull InetAddress address) {
+        DatabaseReader database = getDatabase(Database.ASN);
+        try {
+            return database == null ? null : database.asn(address);
+        } catch (IOException | GeoIp2Exception ignored) {
+            // Safely ignore this and return null instead
+            return null;
+        }
     }
 
     /**

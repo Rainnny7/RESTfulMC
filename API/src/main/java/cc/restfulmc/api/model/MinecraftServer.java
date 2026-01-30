@@ -47,6 +47,11 @@ public class MinecraftServer {
     private final DNSRecord[] records;
 
     /**
+     * The ASN data of this server, null if unknown.
+     */
+    private AsnData asn;
+
+    /**
      * The Geo location of this server, null if unknown.
      */
     private GeoLocation geo;
@@ -60,6 +65,22 @@ public class MinecraftServer {
      * The MOTD of this server.
      */
     @NonNull private final MOTD motd;
+
+    /**
+     * The ASN data of a server.
+     */
+    @AllArgsConstructor @Getter @ToString
+    public static class AsnData {
+        /**
+         * The ASN number.
+         */
+        private final long number;
+
+        /**
+         * The ASN organization.
+         */
+        @NonNull private final String organization;
+    }
 
     /**
      * The Geo location of a server.
