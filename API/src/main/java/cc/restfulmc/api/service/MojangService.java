@@ -29,7 +29,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.hash.Hashing;
-import com.maxmind.geoip2.model.CityResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
@@ -444,12 +443,12 @@ public final class MojangService {
         }
 
         // Attempt to perform a Geo lookup on the server
-        CityResponse geo = null; // The server's Geo location
+        MinecraftServer.GeoLocation geo = null; // The server's Geo location
         try {
             log.info("Looking up Geo location data for {}...", ip);
 
             InetAddress address = InetAddress.getByName(ip == null ? hostname : ip);
-            geo = maxMindService.lookupCity(address);
+            geo = maxMindService.lookup(address);
         } catch (Exception ex) {
             log.error("Failed looking up Geo location data for {}:", ip, ex);
         }
@@ -460,7 +459,7 @@ public final class MojangService {
             throw new ResourceNotFoundException("Server didn't respond to ping");
         }
         if (geo != null) { // Update Geo location data in the server if present
-            response.setGeo(MinecraftServer.GeoLocation.create(geo));
+            response.setGeo(geo);
         }
 
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(

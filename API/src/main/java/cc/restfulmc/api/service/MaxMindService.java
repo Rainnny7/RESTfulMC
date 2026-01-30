@@ -1,9 +1,11 @@
 package cc.restfulmc.api.service;
 
+import cc.restfulmc.api.model.MinecraftServer;
 import com.maxmind.db.CHMCache;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CountryResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.*;
@@ -83,6 +85,29 @@ public final class MaxMindService {
     }
 
     /**
+     * Lookup geo data for the given address.
+     *
+     * @param address the address to lookup
+     * @return the geo location, null if unknown
+     */
+    public MinecraftServer.GeoLocation lookup(@NonNull InetAddress address) {
+        MinecraftServer.GeoLocation geo = null;
+
+        CityResponse cityResponse = lookupCity(address);
+        if (cityResponse != null) {
+            geo = MinecraftServer.GeoLocation.create(cityResponse);
+        }
+        if (geo != null) {
+            return geo;
+        }
+        CountryResponse countryResponse = lookupCountry(address);
+        if (countryResponse != null) {
+            geo = MinecraftServer.GeoLocation.create(countryResponse);
+        }
+        return geo;
+    }
+
+    /**
      * Lookup a city by the given address.
      *
      * @param address the address
@@ -93,6 +118,23 @@ public final class MaxMindService {
         DatabaseReader database = getDatabase(Database.CITY);
         try {
             return database == null ? null : database.city(address);
+        } catch (AddressNotFoundException ignored) {
+            // Safely ignore this and return null instead
+            return null;
+        }
+    }
+
+    /**
+     * Lookup a country by the given address.
+     *
+     * @param address the address
+     * @return the country response, null if none
+     */
+    @SneakyThrows
+    public CountryResponse lookupCountry(@NonNull InetAddress address) {
+        DatabaseReader database = getDatabase(Database.COUNTRY);
+        try {
+            return database == null ? null : database.country(address);
         } catch (AddressNotFoundException ignored) {
             // Safely ignore this and return null instead
             return null;
@@ -187,7 +229,9 @@ public final class MaxMindService {
      */
     @AllArgsConstructor @Getter @ToString
     public enum Database {
-        CITY("GeoLite2-City");
+        CITY("GeoLite2-City"),
+        COUNTRY("GeoLite2-Country"),
+        ASN("GeoLite2-ASN");
 
         /**
          * The edition of this database.

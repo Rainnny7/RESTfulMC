@@ -6,6 +6,7 @@ import cc.restfulmc.api.model.token.JavaServerStatusToken;
 import cc.restfulmc.api.service.pinger.MinecraftServerPinger;
 import cc.restfulmc.api.service.pinger.impl.BedrockMinecraftServerPinger;
 import cc.restfulmc.api.service.pinger.impl.JavaMinecraftServerPinger;
+import com.maxmind.geoip2.model.AbstractCountryResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
@@ -92,16 +93,20 @@ public class MinecraftServer {
 
         /**
          * Create new geo location data
-         * from the given city response.
+         * from the given geo response.
          *
-         * @param geo the geo city response
+         * @param geo the geo response
          * @return the geo location, null if unknown
          */
-        public static GeoLocation create(@NonNull CityResponse geo) {
+        public static GeoLocation create(@NonNull AbstractCountryResponse geo) {
             Continent continent = geo.getContinent();
             Country country = geo.getCountry();
-            City city = geo.getCity();
-            Location location = geo.getLocation();
+            City city = null;
+            Location location = null;
+            if (geo instanceof CityResponse cityResponse) {
+                city = cityResponse.getCity();
+                location = cityResponse.getLocation();
+            }
             if (continent.getCode() == null) {
                 return null;
             }
@@ -109,7 +114,7 @@ public class MinecraftServer {
                     new LocationData(continent.getCode(), continent.getName()),
                     new LocationData(country.getIsoCode(), country.getName()),
                     city == null ? null : city.getName(),
-                    location.getLatitude(), location.getLongitude()
+                    location == null ? 0D : location.getLatitude(), location == null ? 0D : location.getLongitude()
             );
         }
 
