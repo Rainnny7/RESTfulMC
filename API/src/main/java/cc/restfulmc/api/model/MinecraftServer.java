@@ -1,6 +1,7 @@
 package cc.restfulmc.api.model;
 
 import cc.restfulmc.api.common.ColorUtils;
+import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.token.JavaServerStatusToken;
 import cc.restfulmc.api.service.pinger.MinecraftServerPinger;
@@ -188,7 +189,8 @@ public class MinecraftServer {
             if (token.getSample() != null) {
                 samples = new ArrayList<>(); // The player samples
                 for (JavaServerStatusToken.Players.Sample sample : token.getSample()) {
-                    samples.add(new Sample(sample.getId(), Sample.Name.create(sample.getName())));
+                    String href = AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + sample.getId();
+                    samples.add(new Sample(sample.getId(), Sample.Name.create(sample.getName()), href));
                 }
             }
             return new Players(token.getOnline(), token.getMax(), samples != null ? samples.toArray(new Sample[0]) : null);
@@ -208,6 +210,11 @@ public class MinecraftServer {
              * The name of this player.
              */
             @NonNull private final Name name;
+
+            /**
+             * The href to view player data for this player sample.
+             */
+            @NonNull private final String href;
 
             /**
              * The name of a sample player.
