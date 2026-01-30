@@ -451,7 +451,7 @@ public final class MojangService {
             InetAddress address = InetAddress.getByName(ip == null ? hostname : ip);
             geo = maxMindService.lookupCity(address);
         } catch (Exception ex) {
-            log.error("Failed looking up Geo location data for %s:".formatted(ip), ex);
+            log.error("Failed looking up Geo location data for {}:", ip, ex);
         }
 
         // Build our server model, cache it, and then return it

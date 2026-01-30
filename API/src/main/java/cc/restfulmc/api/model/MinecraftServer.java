@@ -95,14 +95,16 @@ public class MinecraftServer {
          * from the given city response.
          *
          * @param geo the geo city response
-         * @return the geo location
+         * @return the geo location, null if unknown
          */
-        @NonNull
         public static GeoLocation create(@NonNull CityResponse geo) {
             Continent continent = geo.getContinent();
             Country country = geo.getCountry();
             City city = geo.getCity();
             Location location = geo.getLocation();
+            if (continent.getCode() == null) {
+                return null;
+            }
             return new GeoLocation(
                     new LocationData(continent.getCode(), continent.getName()),
                     new LocationData(country.getIsoCode(), country.getName()),
@@ -119,7 +121,7 @@ public class MinecraftServer {
             /**
              * The location code.
              */
-            private final String code;
+            @NonNull private final String code;
 
             /**
              * The location name.
