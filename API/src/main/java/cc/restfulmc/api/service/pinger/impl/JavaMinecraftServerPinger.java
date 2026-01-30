@@ -101,7 +101,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
             try (DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                  DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
                 // Begin handshaking with the server
-                new JavaHandshakingInSetProtocolPacket(hostname, port, JavaMinecraftVersion.getMinimumVersion().getProtocol())
+                new JavaHandshakingInSetProtocolPacket(hostname, port, JavaMinecraftVersion.getLatestVersion().getProtocol())
                         .process(inputStream, outputStream);
 
                 // Send the status request to the server, and await back the response

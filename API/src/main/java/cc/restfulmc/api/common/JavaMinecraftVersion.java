@@ -71,21 +71,6 @@ public enum JavaMinecraftVersion {
     V1_7_6(5, "v1_7_R4"), // 1.7.6 - 1.7.10
 
     UNKNOWN(-1, "Unknown");
-    
-    // Game Updates
-    public static final JavaMinecraftVersion TRAILS_AND_TALES = JavaMinecraftVersion.V1_20;
-    public static final JavaMinecraftVersion THE_WILD_UPDATE = JavaMinecraftVersion.V1_19;
-    public static final JavaMinecraftVersion CAVES_AND_CLIFFS_PT_2 = JavaMinecraftVersion.V1_18;
-    public static final JavaMinecraftVersion CAVES_AND_CLIFFS_PT_1 = JavaMinecraftVersion.V1_17;
-    public static final JavaMinecraftVersion NETHER_UPDATE = JavaMinecraftVersion.V1_16;
-    public static final JavaMinecraftVersion BUZZY_BEES = JavaMinecraftVersion.V1_15;
-    public static final JavaMinecraftVersion VILLAGE_AND_PILLAGE = JavaMinecraftVersion.V1_14;
-    public static final JavaMinecraftVersion UPDATE_AQUATIC = JavaMinecraftVersion.V1_13;
-    public static final JavaMinecraftVersion WORLD_OF_COLOR_UPDATE = JavaMinecraftVersion.V1_12;
-    public static final JavaMinecraftVersion EXPLORATION_UPDATE = JavaMinecraftVersion.V1_11;
-    public static final JavaMinecraftVersion FROSTBURN_UPDATE = JavaMinecraftVersion.V1_10;
-    public static final JavaMinecraftVersion THE_COMBAT_UPDATE = JavaMinecraftVersion.V1_9;
-    public static final JavaMinecraftVersion BOUNTIFUL_UPDATE = JavaMinecraftVersion.V1_8;
 
     private static final JavaMinecraftVersion[] VALUES = JavaMinecraftVersion.values();
 
@@ -122,6 +107,16 @@ public enum JavaMinecraftVersion {
             this.name = this.name.replace("_", ".");
         }
         return this.name;
+    }
+
+    /**
+     * Get the latest version of Minecraft.
+     *
+     * @return te latest version
+     */
+    @NonNull
+    public static JavaMinecraftVersion getLatestVersion() {
+        return VALUES.length > 0 ? VALUES[0] : UNKNOWN;
     }
 
     /**
