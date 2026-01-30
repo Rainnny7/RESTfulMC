@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 /**
  * Represents a service provided by Mojang.
@@ -22,8 +22,6 @@ public enum MojangServer {
     ASSETS("Assets Server", "https://assets.mojang.com"),
     LIBRARIES("Libraries Server", "https://libraries.minecraft.net"),
     SERVICES("Minecraft Services", "https://api.minecraftservices.com");
-
-    private static final int STATUS_TIMEOUT = 7000;
 
     /**
      * The name of this server.
@@ -43,19 +41,21 @@ public enum MojangServer {
     @NonNull
     public Status getStatus() {
         try {
-            InetAddress address = InetAddress.getByName(endpoint.substring(8));
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(endpoint))
+                    .timeout(Constants.HTTP_CLIENT_TIMEOUT)
+                    .GET()
+                    .build();
             long before = System.currentTimeMillis();
-            if (address.isReachable(STATUS_TIMEOUT)) {
-                // The time it took to reach the host is 75% of
-                // the timeout, consider it to be degraded.
-                if ((System.currentTimeMillis() - before) > STATUS_TIMEOUT * 0.75D) {
-                    return Status.DEGRADED;
-                }
-                return Status.ONLINE;
+            Constants.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.discarding());
+
+            // The time it took to reach the host is 75% of
+            // the timeout, consider it to be degraded.
+            if ((System.currentTimeMillis() - before) > Constants.HTTP_CLIENT_TIMEOUT.toMillis() * 0.75D) {
+                return Status.DEGRADED;
             }
-        } catch (UnknownHostException ex) {
-            ex.printStackTrace();
-        } catch (IOException ignored) {
+            return Status.ONLINE;
+        } catch (Exception ignored) {
             // We can safely ignore any errors, we're simply checking
             // if the host is reachable, if it's not, it's offline.
         }
