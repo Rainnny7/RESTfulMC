@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) $originalComment.match("Copyright \(c\) (\d+)", 1, "-", "$today.year")$today.year Braydon (Rainnny).
+Copyright (c) 2026 Braydon (Rainnny).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
