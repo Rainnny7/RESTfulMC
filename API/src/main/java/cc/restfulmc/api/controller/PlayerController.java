@@ -5,7 +5,7 @@ import cc.restfulmc.api.exception.impl.MojangRateLimitException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.Player;
 import cc.restfulmc.api.model.cache.CachedPlayer;
-import cc.restfulmc.api.service.MojangService;
+import cc.restfulmc.api.service.PlayerService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Player Controller", description = "The controller for handling player related requests.")
 public final class PlayerController {
     /**
-     * The Mojang service to use.
+     * The player service to use.
      */
-    @NonNull private final MojangService mojangService;
+    @NonNull private final PlayerService playerService;
 
     @Autowired
-    public PlayerController(@NonNull MojangService mojangService) {
-        this.mojangService = mojangService;
+    public PlayerController(@NonNull PlayerService playerService) {
+        this.playerService = playerService;
     }
 
     /**
@@ -52,7 +52,7 @@ public final class PlayerController {
             @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed
     ) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
-        return ResponseEntity.ofNullable(mojangService.getPlayer(query, signed));
+        return ResponseEntity.ofNullable(playerService.getPlayer(query, signed));
     }
 
     /**
@@ -82,6 +82,6 @@ public final class PlayerController {
     ) throws BadRequestException {
         return ResponseEntity.ok()
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
-                .body(mojangService.getSkinPartTexture(partName, query, extension, overlays, size));
+                .body(playerService.getSkinPartTexture(partName, query, extension, overlays, size));
     }
 }

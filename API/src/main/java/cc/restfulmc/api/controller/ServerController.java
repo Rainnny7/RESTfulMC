@@ -2,9 +2,10 @@ package cc.restfulmc.api.controller;
 
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
-import cc.restfulmc.api.model.server.MinecraftServer;
 import cc.restfulmc.api.model.cache.CachedMinecraftServer;
+import cc.restfulmc.api.model.server.MinecraftServer;
 import cc.restfulmc.api.service.MojangService;
+import cc.restfulmc.api.service.ServerService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
@@ -29,12 +30,18 @@ import java.util.Map;
 @Tag(name = "Server Controller", description = "The controller for handling server related requests.")
 public final class ServerController {
     /**
+     * The Server service to use.
+     */
+    @NonNull private final ServerService serverService;
+
+    /**
      * The Mojang service to use.
      */
     @NonNull private final MojangService mojangService;
 
     @Autowired
-    public ServerController(@NonNull MojangService mojangService) {
+    public ServerController(@NonNull ServerService serverService, @NonNull MojangService mojangService) {
+        this.serverService = serverService;
         this.mojangService = mojangService;
     }
 
@@ -53,7 +60,7 @@ public final class ServerController {
             @Parameter(description = "The platform of the server", example = "java") @PathVariable @NonNull String platform,
             @Parameter(description = "The server hostname to lookup (Append :<port> for port)", example = "hypixel.net") @PathVariable @NonNull String hostname
     ) throws BadRequestException, ResourceNotFoundException {
-        return ResponseEntity.ofNullable(mojangService.getMinecraftServer(platform, hostname));
+        return ResponseEntity.ofNullable(serverService.getMinecraftServer(platform, hostname));
     }
 
     /**
@@ -88,6 +95,6 @@ public final class ServerController {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=%s.png".formatted(hostname))
-                .body(mojangService.getServerFavicon(hostname));
+                .body(serverService.getServerFavicon(hostname));
     }
 }

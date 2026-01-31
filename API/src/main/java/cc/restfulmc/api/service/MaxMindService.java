@@ -1,7 +1,6 @@
 package cc.restfulmc.api.service;
 
 import cc.restfulmc.api.model.server.GeoLocation;
-import cc.restfulmc.api.model.server.MinecraftServer;
 import com.maxmind.db.CHMCache;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
