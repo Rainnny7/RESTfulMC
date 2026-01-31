@@ -18,7 +18,7 @@ import java.util.Objects;
 @Slf4j(topic = "RESTfulMC")
 public class RESTfulMC {
     @SneakyThrows
-    public static void main(@NonNull String[] args) {
+    static void main(@NonNull String[] args) {
         // Handle loading of our configuration file
         File config = new File("application.yml");
         if (!config.exists()) { // Saving the default config if it doesn't exist locally

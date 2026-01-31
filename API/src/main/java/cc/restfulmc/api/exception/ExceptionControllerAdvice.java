@@ -1,7 +1,6 @@
 package cc.restfulmc.api.exception;
 
 import cc.restfulmc.api.model.response.ErrorResponse;
-import io.sentry.Sentry;
 import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +43,6 @@ public final class ExceptionControllerAdvice {
         }
         if (status == null) { // Fallback to 500
             status = HttpStatus.INTERNAL_SERVER_ERROR;
-            Sentry.captureException(ex); // Capture with Sentry
         }
         return new ResponseEntity<>(new ErrorResponse(status, message), status);
     }

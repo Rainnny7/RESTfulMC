@@ -4,7 +4,6 @@ import lombok.NonNull;
 import net.jodah.expiringmap.ExpirationPolicy;
 import net.jodah.expiringmap.ExpiringMap;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +16,6 @@ import java.util.function.Consumer;
  * @param <T> The type of element to store within this set
  * @author Braydon
  */
-@ThreadSafe
 public final class ExpiringSet<T> implements Iterable<T> {
     /**
      * The internal cache for this set.
