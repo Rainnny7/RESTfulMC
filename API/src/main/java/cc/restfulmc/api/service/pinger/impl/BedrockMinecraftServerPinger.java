@@ -65,7 +65,7 @@ public final class BedrockMinecraftServerPinger implements MinecraftServerPinger
             } else if (ex instanceof SocketTimeoutException) {
                 throw new ResourceNotFoundException(ex);
             }
-            log.error("An error occurred pinging %s:%s:".formatted(hostname, port), ex);
+            log.error("An error occurred pinging {}:{}:", hostname, port, ex);
         }
         return null;
     }

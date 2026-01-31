@@ -341,7 +341,7 @@ public final class MojangService {
             assert icon != null;
             return Base64.getDecoder().decode(icon); // Return the decoded favicon
         } catch (Exception ex) { // Use the default server icon
-            log.error("Failed getting server favicon for %s:".formatted(hostname), ex);
+            log.error("Failed getting server favicon for {}:", hostname, ex);
             return Base64.getDecoder().decode(DEFAULT_SERVER_ICON);
         }
     }

@@ -58,7 +58,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
                 // is not caused by querying being disabled, we
                 // want to log the error.
                 if (!(ex instanceof IOException)) {
-                    log.error("Failed retrieving challenge status token for %s:%s:".formatted(hostname, port), ex);
+                    log.error("Failed retrieving challenge status token for {}:{}:", hostname, port, ex);
                 }
             }
 
@@ -70,7 +70,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
             } else if (ex instanceof ConnectException || ex instanceof SocketTimeoutException) {
                 throw new ResourceNotFoundException(ex);
             }
-            log.error("An error occurred pinging %s:%s:".formatted(hostname, port), ex);
+            log.error("An error occurred pinging {}:{}:", hostname, port, ex);
         }
         return null;
     }
