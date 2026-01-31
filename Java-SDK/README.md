@@ -1,6 +1,5 @@
-[![Publish Workflow](https://git.rainnny.club/Rainnny/RESTfulMC/actions/workflows/publish-java-sdk.yml/badge.svg)](./actions?workflow=publish-java-sdk.yml)
+> [!WARNING]
+> The Java SDK is not fully up-to-date, check back later.
 
 # RESTfulMC Java Library
 The Java SDK for the RESTfulMC API.
-
-`Not done`

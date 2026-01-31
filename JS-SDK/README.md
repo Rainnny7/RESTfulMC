@@ -1,4 +1,5 @@
-[![Publish Workflow](https://git.rainnny.club/Rainnny/RESTfulMC/actions/workflows/publish-js-sdk.yml/badge.svg)](./actions?workflow=publish-js-sdk.yml)
+> [!WARNING]
+> The JS SDK is not fully up-to-date, check back later.
 
 # RESTfulMC JS Library
 A simple, yet useful RESTful API for Minecraft utilizing Springboot.
