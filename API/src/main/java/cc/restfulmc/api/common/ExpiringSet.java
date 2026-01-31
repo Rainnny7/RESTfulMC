@@ -1,17 +1,19 @@
 package cc.restfulmc.api.common;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalListener;
 import lombok.NonNull;
-import net.jodah.expiringmap.ExpirationPolicy;
-import net.jodah.expiringmap.ExpiringMap;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
  * A simple set that expires elements after a certain
- * amount of time, utilizing the {@link ExpiringMap} library.
+ * amount of time, utilizing Google Guava's {@link Cache}.
  *
  * @param <T> The type of element to store within this set
  * @author Braydon
@@ -20,7 +22,7 @@ public final class ExpiringSet<T> implements Iterable<T> {
     /**
      * The internal cache for this set.
      */
-    @NonNull private final ExpiringMap<T, Long> cache;
+    @NonNull private final Cache<T, Long> cache;
 
     /**
      * The lifetime (in millis) of the elements in this set.
@@ -32,13 +34,19 @@ public final class ExpiringSet<T> implements Iterable<T> {
     }
 
     public ExpiringSet(@NonNull ExpirationPolicy expirationPolicy, long duration, @NonNull TimeUnit timeUnit, @NonNull Consumer<T> onExpire) {
-        //noinspection unchecked
-        this.cache = ExpiringMap.builder()
-                .expirationPolicy(expirationPolicy)
-                .expiration(duration, timeUnit)
-                .expirationListener((key, ignored) -> onExpire.accept((T) key))
-                .build();
-        this.lifetime = timeUnit.toMillis(duration); // Get the lifetime in millis
+        CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
+        if (expirationPolicy == ExpirationPolicy.CREATED) {
+            builder.expireAfterWrite(duration, timeUnit);
+        } else {
+            builder.expireAfterAccess(duration, timeUnit);
+        }
+        this.cache = builder
+            .removalListener((RemovalListener<T, Long>) notification -> {
+                if (notification.wasEvicted()) {
+                    onExpire.accept(notification.getKey());
+                }
+            }).build();
+        this.lifetime = timeUnit.toMillis(duration);
     }
 
     /**
@@ -48,7 +56,7 @@ public final class ExpiringSet<T> implements Iterable<T> {
      * @return whether the element was added
      */
     public boolean add(@NonNull T element) {
-        boolean contains = contains(element); // Does this set already contain the element?
+        boolean contains = contains(element);
         this.cache.put(element, System.currentTimeMillis() + this.lifetime);
         return !contains;
     }
@@ -60,7 +68,7 @@ public final class ExpiringSet<T> implements Iterable<T> {
      * @return the entry time, -1 if not contained
      */
     public long getEntryTime(@NonNull T element) {
-        return contains(element) ? this.cache.get(element) - this.lifetime : -1L;
+        return contains(element) ? Objects.requireNonNull(this.cache.getIfPresent(element)) - this.lifetime : -1L;
     }
 
     /**
@@ -71,7 +79,7 @@ public final class ExpiringSet<T> implements Iterable<T> {
      * @return whether the element is contained
      */
     public boolean contains(@NonNull T element) {
-        Long timeout = this.cache.get(element); // Get the timeout for the element
+        Long timeout = this.cache.getIfPresent(element);
         return timeout != null && (timeout > System.currentTimeMillis());
     }
 
@@ -81,7 +89,7 @@ public final class ExpiringSet<T> implements Iterable<T> {
      * @return whether this set is empty
      */
     public boolean isEmpty() {
-        return this.cache.isEmpty();
+        return this.cache.size() == 0;
     }
 
     /**
@@ -89,7 +97,7 @@ public final class ExpiringSet<T> implements Iterable<T> {
      *
      * @return the size
      */
-    public int size() {
+    public long size() {
         return this.cache.size();
     }
 
@@ -100,14 +108,16 @@ public final class ExpiringSet<T> implements Iterable<T> {
      * @return whether the element was removed
      */
     public boolean remove(@NonNull T element) {
-        return this.cache.remove(element) != null;
+        boolean contains = contains(element);
+        this.cache.invalidate(element);
+        return contains;
     }
 
     /**
      * Clear this set.
      */
     public void clear() {
-        this.cache.clear();
+        this.cache.invalidateAll();
     }
 
     /**
@@ -117,7 +127,7 @@ public final class ExpiringSet<T> implements Iterable<T> {
      */
     @NonNull
     public Set<T> getElements() {
-        return this.cache.keySet();
+        return this.cache.asMap().keySet();
     }
 
     /**
@@ -127,6 +137,21 @@ public final class ExpiringSet<T> implements Iterable<T> {
      */
     @Override @NonNull
     public Iterator<T> iterator() {
-        return this.cache.keySet().iterator();
+        return this.cache.asMap().keySet().iterator();
+    }
+
+    /**
+     * The expiration policy for elements in this set.
+     */
+    public enum ExpirationPolicy {
+        /**
+         * Elements expire after a fixed duration since creation.
+         */
+        CREATED,
+
+        /**
+         * Elements expire after a fixed duration since last access.
+         */
+        ACCESSED
     }
 }

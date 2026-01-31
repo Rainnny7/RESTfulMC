@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import net.jodah.expiringmap.ExpirationPolicy;
+import cc.restfulmc.api.common.ExpiringSet.ExpirationPolicy;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;

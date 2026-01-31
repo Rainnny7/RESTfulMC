@@ -124,12 +124,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.jodah</groupId>
-            <artifactId>expiringmap</artifactId>
-            <version>0.5.11</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>33.5.0-jre</version>
