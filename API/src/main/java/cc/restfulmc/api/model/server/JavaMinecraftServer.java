@@ -9,8 +9,8 @@ import cc.restfulmc.api.model.token.JavaServerStatusToken;
 import cc.restfulmc.api.service.MojangService;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.ComponentSerializer;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +136,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
                                              @NonNull JavaServerStatusToken statusToken, JavaServerChallengeStatusToken challengeStatusToken) {
         String motdString = statusToken.getDescription() instanceof String ? (String) statusToken.getDescription() : null;
         if (motdString == null) { // Not a string motd, convert from Json
-            motdString = new TextComponent(ComponentSerializer.parse(AppConfig.GSON.toJson(statusToken.getDescription()))).toLegacyText();
+            motdString = LegacyComponentSerializer.legacySection().serialize(GsonComponentSerializer.gson().deserialize(AppConfig.GSON.toJson(statusToken.getDescription())));
         }
         String software = challengeStatusToken == null ? null : challengeStatusToken.getSoftware(); // The server software
 
