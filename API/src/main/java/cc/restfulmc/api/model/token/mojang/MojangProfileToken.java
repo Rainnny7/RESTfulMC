@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.token;
+package cc.restfulmc.api.model.token.mojang;
 
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.Cape;

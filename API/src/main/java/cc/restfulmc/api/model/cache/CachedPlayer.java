@@ -4,7 +4,7 @@ import cc.restfulmc.api.model.Cape;
 import cc.restfulmc.api.model.Player;
 import cc.restfulmc.api.model.ProfileAction;
 import cc.restfulmc.api.model.skin.Skin;
-import cc.restfulmc.api.model.token.MojangProfileToken;
+import cc.restfulmc.api.model.token.mojang.MojangProfileToken;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NonNull;

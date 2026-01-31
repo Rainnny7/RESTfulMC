@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.token;
+package cc.restfulmc.api.model.token.mojang;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

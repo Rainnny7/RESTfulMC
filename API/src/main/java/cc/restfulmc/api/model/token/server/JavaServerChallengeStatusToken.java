@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.token;
+package cc.restfulmc.api.model.token.server;
 
 import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import lombok.*;

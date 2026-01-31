@@ -3,8 +3,9 @@ package cc.restfulmc.api.model.server.java;
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.server.*;
-import cc.restfulmc.api.model.token.JavaServerChallengeStatusToken;
-import cc.restfulmc.api.model.token.JavaServerStatusToken;
+import cc.restfulmc.api.model.token.server.GenericJavaServerStatusToken;
+import cc.restfulmc.api.model.token.server.JavaServerChallengeStatusToken;
+import cc.restfulmc.api.model.token.server.JavaServerStatusToken;
 import cc.restfulmc.api.service.MojangService;
 import lombok.Getter;
 import lombok.NonNull;
@@ -134,7 +135,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
      */
     @NonNull
     public static JavaMinecraftServer create(@NonNull String hostname, String ip, int port, DNSRecord[] records,
-                                             @NonNull JavaServerStatusToken statusToken, JavaServerChallengeStatusToken challengeStatusToken) {
+                                             @NonNull GenericJavaServerStatusToken statusToken, JavaServerChallengeStatusToken challengeStatusToken) {
         String motdString = statusToken.getDescription() instanceof String ? (String) statusToken.getDescription() : null;
         if (motdString == null) { // Not a string motd, convert from Json
             motdString = LegacyComponentSerializer.builder()
@@ -157,10 +158,23 @@ public final class JavaMinecraftServer extends MinecraftServer {
         }
         String world = challengeStatusToken == null ? null : challengeStatusToken.getMap(); // The main server world
 
-        return new JavaMinecraftServer(hostname, ip, port, records, null, null, statusToken.getVersion().detailedCopy(), Players.create(statusToken.getPlayers()),
-                MOTD.create(motdString), Favicon.create(statusToken.getFavicon(), hostname), software, plugins, statusToken.getModInfo(),
-                statusToken.getForgeData(), world, challengeStatusToken != null, statusToken.isPreviewsChat(),
-                statusToken.isEnforcesSecureChat(), statusToken.isPreventsChatReports(), false
+        Favicon favicon = null;
+        ModInfo modInfo = null;
+        ForgeData forgeData = null;
+        boolean previewsChat = false;
+        boolean enforcesSecureChat = false;
+        boolean preventsChatReports = false;
+        if (statusToken instanceof JavaServerStatusToken nativeStatusToken) {
+            favicon = Favicon.create(nativeStatusToken.getFavicon(), hostname);
+            modInfo = nativeStatusToken.getModInfo();
+            forgeData = nativeStatusToken.getForgeData();
+            previewsChat = nativeStatusToken.isPreviewsChat();
+            enforcesSecureChat = nativeStatusToken.isEnforcesSecureChat();
+            preventsChatReports = nativeStatusToken.isPreventsChatReports();
+        }
+        return new JavaMinecraftServer(hostname, ip, port, records, null, null, statusToken.getVersion().detailedCopy(),
+                Players.create(statusToken.getPlayers()), MOTD.create(motdString), favicon, software, plugins, modInfo, forgeData,
+                world, challengeStatusToken != null, previewsChat, enforcesSecureChat, preventsChatReports, false
         );
     }
 }

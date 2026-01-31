@@ -1,7 +1,7 @@
 package cc.restfulmc.api.model;
 
 import cc.restfulmc.api.model.skin.Skin;
-import cc.restfulmc.api.model.token.MojangProfileToken;
+import cc.restfulmc.api.model.token.mojang.MojangProfileToken;
 import lombok.*;
 
 import java.util.UUID;

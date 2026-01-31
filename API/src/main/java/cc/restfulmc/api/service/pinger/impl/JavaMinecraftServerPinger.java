@@ -2,6 +2,7 @@ package cc.restfulmc.api.service.pinger.impl;
 
 import cc.restfulmc.api.common.JavaMinecraftVersion;
 import cc.restfulmc.api.common.packet.impl.java.tcp.JavaHandshakingInSetProtocolPacket;
+import cc.restfulmc.api.common.packet.impl.java.tcp.JavaLegacyServerListPingPacket;
 import cc.restfulmc.api.common.packet.impl.java.tcp.JavaStatusInStartPacket;
 import cc.restfulmc.api.common.packet.impl.java.udp.JavaQueryFullStatRequestPacket;
 import cc.restfulmc.api.common.packet.impl.java.udp.JavaQueryFullStatResponsePacket;
@@ -12,16 +13,22 @@ import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
-import cc.restfulmc.api.model.token.JavaServerChallengeStatusToken;
-import cc.restfulmc.api.model.token.JavaServerStatusToken;
+import cc.restfulmc.api.model.server.java.Version;
+import cc.restfulmc.api.model.token.server.GenericJavaServerStatusToken;
+import cc.restfulmc.api.model.token.server.JavaServerChallengeStatusToken;
+import cc.restfulmc.api.model.token.server.JavaServerStatusToken;
+import cc.restfulmc.api.model.token.server.LegacyJavaServerStatusToken;
 import cc.restfulmc.api.service.pinger.MinecraftServerPinger;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.util.Collections;
 
 /**
  * The {@link MinecraftServerPinger} for pinging
@@ -48,20 +55,27 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
 
         try {
             // Ping the server and retrieve both the status token, and the challenge status token
-            JavaServerStatusToken statusToken = retrieveStatusToken(hostname, port);
+            GenericJavaServerStatusToken statusToken;
             JavaServerChallengeStatusToken challengeStatusToken = null;
-            try {
-                 challengeStatusToken = retrieveChallengeStatusToken(hostname, port);
-            } catch (Exception ex) {
-                // An exception will be raised if querying
-                // is disabled on the server. If the exception
-                // is not caused by querying being disabled, we
-                // want to log the error.
-                if (!(ex instanceof IOException)) {
-                    log.error("Failed retrieving challenge status token for {}:{}:", hostname, port, ex);
-                }
-            }
 
+            // First try pinging the server natively
+            try {
+                statusToken = retrieveStatusToken(hostname, port);
+                try {
+                    challengeStatusToken = retrieveChallengeStatusToken(hostname, port);
+                } catch (Exception ex) {
+                    // An exception will be raised if querying
+                    // is disabled on the server. If the exception
+                    // is not caused by querying being disabled, we
+                    // want to log the error.
+                    if (!(ex instanceof IOException)) {
+                        log.error("Failed retrieving challenge status token for {}:{}:", hostname, port, ex);
+                    }
+                }
+            } catch (Exception ex) {
+                // Failed to ping, let's now try the legacy pinger
+                statusToken = retrieveLegacyStatusToken(hostname, port);
+            }
             // Return the server
             return JavaMinecraftServer.create(hostname, ip, port, records, statusToken, challengeStatusToken);
         } catch (IOException ex) {
@@ -85,34 +99,20 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
      * @throws ResourceNotFoundException if the server didn't respond
      */
     @NonNull
-    private JavaServerStatusToken retrieveStatusToken(@NonNull String hostname, int port) throws IOException, ResourceNotFoundException {
-        log.info("Opening TCP connection to {}:{}...", hostname, port);
-        long before = System.currentTimeMillis(); // Timestamp before pinging
-
+    private JavaServerStatusToken retrieveStatusToken(@NonNull String hostname, int port) throws IOException {
         // Open a socket connection to the server
-        try (Socket socket = new Socket()) {
-            socket.setTcpNoDelay(true);
-            socket.connect(new InetSocketAddress(hostname, port), TIMEOUT);
+        try (
+                Socket socket = createTcpSocket(hostname, port);
+                DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
+            // Begin handshaking with the server
+            new JavaHandshakingInSetProtocolPacket(hostname, port, JavaMinecraftVersion.getLatestVersion().getProtocol())
+                    .process(inputStream, outputStream);
 
-            long ping = System.currentTimeMillis() - before; // Calculate the ping
-            log.info("TCP Connection to {}:{} opened. Ping: {}ms", hostname, port, ping);
-
-            // Begin packet transaction
-            try (DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
-                // Begin handshaking with the server
-                new JavaHandshakingInSetProtocolPacket(hostname, port, JavaMinecraftVersion.getLatestVersion().getProtocol())
-                        .process(inputStream, outputStream);
-
-                // Send the status request to the server, and await back the response
-                JavaStatusInStartPacket packetStatusInStart = new JavaStatusInStartPacket();
-                packetStatusInStart.process(inputStream, outputStream);
-                String response = packetStatusInStart.getResponse();
-                if (response == null) { // No response
-                    throw new ResourceNotFoundException("Server didn't respond to status request");
-                }
-                return AppConfig.GSON.fromJson(response, JavaServerStatusToken.class);
-            }
+            // Send the status request to the server, and await back the response
+            JavaStatusInStartPacket packetStatusInStart = new JavaStatusInStartPacket();
+            packetStatusInStart.process(inputStream, outputStream);
+            return AppConfig.GSON.fromJson(packetStatusInStart.getResponse(), JavaServerStatusToken.class);
         }
     }
 
@@ -150,5 +150,37 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
             // Return the challenge token
             return JavaServerChallengeStatusToken.create(fullStatResponse.getResponse());
         }
+    }
+
+    @NonNull
+    private LegacyJavaServerStatusToken retrieveLegacyStatusToken(@NonNull String hostname, int port) throws IOException {
+        // Open a socket connection to the server
+        try (
+                Socket socket = createTcpSocket(hostname, port);
+                DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
+            JavaLegacyServerListPingPacket legacyPingPacket = new JavaLegacyServerListPingPacket();
+            legacyPingPacket.process(inputStream, outputStream);
+
+            GenericJavaServerStatusToken.Players players = new GenericJavaServerStatusToken.Players(
+                    legacyPingPacket.getOnlinePlayers(), legacyPingPacket.getMaxPlayers(), new GenericJavaServerStatusToken.Players.Sample[0]
+            );
+            Version version = new Version(legacyPingPacket.getGameVersion(), null, legacyPingPacket.getProtocolVersion(),
+                    new int[] { legacyPingPacket.getProtocolVersion() }, null);
+            return new LegacyJavaServerStatusToken(legacyPingPacket.getMotd(), players, version);
+        }
+    }
+
+    @NonNull @SneakyThrows
+    private Socket createTcpSocket(@NonNull String hostname, int port) {
+        log.info("Opening TCP connection to {}:{}...", hostname, port);
+        long before = System.currentTimeMillis(); // Timestamp before pinging
+        Socket socket = new Socket();
+        socket.setTcpNoDelay(true);
+        socket.connect(new InetSocketAddress(hostname, port), TIMEOUT);
+
+        long ping = System.currentTimeMillis() - before; // Calculate the ping
+        log.info("TCP Connection to {}:{} opened. Ping: {}ms", hostname, port, ping);
+        return socket;
     }
 }

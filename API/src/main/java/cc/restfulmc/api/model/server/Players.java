@@ -2,7 +2,7 @@ package cc.restfulmc.api.model.server;
 
 import cc.restfulmc.api.common.ColorUtils;
 import cc.restfulmc.api.config.AppConfig;
-import cc.restfulmc.api.model.token.JavaServerStatusToken;
+import cc.restfulmc.api.model.token.server.JavaServerStatusToken;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;

@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.token;
+package cc.restfulmc.api.model.token.server;
 
 import cc.restfulmc.api.model.server.java.ForgeData;
 import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
@@ -18,30 +18,12 @@ import java.util.UUID;
  *
  * @author Braydon
  */
-@AllArgsConstructor @Getter @ToString
-public final class JavaServerStatusToken {
-    /**
-     * The description (MOTD) of this server.
-     * <p>
-     * Legacy: String, New: JSON Object
-     * </p>
-     */
-    @NonNull private final Object description;
-
+@Getter @ToString(callSuper = true)
+public final class JavaServerStatusToken extends GenericJavaServerStatusToken {
     /**
      * The base64 encoded favicon of this server, null if no favicon.
      */
     private final String favicon;
-
-    /**
-     * The version information of this server.
-     */
-    @NonNull private final Version version;
-
-    /**
-     * The player counts of this server.
-     */
-    @NonNull private final Players players;
 
     /**
      * The Forge mod information for this server, null if none.
@@ -76,40 +58,15 @@ public final class JavaServerStatusToken {
      */
     private final boolean preventsChatReports;
 
-    /**
-     * Player count data for a server.
-     */
-    @AllArgsConstructor @Getter @ToString
-    public static class Players {
-        /**
-         * The online players on this server.
-         */
-        private final int online;
-
-        /**
-         * The maximum allowed players on this server.
-         */
-        private final int max;
-
-        /**
-         * A sample of players on this server, null or empty if no sample.
-         */
-        private final Sample[] sample;
-
-        /**
-         * A sample player.
-         */
-        @AllArgsConstructor @Getter @ToString
-        public static class Sample {
-            /**
-             * The unique id of this player.
-             */
-            @NonNull private final UUID id;
-
-            /**
-             * The name of this player.
-             */
-            @NonNull private final String name;
-        }
+    public JavaServerStatusToken(@NonNull Object description, @NonNull Players players, @NonNull Version version, String favicon,
+                                 ForgeData forgeData, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports,
+                                 ModInfo modInfo) {
+        super(description, players, version);
+        this.favicon = favicon;
+        this.forgeData = forgeData;
+        this.previewsChat = previewsChat;
+        this.enforcesSecureChat = enforcesSecureChat;
+        this.preventsChatReports = preventsChatReports;
+        this.modInfo = modInfo;
     }
 }
