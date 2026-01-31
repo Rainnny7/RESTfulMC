@@ -1,7 +1,8 @@
 package cc.restfulmc.api.common.packet.impl.bedrock;
 
 import cc.restfulmc.api.common.packet.UDPPacket;
-import cc.restfulmc.api.model.server.BedrockMinecraftServer;
+import cc.restfulmc.api.model.server.bedrock.BedrockMinecraftServer;
+import cc.restfulmc.api.model.server.bedrock.Edition;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -49,7 +50,7 @@ public final class BedrockUnconnectedPongPacket extends UDPPacket {
 
             // Trim the length of the response (short) from the
             // start of the string, which begins with the edition name
-            for (BedrockMinecraftServer.Edition edition : BedrockMinecraftServer.Edition.values()) {
+            for (Edition edition : Edition.values()) {
                 int startIndex = response.indexOf(edition.name());
                 if (startIndex != -1) {
                     response = response.substring(startIndex);

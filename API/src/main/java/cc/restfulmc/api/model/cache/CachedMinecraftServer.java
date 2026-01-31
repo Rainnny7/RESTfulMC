@@ -1,6 +1,6 @@
 package cc.restfulmc.api.model.cache;
 
-import cc.restfulmc.api.model.MinecraftServer;
+import cc.restfulmc.api.model.server.MinecraftServer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.*;

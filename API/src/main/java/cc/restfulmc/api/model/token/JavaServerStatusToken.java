@@ -1,6 +1,9 @@
 package cc.restfulmc.api.model.token;
 
-import cc.restfulmc.api.model.server.JavaMinecraftServer;
+import cc.restfulmc.api.model.server.java.ForgeData;
+import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
+import cc.restfulmc.api.model.server.java.ModInfo;
+import cc.restfulmc.api.model.server.java.Version;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,7 +36,7 @@ public final class JavaServerStatusToken {
     /**
      * The version information of this server.
      */
-    @NonNull private final JavaMinecraftServer.Version version;
+    @NonNull private final Version version;
 
     /**
      * The player counts of this server.
@@ -46,7 +49,7 @@ public final class JavaServerStatusToken {
      * This is for servers on 1.12 or below.
      * </p>
      */
-    @SerializedName("modinfo") private final JavaMinecraftServer.ModInfo modInfo;
+    @SerializedName("modinfo") private final ModInfo modInfo;
 
     /**
      * The Forge mod information for this server, null if none.
@@ -54,7 +57,7 @@ public final class JavaServerStatusToken {
      * This is for servers on 1.13 and above.
      * </p>
      */
-    private final JavaMinecraftServer.ForgeData forgeData;
+    private final ForgeData forgeData;
 
     /**
      * Does this server preview chat?

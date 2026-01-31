@@ -5,7 +5,7 @@ import cc.restfulmc.api.common.packet.impl.bedrock.BedrockUnconnectedPongPacket;
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.dns.DNSRecord;
-import cc.restfulmc.api.model.server.BedrockMinecraftServer;
+import cc.restfulmc.api.model.server.bedrock.BedrockMinecraftServer;
 import cc.restfulmc.api.service.pinger.MinecraftServerPinger;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;

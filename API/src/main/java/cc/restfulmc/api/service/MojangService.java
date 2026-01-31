@@ -6,7 +6,9 @@ import cc.restfulmc.api.common.web.JsonWebRequest;
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.MojangRateLimitException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
-import cc.restfulmc.api.model.MinecraftServer;
+import cc.restfulmc.api.model.server.AsnData;
+import cc.restfulmc.api.model.server.GeoLocation;
+import cc.restfulmc.api.model.server.MinecraftServer;
 import cc.restfulmc.api.model.Player;
 import cc.restfulmc.api.model.ProfileAction;
 import cc.restfulmc.api.model.cache.CachedMinecraftServer;
@@ -16,7 +18,9 @@ import cc.restfulmc.api.model.cache.CachedSkinPartTexture;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.dns.impl.ARecord;
 import cc.restfulmc.api.model.dns.impl.SRVRecord;
-import cc.restfulmc.api.model.server.JavaMinecraftServer;
+import cc.restfulmc.api.model.server.ServerPlatform;
+import cc.restfulmc.api.model.server.java.Favicon;
+import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import cc.restfulmc.api.model.skin.ISkinPart;
 import cc.restfulmc.api.model.skin.Skin;
 import cc.restfulmc.api.model.token.MojangProfileToken;
@@ -325,7 +329,7 @@ public final class MojangService {
     public byte[] getServerFavicon(@NonNull String hostname) {
         String icon = null; // The server base64 icon
         try {
-            JavaMinecraftServer.Favicon favicon = ((JavaMinecraftServer) getMinecraftServer(MinecraftServer.Platform.JAVA.name(), hostname).getValue()).getFavicon();
+            Favicon favicon = ((JavaMinecraftServer) getMinecraftServer(ServerPlatform.JAVA.name(), hostname).getValue()).getFavicon();
             if (favicon != null) { // Use the server's favicon
                 icon = favicon.getBase64();
                 icon = icon.substring(icon.indexOf(",") + 1); // Remove the data type from the server icon
@@ -402,7 +406,7 @@ public final class MojangService {
     @NonNull
     public CachedMinecraftServer getMinecraftServer(@NonNull String platformName, @NonNull String hostname)
             throws BadRequestException, ResourceNotFoundException {
-        MinecraftServer.Platform platform = EnumUtils.getEnumConstant(MinecraftServer.Platform.class, platformName.toUpperCase());
+        ServerPlatform platform = EnumUtils.getEnumConstant(ServerPlatform.class, platformName.toUpperCase());
         if (platform == null) { // Invalid platform
             throw new BadRequestException("Invalid platform: %s".formatted(platformName));
         }
@@ -428,7 +432,7 @@ public final class MojangService {
         }
         List<DNSRecord> records = new ArrayList<>(); // The resolved DNS records for the server
 
-        SRVRecord srvRecord = platform == MinecraftServer.Platform.JAVA ? DNSUtils.resolveSRV(hostname) : null; // Resolve the SRV record
+        SRVRecord srvRecord = platform == ServerPlatform.JAVA ? DNSUtils.resolveSRV(hostname) : null; // Resolve the SRV record
         if (srvRecord != null) { // SRV was resolved, use the hostname and port
             records.add(srvRecord); // Going to need this for later
             InetSocketAddress socketAddress = srvRecord.getSocketAddress();
@@ -443,15 +447,15 @@ public final class MojangService {
             log.info("Resolved hostname: {} -> {}", hostname, ip);
         }
         // Attempt to perform a Geo lookup on the server
-        MinecraftServer.AsnData asn = null;
-        MinecraftServer.GeoLocation geo = null;
+        AsnData asn = null;
+        GeoLocation geo = null;
         try {
             log.info("Looking up ASN & Geo location data for {}...", ip);
 
             InetAddress address = InetAddress.getByName(ip == null ? hostname : ip);
             AsnResponse asnResponse = maxMindService.lookupAsn(address);
             if (asnResponse != null) {
-                asn = new MinecraftServer.AsnData(asnResponse.getAutonomousSystemNumber(), asnResponse.getAutonomousSystemOrganization());
+                asn = new AsnData(asnResponse.getAutonomousSystemNumber(), asnResponse.getAutonomousSystemOrganization());
             }
             geo = maxMindService.lookup(address);
         } catch (Exception ex) {
@@ -476,7 +480,7 @@ public final class MojangService {
         );
 
         // Get the blocked status of the Java server
-        if (platform == MinecraftServer.Platform.JAVA) {
+        if (platform == ServerPlatform.JAVA) {
             ((JavaMinecraftServer) minecraftServer.getValue()).setMojangBanned(isServerBlocked(hostname));
         }
 

@@ -1,6 +1,7 @@
 package cc.restfulmc.api.service;
 
-import cc.restfulmc.api.model.MinecraftServer;
+import cc.restfulmc.api.model.server.GeoLocation;
+import cc.restfulmc.api.model.server.MinecraftServer;
 import com.maxmind.db.CHMCache;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
@@ -109,19 +110,19 @@ public final class MaxMindService {
      * @param address the address to lookup
      * @return the geo location, null if unknown
      */
-    public MinecraftServer.GeoLocation lookup(@NonNull InetAddress address) {
-        MinecraftServer.GeoLocation geo = null;
+    public GeoLocation lookup(@NonNull InetAddress address) {
+        GeoLocation geo = null;
 
         CityResponse cityResponse = lookupCity(address);
         if (cityResponse != null) {
-            geo = MinecraftServer.GeoLocation.create(cityResponse);
+            geo = GeoLocation.create(cityResponse);
         }
         if (geo != null) {
             return geo;
         }
         CountryResponse countryResponse = lookupCountry(address);
         if (countryResponse != null) {
-            geo = MinecraftServer.GeoLocation.create(countryResponse);
+            geo = GeoLocation.create(countryResponse);
         }
         return geo;
     }

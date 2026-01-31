@@ -11,7 +11,7 @@ import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.dns.DNSRecord;
-import cc.restfulmc.api.model.server.JavaMinecraftServer;
+import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import cc.restfulmc.api.model.token.JavaServerChallengeStatusToken;
 import cc.restfulmc.api.model.token.JavaServerStatusToken;
 import cc.restfulmc.api.service.pinger.MinecraftServerPinger;

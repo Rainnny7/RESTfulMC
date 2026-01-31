@@ -1,8 +1,11 @@
-package cc.restfulmc.api.model.server;
+package cc.restfulmc.api.model.server.bedrock;
 
-import cc.restfulmc.api.model.MinecraftServer;
 import cc.restfulmc.api.model.dns.DNSRecord;
-import lombok.*;
+import cc.restfulmc.api.model.server.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
 
 /**
  * A Bedrock edition {@link MinecraftServer}.
@@ -60,53 +63,5 @@ public final class BedrockMinecraftServer extends MinecraftServer {
         MOTD motd = MOTD.create(split[1] + "\n" + split[7]);
         GameMode gameMode = new GameMode(split[8], split.length > 9 ? Integer.parseInt(split[9]) : -1);
         return new BedrockMinecraftServer(split[6], hostname, ip, port, null, null, records, edition, version, players, motd, gameMode);
-    }
-
-    /**
-     * The edition of a Bedrock server.
-     */
-    @AllArgsConstructor @Getter
-    public enum Edition {
-        /**
-         * Minecraft: Pocket Edition.
-         */
-        MCPE,
-
-        /**
-         * Minecraft: Education Edition.
-         */
-        MCEE
-    }
-
-    /**
-     * Version information for a server.
-     */
-    @AllArgsConstructor @Getter @ToString
-    public static class Version {
-        /**
-         * The protocol version of the server.
-         */
-        private final int protocol;
-
-        /**
-         * The version name of the server.
-         */
-        @NonNull private final String name;
-    }
-
-    /**
-     * The gamemode of a server.
-     */
-    @AllArgsConstructor @Getter @ToString
-    public static class GameMode {
-        /**
-         * The name of this gamemode.
-         */
-        @NonNull private final String name;
-
-        /**
-         * The numeric of this gamemode, -1 if unknown.
-         */
-        private final int numericId;
     }
 }

@@ -2,7 +2,7 @@ package cc.restfulmc.api.controller;
 
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
-import cc.restfulmc.api.model.MinecraftServer;
+import cc.restfulmc.api.model.server.MinecraftServer;
 import cc.restfulmc.api.model.cache.CachedMinecraftServer;
 import cc.restfulmc.api.service.MojangService;
 import io.swagger.v3.oas.annotations.Parameter;

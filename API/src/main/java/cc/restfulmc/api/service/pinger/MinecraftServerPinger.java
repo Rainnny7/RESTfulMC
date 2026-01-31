@@ -1,6 +1,6 @@
 package cc.restfulmc.api.service.pinger;
 
-import cc.restfulmc.api.model.MinecraftServer;
+import cc.restfulmc.api.model.server.MinecraftServer;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import lombok.NonNull;
 

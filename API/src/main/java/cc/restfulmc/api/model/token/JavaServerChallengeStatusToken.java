@@ -1,6 +1,6 @@
 package cc.restfulmc.api.model.token;
 
-import cc.restfulmc.api.model.server.JavaMinecraftServer;
+import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import lombok.*;
 
 import java.util.HashMap;
