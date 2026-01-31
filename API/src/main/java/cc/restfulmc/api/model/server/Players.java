@@ -71,7 +71,7 @@ public final class Players {
         /**
          * The href to view player data for this player sample.
          */
-        @NonNull private final String href;
+        @NonNull private final String url;
 
         /**
          * The name of a sample player.
