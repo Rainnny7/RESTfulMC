@@ -136,7 +136,12 @@ public final class JavaMinecraftServer extends MinecraftServer {
                                              @NonNull JavaServerStatusToken statusToken, JavaServerChallengeStatusToken challengeStatusToken) {
         String motdString = statusToken.getDescription() instanceof String ? (String) statusToken.getDescription() : null;
         if (motdString == null) { // Not a string motd, convert from Json
-            motdString = LegacyComponentSerializer.legacySection().serialize(GsonComponentSerializer.gson().deserialize(AppConfig.GSON.toJson(statusToken.getDescription())));
+            motdString = LegacyComponentSerializer.builder()
+                    .character(LegacyComponentSerializer.SECTION_CHAR)
+                    .hexColors()
+                    .useUnusualXRepeatedCharacterHexFormat()
+                    .build()
+                    .serialize(GsonComponentSerializer.gson().deserialize(AppConfig.GSON.toJson(statusToken.getDescription())));
         }
         String software = challengeStatusToken == null ? null : challengeStatusToken.getSoftware(); // The server software
 
