@@ -2,6 +2,9 @@
 ![Wakatime Hours](https://wakatime.rainnny.club/api/badge/Rainnny/interval:any/project:RESTfulMC)
 [![Docs - SwaggerUI](https://img.shields.io/badge/Docs-SwaggerUI-green.svg)](https://mc.rainnny.club/api/swagger-ui.html)
 
+> [!NOTE]
+> This project moved from https://restfulmc.cc -> https://mc.rainnny.club/api
+
 # RESTfulMC
 A simple, yet useful RESTful API for Minecraft utilizing Springboot.
 
