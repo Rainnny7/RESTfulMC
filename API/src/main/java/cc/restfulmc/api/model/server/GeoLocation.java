@@ -23,15 +23,20 @@ public final class GeoLocation {
      */
     @NonNull private final LocationData continent;
 
-
     /**
      * The country of this server.
      */
     @NonNull private final LocationData country;
+
     /**
      * The city of this server, null if unknown.
      */
     private final String city;
+
+    /**
+     * A quick link to the flag for the country.
+     */
+    @NonNull private final String flag;
 
     /**
      * The latitude of this server.
@@ -66,6 +71,7 @@ public final class GeoLocation {
                 new GeoLocation.LocationData(continent.getCode(), continent.getName()),
                 new GeoLocation.LocationData(country.getIsoCode(), country.getName()),
                 city == null ? null : city.getName(),
+                "https://flagcdn.com/w20/" + country.getIsoCode().toLowerCase() + ".webp",
                 location == null ? 0D : location.getLatitude(), location == null ? 0D : location.getLongitude()
         );
     }
