@@ -115,14 +115,14 @@ public final class MaxMindService {
 
         CityResponse cityResponse = lookupCity(address);
         if (cityResponse != null) {
-            geo = GeoLocation.create(cityResponse);
+            geo = GeoLocation.create(cityResponse.continent(), cityResponse.country(), cityResponse.city(), cityResponse.location());
         }
         if (geo != null) {
             return geo;
         }
         CountryResponse countryResponse = lookupCountry(address);
         if (countryResponse != null) {
-            geo = GeoLocation.create(countryResponse);
+            geo = GeoLocation.create(countryResponse.continent(), countryResponse.country(), null, null);
         }
         return geo;
     }

@@ -1,7 +1,5 @@
 package cc.restfulmc.api.model.server;
 
-import com.maxmind.geoip2.model.AbstractCountryResponse;
-import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
@@ -49,30 +47,24 @@ public final class GeoLocation {
     private final double longitude;
 
     /**
-     * Create new geo location data
-     * from the given geo response.
+     * Create new geo location data.
      *
-     * @param geo the geo response
+     * @param continent the geo location continent
+     * @param country the geo location country
+     * @param city the geo location city
+     * @param location the geo location location
      * @return the geo location, null if unknown
      */
-    public static GeoLocation create(@NonNull AbstractCountryResponse geo) {
-        Continent continent = geo.getContinent();
-        Country country = geo.getCountry();
-        City city = null;
-        Location location = null;
-        if (geo instanceof CityResponse cityResponse) {
-            city = cityResponse.getCity();
-            location = cityResponse.getLocation();
-        }
-        if (continent.getCode() == null) {
+    public static GeoLocation create(@NonNull Continent continent, @NonNull Country country, City city, Location location) {
+        if (continent.code() == null) {
             return null;
         }
         return new GeoLocation(
-                new GeoLocation.LocationData(continent.getCode(), continent.getName()),
-                new GeoLocation.LocationData(country.getIsoCode(), country.getName()),
-                city == null ? null : city.getName(),
-                "https://flagcdn.com/w20/" + country.getIsoCode().toLowerCase() + ".webp",
-                location == null ? 0D : location.getLatitude(), location == null ? 0D : location.getLongitude()
+                new GeoLocation.LocationData(continent.code(), continent.name()),
+                new GeoLocation.LocationData(country.isoCode(), country.name()),
+                city == null ? null : city.name(),
+                "https://flagcdn.com/w20/" + country.isoCode().toLowerCase() + ".webp",
+                location == null ? 0D : location.latitude(), location == null ? 0D : location.longitude()
         );
     }
 
