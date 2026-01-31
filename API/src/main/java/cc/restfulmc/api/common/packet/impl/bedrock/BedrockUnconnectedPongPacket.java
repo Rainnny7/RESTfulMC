@@ -1,7 +1,6 @@
 package cc.restfulmc.api.common.packet.impl.bedrock;
 
 import cc.restfulmc.api.common.packet.UDPPacket;
-import cc.restfulmc.api.model.server.bedrock.BedrockMinecraftServer;
 import cc.restfulmc.api.model.server.bedrock.Edition;
 import lombok.Getter;
 import lombok.NonNull;

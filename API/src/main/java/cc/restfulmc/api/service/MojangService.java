@@ -2,13 +2,6 @@ package cc.restfulmc.api.service;
 
 import cc.restfulmc.api.common.ExpiringSet;
 import cc.restfulmc.api.common.MojangServer;
-import cc.restfulmc.api.exception.impl.BadRequestException;
-import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
-import cc.restfulmc.api.model.server.MinecraftServer;
-import cc.restfulmc.api.model.server.ServerPlatform;
-import cc.restfulmc.api.model.server.java.Favicon;
-import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
-import cc.restfulmc.api.repository.MinecraftServerCacheRepository;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -20,7 +13,6 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import net.jodah.expiringmap.ExpirationPolicy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
