@@ -34,6 +34,8 @@ spring:
   # Don't serialize null values by default with Jackson
   jackson:
     default-property-inclusion: non_null
+    mapper:
+      sort-properties-alphabetically: false
 
   # Ignore
   banner:
