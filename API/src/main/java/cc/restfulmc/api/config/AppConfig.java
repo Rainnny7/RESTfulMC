@@ -1,5 +1,6 @@
 package cc.restfulmc.api.config;
 
+import cc.restfulmc.api.common.RequestTimingFilter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -13,6 +14,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.BuildProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -26,9 +28,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration @Getter
 public class AppConfig {
     public static AppConfig INSTANCE;
-    public static final Gson GSON = new GsonBuilder()
-            .setDateFormat("MM-dd-yyyy HH:mm:ss")
-            .create();
 
     @Value("${server.publicUrl}")
     private String serverPublicUrl;
@@ -85,5 +84,14 @@ public class AppConfig {
                         .allowedHeaders("*"); // Allow all headers
             }
         };
+    }
+
+    @Bean
+    public FilterRegistrationBean<RequestTimingFilter> requestTimingFilter() {
+        FilterRegistrationBean<RequestTimingFilter> filterRegistrationBean = new FilterRegistrationBean<>(new RequestTimingFilter());
+        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.setOrder(1);
+        filterRegistrationBean.setName("requestTimingFilter");
+        return filterRegistrationBean;
     }
 }

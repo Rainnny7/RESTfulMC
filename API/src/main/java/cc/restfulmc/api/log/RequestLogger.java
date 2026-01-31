@@ -1,5 +1,6 @@
 package cc.restfulmc.api.log;
 
+import cc.restfulmc.api.common.Constants;
 import cc.restfulmc.api.common.IPUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,9 +28,18 @@ public class RequestLogger implements ResponseBodyAdvice<Object> {
                                   @NonNull ServerHttpResponse rawResponse) {
         HttpServletRequest request = ((ServletServerHttpRequest) rawRequest).getServletRequest();
         HttpServletResponse response = ((ServletServerHttpResponse) rawResponse).getServletResponse();
-        String query = request.getQueryString();
-        String url = query == null ? request.getRequestURI() : request.getRequestURI() + "?" + query;
-        log.info("{} {} {} - {}", request.getMethod(), url, IPUtils.getRealIp(request), response.getStatus());
+
+        // Calculate processing time
+        Long startTime = (Long) request.getAttribute(Constants.REQUEST_START_TIME_ATTRIBUTE);
+        long processingTime = startTime != null ? System.currentTimeMillis() - startTime : -1;
+
+        log.info("[{}] {} | {} | '{}' | {}ms",
+                response.getStatus(),
+                request.getMethod(),
+                IPUtils.getRealIp(request),
+                request.getRequestURI(),
+                processingTime
+        );
         return body;
     }
 

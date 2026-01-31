@@ -1,5 +1,6 @@
 package cc.restfulmc.api.service.pinger.impl;
 
+import cc.restfulmc.api.common.Constants;
 import cc.restfulmc.api.common.JavaMinecraftVersion;
 import cc.restfulmc.api.common.packet.impl.java.tcp.JavaHandshakingInSetProtocolPacket;
 import cc.restfulmc.api.common.packet.impl.java.tcp.JavaLegacyServerListPingPacket;
@@ -112,7 +113,7 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
             // Send the status request to the server, and await back the response
             JavaStatusInStartPacket packetStatusInStart = new JavaStatusInStartPacket();
             packetStatusInStart.process(inputStream, outputStream);
-            return AppConfig.GSON.fromJson(packetStatusInStart.getResponse(), JavaServerStatusToken.class);
+            return Constants.GSON.fromJson(packetStatusInStart.getResponse(), JavaServerStatusToken.class);
         }
     }
 

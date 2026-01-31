@@ -1,11 +1,13 @@
 package cc.restfulmc.api.model.server.java;
 
+import cc.restfulmc.api.common.Constants;
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.server.*;
 import cc.restfulmc.api.model.token.server.GenericJavaServerStatusToken;
 import cc.restfulmc.api.model.token.server.JavaServerChallengeStatusToken;
 import cc.restfulmc.api.model.token.server.JavaServerStatusToken;
+import cc.restfulmc.api.model.token.server.LegacyJavaServerStatusToken;
 import cc.restfulmc.api.service.MojangService;
 import lombok.Getter;
 import lombok.NonNull;
@@ -68,6 +70,11 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private final String world;
 
     /**
+     * Is this a legacy Beta 1.8 to 1.6 server?
+     */
+    private final boolean legacyServer;
+
+    /**
      * Does this server support querying?
      */
     private final boolean queryEnabled;
@@ -103,10 +110,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private boolean mojangBanned;
 
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, DNSRecord[] records, AsnData asn, GeoLocation geo,
-                                @NonNull Version version, @NonNull Players players, @NonNull MOTD motd, Favicon favicon,
-                                String software, Plugin[] plugins, ModInfo modInfo, ForgeData forgeData, String world,
-                                boolean queryEnabled, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports,
-                                boolean mojangBanned) {
+                                @NonNull Version version, @NonNull Players players, @NonNull MOTD motd, Favicon favicon, String software,
+                                Plugin[] plugins, ModInfo modInfo, ForgeData forgeData, String world, boolean legacyServer, boolean queryEnabled,
+                                boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
         super(hostname, ip, port, records, asn, geo, players, motd);
         this.version = version;
         this.favicon = favicon;
@@ -115,6 +121,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
         this.modInfo = modInfo;
         this.forgeData = forgeData;
         this.world = world;
+        this.legacyServer = legacyServer;
         this.queryEnabled = queryEnabled;
         this.previewsChat = previewsChat;
         this.enforcesSecureChat = enforcesSecureChat;
@@ -143,7 +150,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
                     .hexColors()
                     .useUnusualXRepeatedCharacterHexFormat()
                     .build()
-                    .serialize(GsonComponentSerializer.gson().deserialize(AppConfig.GSON.toJson(statusToken.getDescription())));
+                    .serialize(GsonComponentSerializer.gson().deserialize(Constants.GSON.toJson(statusToken.getDescription())));
         }
         String software = challengeStatusToken == null ? null : challengeStatusToken.getSoftware(); // The server software
 
@@ -174,7 +181,8 @@ public final class JavaMinecraftServer extends MinecraftServer {
         }
         return new JavaMinecraftServer(hostname, ip, port, records, null, null, statusToken.getVersion().detailedCopy(),
                 Players.create(statusToken.getPlayers()), MOTD.create(motdString), favicon, software, plugins, modInfo, forgeData,
-                world, challengeStatusToken != null, previewsChat, enforcesSecureChat, preventsChatReports, false
+                world, statusToken instanceof LegacyJavaServerStatusToken, challengeStatusToken != null, previewsChat,
+                enforcesSecureChat, preventsChatReports, false
         );
     }
 }

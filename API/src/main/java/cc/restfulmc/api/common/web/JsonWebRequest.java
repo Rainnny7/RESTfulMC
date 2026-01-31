@@ -1,5 +1,6 @@
 package cc.restfulmc.api.common.web;
 
+import cc.restfulmc.api.common.Constants;
 import cc.restfulmc.api.config.AppConfig;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -95,7 +96,7 @@ public final class JsonWebRequest {
                 throw new IOException("Failed to make a %s request to %s: %s".formatted(method.name(), endpoint, status));
             }
             // Return with the response as the type
-            return AppConfig.GSON.fromJson(response.body(), responseType);
+            return Constants.GSON.fromJson(response.body(), responseType);
         } catch (Exception ex) {
             if (!(ex instanceof JsonWebException)) {
                 throw new JsonWebException(status, ex);

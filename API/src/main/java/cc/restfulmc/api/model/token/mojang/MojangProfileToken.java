@@ -1,5 +1,6 @@
 package cc.restfulmc.api.model.token.mojang;
 
+import cc.restfulmc.api.common.Constants;
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.Cape;
 import cc.restfulmc.api.model.ProfileAction;
@@ -58,7 +59,7 @@ public final class MojangProfileToken {
         if (textures == null) { // No profile textures
             return new SkinProperties();
         }
-        JsonObject jsonObject = AppConfig.GSON.fromJson(textures.getDecodedValue(), JsonObject.class); // Get the Json object
+        JsonObject jsonObject = Constants.GSON.fromJson(textures.getDecodedValue(), JsonObject.class); // Get the Json object
         JsonObject texturesJsonObject = jsonObject.getAsJsonObject("textures"); // Get the textures object
 
         // Return the tuple containing the skin and cape
