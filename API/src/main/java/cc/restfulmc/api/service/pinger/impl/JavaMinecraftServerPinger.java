@@ -171,6 +171,13 @@ public final class JavaMinecraftServerPinger implements MinecraftServerPinger<Ja
         }
     }
 
+    /**
+     * Create a new TCP socket connecting to the given hostname and port.
+     *
+     * @param hostname the hostname to connect to
+     * @param port the port to connect to
+     * @return the created socket
+     */
     @NonNull @SneakyThrows
     private Socket createTcpSocket(@NonNull String hostname, int port) {
         log.info("Opening TCP connection to {}:{}...", hostname, port);

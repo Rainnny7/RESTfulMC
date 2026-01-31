@@ -1,4 +1,4 @@
-FROM maven:3.8.5-openjdk-17-slim
+FROM maven:3.9.12-eclipse-temurin-25-alpine
 
 # Set the working directory
 WORKDIR /home/container
