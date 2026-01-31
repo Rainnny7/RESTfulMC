@@ -21,7 +21,11 @@ public enum MojangServer {
     TEXTURES("Textures Server", "https://textures.minecraft.net"),
     ASSETS("Assets Server", "https://assets.mojang.com"),
     LIBRARIES("Libraries Server", "https://libraries.minecraft.net"),
-    SERVICES("Minecraft Services", "https://api.minecraftservices.com");
+    SERVICES("Minecraft Services", "https://api.minecraftservices.com"),
+    MICROSOFT_LOGIN("Microsoft Login", "https://login.live.com"),
+    XBOX_LIVE_AUTH("Xbox Live Auth", "https://user.auth.xboxlive.com"),
+    XBOX_LIVE_XSTS("Xbox Live XSTS", "https://xsts.auth.xboxlive.com"),
+    REALMS("Minecraft Realms", "https://pc.realms.minecraft.net");
 
     /**
      * The name of this server.

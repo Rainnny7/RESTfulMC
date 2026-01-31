@@ -1,6 +1,7 @@
 package cc.restfulmc.api.service;
 
 import cc.restfulmc.api.common.ExpiringSet;
+import cc.restfulmc.api.common.ExpiringSet.ExpirationPolicy;
 import cc.restfulmc.api.common.MojangServer;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -12,7 +13,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import cc.restfulmc.api.common.ExpiringSet.ExpirationPolicy;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -130,13 +130,34 @@ public final class MojangService {
      */
     @SneakyThrows
     private void fetchMojangServerStatuses() {
-        log.info("Checking Mojang server statuses...");
+        log.debug("Checking Mojang server statuses...");
+        List<MojangServer> degradedServices = new ArrayList<>();
+        List<MojangServer> offlineServices = new ArrayList<>();
         Arrays.stream(MojangServer.values()).parallel().forEach(server -> {
-            log.info("Pinging {}...", server.getEndpoint());
+            log.debug("Pinging {}...", server.getEndpoint());
             MojangServer.Status status = server.getStatus(); // Retrieve the server status
-            log.info("Retrieved status of {}: {}", server.getEndpoint(), status.name());
+            if (status == MojangServer.Status.DEGRADED) {
+                degradedServices.add(server);
+            } else if (status == MojangServer.Status.OFFLINE) {
+                offlineServices.add(server);
+            }
+            log.debug("Retrieved status of {}: {}", server.getEndpoint(), status.name());
             mojangServerStatuses.put(server, status); // Cache the server status
         });
+        if (!degradedServices.isEmpty() || !offlineServices.isEmpty()) {
+            if (!degradedServices.isEmpty()) {
+                log.warn("There are {} degraded Mojang services:", degradedServices.size());
+                for (MojangServer degraded : degradedServices) {
+                    log.warn("- {}: {}", degraded.getName(), degraded.getEndpoint());
+                }
+            }
+            if (!offlineServices.isEmpty()) {
+                log.warn("There are {} offline Mojang services:", offlineServices.size());
+                for (MojangServer offline : offlineServices) {
+                    log.warn("- {}: {}", offline.getName(), offline.getEndpoint());
+                }
+            }
+        }
     }
 
     /**
