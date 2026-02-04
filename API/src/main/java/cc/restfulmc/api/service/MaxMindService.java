@@ -74,6 +74,7 @@ public final class MaxMindService {
 
         File[] dbFiles = DATABASES_DIRECTORY.listFiles();
         if (dbFiles != null) {
+            System.out.println("parent = " + DATABASES_DIRECTORY.getAbsolutePath());
             System.out.println("dbFiles = " + Arrays.toString(dbFiles));
         }
 
