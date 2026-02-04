@@ -3,6 +3,7 @@ package cc.restfulmc.api.controller;
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.MojangRateLimitException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
+import cc.restfulmc.api.model.player.Cape;
 import cc.restfulmc.api.model.player.Player;
 import cc.restfulmc.api.model.player.cache.CachedPlayer;
 import cc.restfulmc.api.model.player.skin.SkinRendererType;
@@ -57,8 +58,56 @@ public final class PlayerController {
             @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed
     ) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
         return ResponseEntity.ok()
-                .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
+                .cacheControl(CacheControl.maxAge(1L, TimeUnit.HOURS).cachePublic())
                 .body(playerService.getPlayer(query, signed));
+    }
+
+    /**
+     * Get the raw skin texture for a
+     * player by their username or UUID.
+     * <p>
+     * If the player being searched is
+     * invalid, the default Steve skin
+     * will be used.
+     * </p>
+     *
+     * @param query     the query to search for the player by
+     * @param signed whether the profile is signed
+     * @return the skin part texture
+     */
+    @GetMapping(value = "/{query}/skin.png", produces = MediaType.IMAGE_PNG_VALUE) @ResponseBody
+    public ResponseEntity<byte[]> getRawSkinTexture(
+            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
+            @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed
+    ) {
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(1L, TimeUnit.HOURS).cachePublic())
+                .contentType(MediaType.IMAGE_PNG)
+                .body(playerService.getPlayer(query, signed).getSkin().getSkinImage());
+    }
+
+    /**
+     * Get the raw cape texture for a
+     * player by their username or UUID.
+     *
+     * @param query     the query to search for the player by
+     * @param signed whether the profile is signed
+     * @return the skin part texture
+     */
+    @GetMapping(value = "/{query}/cape.png", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    @ResponseBody
+    public ResponseEntity<byte[]> getRawCapeTexture(
+            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
+            @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed
+    ) throws ResourceNotFoundException {
+        Cape cape = playerService.getPlayer(query, signed).getCape();
+        if (cape == null) {
+            throw new ResourceNotFoundException("Player doesn't have a cape");
+        }
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(1L, TimeUnit.HOURS).cachePublic())
+                .contentType(MediaType.IMAGE_PNG)
+                .body(cape.getCapeBytes());
     }
 
     /**
@@ -71,14 +120,12 @@ public final class PlayerController {
      * </p>
      *
      * @param query     the query to search for the player by
+     * @param signed whether the profile is signed
      * @param partName  the part of the player's skin texture to get
-     * @param extension the skin part image extension
      * @param size      the size of the skin part image
      * @return the skin part texture
-     * @throws BadRequestException if the extension is invalid
      */
-    @GetMapping(value = "/{query}/{partName}.{extension}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
-    @ResponseBody
+    @GetMapping(value = "/{query}/{partName}.png", produces = MediaType.IMAGE_PNG_VALUE) @ResponseBody
     public ResponseEntity<byte[]> getPartTexture(
             @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(
@@ -86,13 +133,13 @@ public final class PlayerController {
                     schema = @Schema(implementation = SkinRendererType.class),
                     example = "head"
             ) @PathVariable @NonNull String partName,
-            @Parameter(description = "The image extension", example = "png") @PathVariable @NonNull String extension,
+            @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed,
             @Parameter(description = "Whether to render skin overlays") @RequestParam(required = false, defaultValue = "true") boolean overlays,
             @Parameter(description = "The size to scale the skin part texture to", example = "512") @RequestParam(required = false, defaultValue = "512") int size
-    ) throws BadRequestException {
+    ) {
         return ResponseEntity.ok()
-                .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
-                .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
-                .body(playerService.getSkinPartTexture(query, partName, extension, overlays, size));
+                .cacheControl(CacheControl.maxAge(1L, TimeUnit.HOURS).cachePublic())
+                .contentType(MediaType.IMAGE_PNG)
+                .body(playerService.getSkinPartTexture(query, signed, partName, overlays, size));
     }
 }

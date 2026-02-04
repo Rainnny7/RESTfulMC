@@ -1,7 +1,11 @@
 package cc.restfulmc.api.model.player;
 
+import cc.restfulmc.api.common.ImageUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.JsonObject;
 import lombok.*;
+
+import javax.imageio.ImageIO;
 
 /**
  * A cape for a {@link Player}.
@@ -16,6 +20,11 @@ public final class Cape {
     @NonNull private final String url;
 
     /**
+     * The bytes to the cape image its self.
+     */
+    @JsonIgnore private final byte[] capeBytes;
+
+    /**
      * Build a cape from the given Json object.
      *
      * @param jsonObject the json object to build from
@@ -25,6 +34,7 @@ public final class Cape {
         if (jsonObject == null) { // No object to parse
             return null;
         }
-        return new Cape(jsonObject.get("url").getAsString());
+        String url = jsonObject.get("url").getAsString();
+        return new Cape(url, ImageUtils.getImage(url));
     }
 }
