@@ -37,7 +37,7 @@ public final class MaxMindService {
     /**
      * The directory to store databases.
      */
-    private static final File DATABASES_DIRECTORY = new File("databases");
+    private static final File DATABASES_DIRECTORY = new File("./databases");
 
     /**
      * The endpoint to download database files from.
