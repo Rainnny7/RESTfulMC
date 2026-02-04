@@ -1,5 +1,6 @@
 package cc.restfulmc.api.model.player.skin;
 
+import cc.restfulmc.api.common.SkinUtils;
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.player.Player;
 import cc.restfulmc.api.service.PlayerService;
@@ -27,6 +28,11 @@ import java.util.Map;
 @Getter @ToString
 public final class Skin {
     public static final Skin DEFAULT_STEVE = create("https://textures.minecraft.net/texture/60a5bd016b3c9a1b9272e4929e30827a67be4ebb219017adbbc4a4d22ebd5b1", Model.DEFAULT);
+
+    /**
+     * The id of this skin.
+     */
+    @NonNull @JsonIgnore private final String id;
 
     /**
      * The texture URL of this skin.
@@ -59,7 +65,8 @@ public final class Skin {
     @NonNull @JsonProperty("parts") private final Map<String, String> partUrls;
 
     @PersistenceCreator @SneakyThrows
-    private Skin(@NonNull String url, @NonNull Model model, byte[] skinImage, @NonNull Map<String, String> partUrls) {
+    private Skin(@NonNull String id, @NonNull String url, @NonNull Model model, byte[] skinImage, @NonNull Map<String, String> partUrls) {
+        this.id = id;
         this.url = url;
         this.model = model;
         this.skinImage = skinImage;
@@ -112,7 +119,7 @@ public final class Skin {
      */
     @NonNull @SneakyThrows
     private static Skin create(@NonNull String url, @NonNull Model model) {
-        return new Skin(url, model, PlayerService.INSTANCE.getSkinTexture(url, true), new HashMap<>());
+        return new Skin(SkinUtils.getId(url), url, model, PlayerService.INSTANCE.getSkinTexture(url, true), new HashMap<>());
     }
 
     /**

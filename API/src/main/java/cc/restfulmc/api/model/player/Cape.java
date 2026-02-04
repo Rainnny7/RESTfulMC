@@ -15,6 +15,11 @@ import javax.imageio.ImageIO;
 @AllArgsConstructor(access = AccessLevel.PRIVATE) @Getter @ToString
 public final class Cape {
     /**
+     * The ID of this cape.
+     */
+    @NonNull @JsonIgnore private final String id;
+
+    /**
      * The texture URL of this cape.
      */
     @NonNull private final String url;
@@ -35,6 +40,7 @@ public final class Cape {
             return null;
         }
         String url = jsonObject.get("url").getAsString();
-        return new Cape(url, ImageUtils.getImage(url));
+        String[] urlSplit = url.split("/");
+        return new Cape(urlSplit[urlSplit.length - 1], url, ImageUtils.getImage(url));
     }
 }

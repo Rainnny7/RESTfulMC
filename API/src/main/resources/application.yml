@@ -10,11 +10,31 @@ server:
 logging:
   file:
     path: "./logs"
+  pattern:
+    console: "%level %logger{36} - %msg%n"
+  level:
+    cc.restfulmcc.api: info
 
 # MaxMind Configuration
 # Used for IP Geo location
 maxmind:
   license: "CHANGE_ME"
+
+# Storage Configuration
+storage:
+  # Redis - This is used for caching
+  redis:
+    host: "localhost"
+    port: 6379
+    database: 0
+    auth: "" # Leave blank for no auth
+
+  # S3 Storage (used for skins and cape textures)
+  s3:
+    endpoint: ""
+    accessKey: ""
+    secretKey: ""
+    ttl: 60 # in minutes
 
 # Spring Configuration
 spring:
@@ -23,20 +43,12 @@ spring:
     virtual:
       enabled: true
 
-  data:
-    # Redis - This is used for caching
-    redis:
-      host: "localhost"
-      port: 6379
-      database: 0
-      auth: "" # Leave blank for no auth
-
   # Don't serialize null values by default with Jackson
   jackson:
     default-property-inclusion: non_null
     mapper:
       sort-properties-alphabetically: false
 
-  # Ignore
+  # Display a banner at the top of the terminal (:
   banner:
     location: "classpath:banner.txt"

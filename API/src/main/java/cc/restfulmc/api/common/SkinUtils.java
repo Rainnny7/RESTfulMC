@@ -2,6 +2,7 @@ package cc.restfulmc.api.common;
 
 import cc.restfulmc.api.common.renderer.model.PlayerModelCoordinates;
 import jakarta.validation.constraints.NotNull;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.awt.*;
@@ -50,5 +51,17 @@ public final class SkinUtils {
             ImageUtils.setAreaTransparentIfOpaque(upgraded, region[0], region[1], region[2], region[3], scale);
         }
         return upgraded;
+    }
+
+    /**
+     * Get the ID of the skin from the given URL.
+     *
+     * @param url the url of the skin
+     * @return the id of the skin
+     */
+    @NonNull
+    public static String getId(@NonNull String url) {
+        String[] urlSplit = url.split("/");
+        return urlSplit[urlSplit.length - 1];
     }
 }

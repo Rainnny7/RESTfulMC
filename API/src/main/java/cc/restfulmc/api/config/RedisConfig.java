@@ -18,25 +18,25 @@ public class RedisConfig {
     /**
      * The Redis server host.
      */
-    @Value("${spring.data.redis.host}")
+    @Value("${storage.redis.host}")
     private String host;
 
     /**
      * The Redis server port.
      */
-    @Value("${spring.data.redis.port}")
+    @Value("${storage.redis.port}")
     private int port;
 
     /**
      * The Redis database index.
      */
-    @Value("${spring.data.redis.database}")
+    @Value("${storage.redis.database}")
     private int database;
 
     /**
      * The optional Redis password.
      */
-    @Value("${spring.data.redis.auth}")
+    @Value("${storage.redis.auth}")
     private String auth;
 
     /**

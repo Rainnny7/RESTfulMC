@@ -23,6 +23,7 @@ import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -46,6 +47,8 @@ public final class PlayerService {
     private static final int MIN_PART_TEXTURE_SIZE = 64;
     private static final int MAX_PART_TEXTURE_SIZE = 1024;
 
+    @NonNull private final S3Service s3Service;
+
     /**
      * The cache repository for {@link Player}'s by their username.
      */
@@ -62,9 +65,10 @@ public final class PlayerService {
     @NonNull private final SkinPartTextureCacheRepository skinPartTextureCache;
 
     @Autowired
-    public PlayerService(@NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache,
-                         @NonNull SkinPartTextureCacheRepository skinPartTextureCache) {
+    public PlayerService(@NonNull S3Service s3Service, @NonNull PlayerNameCacheRepository playerNameCache,
+                         @NonNull PlayerCacheRepository playerCache, @NonNull SkinPartTextureCacheRepository skinPartTextureCache) {
         INSTANCE = this;
+        this.s3Service = s3Service;
         this.playerNameCache = playerNameCache;
         this.playerCache = playerCache;
         this.skinPartTextureCache = skinPartTextureCache;
@@ -153,9 +157,13 @@ public final class PlayerService {
      * @return the skin image
      */
     public byte[] getSkinTexture(@NonNull String skinUrl, boolean upgrade) {
-        // Get the bytes of the skin and instantly
-        // return if we're not upgrading the skin
-        byte[] skinBytes = ImageUtils.getImage(skinUrl);
+        // Check if the skin texture is in S3 first
+        String s3FileName = SkinUtils.getId(skinUrl) + ".png";
+        byte[] skinBytes = s3Service.get(S3Service.Bucket.SKINS, s3FileName);
+        if (skinBytes == null) {
+            skinBytes = ImageUtils.getImage(skinUrl);
+            s3Service.upload(S3Service.Bucket.SKINS, s3FileName, MediaType.IMAGE_PNG_VALUE, skinBytes);
+        }
         if (!upgrade) {
             return skinBytes;
         }
