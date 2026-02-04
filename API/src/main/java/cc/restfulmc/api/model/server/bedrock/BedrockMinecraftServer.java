@@ -6,13 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  * A Bedrock edition {@link MinecraftServer}.
  *
  * @author Braydon
  */
-@Getter @ToString(callSuper = true) @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@SuperBuilder @Getter @ToString(callSuper = true) @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public final class BedrockMinecraftServer extends MinecraftServer {
     /**
      * The ID of this server.
@@ -34,16 +35,6 @@ public final class BedrockMinecraftServer extends MinecraftServer {
      */
     @NonNull private final GameMode gamemode;
 
-    private BedrockMinecraftServer(@NonNull String id, @NonNull String hostname, String ip, int port, AsnData asn,
-                                   GeoLocation geo, DNSRecord[] records, @NonNull Edition edition, @NonNull Version version,
-                                   @NonNull Players players, @NonNull MOTD motd, @NonNull GameMode gamemode) {
-        super(hostname, ip, port, records, asn, geo, players, motd);
-        this.id = id;
-        this.edition = edition;
-        this.version = version;
-        this.gamemode = gamemode;
-    }
-
     /**
      * Create a new Bedrock Minecraft server.
      *
@@ -62,6 +53,17 @@ public final class BedrockMinecraftServer extends MinecraftServer {
         Players players = new Players(Integer.parseInt(split[4]), Integer.parseInt(split[5]), null);
         MOTD motd = MOTD.create(split[1] + "\n" + split[7], ServerPlatform.BEDROCK, hostname);
         GameMode gameMode = new GameMode(split[8], split.length > 9 ? Integer.parseInt(split[9]) : -1);
-        return new BedrockMinecraftServer(split[6], hostname, ip, port, null, null, records, edition, version, players, motd, gameMode);
+        return BedrockMinecraftServer.builder()
+                .id(split[6])
+                .hostname(hostname)
+                .ip(ip)
+                .port(port)
+                .records(records)
+                .edition(edition)
+                .version(version)
+                .players(players)
+                .motd(motd)
+                .gamemode(gameMode)
+                .build();
     }
 }

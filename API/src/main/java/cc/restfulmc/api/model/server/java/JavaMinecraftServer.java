@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -24,7 +25,7 @@ import java.util.Map;
  *
  * @author Braydon
  */
-@Setter @Getter @ToString(callSuper = true)
+@SuperBuilder @Setter @Getter @ToString(callSuper = true)
 public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * The version information of this server.
@@ -113,27 +114,6 @@ public final class JavaMinecraftServer extends MinecraftServer {
      */
     private boolean mojangBanned;
 
-    private JavaMinecraftServer(@NonNull String hostname, String ip, int port, DNSRecord[] records, AsnData asn, GeoLocation geo,
-                                @NonNull Version version, @NonNull Players players, @NonNull MOTD motd, Favicon favicon, String software,
-                                Plugin[] plugins, ModInfo modInfo, ForgeData forgeData, String world, boolean legacyServer, boolean queryEnabled,
-                                boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean modded, boolean mojangBanned) {
-        super(hostname, ip, port, records, asn, geo, players, motd);
-        this.version = version;
-        this.favicon = favicon;
-        this.software = software;
-        this.plugins = plugins;
-        this.modInfo = modInfo;
-        this.forgeData = forgeData;
-        this.world = world;
-        this.legacyServer = legacyServer;
-        this.queryEnabled = queryEnabled;
-        this.previewsChat = previewsChat;
-        this.enforcesSecureChat = enforcesSecureChat;
-        this.preventsChatReports = preventsChatReports;
-        this.modded = modded;
-        this.mojangBanned = mojangBanned;
-    }
-
     /**
      * Create a new Java Minecraft server.
      *
@@ -186,10 +166,27 @@ public final class JavaMinecraftServer extends MinecraftServer {
             preventsChatReports = nativeStatusToken.isPreventsChatReports();
             isModded = nativeStatusToken.isModded();
         }
-        return new JavaMinecraftServer(hostname, ip, port, records, null, null, statusToken.getVersion().detailedCopy(),
-                Players.create(statusToken.getPlayers()), MOTD.create(motdString, ServerPlatform.JAVA, hostname), favicon, software,
-                plugins, modInfo, forgeData, world, statusToken instanceof LegacyJavaServerStatusToken, challengeStatusToken != null,
-                previewsChat, enforcesSecureChat, preventsChatReports, isModded, false
-        );
+        return JavaMinecraftServer.builder()
+                .hostname(hostname)
+                .ip(ip)
+                .port(port)
+                .records(records)
+                .players(Players.create(statusToken.getPlayers()))
+                .motd(MOTD.create(motdString, ServerPlatform.JAVA, hostname))
+                .version(statusToken.getVersion().detailedCopy())
+                .favicon(favicon)
+                .software(software)
+                .plugins(plugins)
+                .modInfo(modInfo)
+                .forgeData(forgeData)
+                .world(world)
+                .legacyServer(statusToken instanceof LegacyJavaServerStatusToken)
+                .queryEnabled(challengeStatusToken != null)
+                .previewsChat(previewsChat)
+                .enforcesSecureChat(enforcesSecureChat)
+                .preventsChatReports(preventsChatReports)
+                .modded(isModded)
+                .mojangBanned(false)
+                .build();
     }
 }

@@ -2,13 +2,14 @@ package cc.restfulmc.api.model.server;
 
 import cc.restfulmc.api.model.dns.DNSRecord;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 /**
  * A model representing a Minecraft server.
  *
  * @author Braydon
  */
-@AllArgsConstructor @Setter @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+@SuperBuilder @Setter @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
 public class MinecraftServer {
     /**
      * The hostname of this server.
