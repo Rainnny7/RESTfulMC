@@ -1,6 +1,7 @@
 package cc.restfulmc.api.model.skin;
 
 import cc.restfulmc.api.common.ImageUtils;
+import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.Player;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.ToString;
+import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.annotation.Transient;
 
 import javax.imageio.ImageIO;
@@ -40,29 +42,49 @@ public final class Skin {
     /**
      * The raw image for this skin.
      */
-    @NonNull @JsonIgnore @Transient private final BufferedImage image;
+    @JsonIgnore @Transient private BufferedImage image;
 
     /**
      * The image data of this skin.
      */
-    @JsonIgnore @Transient private final byte[] skinImage;
+    @JsonIgnore private final byte[] skinImage;
 
     /**
      * Is this skin legacy?
      */
-    private final boolean legacy;
+    @Transient private final boolean legacy;
 
     /**
      * URLs to the parts of this skin.
      */
-    @NonNull @JsonProperty("parts") private final Map<String, String> partUrls = new HashMap<>();
+    @NonNull @JsonProperty("parts") private final Map<String, String> partUrls;
 
-    private Skin(@NonNull String url, @NonNull Model model, @NonNull BufferedImage image) {
+    @PersistenceCreator @SneakyThrows
+    private Skin(@NonNull String url, @NonNull Model model, byte[] skinImage, @NonNull Map<String, String> partUrls) {
         this.url = url;
         this.model = model;
-        this.image = image;
-        skinImage = ImageUtils.toByteArray(image); // Convert the image into bytes
-        legacy = image.getWidth() == 64 && image.getHeight() == 32; // Is the skin legacy?
+        this.skinImage = skinImage;
+        this.partUrls = partUrls;
+
+        // Load the image its self from the bytes and determine whether the skin is legacy
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(skinImage)) {
+            image = ImageIO.read(inputStream);
+            legacy = image.getWidth() == 64 && image.getHeight() == 32;
+        }
+    }
+
+    /**
+     * Populate the part URLs for this skin.
+     *
+     * @param playerUuid the UUID of the player
+     * @return the skin
+     */
+    @NonNull
+    public Skin populatePartUrls(@NonNull String playerUuid) {
+        for (SkinRendererType rendererType : SkinRendererType.values()) {
+            partUrls.put(rendererType.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + rendererType.name().toLowerCase() + "/" + playerUuid + ".png");
+        }
+        return this;
     }
 
     /**
@@ -89,9 +111,7 @@ public final class Skin {
      */
     @NonNull @SneakyThrows
     private static Skin create(@NonNull String url, @NonNull Model model) {
-        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(Objects.requireNonNull(ImageUtils.getImage(url)))) {
-            return new Skin(url, model, ImageIO.read(inputStream));
-        }
+        return new Skin(url, model, Objects.requireNonNull(ImageUtils.getImage(url)), new HashMap<>());
     }
 
     /**

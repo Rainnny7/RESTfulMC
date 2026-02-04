@@ -63,7 +63,7 @@ public final class MojangProfileToken {
 
         // Return the tuple containing the skin and cape
         return new SkinProperties(
-                Skin.fromJsonObject(texturesJsonObject.getAsJsonObject("SKIN")),
+                Skin.fromJsonObject(texturesJsonObject.getAsJsonObject("SKIN")).populatePartUrls(id),
                 Cape.fromJsonObject(texturesJsonObject.getAsJsonObject("CAPE"))
         );
     }
