@@ -116,7 +116,7 @@ public final class ServerService {
             InetAddress address = InetAddress.getByName(ip == null ? hostname : ip);
             AsnResponse asnResponse = maxMindService.lookupAsn(address);
             if (asnResponse != null) {
-                asn = new AsnData(asnResponse.autonomousSystemNumber(), asnResponse.autonomousSystemOrganization());
+                asn = new AsnData(asnResponse.autonomousSystemNumber(), asnResponse.autonomousSystemOrganization(), asnResponse.network().toString());
             }
             geo = maxMindService.lookup(address);
         } catch (Exception ex) {
@@ -139,12 +139,10 @@ public final class ServerService {
         CachedMinecraftServer minecraftServer = new CachedMinecraftServer(
                 cacheKey, response, System.currentTimeMillis()
         );
-
         // Get the blocked status of the Java server
         if (platform == ServerPlatform.JAVA) {
             ((JavaMinecraftServer) minecraftServer.getValue()).setMojangBanned(mojangService.isServerBlocked(hostname));
         }
-
         minecraftServerCache.save(minecraftServer);
         log.info("Cached server: {}", hostname);
         minecraftServer.setCached(-1L); // Set to -1 to indicate it's not cached in the response

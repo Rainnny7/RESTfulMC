@@ -21,4 +21,9 @@ public final class AsnData {
      * The ASN organization.
      */
     @NonNull private final String organization;
+
+    /**
+     * The CIDR range.
+     */
+    @NonNull private final String cidr;
 }
