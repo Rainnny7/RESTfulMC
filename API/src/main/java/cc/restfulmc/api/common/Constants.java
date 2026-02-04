@@ -21,4 +21,5 @@ public final class Constants {
             .create();
     public static final String REQUEST_START_TIME_ATTRIBUTE = "requestStartTime";
     public static final ExecutorService VIRTUAL_EXECUTOR = Executors.newVirtualThreadPerTaskExecutor();
+    public static final String CDN_URL = "https://cdn.rainnny.club";
 }

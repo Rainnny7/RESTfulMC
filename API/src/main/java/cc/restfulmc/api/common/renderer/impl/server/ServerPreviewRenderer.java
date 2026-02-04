@@ -90,8 +90,8 @@ public final class ServerPreviewRenderer extends Renderer<MinecraftServer> {
 
     static {
         try {
-            SERVER_BACKGROUND = ImageIO.read(new ByteArrayInputStream(Objects.requireNonNull(RESTfulMC.class.getResourceAsStream("/icons/server-background.png")).readAllBytes()));
-            PING_ICON = ImageIO.read(new ByteArrayInputStream(Objects.requireNonNull(RESTfulMC.class.getResourceAsStream("/icons/ping.png")).readAllBytes()));
+            SERVER_BACKGROUND = ImageIO.read(new ByteArrayInputStream(Objects.requireNonNull(RESTfulMC.class.getResourceAsStream("/public/media/server-background.png")).readAllBytes()));
+            PING_ICON = ImageIO.read(new ByteArrayInputStream(Objects.requireNonNull(RESTfulMC.class.getResourceAsStream("/public/media/ping.png")).readAllBytes()));
         } catch (Exception ex) {
             log.error("Failed to load server preview assets", ex);
         }

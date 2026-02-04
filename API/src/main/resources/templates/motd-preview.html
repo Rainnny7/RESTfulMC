@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{hostname}}</title>
+    <style>
+        @font-face {
+            font-family: "Minecraft";
+            src: url("{{cdn}}/mc-font.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-image: url("/media/server-background.png");
+            background-repeat: repeat;
+            font-family: "Minecraft", system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .server-row {
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.32);
+            border: 2px solid #1e1e1e;
+            padding: 10px;
+            gap: 10px;
+            max-width: 600px;
+            width: 100%;
+        }
+        .favicon {
+            width: 64px;
+            height: 64px;
+            flex-shrink: 0;
+            image-rendering: pixelated;
+        }
+        .server-info {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+        .server-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .server-name {
+            color: #FFFFFF;
+            font-weight: normal;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .player-count {
+            color: #AAAAAA;
+            white-space: nowrap;
+        }
+        .player-count .separator {
+            color: #555555;
+        }
+        .ping-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 1px;
+            height: 14px;
+        }
+        .ping-bar {
+            width: 3px;
+            background-color: #00AA00;
+        }
+        .ping-bar:nth-child(1) { height: 4px; }
+        .ping-bar:nth-child(2) { height: 7px; }
+        .ping-bar:nth-child(3) { height: 10px; }
+        .ping-bar:nth-child(4) { height: 13px; }
+        .ping-bar:nth-child(5) { height: 16px; }
+        .motd {
+            color: #AAAAAA;
+        }
+        .motd-line {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <div class="server-row">
+        <img class="favicon" src="{{favicon}}" alt="Server Icon">
+        <div class="server-info">
+            <div class="server-header">
+                <span class="server-name">{{hostname}}</span>
+                <div class="server-status">
+                    <span class="player-count">{{playersOnline}}<span class="separator">/</span>{{playersMax}}</span>
+                    <div class="ping-bars">
+                        <div class="ping-bar"></div>
+                        <div class="ping-bar"></div>
+                        <div class="ping-bar"></div>
+                        <div class="ping-bar"></div>
+                        <div class="ping-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="motd">
+                {{motd}}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
