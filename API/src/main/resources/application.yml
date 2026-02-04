@@ -18,6 +18,11 @@ maxmind:
 
 # Spring Configuration
 spring:
+  # Use virtual threads
+  threads:
+    virtual:
+      enabled: true
+
   data:
     # Redis - This is used for caching
     redis:
