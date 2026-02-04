@@ -25,7 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +37,8 @@ import java.util.UUID;
  */
 @Service @Log4j2(topic = "Player Service")
 public final class PlayerService {
+    public static PlayerService INSTANCE;
+
     private static final String UUID_TO_PROFILE = MojangServer.SESSION.getEndpoint() + "/session/minecraft/profile/%s";
     private static final String USERNAME_TO_UUID = MojangServer.API.getEndpoint() + "/users/profiles/minecraft/%s";
 
@@ -58,6 +63,7 @@ public final class PlayerService {
     @Autowired
     public PlayerService(@NonNull PlayerNameCacheRepository playerNameCache, @NonNull PlayerCacheRepository playerCache,
                          @NonNull SkinPartTextureCacheRepository skinPartTextureCache) {
+        INSTANCE = this;
         this.playerNameCache = playerNameCache;
         this.playerCache = playerCache;
         this.skinPartTextureCache = skinPartTextureCache;
@@ -142,12 +148,31 @@ public final class PlayerService {
     /**
      * Gets the skin image for the given skin.
      *
-     * @param skin the skin to get the image for
+     * @param skinUrl the skin url to get the image for
      * @return the skin image
      */
-    public byte[] getSkinTexture(@NonNull Skin skin, boolean upgrade) {
-        // TODO cache via s3 and handle legacy upgrading
-        return ImageUtils.getImage(skin.getUrl());
+    public byte[] getSkinTexture(@NonNull String skinUrl, boolean upgrade) {
+        // Get the bytes of the skin and instantly
+        // return if we're not upgrading the skin
+        byte[] skinBytes = ImageUtils.getImage(skinUrl);
+        if (!upgrade) {
+            return skinBytes;
+        }
+        // Handle upgrading the skin if necessary
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(Objects.requireNonNull(skinBytes))) {
+            BufferedImage image = ImageIO.read(inputStream);
+            if (image == null || (image.getWidth() != 64 || image.getHeight() != 32)) {
+                return skinBytes;
+            }
+            long start = System.currentTimeMillis();
+            BufferedImage upgraded = SkinUtils.upgradeLegacySkin(image);
+            byte[] bytes = ImageUtils.toByteArray(upgraded);
+            log.debug("Upgraded legacy skin '{}' in {}ms", skinUrl, System.currentTimeMillis() - start);
+            return bytes;
+        } catch (Exception e) {
+            log.warn("Could not upgrade legacy skin, using original: {}", e.getMessage());
+        }
+        return skinBytes;
     }
 
     /**

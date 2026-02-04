@@ -1,8 +1,8 @@
 package cc.restfulmc.api.model.skin;
 
-import cc.restfulmc.api.common.ImageUtils;
 import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.Player;
+import cc.restfulmc.api.service.PlayerService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A skin for a {@link Player}.
@@ -111,7 +110,7 @@ public final class Skin {
      */
     @NonNull @SneakyThrows
     private static Skin create(@NonNull String url, @NonNull Model model) {
-        return new Skin(url, model, Objects.requireNonNull(ImageUtils.getImage(url)), new HashMap<>());
+        return new Skin(url, model, PlayerService.INSTANCE.getSkinTexture(url, true), new HashMap<>());
     }
 
     /**
