@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -14,28 +15,28 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Braydon
  */
-@SuperBuilder @Getter @ToString(callSuper = true) @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@SuperBuilder @Setter @Getter @ToString(callSuper = true) @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @NoArgsConstructor(force = true)
 public final class BedrockMinecraftServer extends MinecraftServer {
     /**
      * The ID of this server.
      */
-    @EqualsAndHashCode.Include @NonNull private final String id;
+    @EqualsAndHashCode.Include @NonNull private String id;
 
     /**
      * The edition of this server.
      */
-    @NonNull private final Edition edition;
+    @NonNull private Edition edition;
 
     /**
      * The version information of this server.
      */
-    @NonNull private final Version version;
+    @NonNull private Version version;
 
     /**
      * The gamemode of this server.
      */
-    @NonNull private final GameMode gamemode;
+    @NonNull private GameMode gamemode;
 
     /**
      * Create a new Bedrock Minecraft server.

@@ -15,22 +15,22 @@ public class MinecraftServer {
     /**
      * The hostname of this server.
      */
-    @EqualsAndHashCode.Include @NonNull private final String hostname;
+    @EqualsAndHashCode.Include @NonNull private String hostname;
 
     /**
      * The IP address of this server, if resolved.
      */
-    private final String ip;
+    private String ip;
 
     /**
      * The port of this server.
      */
-    @EqualsAndHashCode.Include private final int port;
+    @EqualsAndHashCode.Include private int port;
 
     /**
      * The DNS records resolved for this server, null if none.
      */
-    private final DNSRecord[] records;
+    private DNSRecord[] records;
 
     /**
      * The ASN data of this server, null if unknown.
@@ -45,10 +45,10 @@ public class MinecraftServer {
     /**
      * The player counts of this server.
      */
-    @NonNull private final Players players;
+    @NonNull private Players players;
 
     /**
      * The MOTD of this server.
      */
-    @NonNull private final MOTD motd;
+    @NonNull private MOTD motd;
 }

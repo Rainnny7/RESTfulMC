@@ -32,23 +32,23 @@ public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * The version information of this server.
      */
-    @NonNull private final Version version;
+    @NonNull private Version version;
 
     /**
      * The favicon of this server, null if none.
      */
-    private final Favicon favicon;
+    private Favicon favicon;
 
     /**
      * The software of this server, present if query is on.
      */
-    private final String software;
+    private String software;
 
     /**
      * The plugins on this server, present if
      * query is on and plugins are present.
      */
-    private final Plugin[] plugins;
+    private Plugin[] plugins;
 
     /**
      * The Forge mod information for this server, null if none.
@@ -56,7 +56,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
      * This is for servers on 1.12 or below.
      * </p>
      */
-    private final ModInfo modInfo;
+    private ModInfo modInfo;
 
     /**
      * The Forge mod information for this server, null if none.
@@ -64,44 +64,44 @@ public final class JavaMinecraftServer extends MinecraftServer {
      * This is for servers on 1.13 and above.
      * </p>
      */
-    private final ForgeData forgeData;
+    private ForgeData forgeData;
 
     /**
      * The main world of this server, present if query is on.
      */
-    private final String world;
+    private String world;
 
     /**
      * Is this a legacy Beta 1.8 to 1.6 server?
      */
-    private final boolean legacyServer;
+    private boolean legacyServer;
 
     /**
      * Does this server support querying?
      */
-    private final boolean queryEnabled;
+    private boolean queryEnabled;
 
     /**
      * Does this server preview chat?
      *
      * @see <a href="https://www.minecraft.net/es-mx/article/minecraft-snapshot-22w19a">This for more</a>
      */
-    private final boolean previewsChat;
+    private boolean previewsChat;
 
     /**
      * Does this server enforce secure chat?
      */
-    private final boolean enforcesSecureChat;
+    private boolean enforcesSecureChat;
 
     /**
      * Is this server preventing chat reports?
      */
-    private final boolean preventsChatReports;
+    private boolean preventsChatReports;
 
     /**
      * Whether this is a modded server.
      */
-    private final boolean modded;
+    private boolean modded;
 
     /**
      * Is this server on the list
