@@ -37,7 +37,7 @@ public final class MaxMindService {
     /**
      * The directory to store databases.
      */
-    private static final File DATABASES_DIRECTORY = new File("./databases");
+    private static final File DATABASES_DIRECTORY = new File("databases");
 
     /**
      * The endpoint to download database files from.
@@ -70,12 +70,6 @@ public final class MaxMindService {
         // Create the directory if it doesn't exist
         if (!DATABASES_DIRECTORY.exists()) {
             DATABASES_DIRECTORY.mkdirs();
-        }
-
-        File[] dbFiles = DATABASES_DIRECTORY.listFiles();
-        if (dbFiles != null) {
-            System.out.println("parent = " + DATABASES_DIRECTORY.getAbsolutePath());
-            System.out.println("dbFiles = " + Arrays.toString(dbFiles));
         }
 
         // Download missing databases
