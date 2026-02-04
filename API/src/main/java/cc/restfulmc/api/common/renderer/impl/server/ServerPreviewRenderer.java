@@ -12,6 +12,7 @@ import cc.restfulmc.api.model.server.MinecraftServer;
 import cc.restfulmc.api.model.server.Players;
 import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import cc.restfulmc.api.service.ServerService;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -20,22 +21,73 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.util.Objects;
 
+/**
+ * Renders a Minecraft server preview image (like the in-game server list).
+ *
+ * @author Braydon
+ */
 @Slf4j
-public class ServerPreviewRenderer extends Renderer<MinecraftServer> {
+public final class ServerPreviewRenderer extends Renderer<MinecraftServer> {
+    /**
+     * The singleton instance.
+     */
     public static final ServerPreviewRenderer INSTANCE = new ServerPreviewRenderer();
 
+    /**
+     * The scale factor for rendering.
+     */
     private static final int SCALE = 3;
+
+    /**
+     * The padding around the content.
+     */
     private static final int PADDING = 5;
+
+    /**
+     * The row width.
+     */
     private static final int ROW_WIDTH = (305 * SCALE) + (PADDING * 2);
+
+    /**
+     * The row height.
+     */
     private static final int ROW_HEIGHT = (32 * SCALE) + (PADDING * 2);
+
+    /**
+     * The icon size.
+     */
     private static final int ICON_SIZE = 32 * SCALE;
+
+    /**
+     * The gap between icon and text.
+     */
     private static final int ICON_TEXT_GAP = 3 * SCALE;
+
+    /**
+     * The status icon width.
+     */
     private static final int STATUS_ICON_WIDTH = 10 * SCALE;
+
+    /**
+     * The status icon height.
+     */
     private static final int STATUS_ICON_HEIGHT = 8 * SCALE;
+
+    /**
+     * The right spacing.
+     */
     private static final int RIGHT_SPACING = 5 * SCALE;
 
+    /**
+     * The server background image.
+     */
     private static BufferedImage SERVER_BACKGROUND;
+
+    /**
+     * The ping icon image.
+     */
     private static BufferedImage PING_ICON;
+
     static {
         try {
             SERVER_BACKGROUND = ImageIO.read(new ByteArrayInputStream(Objects.requireNonNull(RESTfulMC.class.getResourceAsStream("/icons/server_background.png")).readAllBytes()));
@@ -45,8 +97,8 @@ public class ServerPreviewRenderer extends Renderer<MinecraftServer> {
         }
     }
 
-    @Override
-    public BufferedImage render(MinecraftServer server, int size) {
+    @Override @NonNull
+    public BufferedImage render(@NonNull MinecraftServer server, int size) {
         BufferedImage texture = new BufferedImage(ROW_WIDTH, ROW_HEIGHT, BufferedImage.TYPE_INT_ARGB);
         BufferedImage favicon = getServerFavicon(server);
 
@@ -109,7 +161,15 @@ public class ServerPreviewRenderer extends Renderer<MinecraftServer> {
         return ImageUtils.resize(texture, (double) size / ROW_WIDTH);
     }
 
-    private void drawMotdLine(Graphics2D graphics, String line, int x, int y) {
+    /**
+     * Draws a MOTD line with color code parsing.
+     *
+     * @param graphics the graphics context
+     * @param line the MOTD line
+     * @param x the x coordinate
+     * @param y the y coordinate
+     */
+    private void drawMotdLine(@NonNull Graphics2D graphics, @NonNull String line, int x, int y) {
         graphics.setColor(MinecraftColor.GRAY.toAwtColor()); // Minecraft MOTD default
         int index = 0;
         int drawX = x;
@@ -157,12 +217,13 @@ public class ServerPreviewRenderer extends Renderer<MinecraftServer> {
     }
 
     /**
-     * Get the favicon of a server.
+     * Gets the favicon of a server.
      *
      * @param server the server to get the favicon of
      * @return the server favicon
      */
-    public BufferedImage getServerFavicon(MinecraftServer server) {
+    @NonNull
+    public BufferedImage getServerFavicon(@NonNull MinecraftServer server) {
         String favicon = null;
 
         if (server instanceof JavaMinecraftServer javaServer && javaServer.getFavicon() != null) {

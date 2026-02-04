@@ -4,12 +4,15 @@ import lombok.experimental.UtilityClass;
 
 /**
  * Resolves Minecraft-style font file paths and references to classpath resource paths.
- * minecraft:font/foo.png → /font/textures/foo.png
- * minecraft:include/space → /font/meta/include/space.json
+ * <p>
+ * minecraft:font/foo.png -> /font/textures/foo.png
+ * minecraft:include/space -> /font/meta/include/space.json
+ * </p>
+ *
+ * @author Braydon
  */
 @UtilityClass
-public class FontResourceResolver {
-
+public final class FontResourceResolver {
     private static final String MINECRAFT_PREFIX = "minecraft:";
     private static final String FONT_PATH_PREFIX = "font/";
     private static final String INCLUDE_PREFIX = "include/";
@@ -17,7 +20,7 @@ public class FontResourceResolver {
     private static final String META_INCLUDE_PREFIX = "/font/meta/include/";
 
     /**
-     * Resolve a reference id (e.g. minecraft:include/space) to a classpath path
+     * Resolves a reference id (e.g. minecraft:include/space) to a classpath path
      * usable with Class.getResourceAsStream() (e.g. /font/meta/include/space.json).
      *
      * @param id the reference id from the font JSON
@@ -27,9 +30,7 @@ public class FontResourceResolver {
         if (id == null || id.isEmpty()) {
             return null;
         }
-        String path = id.startsWith(MINECRAFT_PREFIX)
-                ? id.substring(MINECRAFT_PREFIX.length())
-                : id;
+        String path = id.startsWith(MINECRAFT_PREFIX) ? id.substring(MINECRAFT_PREFIX.length()) : id;
         if (!path.startsWith(INCLUDE_PREFIX)) {
             return null;
         }
@@ -38,7 +39,7 @@ public class FontResourceResolver {
     }
 
     /**
-     * Resolve a font file reference (e.g. minecraft:font/ascii.png) to a classpath path
+     * Resolves a font file reference (e.g. minecraft:font/ascii.png) to a classpath path
      * usable with Class.getResourceAsStream() (e.g. /font/textures/ascii.png).
      *
      * @param file the file reference from the font JSON
@@ -48,9 +49,7 @@ public class FontResourceResolver {
         if (file == null || file.isEmpty()) {
             return null;
         }
-        String path = file.startsWith(MINECRAFT_PREFIX)
-                ? file.substring(MINECRAFT_PREFIX.length())
-                : file;
+        String path = file.startsWith(MINECRAFT_PREFIX) ? file.substring(MINECRAFT_PREFIX.length()) : file;
         if (!path.startsWith(FONT_PATH_PREFIX)) {
             return null;
         }

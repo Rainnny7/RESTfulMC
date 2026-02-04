@@ -1,11 +1,15 @@
 package cc.restfulmc.api.common.renderer;
 
 import cc.restfulmc.api.model.skin.Skin;
-import lombok.extern.slf4j.Slf4j;
+import lombok.NonNull;
 
 import java.awt.image.BufferedImage;
 
-@Slf4j
+/**
+ * Base class for skin part renderers.
+ *
+ * @author Braydon
+ */
 public abstract class SkinRenderer {
     /**
      * Renders the skin part for the player's skin.
@@ -15,6 +19,6 @@ public abstract class SkinRenderer {
      * @param size the output size (height; width derived per part)
      * @return the rendered skin part
      */
-    public abstract BufferedImage render(Skin skin, boolean renderOverlays, int size);
-
+    @NonNull
+    public abstract BufferedImage render(@NonNull Skin skin, boolean renderOverlays, int size);
 }

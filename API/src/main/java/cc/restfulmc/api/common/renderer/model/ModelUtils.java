@@ -2,26 +2,44 @@ package cc.restfulmc.api.common.renderer.model;
 
 import cc.restfulmc.api.common.math.Vector3;
 import cc.restfulmc.api.common.renderer.raster.Face;
+import lombok.NonNull;
+import lombok.experimental.UtilityClass;
 
 import java.util.List;
 
 /**
- * Static helpers for building box meshes (UV and face generation) used by
- * PlayerModel and PlayerHeadModel.
+ * Static helpers for building box meshes (UV and face generation)
+ * used by PlayerModel and PlayerHeadModel.
+ *
+ * @author Braydon
  */
+@UtilityClass
 public final class ModelUtils {
-
     /**
      * Converts ModelBox UV array (x, y, sizeX, sizeY, sizeZ) to boxUv format.
+     *
+     * @param uv the UV array [x, y, sizeX, sizeY, sizeZ]
+     * @return the box UV coordinates
      */
+    @NonNull
     public static double[][] uvFrom(int[] uv) {
         return boxUv(uv[0], uv[1], uv[2], uv[3], uv[4]);
     }
 
     /**
      * Computes UV rects for a box per face (north, south, east, west, up, down).
+     * <p>
      * Order: north (-Z front), south (+Z back), east (+X), west (-X), up (+Y), down (-Y).
+     * </p>
+     *
+     * @param x the texture X offset
+     * @param y the texture Y offset
+     * @param sizeX the box width
+     * @param sizeY the box height
+     * @param sizeZ the box depth
+     * @return the UV coordinates for each face
      */
+    @NonNull
     public static double[][] boxUv(int x, int y, int sizeX, int sizeY, int sizeZ) {
         return new double[][]{
                 {x, y, x + sizeX, y + sizeY},                           // north (-Z front)
@@ -35,12 +53,21 @@ public final class ModelUtils {
 
     /**
      * Adds a box (6 faces) to the face list. Front at -Z, back at +Z.
+     *
+     * @param faces the face list to add to
+     * @param px the box X position (min corner)
+     * @param py the box Y position (min corner)
+     * @param pz the box Z position (min corner)
+     * @param width the box width
+     * @param height the box height
+     * @param depth the box depth
+     * @param uvs the UV coordinates for each face
      */
-    public static void addBox(List<Face> faces, double px, double py, double pz,
-                              double w, double h, double d, double[][] uvs) {
-        double x1 = px + w;
-        double y1 = py + h;
-        double z1 = pz + d;
+    public static void addBox(@NonNull List<Face> faces, double px, double py, double pz,
+                              double width, double height, double depth, double[][] uvs) {
+        double x1 = px + width;
+        double y1 = py + height;
+        double z1 = pz + depth;
 
         // north (front at -Z), south (back at +Z), up, down, west (-X), east (+X)
         faces.add(new Face(

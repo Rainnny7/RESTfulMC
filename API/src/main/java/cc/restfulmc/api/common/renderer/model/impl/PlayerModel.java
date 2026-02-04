@@ -4,6 +4,7 @@ import cc.restfulmc.api.common.renderer.model.ModelUtils;
 import cc.restfulmc.api.common.renderer.model.PlayerModelCoordinates;
 import cc.restfulmc.api.common.renderer.raster.Face;
 import cc.restfulmc.api.model.skin.Skin;
+import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,19 +14,27 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Minecraft player model for software 3D rendering.
+ * <p>
  * Coordinates: Y up, front at -Z, pos is min corner.
+ * </p>
+ *
+ * @author Braydon
  */
-public class PlayerModel {
+public final class PlayerModel {
+    /**
+     * Cache for pre-built face lists.
+     */
     private static final Map<FaceCacheKey, List<Face>> FACE_CACHE = new ConcurrentHashMap<>();
 
     /**
      * Builds all faces for the player model.
      *
-     * @param skin           the skin (determines slim/classic arms)
+     * @param skin the skin (determines slim/classic arms)
      * @param renderOverlays whether to include the overlay layer
      * @return the list of textured faces (unmodifiable, may be shared)
      */
-    public static List<Face> buildFaces(Skin skin, boolean renderOverlays) {
+    @NonNull
+    public static List<Face> buildFaces(@NonNull Skin skin, boolean renderOverlays) {
         boolean slim = skin.getModel() == Skin.Model.SLIM;
         boolean legacy = skin.isLegacy();
         return FACE_CACHE.computeIfAbsent(new FaceCacheKey(slim, renderOverlays && !legacy), cacheKey -> {
@@ -52,5 +61,8 @@ public class PlayerModel {
         });
     }
 
-    private record FaceCacheKey(boolean slim, boolean renderOverlays) { }
+    /**
+     * Cache key for face lists.
+     */
+    private record FaceCacheKey(boolean slim, boolean renderOverlays) {}
 }

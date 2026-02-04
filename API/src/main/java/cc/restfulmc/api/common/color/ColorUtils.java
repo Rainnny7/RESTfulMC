@@ -7,13 +7,20 @@ import java.awt.*;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * Utilities for working with Minecraft color codes.
+ *
+ * @author Braydon
+ */
 @UtilityClass
 public final class ColorUtils {
+    /**
+     * Pattern to match all color code formats.
+     */
     private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile("(?i)§[0-9A-FK-ORX]|§x(§[0-9A-F]){6}|§#[0-9A-Fa-f]{6}");
 
     /**
-     * Strip the color codes
-     * from the given input.
+     * Strips the color codes from the given input.
      *
      * @param input the input to strip
      * @return the stripped input
@@ -24,7 +31,7 @@ public final class ColorUtils {
     }
 
     /**
-     * Convert the given input into HTML format.
+     * Converts the given input into HTML format.
      * <p>
      * This will replace each color code with
      * a span tag with the respective color in
@@ -39,8 +46,10 @@ public final class ColorUtils {
     public static String toHTML(@NonNull String input) {
         StringBuilder result = new StringBuilder();
         StringBuilder pending = new StringBuilder();
-        String color = null, activeColor = null;
-        int fmt = 0, activeFmt = 0; // Bitmask: 1=bold, 2=italic, 4=underline, 8=strikethrough
+        String color = null;
+        String activeColor = null;
+        int format = 0;
+        int activeFormat = 0; // Bitmask: 1=bold, 2=italic, 4=underline, 8=strikethrough
         boolean hasSpan = false;
 
         char[] chars = input.toCharArray();
@@ -54,32 +63,70 @@ public final class ColorUtils {
                     boolean valid = true;
                     for (int j = 0; j < 6 && valid; j++) {
                         int idx = i + 2 + (j * 2);
-                        if (chars[idx] == '§') hex.append(chars[idx + 1]);
-                        else valid = false;
+                        if (chars[idx] == '§') {
+                            hex.append(chars[idx + 1]);
+                        } else {
+                            valid = false;
+                        }
                     }
-                    if (valid) { color = hex.toString(); i += 13; continue; }
+                    if (valid) {
+                        color = hex.toString();
+                        i += 13;
+                        continue;
+                    }
                 }
-                if (code == 'r') { color = null; fmt = 0; i++; continue; }
+                if (code == 'r') {
+                    color = null;
+                    format = 0;
+                    i++;
+                    continue;
+                }
                 MinecraftColor mcColor = MinecraftColor.getByCode(code);
-                if (mcColor != null) { color = mcColor.toHex(); i++; continue; }
-                if (code == 'l') { fmt |= 1; i++; continue; }
-                if (code == 'o') { fmt |= 2; i++; continue; }
-                if (code == 'n') { fmt |= 4; i++; continue; }
-                if (code == 'm') { fmt |= 8; i++; continue; }
-                if (code == 'k') { i++; continue; }
+                if (mcColor != null) {
+                    color = mcColor.toHex();
+                    i++;
+                    continue;
+                }
+                if (code == 'l') {
+                    format |= 1;
+                    i++;
+                    continue;
+                }
+                if (code == 'o') {
+                    format |= 2;
+                    i++;
+                    continue;
+                }
+                if (code == 'n') {
+                    format |= 4;
+                    i++;
+                    continue;
+                }
+                if (code == 'm') {
+                    format |= 8;
+                    i++;
+                    continue;
+                }
+                if (code == 'k') {
+                    i++;
+                    continue;
+                }
             }
 
             // Check if style changed
-            boolean sameStyle = Objects.equals(color, activeColor) && fmt == activeFmt;
+            boolean sameStyle = Objects.equals(color, activeColor) && format == activeFormat;
             if (!sameStyle) {
                 if (!pending.isEmpty()) {
-                    if (hasSpan) result.append(buildSpan(activeColor, activeFmt, pending.toString()));
-                    else result.append(pending);
+                    if (hasSpan) {
+                        result.append(buildSpan(activeColor, activeFormat, pending.toString()));
+                    } else {
+                        result.append(pending);
+                    }
                     pending.setLength(0);
                 }
                 activeColor = color;
-                activeFmt = fmt;
-                hasSpan = activeColor != null || activeFmt != 0;
+                activeFormat = format;
+                hasSpan = activeColor != null || activeFormat != 0;
             }
 
             // Escape and buffer
@@ -95,36 +142,56 @@ public final class ColorUtils {
 
         // Flush remaining
         if (!pending.isEmpty()) {
-            if (hasSpan) result.append(buildSpan(activeColor, activeFmt, pending.toString()));
-            else result.append(pending);
+            if (hasSpan) {
+                result.append(buildSpan(activeColor, activeFormat, pending.toString()));
+            } else {
+                result.append(pending);
+            }
         }
         return result.toString();
     }
 
-    private static String buildSpan(String color, int fmt, String content) {
+    /**
+     * Builds an HTML span with the given color and format.
+     *
+     * @param color the hex color, or null
+     * @param format the format bitmask
+     * @param content the span content
+     * @return the HTML span
+     */
+    private static String buildSpan(String color, int format, @NonNull String content) {
         StringBuilder style = new StringBuilder();
-        if (color != null) style.append("color:").append(color);
-        if ((fmt & 1) != 0) style.append(style.isEmpty() ? "" : ";").append("font-weight:bold");
-        if ((fmt & 2) != 0) style.append(style.isEmpty() ? "" : ";").append("font-style:italic");
-        if ((fmt & 12) != 0) {
+        if (color != null) {
+            style.append("color:").append(color);
+        }
+        if ((format & 1) != 0) {
+            style.append(style.isEmpty() ? "" : ";").append("font-weight:bold");
+        }
+        if ((format & 2) != 0) {
+            style.append(style.isEmpty() ? "" : ";").append("font-style:italic");
+        }
+        if ((format & 12) != 0) {
             style.append(style.isEmpty() ? "" : ";").append("text-decoration:");
-            style.append((fmt & 4) != 0 && (fmt & 8) != 0 ? "underline line-through" : (fmt & 4) != 0 ? "underline" : "line-through");
+            style.append((format & 4) != 0 && (format & 8) != 0 ? "underline line-through" : (format & 4) != 0 ? "underline" : "line-through");
         }
         return "<span style=\"" + style + "\">" + content + "</span>";
     }
 
     /**
-     * Parses a hex color at the given index. Tries §x§R§R§G§G§B§B first (14 chars), then §#RRGGBB (7 chars).
+     * Parses a hex color at the given index.
+     * <p>
+     * Tries §x§R§R§G§G§B§B first (14 chars), then §#RRGGBB (7 chars).
      * Returns the parsed color and characters consumed, or null if neither format is present.
+     * </p>
      *
-     * @param line  the string containing the color code
+     * @param line the string containing the color code
      * @param index the index of the leading § character
      * @return the parsed result (color + chars consumed) if valid, null otherwise
      */
     public static HexColorResult parseHexColor(@NonNull String line, int index) {
-        Color xColor = parseHexColorX(line, index);
-        if (xColor != null) {
-            return new HexColorResult(xColor, 14);
+        Color extendedColor = parseHexColorX(line, index);
+        if (extendedColor != null) {
+            return new HexColorResult(extendedColor, 14);
         }
         Color sharpColor = parseSharpHexColor(line, index);
         if (sharpColor != null) {
@@ -134,7 +201,11 @@ public final class ColorUtils {
     }
 
     /**
-     * Parses §x§R§R§G§G§B§B at the given index. Returns the Color if valid, null otherwise.
+     * Parses §x§R§R§G§G§B§B at the given index.
+     *
+     * @param line the string containing the color code
+     * @param index the index of the leading § character
+     * @return the Color if valid, null otherwise
      */
     public static Color parseHexColorX(@NonNull String line, int index) {
         if (index + 14 > line.length() || line.charAt(index) != '§' || Character.toLowerCase(line.charAt(index + 1)) != 'x') {
@@ -161,7 +232,11 @@ public final class ColorUtils {
     }
 
     /**
-     * Parses §#RRGGBB at the given index. Returns the Color if valid, null otherwise.
+     * Parses §#RRGGBB at the given index.
+     *
+     * @param line the string containing the color code
+     * @param index the index of the leading § character
+     * @return the Color if valid, null otherwise
      */
     public static Color parseSharpHexColor(@NonNull String line, int index) {
         if (index + 8 > line.length() || line.charAt(index) != '§' || line.charAt(index + 1) != '#') {

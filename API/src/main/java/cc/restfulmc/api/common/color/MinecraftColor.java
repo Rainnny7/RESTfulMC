@@ -1,13 +1,17 @@
 package cc.restfulmc.api.common.color;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 
 import java.awt.*;
 
 /**
  * Minecraft chat formatting colors.
+ *
+ * @author Braydon
  */
-@Getter
+@AllArgsConstructor @Getter
 public enum MinecraftColor {
     BLACK('0', 0),
     DARK_BLUE('1', 170),
@@ -26,26 +30,48 @@ public enum MinecraftColor {
     YELLOW('e', 16777045),
     WHITE('f', 16777215);
 
+    /**
+     * The color code character.
+     */
     private final char code;
+
+    /**
+     * The RGB value.
+     */
     private final int rgb;
 
-    MinecraftColor(char code, int rgb) {
-        this.code = code;
-        this.rgb = rgb;
-    }
-
+    /**
+     * Converts this color to an AWT Color.
+     *
+     * @return the AWT color
+     */
+    @NonNull
     public Color toAwtColor() {
         return new Color((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
     }
 
+    /**
+     * Converts this color to a hex string.
+     *
+     * @return the hex string (e.g. "#FFFFFF")
+     */
+    @NonNull
     public String toHex() {
         return String.format("#%06X", rgb);
     }
 
+    /**
+     * Gets a MinecraftColor by its code character.
+     *
+     * @param code the color code character
+     * @return the color, or null if not found
+     */
     public static MinecraftColor getByCode(char code) {
-        char c = Character.toLowerCase(code);
+        char lowerCode = Character.toLowerCase(code);
         for (MinecraftColor color : values()) {
-            if (color.code == c) return color;
+            if (color.code == lowerCode) {
+                return color;
+            }
         }
         return null;
     }

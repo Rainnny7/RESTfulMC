@@ -1,23 +1,52 @@
 package cc.restfulmc.api.common.font;
 
+import lombok.NonNull;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Texture-based font: draws and measures text by blitting glyph regions from loaded textures.
+ * Texture-based font: draws and measures text by blitting
+ * glyph regions from loaded textures.
+ *
+ * @author Braydon
  */
-public class BitmapFont {
-
+public final class BitmapFont {
+    /**
+     * Map of codepoints to their glyphs.
+     */
     private final Map<Integer, Glyph> glyphs = new HashMap<>();
+
+    /**
+     * Map of codepoints to advance overrides.
+     */
     private final Map<Integer, Integer> advanceOverrides = new HashMap<>();
-    /** Bold offset for advance-only characters (no glyph), from widths file. */
+
+    /**
+     * Bold offset for advance-only characters (no glyph), from widths file.
+     */
     private final Map<Integer, Double> advanceOnlyBoldOffsets = new HashMap<>();
+
+    /**
+     * The font ascent (baseline offset from top).
+     */
     private final int ascent;
+
+    /**
+     * The font line height.
+     */
     private final int height;
+
+    /**
+     * The default glyph width for missing characters.
+     */
     private final int defaultGlyphWidth;
-    /** Default bold offset when character has no entry in widths file (e.g. from missing_char). */
+
+    /**
+     * Default bold offset when character has no entry in widths file (e.g. from missing_char).
+     */
     private double defaultBoldOffset = 1.0;
 
     public BitmapFont(int ascent, int height, int defaultGlyphWidth) {
@@ -26,41 +55,85 @@ public class BitmapFont {
         this.defaultGlyphWidth = defaultGlyphWidth;
     }
 
-    /** Set default bold offset (e.g. from widths file missing_char). */
+    /**
+     * Sets the default bold offset (e.g. from widths file missing_char).
+     *
+     * @param defaultBoldOffset the default bold offset
+     */
     void setDefaultBoldOffset(double defaultBoldOffset) {
         this.defaultBoldOffset = defaultBoldOffset;
     }
 
-    void putGlyph(int codepoint, Glyph glyph) {
+    /**
+     * Registers a glyph for a codepoint.
+     *
+     * @param codepoint the unicode codepoint
+     * @param glyph the glyph to register
+     */
+    void putGlyph(int codepoint, @NonNull Glyph glyph) {
         glyphs.put(codepoint, glyph);
     }
 
+    /**
+     * Registers an advance override for a codepoint.
+     *
+     * @param codepoint the unicode codepoint
+     * @param advance the advance width
+     */
     void putAdvance(int codepoint, int advance) {
         advanceOverrides.put(codepoint, advance);
     }
 
-    /** Set bold offset for an advance-only character (from widths file). */
+    /**
+     * Sets the bold offset for an advance-only character (from widths file).
+     *
+     * @param codepoint the unicode codepoint
+     * @param boldOffset the bold offset
+     */
     void putBoldOffset(int codepoint, double boldOffset) {
         advanceOnlyBoldOffsets.put(codepoint, boldOffset);
     }
 
+    /**
+     * Gets the font ascent.
+     *
+     * @return the ascent
+     */
     public int ascent() {
         return ascent;
     }
 
+    /**
+     * Gets the font line height.
+     *
+     * @return the height
+     */
     public int height() {
         return height;
     }
 
     /**
-     * Total width of the string in pixels (scaled). Uses per-glyph advance like Minecraft, not fixed cell width.
+     * Calculates the total width of the string in pixels.
+     * <p>
+     * Uses per-glyph advance like Minecraft, not fixed cell width.
+     * </p>
+     *
+     * @param str the string to measure
+     * @return the width in pixels
      */
     public int stringWidth(String str) {
         return stringWidth(str, false);
     }
 
     /**
-     * Total width when drawn with bold. Advance = width + boldOffset per character when bold.
+     * Calculates the total width when drawn with bold.
+     * <p>
+     * Advance = width + boldOffset per character when bold.
+     * </p>
+     *
+     * @param str the string to measure
+     * @param bold whether bold style is applied
+     * @return the width in pixels
      */
     public int stringWidth(String str, boolean bold) {
         if (str == null || str.isEmpty()) {
@@ -68,85 +141,119 @@ public class BitmapFont {
         }
         int total = 0;
         for (int i = 0; i < str.length(); ) {
-            int cp = str.codePointAt(i);
-            total += getAdvance(cp, bold);
-            i += Character.charCount(cp);
+            int codepoint = str.codePointAt(i);
+            total += getAdvance(codepoint, bold);
+            i += Character.charCount(codepoint);
         }
         return total;
     }
 
     /**
-     * Advance for a single codepoint. Uses glyph metrics when available, else advanceOverride, else defaultGlyphWidth.
-     * When bold, adds bold offset from widths file for advance-only characters, or 1 if not in widths file.
+     * Gets the advance for a single codepoint.
+     * <p>
+     * Uses glyph metrics when available, else advanceOverride, else defaultGlyphWidth.
+     * When bold, adds bold offset from widths file for advance-only characters,
+     * or 1 if not in widths file.
+     * </p>
+     *
+     * @param codepoint the unicode codepoint
+     * @param bold whether bold style is applied
+     * @return the advance width
      */
     public int getAdvance(int codepoint, boolean bold) {
-        Glyph g = glyphs.get(codepoint);
-        if (g != null) {
-            return g.getAdvance(bold);
+        Glyph glyph = glyphs.get(codepoint);
+        if (glyph != null) {
+            return glyph.getAdvance(bold);
         }
         Integer override = advanceOverrides.get(codepoint);
         int base = override != null ? override : defaultGlyphWidth;
-        if (!bold) return base;
+        if (!bold) {
+            return base;
+        }
         double offset = advanceOnlyBoldOffsets.getOrDefault(codepoint, defaultBoldOffset);
         return base + (int) Math.ceil(offset);
     }
 
     /**
-     * Draw the string with baseline at (x, y). Glyphs are tinted by the current Graphics2D color (Minecraft-style).
+     * Draws the string with baseline at (x, y).
+     * <p>
+     * Glyphs are tinted by the current Graphics2D color (Minecraft-style).
      * Advance-only chars (e.g. space) are not drawn but advance the cursor.
      * Uses per-glyph ascent for vertical positioning - glyph top is at y - glyph.ascent().
+     * </p>
+     *
+     * @param graphics the graphics context
+     * @param str the string to draw
+     * @param x the x coordinate
+     * @param y the y coordinate (baseline)
      */
-    public void drawString(Graphics2D g, String str, int x, int y) {
-        drawString(g, str, x, y, false);
+    public void drawString(@NonNull Graphics2D graphics, String str, int x, int y) {
+        drawString(graphics, str, x, y, false);
     }
 
     /**
-     * Draw the string with optional bold. When bold, advances by getAdvance(cp, true) so spacing matches
+     * Draws the string with optional bold.
+     * <p>
+     * When bold, advances by getAdvance(cp, true) so spacing matches
      * stringWidth(str, bold) and Minecraft-style bold (draw at x and x+1) lines up correctly.
+     * </p>
+     *
+     * @param graphics the graphics context
+     * @param str the string to draw
+     * @param x the x coordinate
+     * @param y the y coordinate (baseline)
+     * @param bold whether bold style is applied
      */
-    public void drawString(Graphics2D g, String str, int x, int y, boolean bold) {
+    public void drawString(@NonNull Graphics2D graphics, String str, int x, int y, boolean bold) {
         if (str == null || str.isEmpty()) {
             return;
         }
-        Color color = g.getColor();
+        Color color = graphics.getColor();
         for (int i = 0; i < str.length(); ) {
-            int cp = str.codePointAt(i);
-            Glyph glyph = glyphs.get(cp);
+            int codepoint = str.codePointAt(i);
+            Glyph glyph = glyphs.get(codepoint);
             if (glyph != null) {
                 int glyphDrawY = y - glyph.ascent();
-                drawGlyphTinted(g, glyph, x, glyphDrawY, color);
+                drawGlyphTinted(graphics, glyph, x, glyphDrawY, color);
             }
-            x += getAdvance(cp, bold);
-            i += Character.charCount(cp);
+            x += getAdvance(codepoint, bold);
+            i += Character.charCount(codepoint);
         }
     }
 
     /**
-     * Draw a single glyph tinted by the given color (glyph alpha as mask, color for visible pixels).
+     * Draws a single glyph tinted by the given color
+     * (glyph alpha as mask, color for visible pixels).
+     *
+     * @param graphics the graphics context
+     * @param glyph the glyph to draw
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param color the tint color
      */
-    private void drawGlyphTinted(Graphics2D g, Glyph glyph, int x, int y, Color color) {
+    private void drawGlyphTinted(@NonNull Graphics2D graphics, @NonNull Glyph glyph, int x, int y, @NonNull Color color) {
         BufferedImage src = glyph.texture();
         int srcX = glyph.srcX();
         int srcY = glyph.srcY();
-        int gw = glyph.width();
-        int gh = glyph.height();
-        BufferedImage tinted = new BufferedImage(gw, gh, BufferedImage.TYPE_INT_ARGB);
-        int cr = color.getRed();
-        int cg = color.getGreen();
-        int cb = color.getBlue();
-        for (int py = 0; py < gh; py++) {
-            for (int px = 0; px < gw; px++) {
+        int glyphWidth = glyph.width();
+        int glyphHeight = glyph.height();
+        BufferedImage tinted = new BufferedImage(glyphWidth, glyphHeight, BufferedImage.TYPE_INT_ARGB);
+        int colorRed = color.getRed();
+        int colorGreen = color.getGreen();
+        int colorBlue = color.getBlue();
+        for (int py = 0; py < glyphHeight; py++) {
+            for (int px = 0; px < glyphWidth; px++) {
                 int argb = src.getRGB(srcX + px, srcY + py);
-                int a = (argb >> 24) & 0xff;
-                int sr = (argb >> 16) & 0xff;
-                int sg = (argb >> 8) & 0xff;
-                int sb = argb & 0xff;
-                int tr = (sr * cr) / 255;
-                int tg = (sg * cg) / 255;
-                int tb = (sb * cb) / 255;
-                tinted.setRGB(px, py, (a << 24) | (tr << 16) | (tg << 8) | tb);
+                int alpha = (argb >> 24) & 0xff;
+                int srcRed = (argb >> 16) & 0xff;
+                int srcGreen = (argb >> 8) & 0xff;
+                int srcBlue = argb & 0xff;
+                int tintedRed = (srcRed * colorRed) / 255;
+                int tintedGreen = (srcGreen * colorGreen) / 255;
+                int tintedBlue = (srcBlue * colorBlue) / 255;
+                tinted.setRGB(px, py, (alpha << 24) | (tintedRed << 16) | (tintedGreen << 8) | tintedBlue);
             }
         }
-        g.drawImage(tinted, x, y, null);
+        graphics.drawImage(tinted, x, y, null);
     }
 }

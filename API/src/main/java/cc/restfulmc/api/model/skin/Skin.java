@@ -42,7 +42,7 @@ public final class Skin {
     /**
      * The raw image for this skin.
      */
-    @JsonIgnore @Transient private BufferedImage image;
+    @JsonIgnore @Transient private final BufferedImage image;
 
     /**
      * The image data of this skin.
