@@ -1,9 +1,6 @@
 package cc.restfulmc.api.model.server;
 
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -32,6 +29,21 @@ public final class GeoLocation {
     private final String city;
 
     /**
+     * The region of this server.
+     */
+    private final String region;
+
+    /**
+     * The IANA time zone (e.g. America/Toronto) of this server, null if unknown.
+     */
+    private final String timezone;
+
+    /**
+     * The postal code of this server, null if unknown.
+     */
+    private final String postal;
+
+    /**
      * A quick link to the flag for the country.
      */
     @NonNull private final String flag;
@@ -52,18 +64,25 @@ public final class GeoLocation {
      * @param continent the geo location continent
      * @param country the geo location country
      * @param city the geo location city
+     * @param subdivision the subdivision
+     * @param postal the postal code
      * @param location the geo location location
      * @return the geo location, null if unknown
      */
-    public static GeoLocation create(@NonNull Continent continent, @NonNull Country country, City city, Location location) {
-        if (continent.code() == null) {
+    public static GeoLocation create(@NonNull Continent continent, @NonNull Country country, City city, Subdivision subdivision, Postal postal, Location location) {
+        String continentCode = continent.code();
+        if (continentCode == null) {
             return null;
         }
+        String isoCode = country.isoCode();
         return new GeoLocation(
-                new GeoLocation.LocationData(continent.code(), continent.name()),
-                new GeoLocation.LocationData(country.isoCode(), country.name()),
+                new GeoLocation.LocationData(continentCode, continent.name()),
+                new GeoLocation.LocationData(isoCode, country.name()),
                 city == null ? null : city.name(),
-                "https://flagcdn.com/w20/" + country.isoCode().toLowerCase() + ".webp",
+                subdivision == null ? null : subdivision.name(),
+                location == null ? null : location.timeZone(),
+                postal == null ? null : postal.code(),
+                "https://flagcdn.com/w20/" + isoCode.toLowerCase() + ".webp",
                 location == null ? 0D : location.latitude(), location == null ? 0D : location.longitude()
         );
     }

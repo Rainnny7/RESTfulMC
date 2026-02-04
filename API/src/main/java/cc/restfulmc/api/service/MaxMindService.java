@@ -8,6 +8,7 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.record.Subdivision;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.*;
@@ -114,14 +115,15 @@ public final class MaxMindService {
 
         CityResponse cityResponse = lookupCity(address);
         if (cityResponse != null) {
-            geo = GeoLocation.create(cityResponse.continent(), cityResponse.country(), cityResponse.city(), cityResponse.location());
+            geo = GeoLocation.create(cityResponse.continent(), cityResponse.country(), cityResponse.city(),
+                    cityResponse.mostSpecificSubdivision(), cityResponse.postal(), cityResponse.location());
         }
         if (geo != null) {
             return geo;
         }
         CountryResponse countryResponse = lookupCountry(address);
         if (countryResponse != null) {
-            geo = GeoLocation.create(countryResponse.continent(), countryResponse.country(), null, null);
+            geo = GeoLocation.create(countryResponse.continent(), countryResponse.country(), null, null, null, null);
         }
         return geo;
     }
