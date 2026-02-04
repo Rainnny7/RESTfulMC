@@ -8,7 +8,6 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
-import com.maxmind.geoip2.record.Subdivision;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.*;
@@ -26,6 +25,7 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,6 +70,11 @@ public final class MaxMindService {
         // Create the directory if it doesn't exist
         if (!DATABASES_DIRECTORY.exists()) {
             DATABASES_DIRECTORY.mkdirs();
+        }
+
+        File[] dbFiles = DATABASES_DIRECTORY.listFiles();
+        if (dbFiles != null) {
+            System.out.println("dbFiles = " + Arrays.toString(dbFiles));
         }
 
         // Download missing databases
