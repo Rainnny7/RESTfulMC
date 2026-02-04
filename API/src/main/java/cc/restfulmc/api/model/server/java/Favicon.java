@@ -36,7 +36,7 @@ public final class Favicon {
         }
         return new Favicon(
                 base64,
-                AppConfig.INSTANCE.getServerPublicUrl() + "/server/icon/" + hostname
+                AppConfig.INSTANCE.getServerPublicUrl() + "/server/" + hostname + "/icon.png"
         );
     }
 }
