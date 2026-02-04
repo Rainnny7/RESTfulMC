@@ -1,0 +1,33 @@
+name: Publish Package
+
+on:
+  push:
+    branches: [master]
+    paths:
+      [".github/workflows/publish-js-sdk.yml", "JS-SDK/**", "!JS-SDK/README.md"]
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./JS-SDK"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: bun install
+      - run: bun run build
+      - run: npm publish
