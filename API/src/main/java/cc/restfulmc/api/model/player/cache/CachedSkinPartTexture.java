@@ -20,7 +20,7 @@ public final class CachedSkinPartTexture implements Serializable {
      * The id of this cache element.
      * <p>
      * This ID is in the given format:
-     * skinPart:<query>-<part>-<renderOverlays>-<size>-<ext>
+     * skinPart:<query>-<part>-<renderOverlays>-<size>
      * </p>
      */
     @Id private transient final String id;

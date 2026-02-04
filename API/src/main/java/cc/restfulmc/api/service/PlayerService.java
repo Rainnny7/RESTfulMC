@@ -182,7 +182,6 @@ public final class PlayerService {
      *
      * @param query      the query to search for the player by
      * @param partName   the part of the player's skin texture to get
-     * @param extension  the skin part image extension
      * @param overlays   whether to render overlays
      * @param size the size of the skin part image
      * @return the skin part texture
@@ -190,10 +189,9 @@ public final class PlayerService {
      * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
     @SneakyThrows
-    public byte[] getSkinPartTexture(@NonNull String query, @NonNull String partName, @NonNull String extension,
-                                     boolean overlays, int size) throws BadRequestException, MojangRateLimitException {
-        log.info("Requesting skin part {} with query {} (ext: {}, overlays: {}, size: {})",
-                partName, query, extension, overlays, size
+    public byte[] getSkinPartTexture(@NonNull String query, boolean signed, @NonNull String partName, boolean overlays, int size) throws BadRequestException, MojangRateLimitException {
+        log.info("Requesting skin part {} with query {} (overlays: {}, size: {})",
+                partName, query, overlays, size
         );
 
         // Get the part from the given name
@@ -201,11 +199,6 @@ public final class PlayerService {
         if (part == null) {
             part = SkinRendererType.FACE;
             log.warn("Invalid skin part {}, defaulting to {}", partName, part.name());
-        }
-
-        // Ensure the extension is valid
-        if (extension.isBlank()) {
-            throw new BadRequestException("Invalid extension");
         }
 
         // Ensure the part size is valid
@@ -217,7 +210,7 @@ public final class PlayerService {
             log.warn("Size {} is too large, defaulting to {}", size, MAX_PART_TEXTURE_SIZE);
             size = MAX_PART_TEXTURE_SIZE;
         }
-        String cacheKey = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
+        String cacheKey = "%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size); // The id of the skin part
 
         // In production, check the cache for the
         // skin part and return it if it's present
@@ -230,7 +223,7 @@ public final class PlayerService {
         Skin skin = null; // The target skin to get the skin part of
         long before = System.currentTimeMillis();
         try {
-            skin = getPlayer(query, false).getSkin(); // Use the player's skin
+            skin = getPlayer(query, signed).getSkin(); // Use the player's skin
         } catch (Exception ignored) {
             // Simply ignore, and fallback to the default skin
         }
