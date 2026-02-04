@@ -9,3 +9,8 @@ updates:
     directory: "/API" # Location of package manifests
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/JS-SDk" # Location of package manifests
+    schedule:
+      interval: "daily"
