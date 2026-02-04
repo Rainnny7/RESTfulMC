@@ -8,7 +8,9 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 
 /**
  * @author Braydon
@@ -58,6 +60,25 @@ public final class ImageUtils {
             ImageIO.write(image, "png", outputStream);
             outputStream.flush();
             return outputStream.toByteArray();
+        }
+    }
+
+    /**
+     * Convert a base64 string to an image.
+     *
+     * @param base64 the base64 string to convert
+     * @return the image
+     */
+    @SneakyThrows
+    public static BufferedImage base64ToImage(String base64) {
+        String favicon = base64.contains("data:image/png;base64,") ? base64.split(",", 2)[1] : base64;
+
+        // Strip whitespace (newlines, spaces) - some Minecraft servers send favicon with line breaks
+        favicon = favicon.replaceAll("\\s+", "");
+        try {
+            return ImageIO.read(new ByteArrayInputStream(Base64.getDecoder().decode(favicon)));
+        } catch (Exception e) {
+            throw new Exception("Base64 could not be converted to image", e);
         }
     }
 }
