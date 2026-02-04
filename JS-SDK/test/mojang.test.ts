@@ -1,6 +1,6 @@
-import {getMojangServerStatus} from "@/index";
-import {MojangServerStatusResponse} from "@/types/mojang/server-status-response";
-import {expect, test} from "bun:test";
+import { getMojangServerStatus } from "@/index";
+import { MojangServerStatusResponse } from "@/types/mojang/server-status-response";
+import { expect, test } from "bun:test";
 
 /**
  * Run a test to ensure retrieving
@@ -8,6 +8,6 @@ import {expect, test} from "bun:test";
  * successful.
  */
 test("ensureServerStatusCheckSuccess", async () => {
-	const response: MojangServerStatusResponse = await getMojangServerStatus(); // Get Mojang service status
-	expect(response).toBeDefined();
+    const response: MojangServerStatusResponse = await getMojangServerStatus(); // Get Mojang service status
+    expect(response).toBeDefined();
 });

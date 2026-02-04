@@ -1,13 +1,13 @@
-> [!WARNING]
-> The JS SDK is not fully up-to-date, check back later.
-
 # RESTfulMC JS Library
+
 A simple, yet useful RESTful API for Minecraft utilizing Springboot.
 
 ## NPM
+
 View this package on the [NPM Registry](https://www.npmjs.com/package/restfulmc-lib).
 
 ### Installation
+
 ```bash
 npm install restfulmc-lib
 ```
