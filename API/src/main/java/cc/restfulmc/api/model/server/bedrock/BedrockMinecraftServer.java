@@ -4,6 +4,7 @@ import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.server.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -14,6 +15,7 @@ import lombok.experimental.SuperBuilder;
  * @author Braydon
  */
 @SuperBuilder @Getter @ToString(callSuper = true) @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+@NoArgsConstructor(force = true)
 public final class BedrockMinecraftServer extends MinecraftServer {
     /**
      * The ID of this server.

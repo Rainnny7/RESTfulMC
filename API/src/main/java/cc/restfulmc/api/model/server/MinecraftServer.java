@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
  * @author Braydon
  */
 @SuperBuilder @Setter @Getter @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
+@NoArgsConstructor(force = true)
 public class MinecraftServer {
     /**
      * The hostname of this server.

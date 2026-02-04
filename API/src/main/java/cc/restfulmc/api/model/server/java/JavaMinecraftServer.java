@@ -9,6 +9,7 @@ import cc.restfulmc.api.model.token.server.JavaServerStatusToken;
 import cc.restfulmc.api.model.token.server.LegacyJavaServerStatusToken;
 import cc.restfulmc.api.service.MojangService;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,6 +27,7 @@ import java.util.Map;
  * @author Braydon
  */
 @SuperBuilder @Setter @Getter @ToString(callSuper = true)
+@NoArgsConstructor(force = true)
 public final class JavaMinecraftServer extends MinecraftServer {
     /**
      * The version information of this server.
