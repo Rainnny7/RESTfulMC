@@ -56,6 +56,16 @@ public final class MOTD {
     @NonNull private final String[] html;
 
     /**
+     * The URL to preview this MOTD.
+     */
+    @NonNull private final String url;
+
+    /**
+     * The HTML URL to preview this MOTD.
+     */
+    @NonNull private final String htmlUrl;
+
+    /**
      * Generates an HTML representation for the MOTD.
      *
      * @param server the server to generate the HTML for
@@ -91,15 +101,19 @@ public final class MOTD {
      * Create a new MOTD from a raw string.
      *
      * @param raw the raw motd string
+     * @param platform the server platform
+     * @param hostname the server hostname
      * @return the new motd
      */
     @NonNull
-    public static MOTD create(@NonNull String raw) {
+    public static MOTD create(@NonNull String raw, @NonNull ServerPlatform platform, @NonNull String hostname) {
         String[] rawLines = raw.split("\n"); // The raw lines
         return new MOTD(
                 rawLines,
                 Arrays.stream(rawLines).map(ColorUtils::stripColor).toArray(String[]::new),
-                Arrays.stream(rawLines).map(ColorUtils::toHTML).toArray(String[]::new)
+                Arrays.stream(rawLines).map(ColorUtils::toHTML).toArray(String[]::new),
+                AppConfig.INSTANCE.getServerPublicUrl() + "/server/" + platform.name().toLowerCase() + "/" + hostname + "/motd.png",
+                AppConfig.INSTANCE.getServerPublicUrl() + "/server/" + platform.name().toLowerCase() + "/" + hostname + "/motd.html"
         );
     }
 }

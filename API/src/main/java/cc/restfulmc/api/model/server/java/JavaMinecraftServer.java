@@ -179,9 +179,9 @@ public final class JavaMinecraftServer extends MinecraftServer {
             preventsChatReports = nativeStatusToken.isPreventsChatReports();
         }
         return new JavaMinecraftServer(hostname, ip, port, records, null, null, statusToken.getVersion().detailedCopy(),
-                Players.create(statusToken.getPlayers()), MOTD.create(motdString), favicon, software, plugins, modInfo, forgeData,
-                world, statusToken instanceof LegacyJavaServerStatusToken, challengeStatusToken != null, previewsChat,
-                enforcesSecureChat, preventsChatReports, false
+                Players.create(statusToken.getPlayers()), MOTD.create(motdString, ServerPlatform.JAVA, hostname), favicon, software,
+                plugins, modInfo, forgeData, world, statusToken instanceof LegacyJavaServerStatusToken, challengeStatusToken != null,
+                previewsChat, enforcesSecureChat, preventsChatReports, false
         );
     }
 }

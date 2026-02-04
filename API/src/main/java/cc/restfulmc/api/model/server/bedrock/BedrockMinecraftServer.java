@@ -60,7 +60,7 @@ public final class BedrockMinecraftServer extends MinecraftServer {
         Edition edition = Edition.valueOf(split[0]);
         Version version = new Version(Integer.parseInt(split[2]), split[3]);
         Players players = new Players(Integer.parseInt(split[4]), Integer.parseInt(split[5]), null);
-        MOTD motd = MOTD.create(split[1] + "\n" + split[7]);
+        MOTD motd = MOTD.create(split[1] + "\n" + split[7], ServerPlatform.BEDROCK, hostname);
         GameMode gameMode = new GameMode(split[8], split.length > 9 ? Integer.parseInt(split[9]) : -1);
         return new BedrockMinecraftServer(split[6], hostname, ip, port, null, null, records, edition, version, players, motd, gameMode);
     }
