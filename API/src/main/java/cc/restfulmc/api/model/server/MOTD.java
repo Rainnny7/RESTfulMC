@@ -39,6 +39,7 @@ public final class MOTD {
      * TODO: improve this:
      *   - place into its own template file
      *   - add missing data: favicon, server name, player counts, and ping
+     *   - scaling seems off?
      */
     @JsonIgnore
     public String generateHtmlPreview(@NonNull MinecraftServer server) {
