@@ -5,15 +5,20 @@ import cc.restfulmc.api.exception.impl.MojangRateLimitException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.Player;
 import cc.restfulmc.api.model.cache.CachedPlayer;
+import cc.restfulmc.api.model.skin.SkinRendererType;
 import cc.restfulmc.api.service.PlayerService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * The controller for handling
@@ -52,7 +57,9 @@ public final class PlayerController {
             @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed
     ) throws BadRequestException, ResourceNotFoundException, MojangRateLimitException {
-        return ResponseEntity.ofNullable(playerService.getPlayer(query, signed));
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
+                .body(playerService.getPlayer(query, signed));
     }
 
     /**
@@ -74,13 +81,18 @@ public final class PlayerController {
     @GetMapping(value = "/{partName}/{query}.{extension}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
     @ResponseBody
     public ResponseEntity<byte[]> getPartTexture(
-            @Parameter(description = "The skin part to get the texture of", example = "head") @PathVariable @NonNull String partName,
+            @Parameter(
+                    description = "The skin part to get the texture of",
+                    schema = @Schema(implementation = SkinRendererType.class),
+                    example = "head"
+            ) @PathVariable @NonNull String partName,
             @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(description = "The image extension", example = "png") @PathVariable @NonNull String extension,
             @Parameter(description = "Whether to render skin overlays") @RequestParam(required = false, defaultValue = "true") boolean overlays,
-            @Parameter(description = "The size to scale the skin part texture to", example = "256") @RequestParam(required = false) String size
+            @Parameter(description = "The size to scale the skin part texture to", example = "512") @RequestParam(required = false, defaultValue = "512") String size
     ) throws BadRequestException {
         return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
                 .body(playerService.getSkinPartTexture(partName, query, extension, overlays, size));
     }

@@ -105,11 +105,11 @@ public final class PlayerService {
             uuid = usernameToUUID(query);
             log.info("Found UUID for username {}: {}", query, uuid);
         }
-        String cacheId = "%s-%s".formatted(uuid, signed); // The cache id of the player
+        String cacheKey = "%s-%s".formatted(uuid, signed); // The cache id of the player
 
         // Check the cache for the player
         // and return it if it's present
-        Optional<CachedPlayer> cached = playerCache.findById(cacheId);
+        Optional<CachedPlayer> cached = playerCache.findById(cacheKey);
         if (cached.isPresent()) { // Respond with the cache if present
             log.info("Found player in cache: {}", uuid);
             return cached.get();
@@ -125,7 +125,7 @@ public final class PlayerService {
             ProfileAction[] profileActions = token.getProfileActions();
 
             // Build our player model, cache it, and then return it
-            CachedPlayer player = new CachedPlayer(cacheId, uuid, token.getName(),
+            CachedPlayer player = new CachedPlayer(cacheKey, uuid, token.getName(),
                     skinProperties.getSkin() == null ? Skin.DEFAULT_STEVE : skinProperties.getSkin(),
                     skinProperties.getCape(), token.getProperties(), profileActions.length == 0 ? null : profileActions,
                     token.isLegacy(), System.currentTimeMillis()
@@ -224,14 +224,14 @@ public final class PlayerService {
             size = MAX_PART_TEXTURE_SIZE;
             log.warn("Size {} is too large, defaulting to {}", sizeString, MAX_PART_TEXTURE_SIZE);
         }
-        String id = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
+        String cacheKey = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
 
         // In production, check the cache for the
         // skin part and return it if it's present
         if (EnvironmentUtils.isProduction()) {
-            Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id);
+            Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(cacheKey);
             if (cached.isPresent()) { // Respond with the cache if present
-                log.info("Found skin part {} in cache: {}", part.name(), id);
+                log.info("Found skin part {} in cache: {}", part.name(), cacheKey);
                 return cached.get().getTexture();
             }
         }
@@ -239,8 +239,7 @@ public final class PlayerService {
         Skin skin = null; // The target skin to get the skin part of
         long before = System.currentTimeMillis();
         try {
-            CachedPlayer player = getPlayer(query, false); // Retrieve the player
-            skin = player.getSkin(); // Use the player's skin
+            skin = getPlayer(query, false).getSkin(); // Use the player's skin
         } catch (Exception ignored) {
             // Simply ignore, and fallback to the default skin
         }
@@ -252,11 +251,11 @@ public final class PlayerService {
         }
         before = System.currentTimeMillis();
         BufferedImage texture = part.getRenderer().render(skin, overlays, size); // Render the skin part
-        log.info("Render of skin part took {}ms: {}", System.currentTimeMillis() - before, id);
+        log.info("Render of skin part took {}ms: {}", System.currentTimeMillis() - before, cacheKey);
 
         byte[] bytes = ImageUtils.toByteArray(texture); // Convert the image into a byte array
-        skinPartTextureCache.save(new CachedSkinPartTexture(id, bytes)); // Cache the texture
-        log.info("Cached skin part texture: {}", id);
+        skinPartTextureCache.save(new CachedSkinPartTexture(cacheKey, bytes)); // Cache the texture
+        log.info("Cached skin part texture: {}", cacheKey);
         return bytes;
     }
 
