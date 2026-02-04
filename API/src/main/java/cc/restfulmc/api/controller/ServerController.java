@@ -2,9 +2,9 @@ package cc.restfulmc.api.controller;
 
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
-import cc.restfulmc.api.model.server.cache.CachedMinecraftServer;
 import cc.restfulmc.api.model.server.MinecraftServer;
 import cc.restfulmc.api.model.server.ServerPlatform;
+import cc.restfulmc.api.model.server.cache.CachedMinecraftServer;
 import cc.restfulmc.api.service.MojangService;
 import cc.restfulmc.api.service.ServerService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -116,7 +116,7 @@ public final class ServerController {
                     example = "java"
             ) @PathVariable @NonNull String platform,
             @Parameter(description = "The server hostname to lookup (Append :<port> for port)", example = "hypixel.net") @PathVariable @NonNull String hostname,
-            @Parameter(description = "The size to scale the motd texture to", example = "512") @RequestParam(required = false, defaultValue = "512") int size
+            @Parameter(description = "The size to scale the motd texture to", example = "768") @RequestParam(required = false, defaultValue = "768") int size
     ) {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
@@ -138,8 +138,7 @@ public final class ServerController {
                     schema = @Schema(implementation = ServerPlatform.class),
                     example = "java"
             ) @PathVariable @NonNull String platform,
-            @Parameter(description = "The server hostname to lookup (Append :<port> for port)", example = "hypixel.net") @PathVariable @NonNull String hostname,
-            @Parameter(description = "The size to scale the motd texture to", example = "512") @RequestParam(required = false, defaultValue = "512") int size
+            @Parameter(description = "The server hostname to lookup (Append :<port> for port)", example = "hypixel.net") @PathVariable @NonNull String hostname
     ) {
         MinecraftServer server = serverService.getMinecraftServer(platform, hostname).getValue();
         return ResponseEntity.ok(server.getMotd().generateHtmlPreview(server));
