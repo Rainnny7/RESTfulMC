@@ -22,19 +22,4 @@ public enum SkinRendererType {
     BODY(BodyRenderer.INSTANCE);
 
     @NonNull private final SkinRenderer renderer;
-
-    /**
-     * Gets a skin part by name.
-     *
-     * @param name the name of the skin part
-     * @return the skin part
-     */
-    public static SkinRendererType getByName(String name) {
-        for (SkinRendererType part : SkinRendererType.values()) {
-            if (part.name().equalsIgnoreCase(name)) {
-                return part;
-            }
-        }
-        return null;
-    }
 }

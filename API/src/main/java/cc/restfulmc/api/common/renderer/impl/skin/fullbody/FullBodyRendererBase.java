@@ -36,12 +36,10 @@ public class FullBodyRendererBase {
      */
     @SneakyThrows
     public BufferedImage render(Skin skin, Side side, boolean renderOverlays, int size, double yawDeg, double pitchDeg) {
-        byte[] skinBytes = SkinService.INSTANCE.getSkinTexture(skin, true);
-        BufferedImage skinImage = SkinService.getSkinImage(skinBytes);
         List<Face> faces = PlayerModel.buildFaces(skin, renderOverlays);
         double yaw = yawDeg + (side == Side.BACK ? 180.0 : 0.0);
         Isometric3DRenderer.ViewParams view = new Isometric3DRenderer.ViewParams(EYE, TARGET, yaw, pitchDeg, ASPECT_RATIO);
-        return Isometric3DRenderer.INSTANCE.render(skinImage, faces, view, size);
+        return Isometric3DRenderer.INSTANCE.render(skin.getImage(), faces, view, size);
     }
 
     /**

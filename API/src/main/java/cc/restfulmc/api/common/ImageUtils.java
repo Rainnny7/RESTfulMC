@@ -10,6 +10,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Base64;
 
 /**
@@ -80,5 +83,19 @@ public final class ImageUtils {
         } catch (Exception e) {
             throw new Exception("Base64 could not be converted to image", e);
         }
+    }
+
+    /**
+     * Gets the image data from the URL.
+     *
+     * @return the image data
+     */
+    @SneakyThrows
+    public static byte[] getImage(String url) {
+        HttpResponse<byte[]> response = Constants.HTTP_CLIENT.send(HttpRequest.newBuilder(URI.create(url)).build(), HttpResponse.BodyHandlers.ofByteArray());
+        if (response.statusCode() == 200) {
+            return response.body();
+        }
+        return null;
     }
 }

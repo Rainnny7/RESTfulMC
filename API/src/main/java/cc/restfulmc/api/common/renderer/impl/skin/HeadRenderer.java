@@ -38,11 +38,8 @@ public class HeadRenderer extends SkinRenderer {
      */
     @SneakyThrows
     public BufferedImage render(Skin skin, boolean renderOverlays, int size, double yawDeg, double pitchDeg) {
-        byte[] skinBytes = SkinService.INSTANCE.getSkinTexture(skin, true);
-        BufferedImage skinImage = SkinService.getSkinImage(skinBytes);
-
         List<Face> faces = PlayerHeadModel.buildFaces(skin, renderOverlays);
         Isometric3DRenderer.ViewParams view = new Isometric3DRenderer.ViewParams(HEAD_EYE, HEAD_TARGET, yawDeg, pitchDeg, ASPECT_RATIO);
-        return Isometric3DRenderer.INSTANCE.render(skinImage, faces, view, size);
+        return Isometric3DRenderer.INSTANCE.render(skin.getImage(), faces, view, size);
     }
 }
