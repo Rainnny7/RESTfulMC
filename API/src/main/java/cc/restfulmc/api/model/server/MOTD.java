@@ -3,6 +3,7 @@ package cc.restfulmc.api.model.server;
 import cc.restfulmc.api.RESTfulMC;
 import cc.restfulmc.api.common.ColorUtils;
 import cc.restfulmc.api.common.Constants;
+import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import cc.restfulmc.api.service.ServerService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -77,6 +78,7 @@ public final class MOTD {
         }
         // Replace template placeholders
         return HTML_TEMPLATE
+                .replace("{{app}}", AppConfig.INSTANCE.getServerPublicUrl())
                 .replace("{{cdn}}", Constants.CDN_URL)
                 .replace("{{hostname}}", server.getHostname())
                 .replace("{{favicon}}", faviconData)
