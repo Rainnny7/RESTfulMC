@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.cache;
+package cc.restfulmc.api.model.player.cache;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public final class CachedSkinPartTexture implements Serializable {
     @Id private transient final String id;
 
     /**
-     * The cached texture;
+     * The cached texture.
      */
     private final byte[] texture;
 }

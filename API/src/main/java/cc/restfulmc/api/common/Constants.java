@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Braydon
@@ -18,4 +20,5 @@ public final class Constants {
             .setDateFormat("MM-dd-yyyy HH:mm:ss")
             .create();
     public static final String REQUEST_START_TIME_ATTRIBUTE = "requestStartTime";
+    public static final ExecutorService VIRTUAL_EXECUTOR = Executors.newVirtualThreadPerTaskExecutor();
 }

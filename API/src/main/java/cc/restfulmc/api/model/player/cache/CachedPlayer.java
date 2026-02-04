@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.cache;
+package cc.restfulmc.api.model.player.cache;
 
 import cc.restfulmc.api.model.player.Cape;
 import cc.restfulmc.api.model.player.Player;

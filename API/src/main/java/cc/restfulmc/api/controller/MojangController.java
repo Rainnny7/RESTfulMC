@@ -45,8 +45,7 @@ public final class MojangController {
      *
      * @return the status response
      */
-    @GetMapping("/status")
-    @ResponseBody
+    @GetMapping("/status") @ResponseBody
     public ResponseEntity<Map<String, List<Map<String, Object>>>> getStatus() throws BadRequestException {
         List<Map<String, Object>> servers = new ArrayList<>();
         for (Map.Entry<MojangServer, MojangServer.Status> entry : mojangService.getMojangServerStatuses().entrySet()) {

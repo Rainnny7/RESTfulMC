@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.cache;
+package cc.restfulmc.api.model.server.cache;
 
 import cc.restfulmc.api.model.server.MinecraftServer;
 import com.fasterxml.jackson.annotation.JsonIgnore;

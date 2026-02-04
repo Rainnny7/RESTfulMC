@@ -8,9 +8,9 @@ import cc.restfulmc.api.exception.impl.MojangRateLimitException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.player.Player;
 import cc.restfulmc.api.model.player.ProfileAction;
-import cc.restfulmc.api.model.cache.CachedPlayer;
-import cc.restfulmc.api.model.cache.CachedPlayerName;
-import cc.restfulmc.api.model.cache.CachedSkinPartTexture;
+import cc.restfulmc.api.model.player.cache.CachedPlayer;
+import cc.restfulmc.api.model.player.cache.CachedPlayerName;
+import cc.restfulmc.api.model.player.cache.CachedSkinPartTexture;
 import cc.restfulmc.api.model.player.skin.Skin;
 import cc.restfulmc.api.model.player.skin.SkinRendererType;
 import cc.restfulmc.api.model.token.mojang.MojangProfileToken;
@@ -31,6 +31,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author Braydon
@@ -42,8 +43,8 @@ public final class PlayerService {
     private static final String UUID_TO_PROFILE = MojangServer.SESSION.getEndpoint() + "/session/minecraft/profile/%s";
     private static final String USERNAME_TO_UUID = MojangServer.API.getEndpoint() + "/users/profiles/minecraft/%s";
 
-    private static final int DEFAULT_PART_TEXTURE_SIZE = 128;
-    private static final int MAX_PART_TEXTURE_SIZE = 512;
+    private static final int MIN_PART_TEXTURE_SIZE = 64;
+    private static final int MAX_PART_TEXTURE_SIZE = 1024;
 
     /**
      * The cache repository for {@link Player}'s by their username.
@@ -102,7 +103,7 @@ public final class PlayerService {
             if (!MiscUtils.isUsernameValid(query)) { // Ensure the username is valid
                 throw new BadRequestException("Invalid username provided: %s".formatted(query));
             }
-            uuid = usernameToUUID(query);
+            uuid = usernameToUuid(query);
             log.info("Found UUID for username {}: {}", query, uuid);
         }
         String cacheKey = "%s-%s".formatted(uuid, signed); // The cache id of the player
@@ -183,16 +184,16 @@ public final class PlayerService {
      * @param partName   the part of the player's skin texture to get
      * @param extension  the skin part image extension
      * @param overlays   whether to render overlays
-     * @param sizeString the size of the skin part image
+     * @param size the size of the skin part image
      * @return the skin part texture
      * @throws BadRequestException      if the extension is invalid
      * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
     @SneakyThrows
     public byte[] getSkinPartTexture(@NonNull String query, @NonNull String partName, @NonNull String extension,
-                                     boolean overlays, String sizeString) throws BadRequestException, MojangRateLimitException {
+                                     boolean overlays, int size) throws BadRequestException, MojangRateLimitException {
         log.info("Requesting skin part {} with query {} (ext: {}, overlays: {}, size: {})",
-                partName, query, extension, overlays, sizeString
+                partName, query, extension, overlays, size
         );
 
         // Get the part from the given name
@@ -207,33 +208,23 @@ public final class PlayerService {
             throw new BadRequestException("Invalid extension");
         }
 
-        // Get the size of the part
-        Integer size = null;
-        if (sizeString != null) { // Attempt to parse the size
-            try {
-                size = Integer.parseInt(sizeString);
-            } catch (NumberFormatException ignored) {
-                // Safely ignore, invalid number provided
-            }
+        // Ensure the part size is valid
+        if (size < MIN_PART_TEXTURE_SIZE) {
+            log.warn("Size {} is too small, defaulting to {}", size, MIN_PART_TEXTURE_SIZE);
+            size = MIN_PART_TEXTURE_SIZE;
         }
-        if (size == null || size <= 0) { // Invalid size
-            size = DEFAULT_PART_TEXTURE_SIZE;
-            log.warn("Invalid size {}, defaulting to {}", sizeString, size);
-        }
-        if (size > MAX_PART_TEXTURE_SIZE) { // Limit the size to 512
+        if (size > MAX_PART_TEXTURE_SIZE) {
+            log.warn("Size {} is too large, defaulting to {}", size, MAX_PART_TEXTURE_SIZE);
             size = MAX_PART_TEXTURE_SIZE;
-            log.warn("Size {} is too large, defaulting to {}", sizeString, MAX_PART_TEXTURE_SIZE);
         }
         String cacheKey = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
 
         // In production, check the cache for the
         // skin part and return it if it's present
-        if (EnvironmentUtils.isProduction()) {
-            Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(cacheKey);
-            if (cached.isPresent()) { // Respond with the cache if present
-                log.info("Found skin part {} in cache: {}", part.name(), cacheKey);
-                return cached.get().getTexture();
-            }
+        CachedSkinPartTexture cached = EnvironmentUtils.isProduction() ? skinPartTextureCache.findById(cacheKey).orElse(null) : null;
+        if (cached != null) {
+            log.info("Found skin part {} in cache: {}", part.name(), cacheKey);
+            return cached.getTexture();
         }
 
         Skin skin = null; // The target skin to get the skin part of
@@ -254,8 +245,12 @@ public final class PlayerService {
         log.info("Render of skin part took {}ms: {}", System.currentTimeMillis() - before, cacheKey);
 
         byte[] bytes = ImageUtils.toByteArray(texture); // Convert the image into a byte array
-        skinPartTextureCache.save(new CachedSkinPartTexture(cacheKey, bytes)); // Cache the texture
-        log.info("Cached skin part texture: {}", cacheKey);
+        if (EnvironmentUtils.isProduction()) {
+            CompletableFuture.runAsync(() -> {
+                skinPartTextureCache.save(new CachedSkinPartTexture(cacheKey, bytes)); // Cache the texture
+                log.info("Cached skin part texture: {}", cacheKey);
+            }, Constants.VIRTUAL_EXECUTOR);
+        }
         return bytes;
     }
 
@@ -268,7 +263,7 @@ public final class PlayerService {
      * @throws MojangRateLimitException  if the Mojang rate limit is reached
      */
     @NonNull
-    private UUID usernameToUUID(@NonNull String username) throws ResourceNotFoundException, MojangRateLimitException {
+    private UUID usernameToUuid(@NonNull String username) throws ResourceNotFoundException, MojangRateLimitException {
         String originalUsername = username;
         username = username.toLowerCase(); // Lowercase the username
 
@@ -287,8 +282,11 @@ public final class PlayerService {
 
             // Cache the UUID and return it
             UUID uuid = UUIDUtils.addDashes(token.getId());
-            playerNameCache.save(new CachedPlayerName(username, uuid));
-            log.info("Cached UUID for username {}: {}", username, uuid);
+            String finalUsername = username;
+            CompletableFuture.runAsync(() -> {
+                playerNameCache.save(new CachedPlayerName(finalUsername, uuid));
+                log.info("Cached UUID for username {}: {}", finalUsername, uuid);
+            }, Constants.VIRTUAL_EXECUTOR);
             return uuid;
         } catch (JsonWebException ex) {
             if (ex.getStatusCode() == 429) { // Mojang rate limit reached

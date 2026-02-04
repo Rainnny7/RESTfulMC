@@ -1,6 +1,6 @@
 package cc.restfulmc.api.repository;
 
-import cc.restfulmc.api.model.cache.CachedPlayer;
+import cc.restfulmc.api.model.player.cache.CachedPlayer;
 import org.springframework.data.repository.CrudRepository;
 
 /**

@@ -1,6 +1,6 @@
 package cc.restfulmc.api.repository;
 
-import cc.restfulmc.api.model.cache.CachedSkinPartTexture;
+import cc.restfulmc.api.model.player.cache.CachedSkinPartTexture;
 import org.springframework.data.repository.CrudRepository;
 
 /**

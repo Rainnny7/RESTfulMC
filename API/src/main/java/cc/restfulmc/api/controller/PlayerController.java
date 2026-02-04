@@ -4,7 +4,7 @@ import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.MojangRateLimitException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.player.Player;
-import cc.restfulmc.api.model.cache.CachedPlayer;
+import cc.restfulmc.api.model.player.cache.CachedPlayer;
 import cc.restfulmc.api.model.player.skin.SkinRendererType;
 import cc.restfulmc.api.service.PlayerService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -51,8 +51,7 @@ public final class PlayerController {
      * @throws ResourceNotFoundException if the player is not found
      * @throws MojangRateLimitException  if the Mojang API rate limit is reached
      */
-    @GetMapping("/{query}")
-    @ResponseBody
+    @GetMapping("/{query}") @ResponseBody
     public ResponseEntity<CachedPlayer> getPlayer(
             @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(description = "Whether the profile is signed by Mojang") @RequestParam(required = false) boolean signed
@@ -89,7 +88,7 @@ public final class PlayerController {
             ) @PathVariable @NonNull String partName,
             @Parameter(description = "The image extension", example = "png") @PathVariable @NonNull String extension,
             @Parameter(description = "Whether to render skin overlays") @RequestParam(required = false, defaultValue = "true") boolean overlays,
-            @Parameter(description = "The size to scale the skin part texture to", example = "512") @RequestParam(required = false, defaultValue = "512") String size
+            @Parameter(description = "The size to scale the skin part texture to", example = "512") @RequestParam(required = false, defaultValue = "512") int size
     ) throws BadRequestException {
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())

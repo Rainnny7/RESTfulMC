@@ -1,6 +1,6 @@
 package cc.restfulmc.api.repository;
 
-import cc.restfulmc.api.model.cache.CachedMinecraftServer;
+import cc.restfulmc.api.model.server.cache.CachedMinecraftServer;
 import org.springframework.data.repository.CrudRepository;
 
 /**

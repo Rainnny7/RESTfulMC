@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.cache;
+package cc.restfulmc.api.model.player.cache;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

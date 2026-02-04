@@ -225,14 +225,9 @@ public final class ServerPreviewRenderer extends Renderer<MinecraftServer> {
     @NonNull
     public BufferedImage getServerFavicon(@NonNull MinecraftServer server) {
         String favicon = null;
-
         if (server instanceof JavaMinecraftServer javaServer && javaServer.getFavicon() != null) {
             favicon = javaServer.getFavicon().getBase64();
         }
-
-        if (favicon == null) {
-            favicon = ServerService.DEFAULT_SERVER_ICON;
-        }
-        return ImageUtils.base64ToImage(favicon);
+        return ImageUtils.base64ToImage(favicon == null ? ServerService.DEFAULT_SERVER_ICON : favicon);
     }
 }
