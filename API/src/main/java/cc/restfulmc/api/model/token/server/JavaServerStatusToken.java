@@ -55,15 +55,21 @@ public final class JavaServerStatusToken extends GenericJavaServerStatusToken {
      */
     private final boolean preventsChatReports;
 
+    /**
+     * Whether this is a modded server.
+     */
+    private final boolean isModded;
+
     public JavaServerStatusToken(@NonNull Object description, @NonNull Players players, @NonNull Version version, String favicon,
                                  ForgeData forgeData, boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports,
-                                 ModInfo modInfo) {
+                                 boolean isModded, ModInfo modInfo) {
         super(description, players, version);
         this.favicon = favicon;
         this.forgeData = forgeData;
         this.previewsChat = previewsChat;
         this.enforcesSecureChat = enforcesSecureChat;
         this.preventsChatReports = preventsChatReports;
+        this.isModded = isModded;
         this.modInfo = modInfo;
     }
 }

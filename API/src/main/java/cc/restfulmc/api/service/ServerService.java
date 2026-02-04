@@ -99,10 +99,10 @@ public final class ServerService {
         String cacheKey = "%s-%s".formatted(platform.name(), lookupHostname.replace(":", "-"));
 
         // Check the cache for the server
-        Optional<CachedMinecraftServer> cached = minecraftServerCache.findById(cacheKey);
-        if (cached.isPresent()) { // Respond with the cache if present
+        CachedMinecraftServer cached = EnvironmentUtils.isProduction() ? minecraftServerCache.findById(cacheKey).orElse(null) : null;
+        if (cached != null) { // Respond with the cache if present
             log.info("Found server in cache: {}", hostname);
-            return cached.get();
+            return cached;
         }
         List<DNSRecord> records = new ArrayList<>(); // The resolved DNS records for the server
 
@@ -157,10 +157,12 @@ public final class ServerService {
             ((JavaMinecraftServer) minecraftServer.getValue()).setMojangBanned(mojangService.isServerBlocked(hostname));
         }
         String finalHostname = hostname;
-        CompletableFuture.runAsync(() -> {
-            minecraftServerCache.save(minecraftServer);
-            log.info("Cached server: {}", finalHostname);
-        }, Constants.VIRTUAL_EXECUTOR);
+        if (EnvironmentUtils.isProduction()) {
+            CompletableFuture.runAsync(() -> {
+                minecraftServerCache.save(minecraftServer);
+                log.info("Cached server: {}", finalHostname);
+            }, Constants.VIRTUAL_EXECUTOR);
+        }
         minecraftServer.setCached(-1L); // Set to -1 to indicate it's not cached in the response
         return minecraftServer;
     }

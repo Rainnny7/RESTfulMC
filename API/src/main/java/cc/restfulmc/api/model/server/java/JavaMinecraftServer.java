@@ -96,6 +96,11 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private final boolean preventsChatReports;
 
     /**
+     * Whether this is a modded server.
+     */
+    private final boolean modded;
+
+    /**
      * Is this server on the list
      * of blocked servers by Mojang?
      * <p>
@@ -111,7 +116,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
     private JavaMinecraftServer(@NonNull String hostname, String ip, int port, DNSRecord[] records, AsnData asn, GeoLocation geo,
                                 @NonNull Version version, @NonNull Players players, @NonNull MOTD motd, Favicon favicon, String software,
                                 Plugin[] plugins, ModInfo modInfo, ForgeData forgeData, String world, boolean legacyServer, boolean queryEnabled,
-                                boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean mojangBanned) {
+                                boolean previewsChat, boolean enforcesSecureChat, boolean preventsChatReports, boolean modded, boolean mojangBanned) {
         super(hostname, ip, port, records, asn, geo, players, motd);
         this.version = version;
         this.favicon = favicon;
@@ -125,6 +130,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
         this.previewsChat = previewsChat;
         this.enforcesSecureChat = enforcesSecureChat;
         this.preventsChatReports = preventsChatReports;
+        this.modded = modded;
         this.mojangBanned = mojangBanned;
     }
 
@@ -170,6 +176,7 @@ public final class JavaMinecraftServer extends MinecraftServer {
         boolean previewsChat = false;
         boolean enforcesSecureChat = false;
         boolean preventsChatReports = false;
+        boolean isModded = false;
         if (statusToken instanceof JavaServerStatusToken nativeStatusToken) {
             favicon = Favicon.create(nativeStatusToken.getFavicon(), hostname);
             modInfo = nativeStatusToken.getModInfo();
@@ -177,11 +184,12 @@ public final class JavaMinecraftServer extends MinecraftServer {
             previewsChat = nativeStatusToken.isPreviewsChat();
             enforcesSecureChat = nativeStatusToken.isEnforcesSecureChat();
             preventsChatReports = nativeStatusToken.isPreventsChatReports();
+            isModded = nativeStatusToken.isModded();
         }
         return new JavaMinecraftServer(hostname, ip, port, records, null, null, statusToken.getVersion().detailedCopy(),
                 Players.create(statusToken.getPlayers()), MOTD.create(motdString, ServerPlatform.JAVA, hostname), favicon, software,
                 plugins, modInfo, forgeData, world, statusToken instanceof LegacyJavaServerStatusToken, challengeStatusToken != null,
-                previewsChat, enforcesSecureChat, preventsChatReports, false
+                previewsChat, enforcesSecureChat, preventsChatReports, isModded, false
         );
     }
 }
