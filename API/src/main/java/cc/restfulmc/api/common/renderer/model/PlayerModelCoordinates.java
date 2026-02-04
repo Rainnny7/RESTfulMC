@@ -17,7 +17,7 @@ public final class PlayerModelCoordinates {
      *
      * @author Braydon
      */
-    @AllArgsConstructor @Getter
+    @Getter
     public enum Vanilla {
         // Head overlays
         HEAD_OVERLAY_TOP(new Coordinates(40, 0), 8, 8),
