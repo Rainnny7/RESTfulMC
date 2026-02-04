@@ -190,8 +190,8 @@ public final class ServerPreviewRenderer extends Renderer<MinecraftServer> {
             // §x§R§R§G§G§B§B or §#RRGGBB (gradient support)
             HexColorResult hexResult = ColorUtils.parseHexColor(line, colorIndex);
             if (hexResult != null) {
-                graphics.setColor(hexResult.color());
-                index = colorIndex + hexResult.charsConsumed();
+                graphics.setColor(hexResult.getColor());
+                index = colorIndex + hexResult.getCharsConsumed();
             } else if (colorIndex + 1 < line.length()) {
                 char colorCode = Character.toLowerCase(line.charAt(colorIndex + 1));
                 switch (colorCode) {

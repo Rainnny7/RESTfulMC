@@ -1,5 +1,8 @@
 package cc.restfulmc.api.common.math;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -7,7 +10,23 @@ import lombok.NonNull;
  *
  * @author Braydon
  */
-public record Vector3(double x, double y, double z) {
+@AllArgsConstructor @Getter @EqualsAndHashCode
+public final class Vector3 {
+    /**
+     * The X component.
+     */
+    private final double x;
+
+    /**
+     * The Y component.
+     */
+    private final double y;
+
+    /**
+     * The Z component.
+     */
+    private final double z;
+
     /**
      * Adds another vector to this vector.
      *

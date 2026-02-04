@@ -1,5 +1,7 @@
 package cc.restfulmc.api.common.font;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.awt.image.BufferedImage;
@@ -17,8 +19,53 @@ import java.awt.image.BufferedImage;
  *
  * @author Braydon
  */
-public record Glyph(@NonNull BufferedImage texture, int srcX, int srcY, int width, int height,
-                    int advance, double boldOffset, double shadowOffset, int ascent) {
+@AllArgsConstructor @Getter
+public final class Glyph {
+    /**
+     * The texture containing this glyph.
+     */
+    @NonNull private final BufferedImage texture;
+
+    /**
+     * The source X coordinate in the texture.
+     */
+    private final int srcX;
+
+    /**
+     * The source Y coordinate in the texture.
+     */
+    private final int srcY;
+
+    /**
+     * The glyph width.
+     */
+    private final int width;
+
+    /**
+     * The glyph height.
+     */
+    private final int height;
+
+    /**
+     * The horizontal advance.
+     */
+    private final int advance;
+
+    /**
+     * The bold offset for bold rendering.
+     */
+    private final double boldOffset;
+
+    /**
+     * The shadow offset for shadow rendering.
+     */
+    private final double shadowOffset;
+
+    /**
+     * The vertical baseline offset.
+     */
+    private final int ascent;
+
     /**
      * Gets the advance when bold: base advance + boldOffset (Minecraft getAdvance(bold)).
      *

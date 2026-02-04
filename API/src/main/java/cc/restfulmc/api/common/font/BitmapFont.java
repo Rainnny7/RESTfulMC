@@ -213,7 +213,7 @@ public final class BitmapFont {
             int codepoint = str.codePointAt(i);
             Glyph glyph = glyphs.get(codepoint);
             if (glyph != null) {
-                int glyphDrawY = y - glyph.ascent();
+                int glyphDrawY = y - glyph.getAscent();
                 drawGlyphTinted(graphics, glyph, x, glyphDrawY, color);
             }
             x += getAdvance(codepoint, bold);
@@ -232,11 +232,11 @@ public final class BitmapFont {
      * @param color the tint color
      */
     private void drawGlyphTinted(@NonNull Graphics2D graphics, @NonNull Glyph glyph, int x, int y, @NonNull Color color) {
-        BufferedImage src = glyph.texture();
-        int srcX = glyph.srcX();
-        int srcY = glyph.srcY();
-        int glyphWidth = glyph.width();
-        int glyphHeight = glyph.height();
+        BufferedImage src = glyph.getTexture();
+        int srcX = glyph.getSrcX();
+        int srcY = glyph.getSrcY();
+        int glyphWidth = glyph.getWidth();
+        int glyphHeight = glyph.getHeight();
         BufferedImage tinted = new BufferedImage(glyphWidth, glyphHeight, BufferedImage.TYPE_INT_ARGB);
         int colorRed = color.getRed();
         int colorGreen = color.getGreen();

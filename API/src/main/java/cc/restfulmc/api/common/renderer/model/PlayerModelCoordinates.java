@@ -115,7 +115,18 @@ public final class PlayerModelCoordinates {
          *
          * @author Braydon
          */
-        public record Coordinates(int x, int y) {}
+        @AllArgsConstructor @Getter
+        public static final class Coordinates {
+            /**
+             * The X coordinate.
+             */
+            private final int x;
+
+            /**
+             * The Y coordinate.
+             */
+            private final int y;
+        }
     }
 
     /**
@@ -184,8 +195,8 @@ public final class PlayerModelCoordinates {
                 width--;
             }
             return new int[]{
-                    part.getCoordinates().x(),
-                    part.getCoordinates().y(),
+                    part.getCoordinates().getX(),
+                    part.getCoordinates().getY(),
                     width,
                     part.getHeight(),
                     sizeZ

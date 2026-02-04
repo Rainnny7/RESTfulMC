@@ -3,6 +3,8 @@ package cc.restfulmc.api.common.renderer.raster;
 import cc.restfulmc.api.common.math.Vector3;
 import cc.restfulmc.api.common.math.Vector3Utils;
 import cc.restfulmc.api.common.renderer.IsometricLighting;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,18 +40,18 @@ public final class Isometric3DRenderer {
      */
     @NonNull
     public BufferedImage render(@NonNull List<TexturedFaces> batches, @NonNull ViewParams view, int size) {
-        int width = (int) Math.round(size * view.aspectRatio());
+        int width = (int) Math.round(size * view.getAspectRatio());
 
-        Vector3 eye = view.eye();
-        Vector3 target = view.target();
+        Vector3 eye = view.getEye();
+        Vector3 target = view.getTarget();
         Vector3 forward = Vector3Utils.normalize(target.subtract(eye));
         Vector3 right = Vector3Utils.normalize(Vector3Utils.cross(forward, new Vector3(0, 1, 0)));
         Vector3 up = Vector3Utils.normalize(Vector3Utils.cross(right, forward));
 
-        double yaw = view.yawDeg();
-        double pitch = view.pitchDeg();
+        double yaw = view.getYawDeg();
+        double pitch = view.getPitchDeg();
 
-        int totalFaces = batches.stream().mapToInt(batch -> batch.faces().size()).sum();
+        int totalFaces = batches.stream().mapToInt(batch -> batch.getFaces().size()).sum();
         List<ProjectedFaceWithTexture> projected = new ArrayList<>(totalFaces);
 
         double minX = Double.MAX_VALUE, maxX = -Double.MAX_VALUE;
@@ -58,18 +60,18 @@ public final class Isometric3DRenderer {
         int faceIndex = 0;
         for (int batchIndex = 0; batchIndex < batches.size(); batchIndex++) {
             TexturedFaces batch = batches.get(batchIndex);
-            BufferedImage texture = batch.texture();
+            BufferedImage texture = batch.getTexture();
             int texWidth = texture.getWidth();
             int texHeight = texture.getHeight();
 
-            for (Face face : batch.faces()) {
-                Vector3 rotatedNormal = Vector3Utils.rotateX(Vector3Utils.rotateY(face.normal(), yaw), pitch);
+            for (Face face : batch.getFaces()) {
+                Vector3 rotatedNormal = Vector3Utils.rotateX(Vector3Utils.rotateY(face.getNormal(), yaw), pitch);
                 double brightness = IsometricLighting.computeBrightness(rotatedNormal, IsometricLighting.SUN_DIRECTION, IsometricLighting.MIN_BRIGHTNESS);
 
-                Vector3 v0 = Vector3Utils.rotAround(face.v0(), target, yaw, pitch);
-                Vector3 v1 = Vector3Utils.rotAround(face.v1(), target, yaw, pitch);
-                Vector3 v2 = Vector3Utils.rotAround(face.v2(), target, yaw, pitch);
-                Vector3 v3 = Vector3Utils.rotAround(face.v3(), target, yaw, pitch);
+                Vector3 v0 = Vector3Utils.rotAround(face.getV0(), target, yaw, pitch);
+                Vector3 v1 = Vector3Utils.rotAround(face.getV1(), target, yaw, pitch);
+                Vector3 v2 = Vector3Utils.rotAround(face.getV2(), target, yaw, pitch);
+                Vector3 v3 = Vector3Utils.rotAround(face.getV3(), target, yaw, pitch);
                 double[] p0 = Vector3Utils.project(v0, eye, forward, right, up);
                 double[] p1 = Vector3Utils.project(v1, eye, forward, right, up);
                 double[] p2 = Vector3Utils.project(v2, eye, forward, right, up);
@@ -81,7 +83,7 @@ public final class Isometric3DRenderer {
                 projected.add(new ProjectedFaceWithTexture(
                         x0, y0, x1, y1, x2, y2, x3, y3,
                         depth,
-                        face.u0(), face.v0_(), face.u1(), face.v1_(),
+                        face.getU0(), face.getV0_(), face.getU1(), face.getV1_(),
                         brightness,
                         batchIndex,
                         texWidth, texHeight,
@@ -95,8 +97,8 @@ public final class Isometric3DRenderer {
         }
 
         // Stable sort: depth back-to-front, then by face index so coplanar faces (e.g. head/body seam) draw consistently
-        projected.sort(Comparator.comparingDouble((ProjectedFaceWithTexture p) -> p.depth).reversed()
-                .thenComparingInt(p -> p.faceIndex));
+        projected.sort(Comparator.comparingDouble((ProjectedFaceWithTexture p) -> p.getDepth()).reversed()
+                .thenComparingInt(ProjectedFaceWithTexture::getFaceIndex));
         double modelWidth = maxX - minX;
         double modelHeight = maxY - minY;
         if (modelWidth < 1) {
@@ -115,26 +117,26 @@ public final class Isometric3DRenderer {
         // Preload texture pixels per batch (avoids repeated getRGB in loop)
         int[][] batchTexPixels = new int[batches.size()][];
         for (int i = 0; i < batches.size(); i++) {
-            batchTexPixels[i] = QuadRasterizer.getTexturePixels(batches.get(i).texture());
+            batchTexPixels[i] = QuadRasterizer.getTexturePixels(batches.get(i).getTexture());
         }
 
         for (ProjectedFaceWithTexture projectedFace : projected) {
-            int[] texPixels = batchTexPixels[projectedFace.textureIndex];
-            int texWidth = projectedFace.texWidth;
-            int texHeight = projectedFace.texHeight;
+            int[] texPixels = batchTexPixels[projectedFace.getTextureIndex()];
+            int texWidth = projectedFace.getTexWidth();
+            int texHeight = projectedFace.getTexHeight();
 
-            double destX0 = projectedFace.x0 * scale + offsetX;
-            double destY0 = offsetY - projectedFace.y0 * scale;
-            double destX1 = projectedFace.x1 * scale + offsetX;
-            double destY1 = offsetY - projectedFace.y1 * scale;
-            double destX2 = projectedFace.x2 * scale + offsetX;
-            double destY2 = offsetY - projectedFace.y2 * scale;
+            double destX0 = projectedFace.getX0() * scale + offsetX;
+            double destY0 = offsetY - projectedFace.getY0() * scale;
+            double destX1 = projectedFace.getX1() * scale + offsetX;
+            double destY1 = offsetY - projectedFace.getY1() * scale;
+            double destX2 = projectedFace.getX2() * scale + offsetX;
+            double destY2 = offsetY - projectedFace.getY2() * scale;
 
             // Same texture subrect as old Graphics2D path: floor(u0), floor(v0), ceil(u1)-floor(u0), ceil(v1)-floor(v0)
-            int srcX1 = (int) Math.floor(projectedFace.u0);
-            int srcY1 = (int) Math.floor(projectedFace.v0_);
-            int srcX2 = (int) Math.ceil(projectedFace.u1);
-            int srcY2 = (int) Math.ceil(projectedFace.v1_);
+            int srcX1 = (int) Math.floor(projectedFace.getU0());
+            int srcY1 = (int) Math.floor(projectedFace.getV0_());
+            int srcX2 = (int) Math.ceil(projectedFace.getU1());
+            int srcY2 = (int) Math.ceil(projectedFace.getV1_());
             srcX1 = Math.max(0, Math.min(srcX1, texWidth - 1));
             srcY1 = Math.max(0, Math.min(srcY1, texHeight - 1));
             srcX2 = Math.max(srcX1 + 1, Math.min(srcX2, texWidth));
@@ -150,7 +152,7 @@ public final class Isometric3DRenderer {
                     destX0, destY0, destX1, destY1, destX2, destY2,
                     srcX1, srcY1, regionWidth, regionHeight,
                     texPixels, texWidth, texHeight,
-                    (float) projectedFace.brightness());
+                    (float) projectedFace.getBrightness());
         }
         return result;
     }
@@ -175,25 +177,147 @@ public final class Isometric3DRenderer {
      *
      * @author Braydon
      */
-    public record ViewParams(@NonNull Vector3 eye, @NonNull Vector3 target, double yawDeg,
-                             double pitchDeg, double aspectRatio) {}
+    @AllArgsConstructor @Getter
+    public static final class ViewParams {
+        /**
+         * The camera eye position.
+         */
+        @NonNull private final Vector3 eye;
+
+        /**
+         * The target position (also the rotation center).
+         */
+        @NonNull private final Vector3 target;
+
+        /**
+         * The yaw rotation in degrees.
+         */
+        private final double yawDeg;
+
+        /**
+         * The pitch rotation in degrees.
+         */
+        private final double pitchDeg;
+
+        /**
+         * The aspect ratio (width / height).
+         */
+        private final double aspectRatio;
+    }
 
     /**
      * Pairs a texture with its faces. Used for multi-texture rendering.
      *
      * @author Braydon
      */
-    public record TexturedFaces(@NonNull BufferedImage texture, @NonNull List<Face> faces) {}
+    @AllArgsConstructor @Getter
+    public static final class TexturedFaces {
+        /**
+         * The texture image.
+         */
+        @NonNull private final BufferedImage texture;
+
+        /**
+         * The list of faces using this texture.
+         */
+        @NonNull private final List<Face> faces;
+    }
 
     /**
-     * Internal record for projected face data with texture reference.
+     * Internal class for projected face data with texture reference.
+     *
+     * @author Braydon
      */
-    private record ProjectedFaceWithTexture(double x0, double y0, double x1, double y1,
-                                            double x2, double y2, double x3, double y3,
-                                            double depth,
-                                            double u0, double v0_, double u1, double v1_,
-                                            double brightness,
-                                            int textureIndex,
-                                            int texWidth, int texHeight,
-                                            int faceIndex) {}
+    @AllArgsConstructor @Getter
+    private static final class ProjectedFaceWithTexture {
+        /**
+         * The X coordinate of vertex 0.
+         */
+        private final double x0;
+
+        /**
+         * The Y coordinate of vertex 0.
+         */
+        private final double y0;
+
+        /**
+         * The X coordinate of vertex 1.
+         */
+        private final double x1;
+
+        /**
+         * The Y coordinate of vertex 1.
+         */
+        private final double y1;
+
+        /**
+         * The X coordinate of vertex 2.
+         */
+        private final double x2;
+
+        /**
+         * The Y coordinate of vertex 2.
+         */
+        private final double y2;
+
+        /**
+         * The X coordinate of vertex 3.
+         */
+        private final double x3;
+
+        /**
+         * The Y coordinate of vertex 3.
+         */
+        private final double y3;
+
+        /**
+         * The depth value for sorting.
+         */
+        private final double depth;
+
+        /**
+         * The U coordinate start.
+         */
+        private final double u0;
+
+        /**
+         * The V coordinate start.
+         */
+        private final double v0_;
+
+        /**
+         * The U coordinate end.
+         */
+        private final double u1;
+
+        /**
+         * The V coordinate end.
+         */
+        private final double v1_;
+
+        /**
+         * The brightness multiplier.
+         */
+        private final double brightness;
+
+        /**
+         * The index of the texture batch.
+         */
+        private final int textureIndex;
+
+        /**
+         * The texture width.
+         */
+        private final int texWidth;
+
+        /**
+         * The texture height.
+         */
+        private final int texHeight;
+
+        /**
+         * The face index for stable sorting.
+         */
+        private final int faceIndex;
+    }
 }

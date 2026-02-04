@@ -4,6 +4,9 @@ import cc.restfulmc.api.common.renderer.model.ModelUtils;
 import cc.restfulmc.api.common.renderer.model.PlayerModelCoordinates;
 import cc.restfulmc.api.common.renderer.raster.Face;
 import cc.restfulmc.api.model.skin.Skin;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public final class PlayerModel {
             ModelUtils.addBox(faces, -4, 0, -2, 4, 12, 4, ModelUtils.uvFrom(PlayerModelCoordinates.ModelBox.LEFT_LEG.getBaseUv(slim)));
             ModelUtils.addBox(faces, 0, 0, -2, 4, 12, 4, ModelUtils.uvFrom(PlayerModelCoordinates.ModelBox.RIGHT_LEG.getBaseUv(slim)));
 
-            if (cacheKey.renderOverlays()) {
+            if (cacheKey.isRenderOverlays()) {
                 // Overlay layer: slightly larger boxes with second-layer UVs
                 ModelUtils.addBox(faces, -4.5, 23.5, -4.5, 9, 9, 9, ModelUtils.uvFrom(PlayerModelCoordinates.ModelBox.HEAD.getOverlayUv(slim)));
                 ModelUtils.addBox(faces, -4.25, 11.75, -2.25, 8.5, 12.5, 4.5, ModelUtils.uvFrom(PlayerModelCoordinates.ModelBox.BODY.getOverlayUv(slim)));
@@ -63,6 +66,19 @@ public final class PlayerModel {
 
     /**
      * Cache key for face lists.
+     *
+     * @author Braydon
      */
-    private record FaceCacheKey(boolean slim, boolean renderOverlays) {}
+    @AllArgsConstructor @Getter @EqualsAndHashCode
+    private static final class FaceCacheKey {
+        /**
+         * Whether slim arms are used.
+         */
+        private final boolean slim;
+
+        /**
+         * Whether overlays are rendered.
+         */
+        private final boolean renderOverlays;
+    }
 }

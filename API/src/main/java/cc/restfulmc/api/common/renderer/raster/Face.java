@@ -1,6 +1,8 @@
 package cc.restfulmc.api.common.renderer.raster;
 
 import cc.restfulmc.api.common.math.Vector3;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -9,6 +11,50 @@ import lombok.NonNull;
  *
  * @author Braydon
  */
-public record Face(@NonNull Vector3 v0, @NonNull Vector3 v1, @NonNull Vector3 v2, @NonNull Vector3 v3,
-                   double u0, double v0_, double u1, double v1_,
-                   @NonNull Vector3 normal) {}
+@AllArgsConstructor @Getter
+public final class Face {
+    /**
+     * The first vertex (top-left).
+     */
+    @NonNull private final Vector3 v0;
+
+    /**
+     * The second vertex (top-right).
+     */
+    @NonNull private final Vector3 v1;
+
+    /**
+     * The third vertex (bottom-left).
+     */
+    @NonNull private final Vector3 v2;
+
+    /**
+     * The fourth vertex (bottom-right).
+     */
+    @NonNull private final Vector3 v3;
+
+    /**
+     * The U coordinate start.
+     */
+    private final double u0;
+
+    /**
+     * The V coordinate start.
+     */
+    private final double v0_;
+
+    /**
+     * The U coordinate end.
+     */
+    private final double u1;
+
+    /**
+     * The V coordinate end.
+     */
+    private final double v1_;
+
+    /**
+     * The face normal vector.
+     */
+    @NonNull private final Vector3 normal;
+}

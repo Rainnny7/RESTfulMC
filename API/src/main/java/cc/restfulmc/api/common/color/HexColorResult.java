@@ -1,5 +1,7 @@
 package cc.restfulmc.api.common.color;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.awt.*;
@@ -9,4 +11,15 @@ import java.awt.*;
  *
  * @author Braydon
  */
-public record HexColorResult(@NonNull Color color, int charsConsumed) {}
+@AllArgsConstructor @Getter
+public final class HexColorResult {
+    /**
+     * The parsed color.
+     */
+    @NonNull private final Color color;
+
+    /**
+     * The number of characters consumed from the input.
+     */
+    private final int charsConsumed;
+}
