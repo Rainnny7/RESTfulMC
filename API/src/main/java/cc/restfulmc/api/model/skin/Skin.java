@@ -81,7 +81,9 @@ public final class Skin {
     @NonNull
     public Skin populatePartUrls(@NonNull String playerUuid) {
         for (SkinRendererType rendererType : SkinRendererType.values()) {
-            partUrls.put(rendererType.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + rendererType.name().toLowerCase() + "/" + playerUuid + ".png");
+            partUrls.put(rendererType.name(), "%s/player/%s/%s.png".formatted(
+                    AppConfig.INSTANCE.getServerPublicUrl(), playerUuid,rendererType.name().toLowerCase()
+            ));
         }
         return this;
     }

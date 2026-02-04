@@ -179,8 +179,8 @@ public final class PlayerService {
      * Get the part of a skin texture for
      * a player by their username or UUID.
      *
-     * @param partName   the part of the player's skin texture to get
      * @param query      the query to search for the player by
+     * @param partName   the part of the player's skin texture to get
      * @param extension  the skin part image extension
      * @param overlays   whether to render overlays
      * @param sizeString the size of the skin part image
@@ -189,7 +189,7 @@ public final class PlayerService {
      * @throws MojangRateLimitException if the Mojang API rate limit is reached
      */
     @SneakyThrows
-    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension,
+    public byte[] getSkinPartTexture(@NonNull String query, @NonNull String partName, @NonNull String extension,
                                      boolean overlays, String sizeString) throws BadRequestException, MojangRateLimitException {
         log.info("Requesting skin part {} with query {} (ext: {}, overlays: {}, size: {})",
                 partName, query, extension, overlays, sizeString

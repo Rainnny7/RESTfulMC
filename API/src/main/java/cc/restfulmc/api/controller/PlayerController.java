@@ -71,22 +71,22 @@ public final class PlayerController {
      * will be used.
      * </p>
      *
-     * @param partName  the part of the player's skin texture to get
      * @param query     the query to search for the player by
+     * @param partName  the part of the player's skin texture to get
      * @param extension the skin part image extension
      * @param size      the size of the skin part image
      * @return the skin part texture
      * @throws BadRequestException if the extension is invalid
      */
-    @GetMapping(value = "/{partName}/{query}.{extension}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
+    @GetMapping(value = "/{query}/{partName}.{extension}", produces = { MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE })
     @ResponseBody
     public ResponseEntity<byte[]> getPartTexture(
+            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(
                     description = "The skin part to get the texture of",
                     schema = @Schema(implementation = SkinRendererType.class),
                     example = "head"
             ) @PathVariable @NonNull String partName,
-            @Parameter(description = "The player username or UUID to get", example = "Rainnny") @PathVariable @NonNull String query,
             @Parameter(description = "The image extension", example = "png") @PathVariable @NonNull String extension,
             @Parameter(description = "Whether to render skin overlays") @RequestParam(required = false, defaultValue = "true") boolean overlays,
             @Parameter(description = "The size to scale the skin part texture to", example = "512") @RequestParam(required = false, defaultValue = "512") String size
@@ -94,6 +94,6 @@ public final class PlayerController {
         return ResponseEntity.ok()
                 .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic())
                 .contentType(extension.equalsIgnoreCase("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
-                .body(playerService.getSkinPartTexture(partName, query, extension, overlays, size));
+                .body(playerService.getSkinPartTexture(query, partName, extension, overlays, size));
     }
 }
