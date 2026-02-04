@@ -57,13 +57,13 @@ public final class MOTD {
                     <style>
                         @font-face {
                             font-family: "Minecraft";
-                            src: url("https://cdn.fascinated.cc/minecraft-font.ttf") format("truetype");
+                            src: url("%%cdn%%/mc-font.ttf") format("truetype");
                             font-weight: normal;
                             font-style: normal;
                         }
                         body {
                             margin: 0;
-                            background-image: url("https://cdn.fascinated.cc/server_background.png");
+                            background-image: url("%%cdn%%/mc-dirt.png");
                             background-repeat: repeat;
                             font-family: "Minecraft", system-ui, sans-serif;
                             font-size: 20px;
@@ -78,7 +78,7 @@ public final class MOTD {
                 """.formatted(
                 server.getHostname(),
                 builder.toString()
-        );
+        ).replace("%cdn%", "https://cdn.rainnny.club");
     }
 
     /**
