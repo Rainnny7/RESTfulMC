@@ -9,7 +9,6 @@ import cc.restfulmc.api.common.packet.impl.java.udp.JavaQueryFullStatRequestPack
 import cc.restfulmc.api.common.packet.impl.java.udp.JavaQueryFullStatResponsePacket;
 import cc.restfulmc.api.common.packet.impl.java.udp.JavaQueryHandshakeRequestPacket;
 import cc.restfulmc.api.common.packet.impl.java.udp.JavaQueryHandshakeResponsePacket;
-import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.exception.impl.BadRequestException;
 import cc.restfulmc.api.exception.impl.ResourceNotFoundException;
 import cc.restfulmc.api.model.dns.DNSRecord;
@@ -27,9 +26,7 @@ import lombok.extern.log4j.Log4j2;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.*;
-import java.util.Collections;
 
 /**
  * The {@link MinecraftServerPinger} for pinging

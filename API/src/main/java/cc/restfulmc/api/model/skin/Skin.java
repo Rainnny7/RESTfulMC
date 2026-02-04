@@ -6,22 +6,28 @@ import cc.restfulmc.api.model.Player;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.SneakyThrows;
+import lombok.ToString;
+import org.springframework.data.annotation.PersistenceCreator;
+import org.springframework.data.annotation.Transient;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.net.URL;
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A skin for a {@link Player}.
  *
  * @author Braydon
  */
-@AllArgsConstructor(access = AccessLevel.PRIVATE) @Getter @ToString
+@Getter @ToString
 public final class Skin {
-    public static final Skin DEFAULT_STEVE = create("http://textures.minecraft.net/texture/60a5bd016b3c9a1b9272e4929e30827a67be4ebb219017adbbc4a4d22ebd5b1", Model.DEFAULT);
+    public static final Skin DEFAULT_STEVE = create("https://textures.minecraft.net/texture/60a5bd016b3c9a1b9272e4929e30827a67be4ebb219017adbbc4a4d22ebd5b1", Model.DEFAULT);
 
     /**
      * The texture URL of this skin.
@@ -34,6 +40,11 @@ public final class Skin {
     @NonNull private final Model model;
 
     /**
+     * The raw image for this skin.
+     */
+    @JsonIgnore @Transient private final BufferedImage image;
+
+    /**
      * The image data of this skin.
      */
     @JsonIgnore private final byte[] skinImage;
@@ -41,12 +52,26 @@ public final class Skin {
     /**
      * Is this skin legacy?
      */
-    private final boolean legacy;
+    @Transient private final boolean legacy;
 
     /**
      * URLs to the parts of this skin.
      */
     @NonNull @JsonProperty("parts") private final Map<String, String> partUrls;
+
+    @PersistenceCreator @SneakyThrows
+    private Skin(@NonNull String url, @NonNull Model model, byte[] skinImage, @NonNull Map<String, String> partUrls) {
+        this.url = url;
+        this.model = model;
+        this.skinImage = skinImage;
+        this.partUrls = partUrls;
+
+        // Load the image its self from the bytes and determine whether the skin is legacy
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(skinImage)) {
+            image = ImageIO.read(inputStream);
+            legacy = image.getWidth() == 64 && image.getHeight() == 32;
+        }
+    }
 
     /**
      * Populate the part URLs for this skin.
@@ -56,10 +81,8 @@ public final class Skin {
      */
     @NonNull
     public Skin populatePartUrls(@NonNull String playerUuid) {
-        for (Enum<?>[] type : ISkinPart.TYPES) {
-            for (Enum<?> part : type) {
-                partUrls.put(part.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + part.name().toLowerCase() + "/" + playerUuid + ".png");
-            }
+        for (SkinRendererType rendererType : SkinRendererType.values()) {
+            partUrls.put(rendererType.name(), AppConfig.INSTANCE.getServerPublicUrl() + "/player/" + rendererType.name().toLowerCase() + "/" + playerUuid + ".png");
         }
         return this;
     }
@@ -74,12 +97,8 @@ public final class Skin {
         if (jsonObject == null) { // No object to parse
             return null;
         }
-        Model model = Model.DEFAULT; // The skin model
-
         JsonObject metadataJsonObject = jsonObject.getAsJsonObject("metadata");
-        if (metadataJsonObject != null) { // Parse the skin model
-            model = Model.valueOf(metadataJsonObject.get("model").getAsString().toUpperCase());
-        }
+        Model model = metadataJsonObject == null ? Model.DEFAULT : Model.valueOf(metadataJsonObject.get("model").getAsString().toUpperCase());
         return create(jsonObject.get("url").getAsString(), model);
     }
 
@@ -92,10 +111,7 @@ public final class Skin {
      */
     @NonNull @SneakyThrows
     private static Skin create(@NonNull String url, @NonNull Model model) {
-        BufferedImage image = ImageIO.read(new URL(url)); // Get the skin image
-        byte[] bytes = ImageUtils.toByteArray(image); // Convert the image into bytes
-        boolean legacy = image.getWidth() == 64 && image.getHeight() == 32; // Is the skin legacy?
-        return new Skin(url, model, bytes, legacy, new HashMap<>());
+        return new Skin(url, model, Objects.requireNonNull(ImageUtils.getImage(url)), new HashMap<>());
     }
 
     /**

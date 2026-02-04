@@ -1,7 +1,6 @@
 package cc.restfulmc.api.model.server.java;
 
 import cc.restfulmc.api.common.Constants;
-import cc.restfulmc.api.config.AppConfig;
 import cc.restfulmc.api.model.dns.DNSRecord;
 import cc.restfulmc.api.model.server.*;
 import cc.restfulmc.api.model.token.server.GenericJavaServerStatusToken;

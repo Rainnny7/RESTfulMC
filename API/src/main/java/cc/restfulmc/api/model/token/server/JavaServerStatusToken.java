@@ -5,12 +5,9 @@ import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import cc.restfulmc.api.model.server.java.ModInfo;
 import cc.restfulmc.api.model.server.java.Version;
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
-
-import java.util.UUID;
 
 /**
  * A token representing the response from

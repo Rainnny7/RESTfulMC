@@ -11,8 +11,8 @@ import cc.restfulmc.api.model.ProfileAction;
 import cc.restfulmc.api.model.cache.CachedPlayer;
 import cc.restfulmc.api.model.cache.CachedPlayerName;
 import cc.restfulmc.api.model.cache.CachedSkinPartTexture;
-import cc.restfulmc.api.model.skin.ISkinPart;
 import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.skin.SkinRendererType;
 import cc.restfulmc.api.model.token.mojang.MojangProfileToken;
 import cc.restfulmc.api.model.token.mojang.MojangUsernameToUUIDToken;
 import cc.restfulmc.api.repository.PlayerCacheRepository;
@@ -51,7 +51,7 @@ public final class PlayerService {
     @NonNull private final PlayerCacheRepository playerCache;
 
     /**
-     * The cache repository for {@link ISkinPart}'s.
+     * The cache repository for {@link SkinRendererType}'s.
      */
     @NonNull private final SkinPartTextureCacheRepository skinPartTextureCache;
 
@@ -61,91 +61,6 @@ public final class PlayerService {
         this.playerNameCache = playerNameCache;
         this.playerCache = playerCache;
         this.skinPartTextureCache = skinPartTextureCache;
-    }
-
-    /**
-     * Get the part of a skin texture for
-     * a player by their username or UUID.
-     *
-     * @param partName   the part of the player's skin texture to get
-     * @param query      the query to search for the player by
-     * @param extension  the skin part image extension
-     * @param overlays   whether to render overlays
-     * @param sizeString the size of the skin part image
-     * @return the skin part texture
-     * @throws BadRequestException      if the extension is invalid
-     * @throws MojangRateLimitException if the Mojang API rate limit is reached
-     */
-    @SneakyThrows
-    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension,
-                                     boolean overlays, String sizeString) throws BadRequestException, MojangRateLimitException {
-        log.info("Requesting skin part {} with query {} (ext: {}, overlays: {}, size: {})",
-                partName, query, extension, overlays, sizeString
-        );
-
-        // Get the part from the given name
-        ISkinPart part = ISkinPart.getByName(partName); // The skin part to get
-        if (part == null) { // Default to the face
-            part = ISkinPart.Vanilla.FACE;
-            log.warn("Invalid skin part {}, defaulting to {}", partName, part.name());
-        }
-
-        // Ensure the extension is valid
-        if (extension.isBlank()) {
-            throw new BadRequestException("Invalid extension");
-        }
-
-        // Get the size of the part
-        Integer size = null;
-        if (sizeString != null) { // Attempt to parse the size
-            try {
-                size = Integer.parseInt(sizeString);
-            } catch (NumberFormatException ignored) {
-                // Safely ignore, invalid number provided
-            }
-        }
-        if (size == null || size <= 0) { // Invalid size
-            size = DEFAULT_PART_TEXTURE_SIZE;
-            log.warn("Invalid size {}, defaulting to {}", sizeString, size);
-        }
-        if (size > MAX_PART_TEXTURE_SIZE) { // Limit the size to 512
-            size = MAX_PART_TEXTURE_SIZE;
-            log.warn("Size {} is too large, defaulting to {}", sizeString, MAX_PART_TEXTURE_SIZE);
-        }
-        String id = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
-
-        // In production, check the cache for the
-        // skin part and return it if it's present
-        if (EnvironmentUtils.isProduction()) {
-            Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id);
-            if (cached.isPresent()) { // Respond with the cache if present
-                log.info("Found skin part {} in cache: {}", part.name(), id);
-                return cached.get().getTexture();
-            }
-        }
-
-        Skin skin = null; // The target skin to get the skin part of
-        long before = System.currentTimeMillis();
-        try {
-            CachedPlayer player = getPlayer(query, false); // Retrieve the player
-            skin = player.getSkin(); // Use the player's skin
-        } catch (Exception ignored) {
-            // Simply ignore, and fallback to the default skin
-        }
-        if (skin == null) { // Fallback to the default skin
-            skin = Skin.DEFAULT_STEVE;
-            log.warn("Failed to get skin for player {}, defaulting to Steve", query);
-        } else {
-            log.info("Got skin for player {} in {}ms", query, System.currentTimeMillis() - before);
-        }
-        before = System.currentTimeMillis();
-        BufferedImage texture = part.render(skin, overlays, size); // Render the skin part
-        log.info("Render of skin part took {}ms: {}", System.currentTimeMillis() - before, id);
-
-        byte[] bytes = ImageUtils.toByteArray(texture); // Convert the image into a byte array
-        skinPartTextureCache.save(new CachedSkinPartTexture(id, bytes)); // Cache the texture
-        log.info("Cached skin part texture: {}", id);
-        return bytes;
     }
 
     /**
@@ -222,6 +137,102 @@ public final class PlayerService {
             }
             throw ex;
         }
+    }
+
+    /**
+     * Gets the skin image for the given skin.
+     *
+     * @param skin the skin to get the image for
+     * @return the skin image
+     */
+    public byte[] getSkinTexture(@NonNull Skin skin, boolean upgrade) {
+        // TODO cache via s3 and handle legacy upgrading
+        return ImageUtils.getImage(skin.getUrl());
+    }
+
+    /**
+     * Get the part of a skin texture for
+     * a player by their username or UUID.
+     *
+     * @param partName   the part of the player's skin texture to get
+     * @param query      the query to search for the player by
+     * @param extension  the skin part image extension
+     * @param overlays   whether to render overlays
+     * @param sizeString the size of the skin part image
+     * @return the skin part texture
+     * @throws BadRequestException      if the extension is invalid
+     * @throws MojangRateLimitException if the Mojang API rate limit is reached
+     */
+    @SneakyThrows
+    public byte[] getSkinPartTexture(@NonNull String partName, @NonNull String query, @NonNull String extension,
+                                     boolean overlays, String sizeString) throws BadRequestException, MojangRateLimitException {
+        log.info("Requesting skin part {} with query {} (ext: {}, overlays: {}, size: {})",
+                partName, query, extension, overlays, sizeString
+        );
+
+        // Get the part from the given name
+        SkinRendererType part = EnumUtils.getEnumConstant(SkinRendererType.class, partName.toUpperCase());
+        if (part == null) {
+            part = SkinRendererType.FACE;
+            log.warn("Invalid skin part {}, defaulting to {}", partName, part.name());
+        }
+
+        // Ensure the extension is valid
+        if (extension.isBlank()) {
+            throw new BadRequestException("Invalid extension");
+        }
+
+        // Get the size of the part
+        Integer size = null;
+        if (sizeString != null) { // Attempt to parse the size
+            try {
+                size = Integer.parseInt(sizeString);
+            } catch (NumberFormatException ignored) {
+                // Safely ignore, invalid number provided
+            }
+        }
+        if (size == null || size <= 0) { // Invalid size
+            size = DEFAULT_PART_TEXTURE_SIZE;
+            log.warn("Invalid size {}, defaulting to {}", sizeString, size);
+        }
+        if (size > MAX_PART_TEXTURE_SIZE) { // Limit the size to 512
+            size = MAX_PART_TEXTURE_SIZE;
+            log.warn("Size {} is too large, defaulting to {}", sizeString, MAX_PART_TEXTURE_SIZE);
+        }
+        String id = "%s-%s-%s-%s-%s".formatted(query.toLowerCase(), part.name(), overlays, size, extension); // The id of the skin part
+
+        // In production, check the cache for the
+        // skin part and return it if it's present
+        if (EnvironmentUtils.isProduction()) {
+            Optional<CachedSkinPartTexture> cached = skinPartTextureCache.findById(id);
+            if (cached.isPresent()) { // Respond with the cache if present
+                log.info("Found skin part {} in cache: {}", part.name(), id);
+                return cached.get().getTexture();
+            }
+        }
+
+        Skin skin = null; // The target skin to get the skin part of
+        long before = System.currentTimeMillis();
+        try {
+            CachedPlayer player = getPlayer(query, false); // Retrieve the player
+            skin = player.getSkin(); // Use the player's skin
+        } catch (Exception ignored) {
+            // Simply ignore, and fallback to the default skin
+        }
+        if (skin == null) { // Fallback to the default skin
+            skin = Skin.DEFAULT_STEVE;
+            log.warn("Failed to get skin for player {}, defaulting to Steve", query);
+        } else {
+            log.info("Got skin for player {} in {}ms", query, System.currentTimeMillis() - before);
+        }
+        before = System.currentTimeMillis();
+        BufferedImage texture = part.getRenderer().render(skin, overlays, size); // Render the skin part
+        log.info("Render of skin part took {}ms: {}", System.currentTimeMillis() - before, id);
+
+        byte[] bytes = ImageUtils.toByteArray(texture); // Convert the image into a byte array
+        skinPartTextureCache.save(new CachedSkinPartTexture(id, bytes)); // Cache the texture
+        log.info("Cached skin part texture: {}", id);
+        return bytes;
     }
 
     /**
