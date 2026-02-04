@@ -1,6 +1,6 @@
 package cc.restfulmc.api.common.renderer;
 
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.skin.Skin;
 import lombok.NonNull;
 
 import java.awt.image.BufferedImage;

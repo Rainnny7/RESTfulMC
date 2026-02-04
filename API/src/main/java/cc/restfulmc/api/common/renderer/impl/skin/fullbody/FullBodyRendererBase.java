@@ -4,7 +4,7 @@ import cc.restfulmc.api.common.math.Vector3;
 import cc.restfulmc.api.common.renderer.model.impl.PlayerModel;
 import cc.restfulmc.api.common.renderer.raster.Face;
 import cc.restfulmc.api.common.renderer.raster.Isometric3DRenderer;
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.skin.Skin;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

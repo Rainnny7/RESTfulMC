@@ -5,7 +5,7 @@ import cc.restfulmc.api.common.renderer.SkinRenderer;
 import cc.restfulmc.api.common.renderer.model.impl.PlayerHeadModel;
 import cc.restfulmc.api.common.renderer.raster.Face;
 import cc.restfulmc.api.common.renderer.raster.Isometric3DRenderer;
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.skin.Skin;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 

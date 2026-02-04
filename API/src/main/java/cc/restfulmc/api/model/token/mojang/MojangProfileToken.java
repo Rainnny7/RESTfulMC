@@ -1,9 +1,9 @@
 package cc.restfulmc.api.model.token.mojang;
 
 import cc.restfulmc.api.common.Constants;
-import cc.restfulmc.api.model.Cape;
-import cc.restfulmc.api.model.ProfileAction;
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.Cape;
+import cc.restfulmc.api.model.player.ProfileAction;
+import cc.restfulmc.api.model.player.skin.Skin;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.JsonObject;
 import lombok.*;

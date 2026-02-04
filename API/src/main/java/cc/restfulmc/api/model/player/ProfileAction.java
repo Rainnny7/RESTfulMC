@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model;
+package cc.restfulmc.api.model.player;
 
 /**
  * Profile actions that can

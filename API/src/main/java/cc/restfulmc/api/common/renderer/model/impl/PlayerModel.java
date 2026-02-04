@@ -3,7 +3,7 @@ package cc.restfulmc.api.common.renderer.model.impl;
 import cc.restfulmc.api.common.renderer.model.ModelUtils;
 import cc.restfulmc.api.common.renderer.model.PlayerModelCoordinates;
 import cc.restfulmc.api.common.renderer.raster.Face;
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.skin.Skin;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

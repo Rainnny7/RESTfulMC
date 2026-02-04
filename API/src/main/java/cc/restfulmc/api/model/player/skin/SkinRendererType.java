@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model.skin;
+package cc.restfulmc.api.model.player.skin;
 
 import cc.restfulmc.api.common.renderer.SkinRenderer;
 import cc.restfulmc.api.common.renderer.impl.skin.BodyRenderer;

@@ -1,6 +1,6 @@
-package cc.restfulmc.api.model;
+package cc.restfulmc.api.model.player;
 
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.skin.Skin;
 import cc.restfulmc.api.model.token.mojang.MojangProfileToken;
 import lombok.*;
 

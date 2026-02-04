@@ -1,4 +1,4 @@
-package cc.restfulmc.api.model;
+package cc.restfulmc.api.model.player;
 
 import com.google.gson.JsonObject;
 import lombok.*;

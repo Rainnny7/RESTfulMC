@@ -1,7 +1,7 @@
-package cc.restfulmc.api.model.skin;
+package cc.restfulmc.api.model.player.skin;
 
 import cc.restfulmc.api.config.AppConfig;
-import cc.restfulmc.api.model.Player;
+import cc.restfulmc.api.model.player.Player;
 import cc.restfulmc.api.service.PlayerService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

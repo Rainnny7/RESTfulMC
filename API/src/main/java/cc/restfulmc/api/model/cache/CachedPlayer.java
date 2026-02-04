@@ -1,9 +1,9 @@
 package cc.restfulmc.api.model.cache;
 
-import cc.restfulmc.api.model.Cape;
-import cc.restfulmc.api.model.Player;
-import cc.restfulmc.api.model.ProfileAction;
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.Cape;
+import cc.restfulmc.api.model.player.Player;
+import cc.restfulmc.api.model.player.ProfileAction;
+import cc.restfulmc.api.model.player.skin.Skin;
 import cc.restfulmc.api.model.token.mojang.MojangProfileToken;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

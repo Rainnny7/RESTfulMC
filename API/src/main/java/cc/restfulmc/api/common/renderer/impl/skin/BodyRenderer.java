@@ -2,7 +2,7 @@ package cc.restfulmc.api.common.renderer.impl.skin;
 
 import cc.restfulmc.api.common.renderer.SkinRenderer;
 import cc.restfulmc.api.common.renderer.impl.skin.fullbody.FullBodyRendererBase;
-import cc.restfulmc.api.model.skin.Skin;
+import cc.restfulmc.api.model.player.skin.Skin;
 import lombok.NonNull;
 
 import java.awt.image.BufferedImage;
