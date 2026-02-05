@@ -17,7 +17,7 @@ type AppLogoProps = {
 const AppLogo = ({ className, size = 28 }: AppLogoProps) => (
     <Image
         className={cn(className)}
-        src="/media/logo.webp"
+        src="/media/logo/logo.webp"
         alt="RESTfulMC Logo"
         width={size}
         height={size}

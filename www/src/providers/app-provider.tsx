@@ -1,5 +1,6 @@
 "use client";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/providers/theme-provider";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
@@ -14,6 +15,6 @@ export const AppProvider = ({
             color="var(--color-toploader-color)"
             showSpinner={false}
         />
-        {children}
+        <TooltipProvider delayDuration={100}>{children}</TooltipProvider>
     </ThemeProvider>
 );

@@ -31,6 +31,7 @@ const SimpleLink = ({ className, href, children, props }: SimpleLinkProps) => (
             className
         )}
         href={href}
+        target={href.startsWith("http") ? "_blank" : undefined}
         draggable={false}
         {...props}
     >
