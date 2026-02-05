@@ -1,6 +1,6 @@
 import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/provider/theme-provider";
+import { AppProvider } from "@/providers/app-provider";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReactNode } from "react";
@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: {
         default: "RESTfulMC",
-        template: `%s • RESTfulMC`,
+        template: `RESTfulMC • %s`,
     },
     description:
         "🌐 A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
@@ -44,7 +44,7 @@ const RootLayout = ({
     <html lang="en" suppressHydrationWarning>
         <body
             className={cn(
-                "min-h-screen antialiased scroll-smooth select-none",
+                "antialiased scroll-smooth select-none",
                 geistSans.variable,
                 geistMono.variable
             )}
@@ -53,9 +53,7 @@ const RootLayout = ({
                     "linear-gradient(to top, var(--alternative-background), var(--background))",
             }}
         >
-            <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-                {children}
-            </ThemeProvider>
+            <AppProvider>{children}</AppProvider>
         </body>
     </html>
 );
