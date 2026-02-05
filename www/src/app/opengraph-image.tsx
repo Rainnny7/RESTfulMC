@@ -13,9 +13,8 @@ export const contentType = "image/png";
 const RootOgImage = () => {
     return new ImageResponse(
         <OgImageTemplate
-            title="RESTfulMC"
-            description="A simple, yet useful RESTful API for Minecraft utilizing Spring Boot."
-            siteName="RESTfulMC"
+            title="A powerful RESTful API for Minecraft"
+            description="Simple, useful REST API for Minecraft utilizing Spring Boot."
             imageUrl={`${env.NEXT_PUBLIC_BASE_URL}/media/landing.webp`}
         />,
         { width: OG_IMAGE_WIDTH, height: OG_IMAGE_HEIGHT }

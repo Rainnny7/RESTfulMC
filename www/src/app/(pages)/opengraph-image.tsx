@@ -16,7 +16,6 @@ const PagesOgImage = () => {
         <OgImageTemplate
             title="A powerful RESTful API for Minecraft"
             description="Simple, useful REST API for Minecraft utilizing Spring Boot."
-            siteName="RESTfulMC"
             imageUrl={`${env.NEXT_PUBLIC_BASE_URL}/media/landing.webp`}
         />,
         { width: OG_IMAGE_WIDTH, height: OG_IMAGE_HEIGHT }

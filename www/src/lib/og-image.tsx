@@ -18,14 +18,12 @@ export const OG_IMAGE_HEIGHT = 630;
  * Props for the OG image template.
  *
  * @property title - Main heading shown on the image (required).
- * @property description - Optional subtitle or tagline.
- * @property siteName - Brand/site name shown above the title (default: `"RESTfulMC"`).
- * @property imageUrl - Optional absolute URL for a background/accent image (e.g. `${baseUrl}/media/landing.webp`). Shown dimmed on the right; omit for pattern-only background.
+ * @property description - Optional subtitle or tagline (rendered in bold).
+ * @property imageUrl - Optional absolute URL for a background/accent image (e.g. `${baseUrl}/media/landing.webp`). Shown dimmed on the right; omit for pattern-only background. Note: Site name is always "RESTfulMC" and cannot be customized.
  */
 export type OgImageProps = {
     title: string;
     description?: string;
-    siteName?: string;
     imageUrl?: string;
 };
 
@@ -34,14 +32,13 @@ export type OgImageProps = {
  *
  * Renders a 1200×630 layout with:
  * - Dark gradient background and subtle geometric pattern
- * - Optional dimmed accent image on the right (when `imageUrl` is set)
- * - Site name, title, and optional description
+ * - Optional dimmed accent image on the right (when `imageUrl` is set, opacity 0.4)
+ * - Site name "RESTfulMC" (always shown), title, and optional bold description
  * - Bottom gradient accent line
  */
 export const OgImageTemplate = ({
     title,
     description,
-    siteName = "RESTfulMC",
     imageUrl,
 }: OgImageProps): ReactElement => {
     return (
@@ -82,17 +79,18 @@ export const OgImageTemplate = ({
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "flex-end",
+                        zIndex: 1,
                     }}
                 >
                     <img
                         src={imageUrl}
                         alt=""
-                        width={500}
+                        width={600}
                         height={630}
                         style={{
                             objectFit: "cover",
-                            opacity: 0.25,
-                            marginRight: -80,
+                            opacity: 0.4,
+                            height: "100%",
                         }}
                     />
                 </div>
@@ -106,7 +104,8 @@ export const OgImageTemplate = ({
                     flexDirection: "column",
                     justifyContent: "center",
                     padding: 64,
-                    maxWidth: imageUrl ? 620 : 1100,
+                    maxWidth: imageUrl ? 700 : 1100,
+                    zIndex: 2,
                 }}
             >
                 <div
@@ -118,7 +117,7 @@ export const OgImageTemplate = ({
                         marginBottom: 12,
                     }}
                 >
-                    {siteName}
+                    RESTfulMC
                 </div>
                 <h1
                     style={{
@@ -136,7 +135,8 @@ export const OgImageTemplate = ({
                     <p
                         style={{
                             fontSize: 24,
-                            color: "rgba(255,255,255,0.75)",
+                            fontWeight: 700,
+                            color: "rgba(255,255,255,0.85)",
                             lineHeight: 1.4,
                             marginTop: 20,
                             marginBottom: 0,
