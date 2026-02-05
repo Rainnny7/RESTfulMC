@@ -1,8 +1,8 @@
 import { env } from "@/lib/env";
 import {
-    OgImageTemplate,
     OG_IMAGE_HEIGHT,
     OG_IMAGE_WIDTH,
+    OgImageTemplate,
 } from "@/lib/og-image";
 import { ImageResponse } from "next/og";
 
@@ -11,18 +11,14 @@ export const size = { width: OG_IMAGE_WIDTH, height: OG_IMAGE_HEIGHT };
 export const contentType = "image/png";
 
 const RootOgImage = () => {
-    const baseUrl = env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
     return new ImageResponse(
-        (
-            <OgImageTemplate
-                title="RESTfulMC"
-                description="A simple, yet useful RESTful API for Minecraft utilizing Spring Boot."
-                siteName="RESTfulMC"
-                imageUrl={`${baseUrl}/media/landing.webp`}
-            />
-        ),
+        <OgImageTemplate
+            title="RESTfulMC"
+            description="A simple, yet useful RESTful API for Minecraft utilizing Spring Boot."
+            siteName="RESTfulMC"
+            imageUrl={`${env.NEXT_PUBLIC_BASE_URL}/media/landing.webp`}
+        />,
         { width: OG_IMAGE_WIDTH, height: OG_IMAGE_HEIGHT }
     );
 };
-
 export default RootOgImage;
