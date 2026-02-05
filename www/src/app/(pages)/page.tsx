@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 const LandingPage = (): ReactElement => (
     <main className="min-h-screen flex flex-col">
         <HeroSection />
-        <p>under section</p>
     </main>
 );
 export default LandingPage;

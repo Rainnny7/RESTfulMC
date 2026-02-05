@@ -1,3 +1,4 @@
+import Navbar from "@/components/navbar";
 import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
 import { AppProvider } from "@/providers/app-provider";
@@ -53,7 +54,10 @@ const RootLayout = ({
                     "linear-gradient(to top, var(--alternative-background), var(--background))",
             }}
         >
-            <AppProvider>{children}</AppProvider>
+            <AppProvider>
+                <Navbar />
+                {children}
+            </AppProvider>
         </body>
     </html>
 );
