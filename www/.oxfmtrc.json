@@ -1,0 +1,8 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "printWidth": 80,
+    "experimentalSortPackageJson": false,
+    "ignorePatterns": []
+}
