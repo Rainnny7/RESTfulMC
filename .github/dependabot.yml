@@ -5,12 +5,17 @@
 
 version: 2
 updates:
-  - package-ecosystem: "maven" # See documentation for possible values
-    directory: "/API" # Location of package manifests
+  - package-ecosystem: "maven"
+    directory: "/API"
     schedule:
       interval: "daily"
 
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/JS-SDk" # Location of package manifests
+  - package-ecosystem: "npm"
+    directory: "/JS-SDK"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/www"
     schedule:
       interval: "daily"
