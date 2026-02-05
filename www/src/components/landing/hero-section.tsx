@@ -14,7 +14,10 @@ const HeroSection = (): ReactElement => (
             }}
         >
             {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/15" />
+            <div className="absolute inset-0 bg-black/10" />
+
+            {/* Gradient Overlay - Darker at bottom to blend with background */}
+            <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background" />
 
             {/* Content */}
             <section className="flex flex-col gap-2 items-center z-10">
