@@ -1,5 +1,3 @@
-[![Deploy Workflow](https://git.rainnny.club/Rainnny/RESTfulMC/actions/workflows/deploy-api.yml/badge.svg)](./actions?workflow=deploy-api.yml)
-
 # RESTfulMC Springboot API
 The springboot API backend for RESTfulMC.
 
