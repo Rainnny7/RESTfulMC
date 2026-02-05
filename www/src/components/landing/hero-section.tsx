@@ -53,7 +53,7 @@ const HeroSection = (): ReactElement => {
                             </p>
                         ) : (
                             <p className="text-muted-foreground">
-                                Enter a Username / UUID / Server IP to get
+                                Enter a Username, UUID, or Server IP to get
                                 started.
                             </p>
                         )}

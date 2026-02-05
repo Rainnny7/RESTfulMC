@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { ReactElement, SubmitEvent, useState } from "react";
+import { ReactElement, SubmitEvent, useEffect, useState } from "react";
 import { getPlayer } from "restfulmc-lib";
 
 type LookupFormProps = {
@@ -24,6 +24,7 @@ type LookupFormProps = {
 
 const LookupForm = ({
     className,
+    error,
     placeholder,
     setError,
 }: LookupFormProps): ReactElement => {
@@ -31,6 +32,12 @@ const LookupForm = ({
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
     const [platformDialogOpen, setPlatformDialogOpen] = useState(false);
+
+    useEffect(() => {
+        if (!error) return;
+        const timeout = setTimeout(() => setError(undefined), 5000);
+        return () => clearTimeout(timeout);
+    }, [error, setError]);
     const [pendingServerQuery, setPendingServerQuery] = useState<string | null>(
         null
     );
@@ -63,9 +70,19 @@ const LookupForm = ({
     return (
         <>
             <form className={cn(className)} onSubmit={handleSubmit}>
-                <InputGroup>
+                <InputGroup
+                    className={cn(
+                        "transition-all duration-250 transform-gpu",
+                        error && "border-destructive"
+                    )}
+                >
                     <InputGroupAddon>
-                        <SearchIcon />
+                        <SearchIcon
+                            className={cn(
+                                "transition-all duration-250 transform-gpu",
+                                error && "text-destructive"
+                            )}
+                        />
                     </InputGroupAddon>
                     <InputGroupInput
                         name="query"

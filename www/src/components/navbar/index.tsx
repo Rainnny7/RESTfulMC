@@ -1,18 +1,15 @@
 "use client";
 
 import AppLogo from "@/components/app-logo";
-import LookupForm from "@/components/lookup-form";
 import Links from "@/components/navbar/links";
+import NavbarLookupForm from "@/components/navbar/navbar-lookup-form";
 import Socials from "@/components/navbar/socials";
 import SimpleLink from "@/components/simple-link";
 import { usePathname } from "next/navigation";
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 
 const Navbar = (): ReactElement => {
     const path: string = usePathname();
-    const [lookupError, setLookupError] = useState<string | undefined>(
-        undefined
-    );
     return (
         <nav className="fixed inset-x-0 top-3.5 mx-auto max-w-7xl px-4 py-1 flex justify-between items-center bg-muted/20 backdrop-blur-sm rounded-xl z-50">
             {/* Left - Branding & Links */}
@@ -26,14 +23,7 @@ const Navbar = (): ReactElement => {
 
             {/* Right - Search & Socials */}
             <div className="flex gap-2.5 items-center">
-                {path !== "/" && (
-                    <LookupForm
-                        className="min-w-50"
-                        placeholder="Player / Server Lookup"
-                        error={lookupError}
-                        setError={setLookupError}
-                    />
-                )}
+                {path !== "/" && <NavbarLookupForm />}
                 <Socials />
             </div>
         </nav>
