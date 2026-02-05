@@ -1,3 +1,4 @@
+import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
 import { AppProvider } from "@/providers/app-provider";
 import type { Metadata, Viewport } from "next";
@@ -23,9 +24,15 @@ export const metadata: Metadata = {
     description:
         "🌐 A simple, yet useful RESTful API for Minecraft utilizing Springboot.",
     openGraph: {
-        type: "website",
+        images: [
+            {
+                url: `${env.NEXT_PUBLIC_BASE_URL}/media/logo.webp`,
+                width: 128,
+                height: 128,
+            },
+        ],
     },
-    twitter: { card: "summary_large_image" },
+    twitter: { card: "summary" },
 };
 export const viewport: Viewport = { themeColor: "#6468f0" };
 
