@@ -84,7 +84,7 @@ const LookupForm = ({
                 <InputGroup
                     className={cn(
                         "transition-all duration-250 transform-gpu",
-                        compact && "h-7",
+                        compact && "h-6.5",
                         error && "border-destructive"
                     )}
                 >
