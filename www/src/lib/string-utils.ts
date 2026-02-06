@@ -26,4 +26,3 @@ export const isServerAddress = (input: string): boolean => {
 
     return false;
 };
-

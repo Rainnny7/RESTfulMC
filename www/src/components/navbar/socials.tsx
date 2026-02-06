@@ -29,7 +29,10 @@ const Socials = (): ReactElement => (
         {socials.map((social: SocialLink) => (
             <SimpleTooltip key={social.href} content={social.tooltip}>
                 <div className="relative size-[22px]">
-                    <SimpleLink href={social.href} className="relative block size-full">
+                    <SimpleLink
+                        href={social.href}
+                        className="relative block size-full"
+                    >
                         <Image
                             src={social.logo}
                             alt={social.href}
