@@ -1,12 +1,33 @@
 "use client";
 
 import AppLogo from "@/components/app-logo";
+import SimpleLink from "@/components/simple-link";
+import { env } from "@/lib/env";
 import { memo, ReactElement, useEffect, useState } from "react";
+
+type FooterLink = {
+    label: string;
+    href: string;
+};
+
+const footerLinks: Record<string, FooterLink[]> = {
+    Resources: [
+        {
+            label: "Documentation",
+            href: `${env.NEXT_PUBLIC_BASE_URL}/api/docs`,
+        },
+        {
+            label: "Source Code",
+            href: "https://github.com/Rainnny7/RESTfulMC",
+        },
+    ],
+};
 
 const Footer = (): ReactElement => {
     return (
-        <footer className="mt-14 text-sm text-white/30 font-medium bg-muted/20 border-t border-border">
-            <div className="mx-auto px-4 py-5 w-full max-w-7xl flex justify-between items-center">
+        <footer className="mt-14 mx-auto px-5 py-10 w-full max-w-7xl flex flex-col gap-10 text-sm text-white/30 font-medium border-t border-border">
+            {/* Top */}
+            <div className="flex justify-between items-start">
                 {/* Branding */}
                 <div className="flex gap-3 items-center">
                     <AppLogo size={40} />
@@ -27,6 +48,36 @@ const Footer = (): ReactElement => {
                         <AnimatedLine initialDashes={27} reverseDirection />
                     </div>
                 </div>
+
+                {/* Links */}
+                <div className="flex gap-5 items-center">
+                    {Object.entries(footerLinks).map(([category, links]) => (
+                        <div key={category} className="flex flex-col gap-1">
+                            <h3 className="text-base text-primary font-semibold">
+                                {category}
+                            </h3>
+                            <div className="flex flex-col gap-1">
+                                {links.map((link: FooterLink) => (
+                                    <SimpleLink
+                                        key={link.href}
+                                        href={link.href}
+                                    >
+                                        {link.label}
+                                    </SimpleLink>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Bottom - Copyright */}
+            <div className="flex flex-col">
+                <span>
+                    &copy; {new Date().getFullYear()} RESTfulMC. All rights
+                    reserved.
+                </span>
+                <span>Not affiliated with Microsoft or Mojang AB.</span>
             </div>
         </footer>
     );
