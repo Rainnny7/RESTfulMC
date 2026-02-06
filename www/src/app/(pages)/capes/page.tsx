@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 
 export const metadata: Metadata = {
     title: "Capes",
-    description: "View all Minecraft capes on RESTfulMC.",
+    description: "View a list of all Minecraft capes.",
 };
 
 const CapesPage = (): ReactElement => (

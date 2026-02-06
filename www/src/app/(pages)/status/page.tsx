@@ -1,6 +1,15 @@
 import PageHeader from "@/components/page-header";
-import MojangServiceStatus from "@/components/status/mojang-service-status";
+import ServiceStatus from "@/components/status/service-status";
+import StatusKey from "@/components/status/status-key";
+import { Metadata } from "next";
 import { ReactElement } from "react";
+
+export const metadata: Metadata = {
+    title: "Mojang Service Status",
+    description: "View the status of all Microsoft and Mojang services.",
+};
+
+export const dynamic = "force-dynamic";
 
 const MojangStatusPage = (): ReactElement => (
     <main className="min-h-screen">
@@ -17,8 +26,9 @@ const MojangStatusPage = (): ReactElement => (
         </PageHeader>
 
         {/* Status */}
-        <div className="-mt-16 px-5 flex justify-center">
-            <MojangServiceStatus />
+        <div className="-mt-16 px-5 flex flex-col-reverse md:flex-row justify-center items-center md:items-start gap-5">
+            <ServiceStatus />
+            <StatusKey />
         </div>
     </main>
 );

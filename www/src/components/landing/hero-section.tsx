@@ -1,8 +1,9 @@
 "use client";
 
-import StatusAlert from "@/components/landing/status-alert";
+import AppLogo from "@/components/app-logo";
 import LookupForm from "@/components/lookup-form";
 import PageHeader from "@/components/page-header";
+import ShinyLoadingText from "@/components/shiny-loading-text";
 import {
     Card,
     CardContent,
@@ -49,53 +50,50 @@ const HeroSection = (): ReactElement => {
     }, [isLookupFormFetching]);
 
     return (
-        <div className="relative">
-            <div className="absolute inset-x-5 top-24 flex justify-center z-10">
-                <StatusAlert />
+        <PageHeader
+            contentClassName="gap-10"
+            backgroundImage="/media/background/landing.webp"
+        >
+            {/* Header */}
+            <div className="flex flex-col gap-2 items-center">
+                <div className="flex gap-4 items-center">
+                    <AppLogo size={56} />
+                    <h1 className="text-5xl font-black">RESTfulMC</h1>
+                </div>
+                <p className="text-xl text-muted-foreground">
+                    A powerful RESTful API for Minecraft utilizing Springboot.
+                </p>
             </div>
 
-            <PageHeader
-                contentClassName="gap-2"
-                backgroundImage="/media/background/landing.webp"
-            >
-                <Card className="w-full max-w-xl bg-card/45 backdrop-blur-md">
-                    <CardHeader>
-                        <CardTitle>Minecraft Player / Server Lookup</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <LookupForm
-                            placeholder="Enter a Username / UUID / Server IP"
-                            isFetching={isLookupFormFetching}
-                            error={lookupError}
-                            setIsFetching={setIsLookupFormFetching}
-                            setError={setLookupError}
-                        />
-                    </CardContent>
-                    <CardFooter className="flex flex-col gap-2 items-start">
-                        {isLookupFormFetching ? (
-                            <ShinyText
-                                text={loadingMessage}
-                                speed={1.5}
-                                delay={0}
-                                color="#b5b5b5"
-                                shineColor="#ffffff"
-                                spread={35}
-                                direction="left"
-                            />
-                        ) : lookupError ? (
-                            <p className="text-destructive text-sm">
-                                {lookupError}
-                            </p>
-                        ) : (
-                            <p className="text-muted-foreground">
-                                Enter a Username, UUID, or Server IP to get
-                                started.
-                            </p>
-                        )}
-                    </CardFooter>
-                </Card>
-            </PageHeader>
-        </div>
+            {/* Lookup Form */}
+            <Card className="w-full max-w-xl bg-card/45 backdrop-blur-md">
+                <CardHeader>
+                    <CardTitle>Minecraft Player / Server Lookup</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <LookupForm
+                        placeholder="Enter a Username / UUID / Server IP"
+                        isFetching={isLookupFormFetching}
+                        error={lookupError}
+                        setIsFetching={setIsLookupFormFetching}
+                        setError={setLookupError}
+                    />
+                </CardContent>
+                <CardFooter className="flex flex-col gap-2 items-start">
+                    {isLookupFormFetching ? (
+                        <ShinyLoadingText text={loadingMessage} />
+                    ) : lookupError ? (
+                        <p className="text-destructive text-sm">
+                            {lookupError}
+                        </p>
+                    ) : (
+                        <p className="text-muted-foreground">
+                            Enter a Username, UUID, or Server IP to get started.
+                        </p>
+                    )}
+                </CardFooter>
+            </Card>
+        </PageHeader>
     );
 };
 export default HeroSection;

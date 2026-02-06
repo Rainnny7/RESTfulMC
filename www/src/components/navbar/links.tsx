@@ -2,25 +2,37 @@
 
 import SimpleLink from "@/components/simple-link";
 import SimpleTooltip from "@/components/simple-tooltip";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
 import {
     ActivityIcon,
-    BadgeIcon,
     BookIcon,
     LucideIcon,
     PartyPopperIcon,
     ServerIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { ReactElement, useLayoutEffect, useRef, useState } from "react";
+import {
+    ReactElement,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react";
+import {
+    getMojangServerStatus,
+    MojangServerStatus,
+    MojangServerStatusResponse,
+} from "restfulmc-lib";
 
 type NavbarLink = {
     icon: LucideIcon;
     tooltip: string;
     label: string;
     href: string;
+    getBadgeCount?: () => Promise<number>;
 };
 
 const links: NavbarLink[] = [
@@ -41,6 +53,17 @@ const links: NavbarLink[] = [
         tooltip: "View the status of Microsoft and Mojang services",
         label: "Status",
         href: "/status",
+        getBadgeCount: async () => {
+            try {
+                const status: MojangServerStatusResponse =
+                    await getMojangServerStatus();
+                return status.servers.filter(
+                    (server) => server.status !== MojangServerStatus.ONLINE
+                ).length;
+            } catch {
+                return 0;
+            }
+        },
     },
     {
         icon: BookIcon,
@@ -55,6 +78,23 @@ const Links = (): ReactElement => {
     const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
     const [hasMeasured, setHasMeasured] = useState(false);
+    const [badgeCounts, setBadgeCounts] = useState<Record<string, number>>({});
+
+    useEffect(() => {
+        (async () => {
+            const counts: Record<string, number> = {};
+            for (const link of links) {
+                if (link.getBadgeCount) {
+                    try {
+                        counts[link.label] = await link.getBadgeCount();
+                    } catch {
+                        counts[link.label] = 0;
+                    }
+                }
+            }
+            setBadgeCounts(counts);
+        })();
+    }, []);
 
     // Find the active link index
     const activeLinkIndex: number = links.findIndex(
@@ -85,6 +125,9 @@ const Links = (): ReactElement => {
             {links.map((link: NavbarLink, index: number) => {
                 const active: boolean = path === link.href;
                 const LinkIcon: LucideIcon = link.icon;
+                const badgeCount: number = link.getBadgeCount
+                    ? (badgeCounts[link.label] ?? 0)
+                    : 0;
                 return (
                     <SimpleTooltip key={link.label} content={link.tooltip}>
                         <div
@@ -101,6 +144,14 @@ const Links = (): ReactElement => {
                                     variant="ghost"
                                     size="sm"
                                 >
+                                    {badgeCount > 0 && (
+                                        <Badge
+                                            className="mr-0.5"
+                                            variant="destructive"
+                                        >
+                                            {badgeCount}
+                                        </Badge>
+                                    )}
                                     <LinkIcon
                                         className={cn(
                                             "transition-colors duration-300 ease-in-out transform-gpu",

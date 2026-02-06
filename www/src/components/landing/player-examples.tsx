@@ -16,6 +16,7 @@ import { ReactElement, useMemo } from "react";
 const EXAMPLE_PLAYERS: string[] = [
     "Steve",
     "Alex",
+    "Herobrine",
     "Dinnerbone",
     "Grumm",
     "Rainnny",
