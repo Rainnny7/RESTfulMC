@@ -1,3 +1,4 @@
+import PlayerHeader from "@/components/player/player-header";
 import { notFound } from "next/navigation";
 import { CachedPlayer, getPlayer } from "restfulmc-lib";
 
@@ -8,7 +9,11 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
     } catch {
         notFound();
     }
-    return <main className="min-h-screen pt-24">{JSON.stringify(player)}</main>;
+    return (
+        <main className="min-h-screen flex flex-col">
+            <PlayerHeader player={player} />
+        </main>
+    );
 };
 
 export const generateMetadata = async ({
