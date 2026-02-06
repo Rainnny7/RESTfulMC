@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import {
     BadgeIcon,
     BookIcon,
-    HomeIcon,
     LucideIcon,
     PartyPopperIcon,
     ServerIcon,
@@ -104,7 +103,9 @@ const Links = (): ReactElement => {
                                     <LinkIcon
                                         className={cn(active && "text-primary")}
                                     />
-                                    <span>{link.label}</span>
+                                    <span className="hidden sm:block">
+                                        {link.label}
+                                    </span>
                                 </Button>
                             </SimpleLink>
                         </div>

@@ -11,18 +11,20 @@ import { ReactElement } from "react";
 const Navbar = (): ReactElement => {
     const path: string = usePathname();
     return (
-        <nav className="fixed inset-x-0 top-3.5 mx-auto max-w-7xl px-4 py-1 flex justify-between items-center bg-muted/20 backdrop-blur-sm rounded-xl z-50">
+        <nav className="fixed inset-x-5 top-3.5 mx-auto max-w-7xl px-4 py-1 flex justify-between items-center bg-muted/20 backdrop-blur-sm rounded-xl z-50">
             {/* Left - Branding & Links */}
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-2 items-center">
                 <SimpleLink className="flex gap-2.5 items-center" href="/">
                     <AppLogo />
-                    <span className="text-lg font-bold">RESTfulMC</span>
+                    <span className="hidden xs:block text-lg font-bold">
+                        RESTfulMC
+                    </span>
                 </SimpleLink>
                 <Links />
             </div>
 
             {/* Right - Search & Socials */}
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-2 items-center">
                 {path !== "/" && <NavbarLookupForm />}
                 <Socials />
             </div>

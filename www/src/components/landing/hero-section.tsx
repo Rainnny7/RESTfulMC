@@ -66,7 +66,7 @@ const HeroSection = (): ReactElement => {
             </div>
 
             {/* Player / Server Lookup */}
-            <section className="relative w-full flex flex-col gap-2 items-center z-10">
+            <section className="relative px-5 w-full flex flex-col gap-2 items-center z-10">
                 <Card className="w-full max-w-lg bg-card/45 backdrop-blur-md">
                     <CardHeader>
                         <CardTitle>Minecraft Player / Server Lookup</CardTitle>
