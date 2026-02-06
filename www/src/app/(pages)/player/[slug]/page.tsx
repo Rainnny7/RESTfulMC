@@ -27,6 +27,13 @@ export const generateMetadata = async ({
             icons: {
                 icon: player.skin.parts.FACE,
             },
+            openGraph: {
+                images: [
+                    {
+                        url: player.skin.parts.FACE,
+                    },
+                ],
+            },
         };
     } catch {
         notFound();
