@@ -69,7 +69,8 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
                             <Button
                                 className={cn(
                                     "overflow-hidden p-0",
-                                    displayedPart === part && "ring ring-primary"
+                                    displayedPart === part &&
+                                        "ring-2 ring-primary"
                                 )}
                                 variant="outline"
                                 size="icon"

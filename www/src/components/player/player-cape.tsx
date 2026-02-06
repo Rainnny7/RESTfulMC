@@ -123,7 +123,7 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
                                     className={cn(
                                         "overflow-hidden p-0",
                                         displayedType.name === type.name &&
-                                            "ring ring-primary"
+                                            "ring-2 ring-primary"
                                     )}
                                     variant="outline"
                                     size="icon"
