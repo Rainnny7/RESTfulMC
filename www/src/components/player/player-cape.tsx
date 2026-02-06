@@ -1,7 +1,6 @@
 "use client";
 
 import SimpleTooltip from "@/components/simple-tooltip";
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -99,7 +98,7 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
                 )}
             </CardContent>
             {capeUrl && (
-                <CardFooter className="flex flex-wrap justify-center gap-1.5">
+                <CardFooter className="flex flex-wrap justify-center gap-1">
                     {CAPE_TYPES.filter((type: CapeType) =>
                         capeUrls.has(type.name)
                     ).map((type: CapeType) => {
@@ -119,38 +118,35 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
                                 }
                                 side="top"
                             >
-                                <Button
+                                <button
+                                    type="button"
                                     className={cn(
-                                        "overflow-hidden p-0",
+                                        "relative size-8 rounded-md border-2 overflow-hidden",
                                         displayedType.name === type.name &&
-                                            "ring-2 ring-primary"
+                                            "border-primary"
                                     )}
-                                    variant="outline"
-                                    size="icon"
                                     onMouseEnter={() => setHoveredType(type)}
                                     onMouseLeave={() =>
                                         setHoveredType(undefined)
                                     }
                                     onClick={() => setSelectedType(type)}
                                 >
-                                    <span className="relative m-1.5 block size-full">
-                                        {url ? (
-                                            <Image
-                                                className="object-contain"
-                                                src={url}
-                                                alt={`${player.username}'s ${type.name} Cape`}
-                                                fill
-                                                sizes="32px"
-                                                draggable={false}
-                                                unoptimized
-                                            />
-                                        ) : (
-                                            <div className="absolute inset-0 flex items-center justify-center bg-muted text-xs">
-                                                {type.name[0]}
-                                            </div>
-                                        )}
-                                    </span>
-                                </Button>
+                                    {url ? (
+                                        <Image
+                                            className="object-cover"
+                                            src={url}
+                                            alt={`${player.username}'s ${type.name} Cape`}
+                                            width={36}
+                                            height={36}
+                                            draggable={false}
+                                            unoptimized
+                                        />
+                                    ) : (
+                                        <div className="flex size-full items-center justify-center bg-muted text-xs">
+                                            {type.name[0]}
+                                        </div>
+                                    )}
+                                </button>
                             </SimpleTooltip>
                         );
                     })}

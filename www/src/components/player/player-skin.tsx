@@ -1,7 +1,6 @@
 "use client";
 
 import SimpleTooltip from "@/components/simple-tooltip";
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -47,7 +46,7 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
                     unoptimized
                 />
             </CardContent>
-            <CardFooter className="flex flex-wrap justify-center gap-1.5">
+            <CardFooter className="flex flex-wrap justify-center gap-1">
                 {SKIN_PARTS.map((part: SkinPart) => {
                     const partName: string = part
                         .replace(/_/g, " ")
@@ -66,30 +65,26 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
                             }
                             side="top"
                         >
-                            <Button
+                            <button
+                                type="button"
                                 className={cn(
-                                    "overflow-hidden p-0",
-                                    displayedPart === part &&
-                                        "ring-2 ring-primary"
+                                    "relative size-8 rounded-md border-2 overflow-hidden",
+                                    displayedPart === part && "border-primary"
                                 )}
-                                variant="outline"
-                                size="icon"
                                 onMouseEnter={() => setHoveredPart(part)}
                                 onMouseLeave={() => setHoveredPart(undefined)}
                                 onClick={() => setSelectedPart(part)}
                             >
-                                <span className="relative m-1.5 block size-full">
-                                    <Image
-                                        className="object-contain"
-                                        src={player.skin.parts[part]}
-                                        alt={partName}
-                                        fill
-                                        sizes="32px"
-                                        draggable={false}
-                                        unoptimized
-                                    />
-                                </span>
-                            </Button>
+                                <Image
+                                    className="object-cover"
+                                    src={player.skin.parts[part]}
+                                    alt={partName}
+                                    width={36}
+                                    height={36}
+                                    draggable={false}
+                                    unoptimized
+                                />
+                            </button>
                         </SimpleTooltip>
                     );
                 })}
