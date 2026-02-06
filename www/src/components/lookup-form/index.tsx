@@ -7,13 +7,13 @@ import {
     InputGroupInput,
 } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
+import { getErrorMessage } from "@/lib/error";
 import { isServerAddress } from "@/lib/string";
 import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { ReactElement, SubmitEvent, useEffect, useState } from "react";
-import { getPlayer, RestfulMCAPIError } from "restfulmc-lib";
+import { getPlayer } from "restfulmc-lib";
 
 type LookupFormProps = {
     className?: string | undefined;
@@ -36,7 +36,7 @@ const LookupForm = ({
     setIsFetching,
     setError,
 }: LookupFormProps): ReactElement => {
-    const router: AppRouterInstance = useRouter();
+    const router = useRouter();
     const [platformDialogOpen, setPlatformDialogOpen] = useState(false);
     const [pendingServerQuery, setPendingServerQuery] = useState<string | null>(
         null
@@ -68,11 +68,7 @@ const LookupForm = ({
             await getPlayer(query);
             router.push(`/player/${query}`);
         } catch (error) {
-            const detailed: string | undefined =
-                "message" in (error as unknown as RestfulMCAPIError)
-                    ? (error as RestfulMCAPIError).message
-                    : undefined;
-            setError(detailed ?? "That player doesn't exist.");
+            setError(getErrorMessage(error, "That player doesn't exist."));
         } finally {
             setIsFetching(false);
         }
@@ -83,7 +79,7 @@ const LookupForm = ({
             <form className={cn(className)} onSubmit={handleSubmit}>
                 <InputGroup
                     className={cn(
-                        "transition-all duration-250 transform-gpu",
+                        "transition-all duration-200 transform-gpu",
                         compact && "h-6.5",
                         error && "border-destructive"
                     )}
@@ -91,7 +87,7 @@ const LookupForm = ({
                     <InputGroupAddon>
                         <SearchIcon
                             className={cn(
-                                "transition-all duration-250 transform-gpu",
+                                "transition-all duration-200 transform-gpu",
                                 error && "text-destructive"
                             )}
                         />

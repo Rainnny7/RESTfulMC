@@ -1,6 +1,6 @@
+import { getCachedMinecraftServer } from "@/lib/cached-api";
 import { notFound } from "next/navigation";
 import {
-    getMinecraftServer,
     JavaMinecraftServer,
     MinecraftServer,
     ServerPlatform,
@@ -12,7 +12,10 @@ const ServerPage = async ({
     const { platform, slug } = await params;
     let server: MinecraftServer;
     try {
-        server = await getMinecraftServer(platform as ServerPlatform, slug);
+        server = await getCachedMinecraftServer(
+            platform as ServerPlatform,
+            slug
+        );
     } catch {
         notFound();
     }
@@ -28,7 +31,7 @@ export const generateMetadata = async ({
 }: PageProps<"/server/[platform]/[slug]">) => {
     try {
         const { platform, slug } = await params;
-        const server: MinecraftServer = await getMinecraftServer(
+        const server: MinecraftServer = await getCachedMinecraftServer(
             platform as ServerPlatform,
             slug
         );

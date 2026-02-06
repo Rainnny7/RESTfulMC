@@ -3,13 +3,14 @@ import PlayerDetails from "@/components/player/player-details";
 import PlayerHeadCommands from "@/components/player/player-head-commands";
 import PlayerHeader from "@/components/player/player-header";
 import PlayerSkin from "@/components/player/player-skin";
+import { getCachedPlayer } from "@/lib/cached-api";
 import { notFound } from "next/navigation";
-import { CachedPlayer, getPlayer } from "restfulmc-lib";
+import { CachedPlayer } from "restfulmc-lib";
 
 const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
     let player: CachedPlayer;
     try {
-        player = await getPlayer((await params).slug);
+        player = await getCachedPlayer((await params).slug);
     } catch {
         notFound();
     }
@@ -34,7 +35,7 @@ export const generateMetadata = async ({
     params,
 }: PageProps<"/player/[slug]">) => {
     try {
-        const player: CachedPlayer = await getPlayer((await params).slug);
+        const player: CachedPlayer = await getCachedPlayer((await params).slug);
         const skullUrl: string = player.skin.parts.HEAD;
         return {
             title: `${player.username}'s Profile`,

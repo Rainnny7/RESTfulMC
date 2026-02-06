@@ -7,15 +7,11 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { getErrorMessage } from "@/lib/error";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
-import {
-    getMinecraftServer,
-    RestfulMCAPIError,
-    ServerPlatform,
-} from "restfulmc-lib";
+import { getMinecraftServer, ServerPlatform } from "restfulmc-lib";
 
 type PlatformSelectionDialogProps = {
     platformDialogOpen: boolean;
@@ -34,7 +30,7 @@ const PlatformSelectionDialog = ({
     setPendingServerQuery,
     setError,
 }: PlatformSelectionDialogProps): ReactElement => {
-    const router: AppRouterInstance = useRouter();
+    const router = useRouter();
 
     const handlePlatformSelect = async (platform: ServerPlatform) => {
         if (!pendingServerQuery) return;
@@ -45,11 +41,7 @@ const PlatformSelectionDialog = ({
             await getMinecraftServer(platform, pendingServerQuery);
             router.push(`/server/${platform}/${pendingServerQuery}`);
         } catch (error) {
-            const detailed: string | undefined =
-                "message" in (error as unknown as RestfulMCAPIError)
-                    ? (error as RestfulMCAPIError).message
-                    : undefined;
-            setError(detailed ?? "Failed to lookup server.");
+            setError(getErrorMessage(error, "Failed to lookup server."));
         } finally {
             setIsFetching(false);
             setPendingServerQuery(null);
@@ -115,6 +107,7 @@ const PlatformSelectionCard = ({
                 src={`/media/background/${platform.toLowerCase()}-edition.webp`}
                 alt={`${platform} edition background`}
                 fill
+                sizes="(max-width: 640px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
             <div className="relative z-10 flex flex-col gap-1 text-white [&_span:last-child]:text-white/90 [&_span]:drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">

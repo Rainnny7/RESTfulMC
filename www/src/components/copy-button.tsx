@@ -25,19 +25,23 @@ const CopyButton = ({
         undefined
     );
 
-    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-        void navigator.clipboard.writeText(value);
-        if (!copied) {
-            toast.success(copyMessage, {
-                description: <code>{value}</code>,
-            });
+    const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
+        try {
+            await navigator.clipboard.writeText(value);
+            if (!copied) {
+                toast.success(copyMessage, {
+                    description: <code>{value}</code>,
+                });
+            }
+            setCopied(true);
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(
+                () => setCopied(false),
+                COPIED_DURATION_MS
+            );
+        } catch {
+            toast.error("Failed to copy to clipboard");
         }
-        setCopied(true);
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(
-            () => setCopied(false),
-            COPIED_DURATION_MS
-        );
         onClick?.(event);
     };
 

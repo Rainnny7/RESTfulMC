@@ -10,11 +10,11 @@ export const useScrolled = (threshold = 15): ScrolledResponse => {
     const [scrolled, setScrolled] = useState<boolean>(false);
 
     const handleScroll = useCallback(() => {
-        const isScrolled = window.scrollY > threshold;
-        if (isScrolled !== scrolled) {
-            setScrolled(isScrolled);
-        }
-    }, [threshold, scrolled]);
+        setScrolled((prev) => {
+            const next = window.scrollY > threshold;
+            return prev !== next ? next : prev;
+        });
+    }, [threshold]);
 
     useEffect(() => {
         let ticking = false;

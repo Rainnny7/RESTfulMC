@@ -40,7 +40,7 @@ const PlayerExamples = (): ReactElement => {
                 <CardTitle>Player Examples</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap justify-center gap-1 items-center">
-                {displayedPlayers.map((player: string) => (
+                {displayedPlayers.map((player) => (
                     <SimpleTooltip
                         key={player}
                         content={`Click to view ${player}'s Profile`}

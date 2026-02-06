@@ -7,7 +7,7 @@ import SimpleTooltip from "@/components/simple-tooltip";
 import { env } from "@/lib/env";
 import { SocialLink } from "@/types/config";
 import Image from "next/image";
-import { memo, ReactElement, useEffect, useState } from "react";
+import { memo, ReactElement, useEffect, useReducer } from "react";
 
 type FooterLink = {
     label: string;
@@ -123,6 +123,27 @@ const Footer = (): ReactElement => (
     </footer>
 );
 
+type AnimatedLineState = { dashes: number; direction: "left" | "right" };
+
+const animatedLineReducer = (
+    state: AnimatedLineState,
+    initialDashes: number
+): AnimatedLineState => {
+    if (state.dashes <= 0) {
+        return { dashes: 1, direction: "right" };
+    }
+    if (state.dashes >= initialDashes) {
+        return { dashes: initialDashes - 1, direction: "left" };
+    }
+    return {
+        dashes:
+            state.direction === "left"
+                ? state.dashes - 1
+                : state.dashes + 1,
+        direction: state.direction,
+    };
+};
+
 const AnimatedLine = memo(
     ({
         initialDashes = 12,
@@ -131,36 +152,24 @@ const AnimatedLine = memo(
         initialDashes?: number;
         reverseDirection?: boolean;
     }) => {
-        const [dashes, setDashes] = useState(
-            reverseDirection ? 0 : initialDashes
-        );
-        const [direction, setDirection] = useState<"left" | "right">(
-            reverseDirection ? "right" : "left"
-        );
+        const [state, dispatch] = useReducer(animatedLineReducer, {
+            dashes: reverseDirection ? 0 : initialDashes,
+            direction: reverseDirection ? "right" : "left",
+        });
 
         useEffect(() => {
             const interval = setInterval(() => {
-                setDashes((prev) => {
-                    if (prev <= 0) {
-                        setDirection("right");
-                        return 1;
-                    }
-                    if (prev >= initialDashes) {
-                        setDirection("left");
-                        return initialDashes - 1;
-                    }
-                    return direction === "left" ? prev - 1 : prev + 1;
-                });
+                dispatch(initialDashes);
             }, 70);
 
             return () => clearInterval(interval);
-        }, [direction, initialDashes]);
+        }, [initialDashes]);
 
         const generateLine = () => {
-            const leftDashes = "-".repeat(dashes);
-            const rightDashes = "-".repeat(initialDashes - dashes);
+            const leftDashes = "-".repeat(state.dashes);
+            const rightDashes = "-".repeat(initialDashes - state.dashes);
             return `|${leftDashes}${
-                direction === "left" ? "<" : ">"
+                state.direction === "left" ? "<" : ">"
             }${rightDashes}|`;
         };
 

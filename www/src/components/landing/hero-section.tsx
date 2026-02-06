@@ -55,7 +55,7 @@ const HeroSection = (): ReactElement => {
             </div>
 
             <PageHeader
-                contentClassName="-mt-"
+                contentClassName="gap-2"
                 backgroundImage="/media/background/landing.webp"
             >
                 <Card className="w-full max-w-xl bg-card/45 backdrop-blur-md">

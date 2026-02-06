@@ -15,7 +15,7 @@ import {
 const StatusAlert = (): ReactElement | undefined => {
     const { data } = useQuery<MojangServerStatusResponse>({
         queryKey: ["status"],
-        queryFn: async () => await getMojangServerStatus(),
+        queryFn: () => getMojangServerStatus(),
     });
     if (!data) {
         return undefined;
