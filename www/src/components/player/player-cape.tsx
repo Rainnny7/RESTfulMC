@@ -1,6 +1,7 @@
 "use client";
 
 import SimpleTooltip from "@/components/simple-tooltip";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -9,6 +10,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import request from "@/lib/request";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { ReactElement, useEffect, useState } from "react";
 import { CachedPlayer } from "restfulmc-lib";
@@ -117,39 +119,38 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
                                 }
                                 side="top"
                             >
-                                <button
-                                    type="button"
-                                    className="relative rounded-md overflow-hidden border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                                    style={{
-                                        width: 36,
-                                        height: 36,
-                                        borderColor:
-                                            displayedType.name === type.name
-                                                ? "hsl(var(--primary))"
-                                                : "transparent",
-                                    }}
+                                <Button
+                                    className={cn(
+                                        "overflow-hidden p-0",
+                                        displayedType.name === type.name &&
+                                            "ring ring-primary"
+                                    )}
+                                    variant="outline"
+                                    size="icon"
                                     onMouseEnter={() => setHoveredType(type)}
                                     onMouseLeave={() =>
                                         setHoveredType(undefined)
                                     }
                                     onClick={() => setSelectedType(type)}
                                 >
-                                    {url ? (
-                                        <Image
-                                            className="object-cover"
-                                            src={url}
-                                            alt={`${player.username}'s ${type.name} Cape`}
-                                            width={36}
-                                            height={36}
-                                            draggable={false}
-                                            unoptimized
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full bg-muted flex items-center justify-center text-xs">
-                                            {type.name[0]}
-                                        </div>
-                                    )}
-                                </button>
+                                    <span className="relative m-1.5 block size-full">
+                                        {url ? (
+                                            <Image
+                                                className="object-contain"
+                                                src={url}
+                                                alt={`${player.username}'s ${type.name} Cape`}
+                                                fill
+                                                sizes="32px"
+                                                draggable={false}
+                                                unoptimized
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 flex items-center justify-center bg-muted text-xs">
+                                                {type.name[0]}
+                                            </div>
+                                        )}
+                                    </span>
+                                </Button>
                             </SimpleTooltip>
                         );
                     })}
