@@ -68,12 +68,13 @@ const LookupForm = ({
             await getPlayer(query);
             router.push(`/player/${query}`);
         } catch (error) {
-            setIsFetching(false);
             const detailed: string | undefined =
                 "message" in (error as unknown as RestfulMCAPIError)
                     ? (error as RestfulMCAPIError).message
                     : undefined;
             setError(detailed ?? "That player doesn't exist.");
+        } finally {
+            setIsFetching(false);
         }
     };
 
