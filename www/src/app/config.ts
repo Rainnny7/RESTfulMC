@@ -12,5 +12,5 @@ export const config: Config = {
             tooltip: "Click to view the source code",
             href: "https://github.com/Rainnny7/RESTfulMC",
         },
-    ]
-}
+    ],
+};

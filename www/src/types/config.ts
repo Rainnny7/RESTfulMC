@@ -1,6 +1,6 @@
 export type Config = {
-    socials: SocialLink[]
-}
+    socials: SocialLink[];
+};
 
 export type SocialLink = {
     logo: string;

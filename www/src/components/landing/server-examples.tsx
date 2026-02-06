@@ -8,8 +8,8 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { env } from "@/lib/env";
 import { shuffleArray } from "@/lib/array";
+import { env } from "@/lib/env";
 import Image from "next/image";
 import { ReactElement, useMemo } from "react";
 
@@ -26,7 +26,8 @@ const EXAMPLE_SERVERS: Record<string, string> = {
     "2b2t": "2b2t.org",
     Hoplite: "hoplite.gg",
     "Minmen Club": "minemen.club",
-    "OG-Network": "og-network.net"
+    "OG-Network": "og-network.net",
+    GTM: "gtm.network",
 };
 
 const ServerExamples = (): ReactElement => {

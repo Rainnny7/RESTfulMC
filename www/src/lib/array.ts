@@ -5,4 +5,4 @@ export const shuffleArray = <T>(array: T[]): T[] => {
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
-}
+};

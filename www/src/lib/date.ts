@@ -40,8 +40,13 @@ export const formatTimeAgo = (date: Date, compact: boolean = false): string => {
     }
 
     if (diffInMinutes < 60) {
-        return (compact ? `${diffInMinutes}m` : `${diffInMinutes} ${diffInMinutes === 1 ? "minute" : "minutes"
-            }`) + " Ago";
+        return (
+            (compact
+                ? `${diffInMinutes}m`
+                : `${diffInMinutes} ${
+                      diffInMinutes === 1 ? "minute" : "minutes"
+                  }`) + " Ago"
+        );
     }
 
     if (diffInHours < 24) {
@@ -49,17 +54,32 @@ export const formatTimeAgo = (date: Date, compact: boolean = false): string => {
         const minutes = diffInMinutes % 60;
 
         if (minutes === 0) {
-            return (compact ? `${hours}h` : `${hours} ${hours === 1 ? "hour" : "hours"}`) + " Ago";
+            return (
+                (compact
+                    ? `${hours}h`
+                    : `${hours} ${hours === 1 ? "hour" : "hours"}`) + " Ago"
+            );
         }
 
-        return (compact ? `${hours}h ${minutes}m` : `${hours} ${hours === 1 ? "hour" : "hours"} ${minutes} ${minutes === 1 ? "minute" : "minutes"}`) + " Ago";
+        return (
+            (compact
+                ? `${hours}h ${minutes}m`
+                : `${hours} ${hours === 1 ? "hour" : "hours"} ${minutes} ${minutes === 1 ? "minute" : "minutes"}`) +
+            " Ago"
+        );
     }
 
     if (diffInDays < 7) {
-        return (compact ? `${diffInDays}d` : `${diffInDays} ${diffInDays === 1 ? "day" : "days"}`) + " Ago"; // "X days ago"
+        return (
+            (compact
+                ? `${diffInDays}d`
+                : `${diffInDays} ${diffInDays === 1 ? "day" : "days"}`) + " Ago"
+        ); // "X days ago"
     }
 
-    return compact ? then.format(DATE_FORMATS.SHORT_DATE) : then.format(DATE_FORMATS.DATE_TIME);
+    return compact
+        ? then.format(DATE_FORMATS.SHORT_DATE)
+        : then.format(DATE_FORMATS.DATE_TIME);
 };
 
 /**
