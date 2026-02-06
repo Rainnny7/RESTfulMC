@@ -8,13 +8,9 @@ const NavbarLookupForm = (): ReactElement => {
     const pathname = usePathname();
     const [isLookupFormFetching, setIsLookupFormFetching] = useState(false);
     const [lookupError, setLookupError] = useState<string>();
-
     const matchedPath: RegExpMatchArray | null = pathname?.match(
-        /^\/(?:player|server\/java)\/(.+)$/
+        /^\/(?:player|server\/(?:java|bedrock))\/(.+)$/
     );
-    const defaultValue: string | undefined = matchedPath
-        ? decodeURIComponent(matchedPath[1]) || undefined
-        : undefined;
 
     return (
         <div className="relative">
@@ -24,7 +20,11 @@ const NavbarLookupForm = (): ReactElement => {
                 compact
                 isFetching={isLookupFormFetching}
                 error={lookupError}
-                defaultValue={defaultValue}
+                defaultValue={
+                    matchedPath
+                        ? decodeURIComponent(matchedPath[1]) || undefined
+                        : undefined
+                }
                 setIsFetching={setIsLookupFormFetching}
                 setError={setLookupError}
             />
