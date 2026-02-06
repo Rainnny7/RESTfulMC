@@ -8,7 +8,7 @@ const PlayerHeader = ({ player }: { player: CachedPlayer }): ReactElement => (
     <PageHeader
         className="min-h-112"
         contentClassName="gap-7"
-        backgroundImage="/media/background/landing.webp"
+        backgroundImage="/media/background/player.webp"
     >
         {/* Player Head & Username */}
         <div className="flex gap-5 items-center">
