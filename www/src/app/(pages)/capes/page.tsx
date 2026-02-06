@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
 const CapesPage = (): ReactElement => (
-    <main className="min-h-screen">Capes</main>
+    <main className="px-5 min-h-screen">Capes</main>
 );
 export default CapesPage;

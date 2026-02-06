@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
 import {
+    ActivityIcon,
     BadgeIcon,
     BookIcon,
     LucideIcon,
@@ -34,6 +35,12 @@ const links: NavbarLink[] = [
         tooltip: "View all capes",
         label: "Capes",
         href: "/capes",
+    },
+    {
+        icon: ActivityIcon,
+        tooltip: "View the status of Microsoft and Mojang services",
+        label: "Status",
+        href: "/status",
     },
     {
         icon: BookIcon,

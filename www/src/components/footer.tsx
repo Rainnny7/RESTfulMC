@@ -28,6 +28,10 @@ const footerLinks: Record<string, FooterLink[]> = {
             label: "Capes",
             href: "/capes",
         },
+        {
+            label: "Status",
+            href: "/status",
+        },
     ],
     Resources: [
         {

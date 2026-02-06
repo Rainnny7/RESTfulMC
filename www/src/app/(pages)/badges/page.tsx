@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
 const BadgesPage = (): ReactElement => (
-    <main className="min-h-screen">Badges</main>
+    <main className="px-5 min-h-screen">Badges</main>
 );
 export default BadgesPage;
