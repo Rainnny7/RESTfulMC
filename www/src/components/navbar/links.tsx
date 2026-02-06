@@ -101,7 +101,10 @@ const Links = (): ReactElement => {
                                     size="sm"
                                 >
                                     <LinkIcon
-                                        className={cn(active && "text-primary")}
+                                        className={cn(
+                                            "transition-colors duration-300 ease-in-out transform-gpu",
+                                            active && "text-primary"
+                                        )}
                                     />
                                     <span className="hidden sm:block">
                                         {link.label}
