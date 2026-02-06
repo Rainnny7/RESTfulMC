@@ -98,7 +98,7 @@ const Links = (): ReactElement => {
                                         active && "text-primary-foreground"
                                     )}
                                     variant="ghost"
-                                    size="xs"
+                                    size="sm"
                                 >
                                     <LinkIcon
                                         className={cn(active && "text-primary")}
@@ -113,7 +113,7 @@ const Links = (): ReactElement => {
 
             {/* Active tab indicator - always mounted so it never animates from (0,0) on remount */}
             <div
-                className="absolute top-0 h-6 bg-primary/5 rounded-sm border border-primary/15 transition-all duration-300 ease-in-out transform-gpu"
+                className="absolute top-0 h-7 bg-primary/5 rounded-sm border border-primary/30 transition-all duration-300 ease-in-out transform-gpu"
                 style={{
                     width: `${underlineStyle.width}px`,
                     left: `${underlineStyle.left}px`,
@@ -121,7 +121,7 @@ const Links = (): ReactElement => {
                     pointerEvents: activeLinkIndex >= 0 ? "auto" : "none",
                 }}
             >
-                <div className="absolute -bottom-1.5 left-0 w-full h-0.5 bg-primary rounded-sm" />
+                <div className="absolute left-0 -bottom-1.5 w-full h-0.5 bg-primary rounded-sm" />
             </div>
         </div>
     );
