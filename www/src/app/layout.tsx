@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: {
         default: "RESTfulMC",
-        template: `RESTfulMC • %s`,
+        template: "%s • RESTfulMC",
     },
     description:
         "🌐 A simple, yet useful RESTful API for Minecraft utilizing Springboot.",

@@ -10,4 +10,22 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
     }
     return <main className="min-h-screen pt-24">{JSON.stringify(player)}</main>;
 };
+
+export const generateMetadata = async ({
+    params,
+}: PageProps<"/player/[slug]">) => {
+    try {
+        const player: CachedPlayer = await getPlayer((await params).slug);
+        return {
+            title: `${player.username}'s Profile`,
+            description: `View the profile of ${player.username} on RESTfulMC.`,
+            icons: {
+                icon: player.skin.parts.FACE,
+            },
+        };
+    } catch {
+        notFound();
+    }
+};
+
 export default PlayerPage;

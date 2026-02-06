@@ -7,7 +7,9 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ReactElement } from "react";
 import {
     getMinecraftServer,
@@ -32,17 +34,16 @@ const PlatformSelectionDialog = ({
     setPendingServerQuery,
     setError,
 }: PlatformSelectionDialogProps): ReactElement => {
+    const router: AppRouterInstance = useRouter();
+
     const handlePlatformSelect = async (platform: ServerPlatform) => {
         if (!pendingServerQuery) return;
         setPlatformDialogOpen(false);
         setIsFetching(true);
         setError(undefined);
         try {
-            const server = await getMinecraftServer(
-                platform,
-                pendingServerQuery
-            );
-            console.log({ server });
+            await getMinecraftServer(platform, pendingServerQuery);
+            router.push(`/server/${platform}/${pendingServerQuery}`);
         } catch (error) {
             const detailed: string | undefined =
                 "message" in (error as unknown as RestfulMCAPIError)

@@ -64,7 +64,8 @@ const LookupForm = ({
         setIsFetching(true);
         setError(undefined);
         try {
-            router.push(`/player/${(await getPlayer(query)).username}`);
+            await getPlayer(query);
+            router.push(`/player/${query}`);
         } catch (error) {
             const detailed: string | undefined =
                 "message" in (error as unknown as RestfulMCAPIError)
