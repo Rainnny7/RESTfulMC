@@ -33,7 +33,9 @@ const Navbar = (): ReactElement => {
 
             {/* Right - Search & Socials */}
             <div className="flex gap-5 items-center">
-                {path !== "/" && <NavbarLookupForm />}
+                <div className="hidden lg:block">
+                    {path !== "/" && <NavbarLookupForm />}
+                </div>
                 <Socials />
             </div>
         </nav>

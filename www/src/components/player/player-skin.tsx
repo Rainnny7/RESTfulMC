@@ -46,7 +46,7 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
     };
 
     return (
-        <Card className="w-60">
+        <Card className="w-full sm:w-60">
             <CardHeader>
                 <CardTitle>Skin Preview</CardTitle>
             </CardHeader>

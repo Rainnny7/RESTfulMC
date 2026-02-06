@@ -11,7 +11,7 @@ const PlayerHeader = ({ player }: { player: CachedPlayer }): ReactElement => (
         backgroundImage="/media/background/player.webp"
     >
         {/* Player Head & Username */}
-        <div className="flex gap-5 items-center">
+        <div className="px-5 flex gap-5 items-center">
             <Image
                 src={player.skin.parts.HEAD}
                 alt={`${player.username}'s Head`}
