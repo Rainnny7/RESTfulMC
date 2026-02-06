@@ -3,8 +3,6 @@ package cc.restfulmc.api.common;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -12,16 +10,15 @@ import java.util.regex.Pattern;
  */
 @UtilityClass
 public final class MiscUtils {
-    private static final Pattern USERNAME_REGEX = Pattern.compile("^[a-zA-Z0-9_]{2,16}$");
-    private static final List<String> WHITELISTED_USERNAMES = Arrays.asList("8", "g");
+    private static final Pattern USERNAME_REGEX = Pattern.compile("^[a-zA-Z0-9_]{1,16}$");
 
     /**
-     * Check if the given username is a valid.
+     * Check if the given username is valid.
      *
      * @param username the username to check
      * @return whether the username is valid
      */
     public static boolean isUsernameValid(@NonNull String username) {
-        return WHITELISTED_USERNAMES.contains(username.toLowerCase()) || USERNAME_REGEX.matcher(username).matches();
+        return USERNAME_REGEX.matcher(username).matches();
     }
 }
