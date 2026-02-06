@@ -3,6 +3,7 @@
 import SimpleLink from "@/components/simple-link";
 import SimpleTooltip from "@/components/simple-tooltip";
 import { Button } from "@/components/ui/button";
+import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
 import {
     BadgeIcon,
@@ -51,7 +52,7 @@ const links: NavbarLink[] = [
         icon: BookIcon,
         tooltip: "View the documentation",
         label: "Docs",
-        href: "/docs",
+        href: `${env.NEXT_PUBLIC_BASE_URL}/api/docs`,
     },
 ];
 
@@ -59,6 +60,7 @@ const Links = (): ReactElement => {
     const path: string = usePathname();
     const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
+    const [hasMeasured, setHasMeasured] = useState(false);
 
     // Find the active link index
     const activeLinkIndex: number = links.findIndex(
@@ -67,8 +69,12 @@ const Links = (): ReactElement => {
 
     // Update underline position when active tab changes.
     // useLayoutEffect runs before paint so we avoid a flash of wrong position.
+    // Don't show indicator until measured to prevent visible width expansion on initial load.
     useLayoutEffect(() => {
-        if (activeLinkIndex < 0) return;
+        if (activeLinkIndex < 0) {
+            setHasMeasured(false);
+            return;
+        }
 
         const activeTab = tabRefs.current[activeLinkIndex];
         if (!activeTab) return;
@@ -77,6 +83,7 @@ const Links = (): ReactElement => {
             width: activeTab.offsetWidth,
             left: activeTab.offsetLeft,
         });
+        setHasMeasured(true);
     }, [activeLinkIndex, path]);
 
     return (
@@ -117,7 +124,7 @@ const Links = (): ReactElement => {
                 style={{
                     width: `${underlineStyle.width}px`,
                     left: `${underlineStyle.left}px`,
-                    opacity: activeLinkIndex >= 0 ? 1 : 0,
+                    opacity: activeLinkIndex >= 0 && hasMeasured ? 1 : 0,
                     pointerEvents: activeLinkIndex >= 0 ? "auto" : "none",
                 }}
             >

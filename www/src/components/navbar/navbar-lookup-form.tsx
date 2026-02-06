@@ -4,6 +4,8 @@ import LookupForm from "@/components/lookup-form";
 import { ReactElement, useState } from "react";
 
 const NavbarLookupForm = (): ReactElement => {
+    const [isLookupFormFetching, setIsLookupFormFetching] =
+        useState<boolean>(false);
     const [lookupError, setLookupError] = useState<string | undefined>(
         undefined
     );
@@ -13,7 +15,9 @@ const NavbarLookupForm = (): ReactElement => {
                 className="min-w-50"
                 placeholder="Player / Server Lookup"
                 compact
+                isFetching={isLookupFormFetching}
                 error={lookupError}
+                setIsFetching={setIsLookupFormFetching}
                 setError={setLookupError}
             />
 

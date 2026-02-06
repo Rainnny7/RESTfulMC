@@ -19,19 +19,22 @@ type LookupFormProps = {
     className?: string | undefined;
     compact?: boolean;
     placeholder: string;
+    isFetching: boolean;
     error?: string | undefined;
+    setIsFetching: (isFetching: boolean) => void;
     setError: (error: string | undefined) => void;
 };
 
 const LookupForm = ({
     className,
     compact,
-    error,
     placeholder,
+    isFetching,
+    error,
+    setIsFetching,
     setError,
 }: LookupFormProps): ReactElement => {
     const router: AppRouterInstance = useRouter();
-    const [isFetching, setIsFetching] = useState<boolean>(false);
 
     const [platformDialogOpen, setPlatformDialogOpen] = useState(false);
 
