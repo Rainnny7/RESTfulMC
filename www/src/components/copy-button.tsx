@@ -4,15 +4,18 @@ import { Button } from "@/components/ui/button";
 import { CheckIcon, ClipboardIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { ComponentProps, MouseEvent, useRef, useState } from "react";
+import { toast } from "sonner";
 
 const COPIED_DURATION_MS = 2000;
 
 type CopyButtonProps = ComponentProps<typeof Button> & {
     value: string;
+    copyMessage: string;
 };
 
 const CopyButton = ({
     value,
+    copyMessage,
     onClick,
     children,
     ...props
@@ -24,6 +27,11 @@ const CopyButton = ({
 
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
         void navigator.clipboard.writeText(value);
+        if (!copied) {
+            toast.success(copyMessage, {
+                description: <code>{value}</code>,
+            });
+        }
         setCopied(true);
         clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(

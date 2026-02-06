@@ -1,5 +1,6 @@
 "use client";
 
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -21,6 +22,18 @@ export const AppProvider = ({
         <TooltipProvider delayDuration={100}>
             <QueryClientProvider client={queryClient}>
                 {children}
+                <Toaster
+                    position="bottom-right"
+                    toastOptions={{
+                        duration: 3000,
+                        classNames: {
+                            toast: "!flex !items-center !gap-2 !bg-popover/50 !backdrop-blur-sm !border !border-border !rounded-xl",
+                            success: "!text-green-500",
+                            error: "!text-red-500",
+                            content: "!text-white/95",
+                        },
+                    }}
+                />
             </QueryClientProvider>
         </TooltipProvider>
     </ThemeProvider>

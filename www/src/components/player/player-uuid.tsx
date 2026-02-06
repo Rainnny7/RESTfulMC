@@ -64,6 +64,7 @@ const PlayerUUID = ({ player }: { player: CachedPlayer }): ReactElement => {
             <CopyButton
                 variant="frosted"
                 size="icon"
+                copyMessage={`Copied ${player.username}'s UUID:`}
                 value={uuidFormat.format(player.uniqueId)}
             >
                 <ClipboardIcon className="size-4" />
