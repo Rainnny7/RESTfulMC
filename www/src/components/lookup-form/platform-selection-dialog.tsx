@@ -45,13 +45,13 @@ const PlatformSelectionDialog = ({
             await getMinecraftServer(platform, pendingServerQuery);
             router.push(`/server/${platform}/${pendingServerQuery}`);
         } catch (error) {
+            setIsFetching(false);
             const detailed: string | undefined =
                 "message" in (error as unknown as RestfulMCAPIError)
                     ? (error as RestfulMCAPIError).message
                     : undefined;
             setError(detailed ?? "Failed to lookup server.");
         } finally {
-            setIsFetching(false);
             setPendingServerQuery(null);
         }
     };
