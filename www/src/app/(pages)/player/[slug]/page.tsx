@@ -1,4 +1,5 @@
 import PlayerHeader from "@/components/player/player-header";
+import PlayerSkin from "@/components/player/player-skin";
 import { notFound } from "next/navigation";
 import { CachedPlayer, getPlayer } from "restfulmc-lib";
 
@@ -12,6 +13,9 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
     return (
         <main className="min-h-screen flex flex-col">
             <PlayerHeader player={player} />
+            <div className="-mt-7 flex justify-center gap-10 items-center">
+                <PlayerSkin player={player} />
+            </div>
         </main>
     );
 };
