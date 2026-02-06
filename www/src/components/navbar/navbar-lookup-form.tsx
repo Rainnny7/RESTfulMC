@@ -22,7 +22,7 @@ const NavbarLookupForm = (): ReactElement => {
             />
 
             {lookupError && (
-                <div className="absolute left-0 -bottom-9">
+                <div className="absolute left-0 top-full mt-2">
                     <div className="px-2 py-1 bg-destructive/70 backdrop-blur-sm text-destructive-foreground text-sm rounded-md">
                         {lookupError}
                     </div>
