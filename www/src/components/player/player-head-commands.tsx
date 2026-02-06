@@ -8,7 +8,7 @@ const PlayerHeadCommands = ({
     player: CachedPlayer;
 }): ReactElement => {
     return (
-        <Card>
+        <Card className="mx-auto w-full sm:max-w-124">
             <CardHeader>
                 <CardTitle>Head Commands</CardTitle>
             </CardHeader>

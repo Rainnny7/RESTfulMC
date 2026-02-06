@@ -11,7 +11,7 @@ import { CachedPlayer } from "restfulmc-lib";
 const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
     const isCached: boolean = player.cached !== -1;
     return (
-        <Card className="w-full sm:max-w-124">
+        <Card className="mx-auto w-full sm:max-w-124">
             <CardHeader>
                 <CardTitle>Player Details</CardTitle>
             </CardHeader>
@@ -19,12 +19,7 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
                 {/* UUIDs */}
                 <PlayerDetailElement
                     label="Unique ID"
-                    value={
-                        <div className="flex flex-col gap-1">
-                            <span>{player.uniqueId}</span>
-                            <span>{player.uniqueId.replace(/-/g, "")}</span>
-                        </div>
-                    }
+                    value={player.uniqueId}
                 />
 
                 {/* Username */}

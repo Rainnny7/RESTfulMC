@@ -22,7 +22,7 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
                     <PlayerSkin player={player} />
                     <PlayerCape player={player} />
                 </div>
-                <div className="flex flex-col gap-5">
+                <div className="w-full lg:w-fit flex flex-col gap-5">
                     <PlayerDetails player={player} />
                     <PlayerHeadCommands player={player} />
                 </div>
