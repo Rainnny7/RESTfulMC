@@ -54,7 +54,7 @@ const Footer = (): ReactElement => (
                 <AppLogo size={40} />
 
                 {/* Hehe */}
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 font-mono">
                     <AnimatedLine initialDashes={27} reverseDirection={false} />
                     <span>
                         | The{" "}
@@ -137,9 +137,7 @@ const animatedLineReducer = (
     }
     return {
         dashes:
-            state.direction === "left"
-                ? state.dashes - 1
-                : state.dashes + 1,
+            state.direction === "left" ? state.dashes - 1 : state.dashes + 1,
         direction: state.direction,
     };
 };
