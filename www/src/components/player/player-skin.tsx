@@ -1,6 +1,7 @@
 "use client";
 
 import SimpleTooltip from "@/components/simple-tooltip";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -8,10 +9,13 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { downloadFile } from "@/lib/download-utils";
 import { cn } from "@/lib/utils";
+import { DownloadIcon } from "lucide-react";
 import Image from "next/image";
 import { ReactElement, useState } from "react";
 import { CachedPlayer, SkinPart } from "restfulmc-lib";
+import { toast } from "sonner";
 
 const SKIN_PARTS: SkinPart[] = [
     SkinPart.FULLBODY_FRONT,
@@ -30,12 +34,23 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
     );
     const displayedPart: SkinPart = hoveredPart ?? selectedPart;
 
+    const handleDownloadSkinPart = () => {
+        const filename: string = `${player.username}_${displayedPart.toLowerCase()}.png`;
+        downloadFile(player.skin.parts[displayedPart], filename);
+        toast.success(
+            `Downloaded ${player.username}'s ${formatPartName(displayedPart)}:`,
+            {
+                description: <code>{filename}</code>,
+            }
+        );
+    };
+
     return (
         <Card className="w-60">
             <CardHeader>
                 <CardTitle>Skin Preview</CardTitle>
             </CardHeader>
-            <CardContent className="h-60 flex justify-center">
+            <CardContent className="relative h-60 flex justify-center">
                 <Image
                     className="object-contain"
                     src={player.skin.parts[displayedPart]}
@@ -45,13 +60,22 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
                     draggable={false}
                     unoptimized
                 />
+
+                {/* Download Button */}
+                <SimpleTooltip content="Download Skin" side="bottom">
+                    <Button
+                        className="absolute -top-3 right-1"
+                        variant="outline"
+                        size="icon"
+                        onClick={handleDownloadSkinPart}
+                    >
+                        <DownloadIcon className="size-4" />
+                    </Button>
+                </SimpleTooltip>
             </CardContent>
             <CardFooter className="flex flex-wrap justify-center gap-1">
                 {SKIN_PARTS.map((part: SkinPart) => {
-                    const partName: string = part
-                        .replace(/_/g, " ")
-                        .toLowerCase()
-                        .replace(/\b\w/g, (c) => c.toUpperCase());
+                    const partName: string = formatPartName(part);
                     return (
                         <SimpleTooltip
                             key={part}
@@ -92,4 +116,12 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
         </Card>
     );
 };
+
+const formatPartName = (part: SkinPart): string => {
+    return part
+        .replace(/_/g, " ")
+        .toLowerCase()
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+};
+
 export default PlayerSkin;
