@@ -71,6 +71,6 @@
     --sidebar-ring: oklch(0.552 0.016 285.938);
 
     /* Custom Colors */
-    --alternative-background: oklch(0.2102 0.006 285.87 / 85%);
+    --alternative-background: oklch(0.2102 0.006 285.87 / 95%);
     --toploader-color: oklch(0.51 0.23 277 / 65%);
 }
