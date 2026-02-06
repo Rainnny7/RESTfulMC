@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const LandingPage = (): ReactElement => (
     <main className="min-h-screen flex flex-col">
         <HeroSection />
-        <div className="-mt-56 px-5 flex flex-col gap-5 items-center justify-center">
+        <div className="-mt-72 px-5 flex flex-col gap-5 items-center justify-center">
             <PlayerExamples />
             <ServerExamples />
         </div>

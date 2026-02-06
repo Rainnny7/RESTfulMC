@@ -7,17 +7,18 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { env } from "@/lib/env";
 import Image from "next/image";
 import { ReactElement } from "react";
 
-const EXAMPLE_SERVERS: string[] = [
-    "hypixel.net",
-    "cubecraft.net",
-    "wildnetwork.net",
-    "mineplex.com",
-    "aetheria.cc",
-];
+const EXAMPLE_SERVERS: Record<string, string> = {
+    Hypixel: "hypixel.net",
+    CubeCraft: "cubecraft.net",
+    WildNetwork: "wildnetwork.net",
+    Mineplex: "mineplex.com",
+    Aetheria: "aetheria.cc",
+};
 
 const PlayerExamples = (): ReactElement => (
     <Card className="w-full max-w-xl bg-card/45 backdrop-blur-md">
@@ -25,23 +26,30 @@ const PlayerExamples = (): ReactElement => (
             <CardTitle>Server Examples</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-wrap justify-center gap-1 items-center">
-            {EXAMPLE_SERVERS.map((server: string) => (
+            {Object.entries(EXAMPLE_SERVERS).map(([name, server]) => (
                 <SimpleTooltip
                     key={server}
-                    content={`Click to view ${server}'s Data`}
+                    content={`Click to view ${name}'s Data`}
                     side="bottom"
                 >
-                    <div className="p-1 bg-muted/90 border border-border rounded-lg">
-                        <SimpleLink href={`/server/${server}`}>
+                    <div className="pt-2 w-26 bg-card border border-border rounded-lg">
+                        <SimpleLink
+                            className="flex flex-col items-center"
+                            href={`/server/java/${server}`}
+                        >
                             <Image
                                 className="rounded-md"
                                 src={`${env.NEXT_PUBLIC_API_URL}/server/${server}/icon.png`}
-                                alt={`${server}'s Icon`}
-                                width={56}
-                                height={56}
+                                alt={`${name}'s Icon`}
+                                width={64}
+                                height={64}
                                 draggable={false}
                                 unoptimized
                             />
+                            <Separator className="mt-2" />
+                            <div className="p-1.5 w-full text-center font-medium bg-muted/50">
+                                {name}
+                            </div>
                         </SimpleLink>
                     </div>
                 </SimpleTooltip>

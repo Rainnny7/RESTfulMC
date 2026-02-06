@@ -48,7 +48,10 @@ const HeroSection = (): ReactElement => {
     }, [isLookupFormFetching]);
 
     return (
-        <PageHeader backgroundImage="/media/background/landing.webp">
+        <PageHeader
+            contentClassName="-mt-32"
+            backgroundImage="/media/background/landing.webp"
+        >
             <Card className="w-full max-w-xl bg-card/45 backdrop-blur-md">
                 <CardHeader>
                     <CardTitle>Minecraft Player / Server Lookup</CardTitle>

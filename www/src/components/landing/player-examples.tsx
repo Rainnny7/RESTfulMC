@@ -7,6 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { env } from "@/lib/env";
 import Image from "next/image";
 import { ReactElement } from "react";
@@ -31,17 +32,24 @@ const PlayerExamples = (): ReactElement => (
                     content={`Click to view ${player}'s Profile`}
                     side="bottom"
                 >
-                    <div className="p-1 bg-muted/90 border border-border rounded-lg">
-                        <SimpleLink href={`/player/${player}`}>
+                    <div className="pt-2 w-26 bg-card border border-border rounded-lg">
+                        <SimpleLink
+                            className="flex flex-col items-center"
+                            href={`/player/${player}`}
+                        >
                             <Image
                                 className="rounded-md"
                                 src={`${env.NEXT_PUBLIC_API_URL}/player/${player}/head.png`}
                                 alt={`${player}'s Head`}
-                                width={56}
-                                height={56}
+                                width={64}
+                                height={64}
                                 draggable={false}
                                 unoptimized
                             />
+                            <Separator className="mt-2" />
+                            <div className="p-1.5 w-full text-center font-medium bg-muted/50">
+                                {player}
+                            </div>
                         </SimpleLink>
                     </div>
                 </SimpleTooltip>
