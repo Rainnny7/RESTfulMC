@@ -128,7 +128,10 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
                 )}
             </CardContent>
             {capeUrl && (
-                <CardFooter className="flex flex-wrap justify-center gap-1">
+                <CardFooter
+                    className="flex flex-wrap justify-center gap-1"
+                    onMouseLeave={() => setHoveredType(undefined)}
+                >
                     {CAPE_TYPES.filter((type: CapeType) =>
                         capeUrls.has(type.name)
                     ).map((type: CapeType) => {
@@ -156,9 +159,6 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
                                             "border-primary"
                                     )}
                                     onMouseEnter={() => setHoveredType(type)}
-                                    onMouseLeave={() =>
-                                        setHoveredType(undefined)
-                                    }
                                     onClick={() => setSelectedType(type)}
                                 >
                                     {url ? (

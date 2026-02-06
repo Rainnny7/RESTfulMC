@@ -73,7 +73,10 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
                     </Button>
                 </SimpleTooltip>
             </CardContent>
-            <CardFooter className="flex flex-wrap justify-center gap-1">
+            <CardFooter
+                className="flex flex-wrap justify-center gap-1"
+                onMouseLeave={() => setHoveredPart(undefined)}
+            >
                 {SKIN_PARTS.map((part: SkinPart) => {
                     const partName: string = formatPartName(part);
                     return (
@@ -96,7 +99,6 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
                                     displayedPart === part && "border-primary"
                                 )}
                                 onMouseEnter={() => setHoveredPart(part)}
-                                onMouseLeave={() => setHoveredPart(undefined)}
                                 onClick={() => setSelectedPart(part)}
                             >
                                 <Image
