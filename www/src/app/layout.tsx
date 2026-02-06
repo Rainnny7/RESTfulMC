@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
@@ -57,6 +58,7 @@ const RootLayout = ({
             <AppProvider>
                 <Navbar />
                 {children}
+                <Footer />
             </AppProvider>
         </body>
     </html>

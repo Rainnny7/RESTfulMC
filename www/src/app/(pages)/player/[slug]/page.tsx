@@ -13,7 +13,7 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
         notFound();
     }
     return (
-        <main className="pb-10 min-h-screen flex flex-col">
+        <main className="min-h-screen flex flex-col">
             <PlayerHeader player={player} />
             <div className="-mt-7 flex justify-center gap-5 items-start">
                 <div className="flex flex-col gap-5">
