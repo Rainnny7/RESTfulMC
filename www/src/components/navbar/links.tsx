@@ -25,12 +25,6 @@ type NavbarLink = {
 
 const links: NavbarLink[] = [
     {
-        icon: HomeIcon,
-        tooltip: "Go to the home page",
-        label: "Home",
-        href: "/",
-    },
-    {
         icon: ServerIcon,
         tooltip: "View featured servers",
         label: "Servers",
