@@ -31,16 +31,17 @@ export const generateMetadata = async ({
 }: PageProps<"/player/[slug]">) => {
     try {
         const player: CachedPlayer = await getPlayer((await params).slug);
+        const skullUrl: string = player.skin.parts.HEAD;
         return {
             title: `${player.username}'s Profile`,
             description: `View the profile of ${player.username} on RESTfulMC.`,
             icons: {
-                icon: player.skin.parts.FACE,
+                icon: skullUrl,
             },
             openGraph: {
                 images: [
                     {
-                        url: player.skin.parts.FACE,
+                        url: skullUrl,
                     },
                 ],
             },
