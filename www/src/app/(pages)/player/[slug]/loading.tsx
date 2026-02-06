@@ -1,10 +1,5 @@
 import PageHeader from "@/components/page-header";
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const PlayerLoading = () => (
@@ -31,56 +26,31 @@ const PlayerLoading = () => (
             <div className="w-full sm:w-auto flex flex-col sm:flex-row lg:flex-col gap-5">
                 {/* Skin Preview skeleton */}
                 <Card className="w-full sm:w-60">
-                    <CardHeader>
-                        <Skeleton className="h-6 w-28" />
-                    </CardHeader>
-                    <CardContent className="relative h-60 flex justify-center">
-                        <Skeleton className="size-36 rounded-md" />
+                    <CardContent className="pt-4">
+                        <Skeleton className="h-[280px] w-full rounded-lg" />
                     </CardContent>
-                    <CardFooter className="flex flex-wrap justify-center gap-1">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <Skeleton key={i} className="size-8 rounded-md" />
-                        ))}
-                    </CardFooter>
                 </Card>
 
                 {/* Cape Preview skeleton */}
                 <Card className="w-full sm:w-60 h-fit">
-                    <CardHeader>
-                        <Skeleton className="h-6 w-24" />
-                    </CardHeader>
-                    <CardContent className="relative h-40 flex justify-center">
-                        <Skeleton className="size-36 rounded-md" />
+                    <CardContent className="pt-4">
+                        <Skeleton className="h-[220px] w-full rounded-lg" />
                     </CardContent>
                 </Card>
             </div>
 
-            <div className="flex flex-col gap-5">
+            <div className="w-full flex flex-col gap-5 lg:w-auto lg:min-w-124">
                 {/* Player Details skeleton */}
                 <Card className="w-full sm:max-w-124">
-                    <CardHeader>
-                        <Skeleton className="h-6 w-28" />
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-2">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <div
-                                key={i}
-                                className="flex gap-6 items-start"
-                            >
-                                <Skeleton className="h-4 w-24 shrink-0" />
-                                <Skeleton className="h-4 flex-1 max-w-48" />
-                            </div>
-                        ))}
+                    <CardContent className="pt-4">
+                        <Skeleton className="min-h-[240px] w-full rounded-lg" />
                     </CardContent>
                 </Card>
 
                 {/* Head Commands skeleton */}
-                <Card>
-                    <CardHeader>
-                        <Skeleton className="h-6 w-32" />
-                    </CardHeader>
-                    <CardContent>
-                        <Skeleton className="h-20 w-full rounded-md" />
+                <Card className="w-full sm:max-w-124">
+                    <CardContent className="pt-4">
+                        <Skeleton className="h-[120px] w-full rounded-lg" />
                     </CardContent>
                 </Card>
             </div>
