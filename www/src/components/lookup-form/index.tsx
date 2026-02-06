@@ -19,6 +19,7 @@ type LookupFormProps = {
     className?: string | undefined;
     compact?: boolean;
     placeholder: string;
+    defaultValue?: string | undefined;
     isFetching: boolean;
     error?: string | undefined;
     setIsFetching: (isFetching: boolean) => void;
@@ -29,23 +30,23 @@ const LookupForm = ({
     className,
     compact,
     placeholder,
+    defaultValue,
     isFetching,
     error,
     setIsFetching,
     setError,
 }: LookupFormProps): ReactElement => {
     const router: AppRouterInstance = useRouter();
-
     const [platformDialogOpen, setPlatformDialogOpen] = useState(false);
+    const [pendingServerQuery, setPendingServerQuery] = useState<string | null>(
+        null
+    );
 
     useEffect(() => {
         if (!error) return;
         const timeout = setTimeout(() => setError(undefined), 5000);
         return () => clearTimeout(timeout);
     }, [error, setError]);
-    const [pendingServerQuery, setPendingServerQuery] = useState<string | null>(
-        null
-    );
 
     const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -101,6 +102,7 @@ const LookupForm = ({
                         type="search"
                         placeholder={placeholder}
                         disabled={isFetching}
+                        defaultValue={defaultValue}
                     />
                     {isFetching && (
                         <InputGroupAddon align="inline-end">
