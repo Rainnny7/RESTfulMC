@@ -48,39 +48,56 @@ const ServiceStatus = (): ReactElement => {
                     ? Array.from({ length: 5 }).map((_, index) => (
                           <Skeleton key={index} className="w-full h-8" />
                       ))
-                    : data?.servers.map((server: MojangServer) => {
-                          const status: ServiceStatus = Object.entries(
-                              serviceStatuses
-                          ).find(
-                              ([key]: [string, ServiceStatus]) =>
-                                  key === server.status.toLowerCase()
-                          )![1];
-                          const StatusIcon: LucideIcon = status.icon;
-                          return (
-                              <Collapsible key={server.name}>
-                                  <CollapsibleTrigger asChild>
-                                      <Button
-                                          className="group w-full justify-start"
-                                          variant="outline"
-                                      >
-                                          <StatusIcon
-                                              className={cn(
-                                                  "size-4",
-                                                  status.color
-                                              )}
-                                          />
-                                          <span className="font-medium">
-                                              {server.name}
-                                          </span>
-                                          <ChevronDownIcon className="ml-auto text-muted-foreground group-data-[state=open]:rotate-180 transition-transform duration-200 ease-in-out transform-gpu" />
-                                      </Button>
-                                  </CollapsibleTrigger>
-                                  <CollapsibleContent className="mt-1 p-2 bg-card border border-border rounded-lg">
-                                      {status.description}
-                                  </CollapsibleContent>
-                              </Collapsible>
-                          );
-                      })}
+                    : [...(data?.servers ?? [])]
+                          .sort((a: MojangServer, b: MojangServer) => {
+                              const order = {
+                                  offline: 0,
+                                  degraded: 1,
+                                  online: 2,
+                              };
+                              const aOrder: number =
+                                  order[
+                                      a.status.toLowerCase() as keyof typeof order
+                                  ] ?? 2;
+                              const bOrder: number =
+                                  order[
+                                      b.status.toLowerCase() as keyof typeof order
+                                  ] ?? 2;
+                              return aOrder - bOrder;
+                          })
+                          .map((server: MojangServer) => {
+                              const status: ServiceStatus = Object.entries(
+                                  serviceStatuses
+                              ).find(
+                                  ([key]: [string, ServiceStatus]) =>
+                                      key === server.status.toLowerCase()
+                              )![1];
+                              const StatusIcon: LucideIcon = status.icon;
+                              return (
+                                  <Collapsible key={server.name}>
+                                      <CollapsibleTrigger asChild>
+                                          <Button
+                                              className="group w-full justify-start"
+                                              variant="outline"
+                                          >
+                                              <StatusIcon
+                                                  className={cn(
+                                                      "size-4",
+                                                      status.color
+                                                  )}
+                                              />
+                                              <span className="font-medium">
+                                                  {server.name}
+                                              </span>
+                                              <ChevronDownIcon className="ml-auto text-muted-foreground group-data-[state=open]:rotate-180 transition-transform duration-200 ease-in-out transform-gpu" />
+                                          </Button>
+                                      </CollapsibleTrigger>
+                                      <CollapsibleContent className="mt-1 p-2 bg-card border border-border rounded-lg">
+                                          {status.description}
+                                      </CollapsibleContent>
+                                  </Collapsible>
+                              );
+                          })}
             </CardContent>
         </Card>
     );
