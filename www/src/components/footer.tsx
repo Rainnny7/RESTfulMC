@@ -14,7 +14,7 @@ const footerLinks: Record<string, FooterLink[]> = {
     Resources: [
         {
             label: "Documentation",
-            href: `${env.NEXT_PUBLIC_BASE_URL}/api/docs`,
+            href: `${env.NEXT_PUBLIC_API_URL}/docs`,
         },
         {
             label: "Source Code",

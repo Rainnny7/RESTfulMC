@@ -45,7 +45,7 @@ const links: NavbarLink[] = [
         icon: BookIcon,
         tooltip: "View the documentation",
         label: "Docs",
-        href: `${env.NEXT_PUBLIC_BASE_URL}/api/docs`,
+        href: `${env.NEXT_PUBLIC_API_URL}/docs`,
     },
 ];
 

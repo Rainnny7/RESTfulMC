@@ -13,6 +13,7 @@ export const env = createEnv({
     client: {
         // App
         NEXT_PUBLIC_BASE_URL: z.string(),
+        NEXT_PUBLIC_API_URL: z.string(),
     },
 
     runtimeEnv: {
@@ -20,6 +21,7 @@ export const env = createEnv({
         NODE_ENV: process.env.NODE_ENV,
         PORT: parseInt(process.env.PORT ?? "3000"),
         NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     },
 
     /**
