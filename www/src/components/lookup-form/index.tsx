@@ -17,6 +17,7 @@ import { getPlayer } from "restfulmc-lib";
 
 type LookupFormProps = {
     className?: string | undefined;
+    compact?: boolean;
     placeholder: string;
     error?: string | undefined;
     setError: (error: string | undefined) => void;
@@ -24,6 +25,7 @@ type LookupFormProps = {
 
 const LookupForm = ({
     className,
+    compact,
     error,
     placeholder,
     setError,
@@ -73,6 +75,7 @@ const LookupForm = ({
                 <InputGroup
                     className={cn(
                         "transition-all duration-250 transform-gpu",
+                        compact && "h-7",
                         error && "border-destructive"
                     )}
                 >
@@ -85,6 +88,7 @@ const LookupForm = ({
                         />
                     </InputGroupAddon>
                     <InputGroupInput
+                        className={cn(compact && "text-xs!")}
                         name="query"
                         type="search"
                         placeholder={placeholder}

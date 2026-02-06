@@ -12,6 +12,7 @@ const NavbarLookupForm = (): ReactElement => {
             <LookupForm
                 className="min-w-50"
                 placeholder="Player / Server Lookup"
+                compact
                 error={lookupError}
                 setError={setLookupError}
             />
