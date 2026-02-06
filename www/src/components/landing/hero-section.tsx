@@ -57,7 +57,7 @@ const HeroSection = (): ReactElement => {
                         "mask-[radial-gradient(ellipse_at_center,black_30%,transparent_100%)]"
                     )}
                     style={{
-                        backgroundImage: `url(/media/landing.webp)`,
+                        backgroundImage: `url(/media/background/landing.webp)`,
                     }}
                 />
 
