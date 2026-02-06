@@ -16,7 +16,7 @@ const Navbar = (): ReactElement => {
     return (
         <nav
             className={cn(
-                "fixed inset-x-5 top-3.5 mx-auto max-w-7xl px-4 py-1 flex justify-between items-center bg-muted/20 backdrop-blur-sm rounded-xl transition-all duration-300 transform-gpu z-50",
+                "fixed inset-x-5 top-3.5 mx-auto max-w-7xl px-4 py-2.5 flex justify-between items-center bg-muted/40 backdrop-blur-sm rounded-xl transition-all duration-300 transform-gpu z-50",
                 scrolled && "top-0 rounded-t-none"
             )}
         >
