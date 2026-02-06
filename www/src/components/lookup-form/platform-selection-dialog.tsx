@@ -9,7 +9,11 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import { ReactElement } from "react";
-import { getMinecraftServer, ServerPlatform } from "restfulmc-lib";
+import {
+    getMinecraftServer,
+    RestfulMCAPIError,
+    ServerPlatform,
+} from "restfulmc-lib";
 
 type PlatformSelectionDialogProps = {
     platformDialogOpen: boolean;
@@ -39,8 +43,12 @@ const PlatformSelectionDialog = ({
                 pendingServerQuery
             );
             console.log({ server });
-        } catch {
-            setError("Failed to lookup server.");
+        } catch (error) {
+            const detailed: string | undefined =
+                "message" in (error as unknown as RestfulMCAPIError)
+                    ? (error as RestfulMCAPIError).message
+                    : undefined;
+            setError(detailed ?? "Failed to lookup server.");
         } finally {
             setIsFetching(false);
             setPendingServerQuery(null);

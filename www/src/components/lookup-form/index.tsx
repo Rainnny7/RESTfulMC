@@ -13,7 +13,7 @@ import { SearchIcon } from "lucide-react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { ReactElement, SubmitEvent, useEffect, useState } from "react";
-import { getPlayer } from "restfulmc-lib";
+import { getPlayer, RestfulMCAPIError } from "restfulmc-lib";
 
 type LookupFormProps = {
     className?: string | undefined;
@@ -65,8 +65,12 @@ const LookupForm = ({
         setError(undefined);
         try {
             router.push(`/player/${(await getPlayer(query)).username}`);
-        } catch {
-            setError("That player doesn't exist.");
+        } catch (error) {
+            const detailed: string | undefined =
+                "message" in (error as unknown as RestfulMCAPIError)
+                    ? (error as RestfulMCAPIError).message
+                    : undefined;
+            setError(detailed ?? "That player doesn't exist.");
         } finally {
             setIsFetching(false);
         }
