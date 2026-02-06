@@ -1,3 +1,5 @@
+import PlayerCape from "@/components/player/player-cape";
+import PlayerDetails from "@/components/player/player-details";
 import PlayerHeader from "@/components/player/player-header";
 import PlayerSkin from "@/components/player/player-skin";
 import { notFound } from "next/navigation";
@@ -11,10 +13,14 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
         notFound();
     }
     return (
-        <main className="min-h-screen flex flex-col">
+        <main className="pb-10 min-h-screen flex flex-col">
             <PlayerHeader player={player} />
-            <div className="-mt-7 flex justify-center gap-10 items-center">
-                <PlayerSkin player={player} />
+            <div className="-mt-7 flex justify-center gap-5 items-start">
+                <div className="flex flex-col gap-5">
+                    <PlayerSkin player={player} />
+                    <PlayerCape player={player} />
+                </div>
+                <PlayerDetails player={player} />
             </div>
         </main>
     );

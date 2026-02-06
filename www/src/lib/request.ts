@@ -128,6 +128,15 @@ class Request {
         return this.send<T>(url, "GET", options);
     }
 
+    static async head(url: string): Promise<boolean> {
+        try {
+            const response = await axios.head(url, { timeout: 7000 });
+            return response.status === 200;
+        } catch {
+            return false;
+        }
+    }
+
     static async patch<T>(
         url: string,
         options?: RequestOptions
@@ -149,6 +158,7 @@ const request = {
     get: Request.get.bind(Request),
     post: Request.post.bind(Request),
     patch: Request.patch.bind(Request),
+    head: Request.head.bind(Request),
 };
 
 export default request;

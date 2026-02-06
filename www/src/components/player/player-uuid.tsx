@@ -51,7 +51,7 @@ const PlayerUUID = ({ player }: { player: CachedPlayer }): ReactElement => {
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
-                        {UUID_FORMATS.map((format) => (
+                        {UUID_FORMATS.map((format: UUIDFormat) => (
                             <SelectItem key={format.name} value={format.name}>
                                 {format.format(player.uniqueId)}
                             </SelectItem>
@@ -64,7 +64,7 @@ const PlayerUUID = ({ player }: { player: CachedPlayer }): ReactElement => {
             <CopyButton
                 variant="frosted"
                 size="icon"
-                copyMessage={`Copied ${player.username}'s UUID:`}
+                copyMessage={`Copied ${player.username}'s ${uuidFormat.name} UUID:`}
                 value={uuidFormat.format(player.uniqueId)}
             >
                 <ClipboardIcon className="size-4" />
