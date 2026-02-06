@@ -9,7 +9,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { downloadFile } from "@/lib/download-utils";
+import { downloadFile } from "@/lib/download";
 import { cn } from "@/lib/utils";
 import { DownloadIcon } from "lucide-react";
 import Image from "next/image";

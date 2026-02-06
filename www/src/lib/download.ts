@@ -2,7 +2,7 @@
  * Downloads a file from a URL with the given filename.
  * Falls back to opening in a new tab if fetch fails (e.g. CORS).
  */
-export async function downloadFile(url: string, filename: string): Promise<void> {
+export const downloadFile = async (url: string, filename: string): Promise<void> => {
     try {
         const blob: Blob = await (await fetch(url)).blob();
         const objectUrl: string = URL.createObjectURL(blob);

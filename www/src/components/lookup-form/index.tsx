@@ -7,7 +7,7 @@ import {
     InputGroupInput,
 } from "@/components/ui/input-group";
 import { Spinner } from "@/components/ui/spinner";
-import { isServerAddress } from "@/lib/string-utils";
+import { isServerAddress } from "@/lib/string";
 import { cn } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
