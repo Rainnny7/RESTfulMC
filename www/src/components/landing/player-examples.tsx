@@ -70,7 +70,7 @@ const PlayerExamples = (): ReactElement => {
                     </SimpleTooltip>
                 ))}
             </CardContent>
-            <CardFooter>
+            <CardFooter className="text-muted-foreground">
                 Here are some example players you can quickly view the data for.
             </CardFooter>
         </Card>
