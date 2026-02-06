@@ -36,12 +36,6 @@ const links: NavbarLink[] = [
         href: "/capes",
     },
     {
-        icon: BadgeIcon,
-        tooltip: "View all player badges",
-        label: "Badges",
-        href: "/badges",
-    },
-    {
         icon: BookIcon,
         tooltip: "View the documentation",
         label: "Docs",
@@ -106,7 +100,7 @@ const Links = (): ReactElement => {
                                             active && "text-primary"
                                         )}
                                     />
-                                    <span className="hidden sm:block">
+                                    <span className="hidden md:block">
                                         {link.label}
                                     </span>
                                 </Button>

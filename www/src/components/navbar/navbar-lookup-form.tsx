@@ -15,7 +15,7 @@ const NavbarLookupForm = (): ReactElement => {
     return (
         <div className="relative">
             <LookupForm
-                className="min-w-50"
+                className="w-30 xs:w-full xs:max-w-56 sm:w-46"
                 placeholder="Player / Server Lookup"
                 compact
                 isFetching={isLookupFormFetching}

@@ -33,10 +33,10 @@ const Navbar = (): ReactElement => {
 
             {/* Right - Search & Socials */}
             <div className="flex gap-5 items-center">
-                <div className="hidden lg:block">
-                    {path !== "/" && <NavbarLookupForm />}
+                {path !== "/" && <NavbarLookupForm />}
+                <div className="hidden sm:block">
+                    <Socials />
                 </div>
-                <Socials />
             </div>
         </nav>
     );

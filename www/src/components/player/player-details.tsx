@@ -35,7 +35,7 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
                     label="Legacy"
                     value={
                         <Badge
-                            variant={player.legacy ? "success" : "destructive"}
+                            variant={!  player.legacy ? "success" : "destructive"}
                         >
                             {player.legacy ? "Yes" : "No"}
                         </Badge>
