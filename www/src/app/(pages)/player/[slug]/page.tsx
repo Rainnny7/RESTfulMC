@@ -15,7 +15,7 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
     return (
         <main className="min-h-screen flex flex-col">
             <PlayerHeader player={player} />
-            <div className="-mt-7 flex justify-center gap-5 items-start">
+            <div className="-mt-16 flex justify-center gap-5 items-start">
                 <div className="flex flex-col gap-5">
                     <PlayerSkin player={player} />
                     <PlayerCape player={player} />
