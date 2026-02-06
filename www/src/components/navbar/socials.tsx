@@ -28,14 +28,15 @@ const Socials = (): ReactElement => (
     <div className="flex gap-2.5 items-center">
         {socials.map((social: SocialLink) => (
             <SimpleTooltip key={social.href} content={social.tooltip}>
-                <div>
-                    <SimpleLink href={social.href}>
+                <div className="relative size-[22px]">
+                    <SimpleLink href={social.href} className="relative block size-full">
                         <Image
                             src={social.logo}
                             alt={social.href}
-                            width={22}
-                            height={22}
+                            sizes="22px"
+                            fill
                             draggable={false}
+                            style={{ objectFit: "contain" }}
                         />
                     </SimpleLink>
                 </div>
