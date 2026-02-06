@@ -21,7 +21,7 @@ const PageHeader = ({
         )}
     >
         {/* Background */}
-        <div className="absolute inset-0 mask-[linear-gradient(to_bottom,black_25%,transparent)]">
+        <div className="absolute inset-0 mask-[linear-gradient(to_bottom,black_25%,transparent)] blur-xs">
             <div
                 className={cn(
                     "h-full w-full bg-cover bg-center bg-no-repeat",
