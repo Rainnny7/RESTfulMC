@@ -8,10 +8,10 @@ import { SkinProvider3DProvider } from "@/providers/skin-provider-3d-provider";
 import { notFound } from "next/navigation";
 import { CachedPlayer } from "restfulmc-lib";
 
-const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
+const PlayerPage = async ({ params }: PageProps<"/player/[query]">) => {
     let player: CachedPlayer;
     try {
-        player = await getCachedPlayer((await params).slug);
+        player = await getCachedPlayer((await params).query);
     } catch {
         notFound();
     }
@@ -36,9 +36,11 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
 
 export const generateMetadata = async ({
     params,
-}: PageProps<"/player/[slug]">) => {
+}: PageProps<"/player/[query]">) => {
     try {
-        const player: CachedPlayer = await getCachedPlayer((await params).slug);
+        const player: CachedPlayer = await getCachedPlayer(
+            (await params).query
+        );
         const skullUrl: string = player.skin.parts.HEAD;
         return {
             title: `${player.username}'s Profile`,

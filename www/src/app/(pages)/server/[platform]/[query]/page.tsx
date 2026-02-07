@@ -8,13 +8,13 @@ import {
 
 const ServerPage = async ({
     params,
-}: PageProps<"/server/[platform]/[slug]">) => {
-    const { platform, slug } = await params;
+}: PageProps<"/server/[platform]/[query]">) => {
+    const { platform, query } = await params;
     let server: MinecraftServer;
     try {
         server = await getCachedMinecraftServer(
             platform as ServerPlatform,
-            slug
+            query
         );
     } catch {
         notFound();
@@ -28,12 +28,12 @@ const ServerPage = async ({
 
 export const generateMetadata = async ({
     params,
-}: PageProps<"/server/[platform]/[slug]">) => {
+}: PageProps<"/server/[platform]/[query]">) => {
     try {
-        const { platform, slug } = await params;
+        const { platform, query } = await params;
         const server: MinecraftServer = await getCachedMinecraftServer(
             platform as ServerPlatform,
-            slug
+            query
         );
         const iconUrl: string | undefined =
             platform === "java"
