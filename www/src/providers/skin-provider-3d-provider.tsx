@@ -82,13 +82,14 @@ export const SkinProvider3DProvider = ({
         }
     }, [showLayers]);
 
+    const effectiveShowElytra: boolean =
+        showElytra || selectedAnimation.name === skin3DAnimations.flying.name;
     useEffect(() => {
         if (skinViewerRef.current && player.cape) {
-            skinViewerRef.current.playerObject.backEquipment = showElytra
-                ? "elytra"
-                : "cape";
+            skinViewerRef.current.playerObject.backEquipment =
+                effectiveShowElytra ? "elytra" : "cape";
         }
-    }, [showElytra]);
+    }, [player.cape, effectiveShowElytra]);
 
     const toggleShowLayers = () => {
         if (skinViewerRef.current) {

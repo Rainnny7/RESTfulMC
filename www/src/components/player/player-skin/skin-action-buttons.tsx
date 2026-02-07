@@ -79,7 +79,10 @@ const SkinActionButtons = ({
                         <SkinActionButton
                             tooltip="Toggle Elytra"
                             icon="/media/elytra.webp"
-                            isSelected={showElytra}
+                            isSelected={
+                                showElytra ||
+                                animation.name === skin3DAnimations.flying.name
+                            }
                             onClick={toggleShowElytra}
                         />
                     )}
@@ -117,7 +120,11 @@ const SkinActionButton = ({
         <Button
             variant={isSelected ? "default" : "outline"}
             size="icon"
-            onClick={onClick}
+            onClick={() => {
+                if (!isSelected) {
+                    onClick();
+                }
+            }}
         >
             {typeof icon === "string" ? (
                 <Image
