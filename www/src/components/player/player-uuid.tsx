@@ -32,7 +32,7 @@ const UUID_FORMATS: UUIDFormat[] = [
 const PlayerUUID = ({ player }: { player: CachedPlayer }): ReactElement => {
     const [uuidFormat, setUUIDFormat] = useState<UUIDFormat>(UUID_FORMATS[0]);
     return (
-        <div className="px-5 w-full flex justify-center gap-1.5 items-center">
+        <div className="px-5 w-full flex justify-center gap-1.5 items-center font-mono">
             {/* UUID Format */}
             <Select
                 value={uuidFormat.name}

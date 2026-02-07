@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatTimeAgo } from "@/lib/date";
 import { env } from "@/lib/env";
+import { cn } from "@/lib/utils";
 import { ReactElement, ReactNode } from "react";
 import { CachedPlayer } from "restfulmc-lib";
 
@@ -18,6 +19,7 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
             <CardContent className="flex flex-col gap-2">
                 {/* UUIDs */}
                 <PlayerDetailElement
+                    className="font-mono"
                     label="Unique ID"
                     value={player.uniqueId}
                 />
@@ -90,9 +92,11 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
 };
 
 const PlayerDetailElement = ({
+    className,
     label,
     value,
 }: {
+    className?: string;
     label: string;
     value: string | ReactNode;
 }): ReactElement => (
@@ -100,7 +104,9 @@ const PlayerDetailElement = ({
         <span className="text-sm font-medium min-w-[100px] shrink-0">
             {label}
         </span>
-        <div className="text-sm text-muted-foreground">{value}</div>
+        <div className={cn("text-sm text-muted-foreground", className)}>
+            {value}
+        </div>
     </div>
 );
 
