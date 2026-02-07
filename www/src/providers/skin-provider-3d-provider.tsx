@@ -19,11 +19,6 @@ type SkinProvider3DContextType = {
     animation: Skin3DAnimation;
 
     /**
-     * Whether the player is sneaking.
-     */
-    isSneaking: boolean;
-
-    /**
      * Whether the player is auto-rotating.
      */
     isAutoRotating: boolean;
@@ -37,11 +32,6 @@ type SkinProvider3DContextType = {
      * Play an animation.
      */
     playAnimation: (animation: Skin3DAnimation) => void;
-
-    /**
-     * Toggle sneaking.
-     */
-    toggleSneaking: () => void;
 
     /**
      * Toggle auto-rotating.
@@ -63,17 +53,9 @@ export const SkinProvider3DProvider = ({
     const [selectedAnimation, setSelectedAnimation] = useState<Skin3DAnimation>(
         skin3DAnimations.idle
     );
-
-    const [previousAnimtionPreSneak, setPreviousAnimtionPreSneak] =
-        useState<Skin3DAnimation | null>(null);
-    const [isSneaking, setIsSneaking] = useState<boolean>(false);
-
     const [isAutoRotating, setIsAutoRotating] = useState<boolean>(true);
 
     const playAnimation = (animation: Skin3DAnimation) => {
-        if (animation.name !== skin3DAnimations.sneaking.name && isSneaking) {
-            toggleSneaking();
-        }
         setSelectedAnimation(animation);
     };
 
@@ -83,20 +65,6 @@ export const SkinProvider3DProvider = ({
             skinViewerRef.current.autoRotate = isAutoRotating;
         }
     }, [isAutoRotating]);
-
-    const toggleSneaking = () => {
-        const isSneaking: boolean =
-            selectedAnimation.name === skin3DAnimations.sneaking.name;
-        if (isSneaking) {
-            setSelectedAnimation(
-                previousAnimtionPreSneak ?? skin3DAnimations.idle
-            );
-        } else {
-            setPreviousAnimtionPreSneak(selectedAnimation);
-            setSelectedAnimation(skin3DAnimations.sneaking);
-        }
-        setIsSneaking(!isSneaking);
-    };
 
     const toggleAutoRotating = () => {
         if (skinViewerRef.current) {
@@ -109,13 +77,11 @@ export const SkinProvider3DProvider = ({
         <SkinProvider3DContext.Provider
             value={{
                 animation: selectedAnimation,
-                isSneaking,
                 isAutoRotating,
                 updateSkinViewerRef: (skinViewer: SkinViewer | null) => {
                     skinViewerRef.current = skinViewer;
                 },
                 playAnimation,
-                toggleSneaking,
                 toggleAutoRotating,
             }}
         >

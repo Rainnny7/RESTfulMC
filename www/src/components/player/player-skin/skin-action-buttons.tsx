@@ -29,14 +29,10 @@ const SkinActionButtons = ({
     displayedPart: SkinPart;
 }): ReactElement => {
     const show3DControls: boolean = selectedPart === SkinPart.FULLBODY_FRONT;
-    const {
-        animation,
-        isSneaking,
-        isAutoRotating,
-        playAnimation,
-        toggleSneaking,
-        toggleAutoRotating,
-    } = useSkinProvider3D();
+    const { animation, isAutoRotating, playAnimation, toggleAutoRotating } =
+        useSkinProvider3D();
+    const isSneaking: boolean =
+        animation.name === skin3DAnimations.sneaking.name;
 
     const handleDownloadSkinPart = () => {
         const filename: string = `${player.username}_${displayedPart.toLowerCase()}.png`;
@@ -88,7 +84,7 @@ const SkinActionButtons = ({
                             />
                         }
                         isSelected={isSneaking}
-                        onClick={toggleSneaking}
+                        onClick={() => playAnimation(skin3DAnimations.sneaking)}
                     />
                     <SkinActionButton
                         tooltip="Toggle Auto Rotate"
