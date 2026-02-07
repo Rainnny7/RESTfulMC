@@ -38,13 +38,13 @@ const PlayerHeadCommands = ({
             <CardHeader>
                 <CardTitle>Head Commands</CardTitle>
             </CardHeader>
-            <CardContent className="flex gap-1.5 items-center">
+            <CardContent className="flex items-center">
                 {/* Version Selector */}
                 <Select
                     value={selectedVersion}
                     onValueChange={(value) => setSelectedVersion(value)}
                 >
-                    <SelectTrigger className="w-24">
+                    <SelectTrigger className="w-24 rounded-r-none border-r-0">
                         <SelectValue placeholder={selectedVersion} />
                     </SelectTrigger>
                     <SelectContent>
@@ -59,10 +59,11 @@ const PlayerHeadCommands = ({
                 </Select>
 
                 {/* Head Command */}
-                <Input type="text" value={headCommand} readOnly />
+                <Input className="rounded-l-none rounded-r-none" type="text" value={headCommand} readOnly />
 
                 {/* Copy Button */}
                 <CopyButton
+                    className="rounded-l-none border-l-0"
                     variant="frosted"
                     size="icon"
                     value={headCommand}
