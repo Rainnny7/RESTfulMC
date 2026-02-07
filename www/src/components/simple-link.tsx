@@ -13,7 +13,7 @@ const SimpleLink = ({
     children,
     ...rest
 }: SimpleLinkProps) => {
-    const isExternal = href.startsWith("http");
+    const isExternal: boolean = href.startsWith("http");
     return (
         <Link
             className={cn(
