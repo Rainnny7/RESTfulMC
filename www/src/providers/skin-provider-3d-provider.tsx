@@ -19,9 +19,14 @@ type SkinProvider3DContextType = {
     animation: Skin3DAnimation;
 
     /**
-     * Whether the player is auto-rotating.
+     * Whether to show the elytra layer.
      */
-    isAutoRotating: boolean;
+    showElytra: boolean;
+
+    /**
+     * Whether to show outter skin layers.
+     */
+    showLayers: boolean;
 
     /**
      * Update the skin viewer reference for controls.
@@ -34,9 +39,14 @@ type SkinProvider3DContextType = {
     playAnimation: (animation: Skin3DAnimation) => void;
 
     /**
-     * Toggle auto-rotating.
+     * Toggle showing the elytra layer.
      */
-    toggleAutoRotating: () => void;
+    toggleShowElytra: () => void;
+
+    /**
+     * Toggle showing outter skin layers.
+     */
+    toggleShowLayers: () => void;
 };
 
 const SkinProvider3DContext = createContext<
@@ -53,23 +63,36 @@ export const SkinProvider3DProvider = ({
     const [selectedAnimation, setSelectedAnimation] = useState<Skin3DAnimation>(
         skin3DAnimations.idle
     );
-    const [isAutoRotating, setIsAutoRotating] = useState<boolean>(true);
+    const [showElytra, setShowElytra] = useState<boolean>(false);
+    const [showLayers, setShowLayers] = useState<boolean>(true);
 
     const playAnimation = (animation: Skin3DAnimation) => {
         setSelectedAnimation(animation);
     };
 
-    // Ensure auto rotation is synced with the viewer
+    // Ensure showing outter skin layers is synced with the viewer
     useEffect(() => {
         if (skinViewerRef.current) {
-            skinViewerRef.current.autoRotate = isAutoRotating;
+            skinViewerRef.current.playerObject.skin.setOuterLayerVisible(
+                showLayers
+            );
         }
-    }, [isAutoRotating]);
+    }, [showLayers]);
 
-    const toggleAutoRotating = () => {
+    useEffect(() => {
         if (skinViewerRef.current) {
-            skinViewerRef.current.autoRotate = !isAutoRotating;
-            setIsAutoRotating(!isAutoRotating);
+            skinViewerRef.current.playerObject.backEquipment = showElytra
+                ? "elytra"
+                : "cape";
+        }
+    }, [showElytra]);
+
+    const toggleShowLayers = () => {
+        if (skinViewerRef.current) {
+            skinViewerRef.current.playerObject.skin.setOuterLayerVisible(
+                !showLayers
+            );
+            setShowLayers(!showLayers);
         }
     };
 
@@ -77,12 +100,14 @@ export const SkinProvider3DProvider = ({
         <SkinProvider3DContext.Provider
             value={{
                 animation: selectedAnimation,
-                isAutoRotating,
+                showElytra,
+                showLayers,
                 updateSkinViewerRef: (skinViewer: SkinViewer | null) => {
                     skinViewerRef.current = skinViewer;
                 },
                 playAnimation,
-                toggleAutoRotating,
+                toggleShowElytra: () => setShowElytra((prev) => !prev),
+                toggleShowLayers,
             }}
         >
             {children}

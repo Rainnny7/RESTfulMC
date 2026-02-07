@@ -4,35 +4,29 @@ import SimpleTooltip from "@/components/simple-tooltip";
 import { Button } from "@/components/ui/button";
 import { downloadFile } from "@/lib/download";
 import { formatSkinPartName } from "@/lib/skin";
-import { cn } from "@/lib/utils";
 import { useSkinProvider3D } from "@/providers/skin-provider-3d-provider";
 import { skin3DAnimations } from "@/types/skin";
-import {
-    BedSingleIcon,
-    ChevronUpIcon,
-    DownloadIcon,
-    FeatherIcon,
-    FootprintsIcon,
-    RotateCwIcon,
-} from "lucide-react";
+import { DownloadIcon, LayersIcon } from "lucide-react";
+import Image from "next/image";
 import { ReactElement, ReactNode } from "react";
 import { CachedPlayer, SkinPart } from "restfulmc-lib";
 import { toast } from "sonner";
 
 const SkinActionButtons = ({
     player,
-    selectedPart,
     displayedPart,
 }: {
     player: CachedPlayer;
-    selectedPart: SkinPart;
     displayedPart: SkinPart;
 }): ReactElement => {
-    const show3DControls: boolean = selectedPart === SkinPart.FULLBODY_FRONT;
-    const { animation, isAutoRotating, playAnimation, toggleAutoRotating } =
-        useSkinProvider3D();
-    const isSneaking: boolean =
-        animation.name === skin3DAnimations.sneaking.name;
+    const {
+        animation,
+        showElytra,
+        showLayers,
+        playAnimation,
+        toggleShowElytra,
+        toggleShowLayers,
+    } = useSkinProvider3D();
 
     const handleDownloadSkinPart = () => {
         const filename: string = `${player.username}_${displayedPart.toLowerCase()}.png`;
@@ -45,13 +39,13 @@ const SkinActionButtons = ({
         );
     };
     return (
-        <div className="absolute -top-3 right-1 flex flex-col gap-1">
+        <div className="absolute -top-1.5 right-1 flex flex-col gap-1">
             {/* 3D Skin Controls */}
-            {show3DControls && (
+            {displayedPart === SkinPart.FULLBODY_FRONT && (
                 <>
                     <SkinActionButton
                         tooltip="Play Idle Animation"
-                        icon={<BedSingleIcon />}
+                        icon="/media/steve.webp"
                         isSelected={
                             animation.name === skin3DAnimations.idle.name
                         }
@@ -59,38 +53,39 @@ const SkinActionButtons = ({
                     />
                     <SkinActionButton
                         tooltip="Play Walk Animation"
-                        icon={<FootprintsIcon />}
+                        icon="/media/steve-walking.webp"
                         isSelected={
                             animation.name === skin3DAnimations.walking.name
                         }
                         onClick={() => playAnimation(skin3DAnimations.walking)}
                     />
                     <SkinActionButton
+                        tooltip="Play Sneaking Animation"
+                        icon="/media/steve-sneaking.webp"
+                        isSelected={
+                            animation.name === skin3DAnimations.sneaking.name
+                        }
+                        onClick={() => playAnimation(skin3DAnimations.sneaking)}
+                    />
+                    <SkinActionButton
                         tooltip="Play Fly Animation"
-                        icon={<FeatherIcon />}
+                        icon="/media/feather.webp"
                         isSelected={
                             animation.name === skin3DAnimations.flying.name
                         }
                         onClick={() => playAnimation(skin3DAnimations.flying)}
                     />
                     <SkinActionButton
-                        tooltip="Toggle Sneak"
-                        icon={
-                            <ChevronUpIcon
-                                className={cn(
-                                    "transition-transform duration-200 ease-in-out transform-gpu",
-                                    isSneaking && "rotate-180"
-                                )}
-                            />
-                        }
-                        isSelected={isSneaking}
-                        onClick={() => playAnimation(skin3DAnimations.sneaking)}
+                        tooltip="Toggle Elytra"
+                        icon="/media/elytra.webp"
+                        isSelected={showElytra}
+                        onClick={toggleShowElytra}
                     />
                     <SkinActionButton
-                        tooltip="Toggle Auto Rotate"
-                        icon={<RotateCwIcon />}
-                        isSelected={isAutoRotating}
-                        onClick={toggleAutoRotating}
+                        tooltip="Toggle Layers"
+                        icon={<LayersIcon />}
+                        isSelected={showLayers}
+                        onClick={toggleShowLayers}
                     />
                 </>
             )}
@@ -112,17 +107,28 @@ const SkinActionButton = ({
     onClick,
 }: {
     tooltip: string;
-    icon: ReactNode;
+    icon: string | ReactNode;
     isSelected?: boolean;
     onClick: () => void;
 }) => (
     <SimpleTooltip content={isSelected ? undefined : tooltip} side="right">
         <Button
             variant={isSelected ? "default" : "outline"}
-            size="icon-sm"
+            size="icon"
             onClick={onClick}
         >
-            {icon}
+            {typeof icon === "string" ? (
+                <Image
+                    className="object-contain"
+                    src={icon}
+                    alt={tooltip}
+                    width={14}
+                    height={14}
+                    draggable={false}
+                />
+            ) : (
+                icon
+            )}
         </Button>
     </SimpleTooltip>
 );

@@ -47,7 +47,6 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
                 {/* Action Buttons */}
                 <SkinActionButtons
                     player={player}
-                    selectedPart={selectedPart}
                     displayedPart={displayedPart}
                 />
             </CardContent>

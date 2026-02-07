@@ -12,8 +12,7 @@ type PlayerSkinViewer3DProps = {
 const PlayerSkinViewer3D = ({ player }: PlayerSkinViewer3DProps) => {
     const canvasRef: RefObject<HTMLCanvasElement | null> =
         useRef<HTMLCanvasElement | null>(null);
-    const { animation, isAutoRotating, updateSkinViewerRef } =
-        useSkinProvider3D();
+    const { animation, updateSkinViewerRef } = useSkinProvider3D();
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = canvasRef.current;
@@ -30,7 +29,6 @@ const PlayerSkinViewer3D = ({ player }: PlayerSkinViewer3DProps) => {
             animation: animation.animation,
         });
         viewer.controls.enableZoom = false;
-        viewer.autoRotate = isAutoRotating;
 
         viewer.playerWrapper.rotation.y = Math.PI / 6.5; // Slightly rotate to the right by default (~30°)
         viewer.camera.position.y = 20; // Move the camera up by 20 units
