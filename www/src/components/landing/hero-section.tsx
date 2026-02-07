@@ -55,7 +55,7 @@ const HeroSection = (): ReactElement => {
             backgroundImage="/media/background/landing.webp"
         >
             {/* Header */}
-            <div className="flex flex-col gap-2 items-center">
+            <div className="flex flex-col gap-2 items-center text-center">
                 <div className="flex gap-4 items-center">
                     <AppLogo size={56} />
                     <h1 className="text-5xl font-black">RESTfulMC</h1>
