@@ -82,3 +82,9 @@
         @apply bg-accent rounded-3xl;
     }
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}

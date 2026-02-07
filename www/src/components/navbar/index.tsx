@@ -5,6 +5,8 @@ import Links from "@/components/navbar/links";
 import NavbarLookupForm from "@/components/navbar/navbar-lookup-form";
 import Socials from "@/components/navbar/socials";
 import SimpleLink from "@/components/simple-link";
+import ThemeSwitcher from "@/components/theme-switcher";
+import { Separator } from "@/components/ui/separator";
 import { useScrolled } from "@/hooks/use-scrolled";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -16,27 +18,43 @@ const Navbar = (): ReactElement => {
     return (
         <nav
             className={cn(
-                "fixed inset-x-5 top-3.5 mx-auto max-w-7xl px-4 py-2.5 flex justify-between items-center bg-muted/40 backdrop-blur-sm rounded-xl transition-all duration-300 transform-gpu z-50",
+                "fixed inset-x-2.5 sm:inset-x-5 top-3.5 mx-auto max-w-7xl px-4 py-2.5 flex justify-between items-center bg-muted/40 backdrop-blur-sm rounded-xl transition-all duration-300 transform-gpu z-50",
                 scrolled && "top-0 rounded-t-none"
             )}
         >
-            {/* Left - Branding & Links */}
+            {/* Left */}
             <div className="flex gap-2 items-center">
+                {/* Branding */}
                 <SimpleLink className="flex gap-2.5 items-center" href="/">
                     <AppLogo />
-                    <span className="hidden xs:block text-lg font-bold">
+                    <span className="hidden lg:block text-lg font-bold">
                         RESTfulMC
                     </span>
                 </SimpleLink>
+
+                {/* Links */}
                 <Links />
             </div>
 
-            {/* Right - Search & Socials */}
+            {/* Right */}
             <div className="flex gap-5 items-center">
+                {/* Search */}
                 {path !== "/" && <NavbarLookupForm />}
-                <div className="hidden sm:block">
+
+                {/* Socials */}
+                <div className="hidden lg:block">
                     <Socials />
                 </div>
+
+                {/* Theme Switcher */}
+                <Separator
+                    className={cn(
+                        "hidden sm:block my-auto h-7",
+                        path !== "/" && "block"
+                    )}
+                    orientation="vertical"
+                />
+                <ThemeSwitcher />
             </div>
         </nav>
     );
