@@ -4,6 +4,7 @@ import PlayerHeadCommands from "@/components/player/player-head-commands";
 import PlayerHeader from "@/components/player/player-header";
 import PlayerSkin from "@/components/player/player-skin";
 import { getCachedPlayer } from "@/lib/cached-api";
+import { SkinProvider3DProvider } from "@/providers/skin-provider-3d-provider";
 import { notFound } from "next/navigation";
 import { CachedPlayer } from "restfulmc-lib";
 
@@ -19,7 +20,9 @@ const PlayerPage = async ({ params }: PageProps<"/player/[slug]">) => {
             <PlayerHeader player={player} />
             <div className="-mt-16 px-5 flex flex-col-reverse lg:flex-row justify-center gap-5 items-center lg:items-start">
                 <div className="w-full sm:w-auto flex flex-col sm:flex-row lg:flex-col gap-5">
-                    <PlayerSkin player={player} />
+                    <SkinProvider3DProvider>
+                        <PlayerSkin player={player} />
+                    </SkinProvider3DProvider>
                     <PlayerCape player={player} />
                 </div>
                 <div className="w-full lg:w-fit flex flex-col gap-5">

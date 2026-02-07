@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useSkinProvider3D } from "@/providers/skin-provider-3d-provider";
+import { RefObject, useEffect, useRef } from "react";
 import { CachedPlayer, SkinModel } from "restfulmc-lib";
-import { IdleAnimation, SkinViewer } from "skinview3d";
+import { SkinViewer } from "skinview3d";
 
 type PlayerSkinViewer3DProps = {
     player: CachedPlayer;
 };
 
 const PlayerSkinViewer3D = ({ player }: PlayerSkinViewer3DProps) => {
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const skinViewerRef = useRef<SkinViewer | null>(null);
+    const canvasRef: RefObject<HTMLCanvasElement | null> =
+        useRef<HTMLCanvasElement | null>(null);
+    const { animation, isAutoRotating, updateSkinViewerRef } =
+        useSkinProvider3D();
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = canvasRef.current;
@@ -20,35 +23,34 @@ const PlayerSkinViewer3D = ({ player }: PlayerSkinViewer3DProps) => {
         const viewer: SkinViewer = new SkinViewer({
             canvas,
             width: 280,
-            height: 272,
+            height: 290,
             model: player.skin.model === SkinModel.SLIM ? "slim" : "default",
             skin: player.skin.url,
             cape: player.cape?.url ?? undefined,
-            nameTag: player.username,
-            zoom: 0.8,
-            animation: new IdleAnimation(),
+            animation: animation.animation,
         });
         viewer.controls.enableZoom = false;
+        viewer.autoRotate = isAutoRotating;
 
-        // Slightly rotate the player to the right by default (~15°)
-        viewer.playerWrapper.rotation.y = Math.PI / 10;
+        viewer.playerWrapper.rotation.y = Math.PI / 6.5; // Slightly rotate to the right by default (~30°)
+        viewer.camera.position.y = 20; // Move the camera up by 20 units
 
-        // viewer.autoRotate = true;
         if (viewer.animation) {
-            viewer.animation.speed = 1.5;
+            viewer.animation.speed = 1.25;
         }
-        skinViewerRef.current = viewer;
+        updateSkinViewerRef(viewer);
 
         return () => {
             viewer.dispose();
-            skinViewerRef.current = null;
+            updateSkinViewerRef(null);
         };
-    }, [player]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- isAutoRotating synced by provider's useEffect
+    }, [player, animation, updateSkinViewerRef]);
 
     return (
         <canvas
             ref={canvasRef}
-            className="rounded-lg cursor-grab"
+            className="-mt-5 rounded-lg cursor-grab"
             style={{ maxWidth: "100%" }}
         />
     );

@@ -25,14 +25,14 @@ const PlayerLoading = () => (
         <div className="-mt-16 px-5 flex flex-col-reverse lg:flex-row justify-center gap-5 items-center lg:items-start">
             <div className="w-full sm:w-auto flex flex-col sm:flex-row lg:flex-col gap-5">
                 {/* Skin Preview skeleton */}
-                <Card className="w-full sm:w-60">
+                <Card className="w-full sm:w-76">
                     <CardContent className="pt-4">
                         <Skeleton className="h-[280px] w-full rounded-lg" />
                     </CardContent>
                 </Card>
 
                 {/* Cape Preview skeleton */}
-                <Card className="w-full sm:w-60 h-fit">
+                <Card className="w-full sm:w-76 h-fit">
                     <CardContent className="pt-4">
                         <Skeleton className="h-[220px] w-full rounded-lg" />
                     </CardContent>
