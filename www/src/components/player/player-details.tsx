@@ -12,7 +12,7 @@ import { CachedPlayer } from "restfulmc-lib";
 const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
     const isCached: boolean = player.cached !== -1;
     return (
-        <Card className="mx-auto w-full sm:max-w-124">
+        <Card className="mx-auto w-full sm:max-w-140">
             <CardHeader>
                 <CardTitle>Player Details</CardTitle>
             </CardHeader>

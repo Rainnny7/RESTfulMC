@@ -24,7 +24,7 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
     const displayedPart: SkinPart = hoveredPart ?? selectedPart;
 
     return (
-        <Card className="w-full sm:w-60">
+        <Card className="w-full sm:w-68">
             <CardHeader>
                 <CardTitle>Skin Preview</CardTitle>
             </CardHeader>
