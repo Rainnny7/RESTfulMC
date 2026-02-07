@@ -59,7 +59,12 @@ const PlayerHeadCommands = ({
                 </Select>
 
                 {/* Head Command */}
-                <Input className="rounded-l-none rounded-r-none" type="text" value={headCommand} readOnly />
+                <Input
+                    className="rounded-l-none rounded-r-none"
+                    type="text"
+                    value={headCommand}
+                    readOnly
+                />
 
                 {/* Copy Button */}
                 <CopyButton

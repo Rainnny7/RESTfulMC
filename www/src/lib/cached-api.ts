@@ -1,9 +1,5 @@
 import { cache } from "react";
-import {
-    getMinecraftServer,
-    getPlayer,
-    ServerPlatform,
-} from "restfulmc-lib";
+import { getMinecraftServer, getPlayer, ServerPlatform } from "restfulmc-lib";
 
 /**
  * Cached versions of API functions for request deduplication.

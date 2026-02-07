@@ -100,16 +100,11 @@ const LookupForm = ({
                         disabled={isFetching}
                         defaultValue={defaultValue}
                     />
-                    {(!compact ||
-                        isFetching) && (
-                            <InputGroupAddon align="inline-end">
-                                {isFetching ? (
-                                    <Spinner />
-                                ) : (
-                                    <ChevronsRightIcon />
-                                )}
-                            </InputGroupAddon>
-                        )}
+                    {(!compact || isFetching) && (
+                        <InputGroupAddon align="inline-end">
+                            {isFetching ? <Spinner /> : <ChevronsRightIcon />}
+                        </InputGroupAddon>
+                    )}
                 </InputGroup>
             </form>
 
