@@ -2,7 +2,6 @@
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ThemeProvider } from "@/providers/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NextTopLoader from "nextjs-toploader";
 import { ReactNode } from "react";
@@ -14,7 +13,7 @@ export const AppProvider = ({
 }: Readonly<{
     children: ReactNode;
 }>) => (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <>
         <NextTopLoader
             color="var(--color-toploader-color)"
             showSpinner={false}
@@ -36,5 +35,5 @@ export const AppProvider = ({
                 />
             </QueryClientProvider>
         </TooltipProvider>
-    </ThemeProvider>
+    </>
 );

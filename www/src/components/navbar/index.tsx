@@ -5,8 +5,6 @@ import Links from "@/components/navbar/links";
 import NavbarLookupForm from "@/components/navbar/navbar-lookup-form";
 import Socials from "@/components/navbar/socials";
 import SimpleLink from "@/components/simple-link";
-import ThemeSwitcher from "@/components/theme-switcher";
-import { Separator } from "@/components/ui/separator";
 import { useScrolled } from "@/hooks/use-scrolled";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -45,16 +43,6 @@ const Navbar = (): ReactElement => {
                 <div className="hidden lg:block">
                     <Socials />
                 </div>
-
-                {/* Theme Switcher */}
-                <Separator
-                    className={cn(
-                        "hidden sm:block my-auto h-7",
-                        path !== "/" && "block"
-                    )}
-                    orientation="vertical"
-                />
-                <ThemeSwitcher />
             </div>
         </nav>
     );

@@ -43,22 +43,25 @@ const RootLayout = ({
 }: Readonly<{
     children: ReactNode;
 }>) => (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
         <body
             className={cn(
                 "antialiased scroll-smooth select-none",
                 geistSans.variable,
                 geistMono.variable
             )}
-            style={{
-                background:
-                    "linear-gradient(to top, var(--alternative-background), var(--background))",
-            }}
         >
             <AppProvider>
-                <Navbar />
-                {children}
-                <Footer />
+                <div
+                    style={{
+                        background:
+                            "linear-gradient(to top, var(--color-alternative-background), var(--color-background))",
+                    }}
+                >
+                    <Navbar />
+                    {children}
+                    <Footer />
+                </div>
             </AppProvider>
         </body>
     </html>
