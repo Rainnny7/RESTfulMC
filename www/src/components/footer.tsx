@@ -46,10 +46,9 @@ const footerLinks: Record<string, FooterLink[]> = {
 };
 
 const Footer = (): ReactElement => (
-    <div className="relative mt-14 border-t border-border">
-        {/* Bottom Background Gradient */}
-        <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,var(--color-alternative-background)_45%,var(--color-footer-background)_100%)]" />
-
+    <div
+        className="relative mt-14 border-t border-border [background:radial-gradient(125%_125%_at_50%_10%,var(--color-alternative-background)_45%,var(--color-footer-background)_100%)]"
+    >
         {/* Content */}
         <footer className="mx-auto px-5 py-10 w-full max-w-7xl flex flex-col gap-10 text-sm text-white/30 font-medium">
             {/* Top */}
