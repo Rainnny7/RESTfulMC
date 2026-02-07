@@ -10,7 +10,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { getErrorMessage } from "@/lib/error";
 import { isServerAddress } from "@/lib/string";
 import { cn } from "@/lib/utils";
-import { SearchIcon } from "lucide-react";
+import { ChevronRightIcon, ChevronsRightIcon, SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ReactElement, SubmitEvent, useEffect, useState } from "react";
 import { getPlayer } from "restfulmc-lib";
@@ -100,11 +100,9 @@ const LookupForm = ({
                         disabled={isFetching}
                         defaultValue={defaultValue}
                     />
-                    {isFetching && (
-                        <InputGroupAddon align="inline-end">
-                            <Spinner />
-                        </InputGroupAddon>
-                    )}
+                    <InputGroupAddon align="inline-end">
+                        {isFetching ? <Spinner /> : <ChevronsRightIcon />}
+                    </InputGroupAddon>
                 </InputGroup>
             </form>
 

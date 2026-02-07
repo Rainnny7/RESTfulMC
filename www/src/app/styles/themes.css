@@ -35,6 +35,7 @@
     /* Custom Colors */
     --alternative-background: oklch(0.9461 0 0);
     --toploader-color: oklch(0.51 0.23 277 / 65%);
+    --footer-background: oklch(0.51 0.23 277 / 20%);
 }
 
 .dark {
@@ -73,4 +74,5 @@
     /* Custom Colors */
     --alternative-background: oklch(0.2102 0.006 285.87 / 95%);
     --toploader-color: oklch(0.51 0.23 277 / 65%);
+    --footer-background: oklch(0.51 0.23 277 / 20%);
 }

@@ -53,6 +53,7 @@
     /* Custom Colors */
     --color-alternative-background: var(--alternative-background);
     --color-toploader-color: var(--toploader-color);
+    --color-footer-background: var(--footer-background);
 }
 
 @layer base {

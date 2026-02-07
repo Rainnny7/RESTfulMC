@@ -46,81 +46,93 @@ const footerLinks: Record<string, FooterLink[]> = {
 };
 
 const Footer = (): ReactElement => (
-    <footer className="mt-14 mx-auto px-5 py-10 w-full max-w-7xl flex flex-col gap-10 text-sm text-white/30 font-medium border-t border-border">
-        {/* Top */}
-        <div className="flex flex-col md:flex-row justify-between gap-7 items-center md:items-start">
-            {/* Branding */}
-            <div className="flex gap-3 items-center">
-                <AppLogo size={40} />
+    <div className="relative mt-14 border-t border-border">
+        {/* Bottom Background Gradient */}
+        <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,var(--color-alternative-background)_45%,var(--color-footer-background)_100%)]" />
 
-                {/* Hehe */}
-                <div className="flex flex-col gap-1 font-mono">
-                    <AnimatedLine initialDashes={27} reverseDirection={false} />
-                    <span>
-                        | The{" "}
-                        <span className="bg-linear-to-br from-primary to-zinc-300/75 bg-clip-text text-transparent">
-                            ultimate
-                        </span>{" "}
-                        Minecraft API |
-                    </span>
-                    <AnimatedLine initialDashes={27} reverseDirection />
+        {/* Content */}
+        <footer className="mx-auto px-5 py-10 w-full max-w-7xl flex flex-col gap-10 text-sm text-white/30 font-medium">
+            {/* Top */}
+            <div className="flex flex-col md:flex-row justify-between gap-7 items-center md:items-start">
+                {/* Branding */}
+                <div className="flex gap-3 items-center">
+                    <AppLogo size={40} />
+
+                    {/* Hehe */}
+                    <div className="flex flex-col gap-1 font-mono">
+                        <AnimatedLine
+                            initialDashes={27}
+                            reverseDirection={false}
+                        />
+                        <span>
+                            | The{" "}
+                            <span className="bg-linear-to-br from-primary to-zinc-300/75 bg-clip-text text-transparent">
+                                ultimate
+                            </span>{" "}
+                            Minecraft API |
+                        </span>
+                        <AnimatedLine initialDashes={27} reverseDirection />
+                    </div>
+                </div>
+
+                {/* Links */}
+                <div className="flex flex-wrap gap-12 items-start">
+                    {Object.entries(footerLinks).map(([category, links]) => (
+                        <div key={category} className="flex flex-col gap-1">
+                            <h3 className="text-base text-primary font-semibold">
+                                {category}
+                            </h3>
+                            <div className="flex flex-col gap-1">
+                                {links.map((link: FooterLink) => (
+                                    <SimpleLink
+                                        key={link.href}
+                                        href={link.href}
+                                    >
+                                        {link.label}
+                                    </SimpleLink>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
 
-            {/* Links */}
-            <div className="flex flex-wrap gap-12 items-start">
-                {Object.entries(footerLinks).map(([category, links]) => (
-                    <div key={category} className="flex flex-col gap-1">
-                        <h3 className="text-base text-primary font-semibold">
-                            {category}
-                        </h3>
-                        <div className="flex flex-col gap-1">
-                            {links.map((link: FooterLink) => (
-                                <SimpleLink key={link.href} href={link.href}>
-                                    {link.label}
+            {/* Bottom */}
+            <div className="flex flex-col md:flex-row justify-between gap-7 items-center md:items-start">
+                {/* Copyright */}
+                <div className="flex flex-col">
+                    <span>
+                        &copy; {new Date().getFullYear()} RESTfulMC. All rights
+                        reserved.
+                    </span>
+                    <span>Not affiliated with Microsoft or Mojang AB.</span>
+                </div>
+
+                {/* Socials */}
+                <div className="flex gap-2.5 items-center">
+                    {config.socials.map((social: SocialLink) => (
+                        <SimpleTooltip
+                            key={social.href}
+                            content={social.tooltip}
+                            side="top"
+                        >
+                            <div>
+                                <SimpleLink href={social.href}>
+                                    <Image
+                                        src={social.logo}
+                                        alt={social.href}
+                                        width={22}
+                                        height={22}
+                                        draggable={false}
+                                    />
                                 </SimpleLink>
-                            ))}
-                        </div>
-                    </div>
-                ))}
+                            </div>
+                        </SimpleTooltip>
+                    ))}
+                </div>
             </div>
-        </div>
-
-        {/* Bottom */}
-        <div className="flex flex-col md:flex-row justify-between gap-7 items-center md:items-start">
-            {/* Copyright */}
-            <div className="flex flex-col">
-                <span>
-                    &copy; {new Date().getFullYear()} RESTfulMC. All rights
-                    reserved.
-                </span>
-                <span>Not affiliated with Microsoft or Mojang AB.</span>
-            </div>
-
-            {/* Socials */}
-            <div className="flex gap-2.5 items-center">
-                {config.socials.map((social: SocialLink) => (
-                    <SimpleTooltip
-                        key={social.href}
-                        content={social.tooltip}
-                        side="top"
-                    >
-                        <div>
-                            <SimpleLink href={social.href}>
-                                <Image
-                                    src={social.logo}
-                                    alt={social.href}
-                                    width={22}
-                                    height={22}
-                                    draggable={false}
-                                />
-                            </SimpleLink>
-                        </div>
-                    </SimpleTooltip>
-                ))}
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 );
 
 type AnimatedLineState = { dashes: number; direction: "left" | "right" };
