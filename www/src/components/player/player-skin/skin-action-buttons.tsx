@@ -75,12 +75,14 @@ const SkinActionButtons = ({
                         }
                         onClick={() => playAnimation(skin3DAnimations.flying)}
                     />
-                    <SkinActionButton
-                        tooltip="Toggle Elytra"
-                        icon="/media/elytra.webp"
-                        isSelected={showElytra}
-                        onClick={toggleShowElytra}
-                    />
+                    {player.cape && (
+                        <SkinActionButton
+                            tooltip="Toggle Elytra"
+                            icon="/media/elytra.webp"
+                            isSelected={showElytra}
+                            onClick={toggleShowElytra}
+                        />
+                    )}
                     <SkinActionButton
                         tooltip="Toggle Layers"
                         icon={<LayersIcon />}

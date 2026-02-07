@@ -20,7 +20,7 @@ const PlayerPage = async ({ params }: PageProps<"/player/[query]">) => {
             <PlayerHeader player={player} />
             <div className="-mt-16 px-5 flex flex-col-reverse lg:flex-row justify-center gap-5 items-center lg:items-start">
                 <div className="w-full sm:w-auto flex flex-col sm:flex-row lg:flex-col gap-5">
-                    <SkinProvider3DProvider>
+                    <SkinProvider3DProvider player={player}>
                         <PlayerSkin player={player} />
                     </SkinProvider3DProvider>
                     <PlayerCape player={player} />

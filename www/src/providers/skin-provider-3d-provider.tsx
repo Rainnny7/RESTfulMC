@@ -10,6 +10,7 @@ import {
     useState,
     type ReactNode,
 } from "react";
+import { CachedPlayer } from "restfulmc-lib";
 import { SkinViewer } from "skinview3d";
 
 type SkinProvider3DContextType = {
@@ -54,8 +55,10 @@ const SkinProvider3DContext = createContext<
 >(undefined);
 
 export const SkinProvider3DProvider = ({
+    player,
     children,
 }: {
+    player: CachedPlayer;
     children: ReactNode;
 }) => {
     const skinViewerRef: RefObject<SkinViewer | null> =
@@ -80,7 +83,7 @@ export const SkinProvider3DProvider = ({
     }, [showLayers]);
 
     useEffect(() => {
-        if (skinViewerRef.current) {
+        if (skinViewerRef.current && player.cape) {
             skinViewerRef.current.playerObject.backEquipment = showElytra
                 ? "elytra"
                 : "cape";
