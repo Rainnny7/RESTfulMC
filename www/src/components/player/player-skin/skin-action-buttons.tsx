@@ -69,7 +69,8 @@ const SkinActionButtons = ({
                     />
                     <SkinActionButton
                         tooltip="Play Fly Animation"
-                        icon="/media/feather.webp"
+                        icon="/media/steve-elytra.webp"
+                        iconSize={20}
                         isSelected={
                             animation.name === skin3DAnimations.flying.name
                         }
@@ -108,11 +109,13 @@ const SkinActionButtons = ({
 const SkinActionButton = ({
     tooltip,
     icon,
+    iconSize = 14,
     isSelected,
     onClick,
 }: {
     tooltip: string;
     icon: string | ReactNode;
+    iconSize?: number;
     isSelected?: boolean;
     onClick: () => void;
 }) => (
@@ -127,8 +130,8 @@ const SkinActionButton = ({
                     className="object-contain"
                     src={icon}
                     alt={tooltip}
-                    width={14}
-                    height={14}
+                    width={iconSize}
+                    height={iconSize}
                     draggable={false}
                 />
             ) : (
