@@ -1,10 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { XIcon } from "lucide-react";
 
 function Dialog({
@@ -128,7 +128,10 @@ function DialogTitle({
     return (
         <DialogPrimitive.Title
             data-slot="dialog-title"
-            className={cn("text-base leading-none font-bold", className)}
+            className={cn(
+                "text-sm leading-snug font-bold font-mono uppercase",
+                className
+            )}
             {...props}
         />
     );
