@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import {
     ActivityIcon,
     BookIcon,
+    FlameIcon,
     LucideIcon,
     PartyPopperIcon,
 } from "lucide-react";
@@ -36,7 +37,7 @@ type NavbarLink = {
 
 const links: NavbarLink[] = [
     {
-        icon: PartyPopperIcon,
+        icon: FlameIcon,
         tooltip: "View all capes",
         label: "Capes",
         href: "/capes",
