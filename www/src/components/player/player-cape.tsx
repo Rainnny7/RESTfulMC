@@ -1,7 +1,6 @@
 "use client";
 
 import SimpleTooltip from "@/components/simple-tooltip";
-import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -9,14 +8,11 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { downloadFile } from "@/lib/download";
 import request from "@/lib/request";
 import { cn } from "@/lib/utils";
-import { DownloadIcon } from "lucide-react";
 import Image from "next/image";
 import { ReactElement, useEffect, useState } from "react";
 import { CachedPlayer } from "restfulmc-lib";
-import { toast } from "sonner";
 
 type CapeType = {
     name: string;
@@ -79,18 +75,6 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
     const displayedType: CapeType = hoveredType ?? selectedType;
     const capeUrl: string | undefined = capeUrls.get(displayedType.name);
 
-    const handleDownloadCape = () => {
-        if (!capeUrl) return;
-        const filename: string = `${player.username}_${displayedType.name.toLowerCase()}.png`;
-        downloadFile(capeUrl, filename);
-        toast.success(
-            `Downloaded ${player.username}'s ${displayedType.name} Cape:`,
-            {
-                description: <code>{filename}</code>,
-            }
-        );
-    };
-
     return (
         <Card className="w-full sm:w-76 h-fit">
             <CardHeader>
@@ -98,29 +82,15 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
             </CardHeader>
             <CardContent className="relative h-40 flex justify-center items-center">
                 {capeUrl ? (
-                    <>
-                        <Image
-                            className="object-contain"
-                            src={capeUrl}
-                            alt={`${player.username}'s ${displayedType.name} Cape`}
-                            width={148}
-                            height={148}
-                            draggable={false}
-                            unoptimized
-                        />
-
-                        {/* Download Button */}
-                        <SimpleTooltip content="Download Cape" side="bottom">
-                            <Button
-                                className="absolute -top-3 right-1"
-                                variant="outline"
-                                size="icon"
-                                onClick={handleDownloadCape}
-                            >
-                                <DownloadIcon className="size-4" />
-                            </Button>
-                        </SimpleTooltip>
-                    </>
+                    <Image
+                        className="object-contain"
+                        src={capeUrl}
+                        alt={`${player.username}'s ${displayedType.name} Cape`}
+                        width={148}
+                        height={148}
+                        draggable={false}
+                        unoptimized
+                    />
                 ) : (
                     <p className="text-sm text-muted-foreground">
                         No capes available
