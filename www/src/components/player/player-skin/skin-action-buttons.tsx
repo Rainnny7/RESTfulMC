@@ -39,7 +39,7 @@ const SkinActionButtons = ({
         );
     };
     return (
-        <div className="absolute -top-3 right-1 flex flex-col gap-1">
+        <div className="absolute inset-y-0 right-1 flex flex-col gap-1 justify-center">
             {/* 3D Skin Controls */}
             {displayedPart === SkinPart.FULLBODY_FRONT && (
                 <>
