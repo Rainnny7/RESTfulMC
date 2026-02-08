@@ -21,10 +21,6 @@ const footerLinks: Record<string, FooterLink[]> = {
             href: "/",
         },
         {
-            label: "Servers",
-            href: "/servers",
-        },
-        {
             label: "Capes",
             href: "/capes",
         },
