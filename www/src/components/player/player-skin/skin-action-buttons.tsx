@@ -120,11 +120,7 @@ const SkinActionButton = ({
         <Button
             variant={isSelected ? "default" : "outline"}
             size="icon"
-            onClick={() => {
-                if (!isSelected) {
-                    onClick();
-                }
-            }}
+            onClick={onClick}
         >
             {typeof icon === "string" ? (
                 <Image
