@@ -25,7 +25,7 @@ const PlayerSkinViewer3D = ({ player }: PlayerSkinViewer3DProps) => {
         // Create the skin viewer (load cape manually to set correct backEquipment)
         const viewer: SkinViewer = new SkinViewer({
             canvas,
-            width: 280,
+            width: 215,
             height: 290,
             model: player.skin.model === SkinModel.SLIM ? "slim" : "default",
             skin: player.skin.url,
@@ -36,10 +36,10 @@ const PlayerSkinViewer3D = ({ player }: PlayerSkinViewer3DProps) => {
                 backEquipment: effectiveShowElytra ? "elytra" : "cape",
             });
         }
-        viewer.controls.enableZoom = false;
+        // viewer.controls.enableZoom = false;
 
         viewer.playerWrapper.rotation.y = Math.PI / 6.5; // Slightly rotate to the right by default (~30°)
-        viewer.camera.position.y = 20; // Move the camera up by 20 units
+        viewer.camera.position.y = 10; // Move the camera up by 20 units
 
         if (viewer.animation) {
             viewer.animation.speed = 1.25;
@@ -56,7 +56,7 @@ const PlayerSkinViewer3D = ({ player }: PlayerSkinViewer3DProps) => {
     return (
         <canvas
             ref={canvasRef}
-            className="-mt-5 rounded-lg cursor-grab"
+            className="rounded-lg cursor-grab"
             style={{ maxWidth: "100%" }}
         />
     );

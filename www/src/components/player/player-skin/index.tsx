@@ -24,11 +24,11 @@ const PlayerSkin = ({ player }: { player: CachedPlayer }): ReactElement => {
     const displayedPart: SkinPart = hoveredPart ?? selectedPart;
 
     return (
-        <Card className="w-full sm:w-68">
+        <Card className="w-full sm:w-76">
             <CardHeader>
                 <CardTitle>Skin Preview</CardTitle>
             </CardHeader>
-            <CardContent className="relative h-60 flex justify-center">
+            <CardContent className="relative h-72 flex justify-center">
                 {/* Preview */}
                 {displayedPart === SkinPart.FULLBODY_FRONT ? (
                     <PlayerSkinViewer3D player={player} />

@@ -6,7 +6,7 @@ import { CachedPlayer } from "restfulmc-lib";
 
 const PlayerHeader = ({ player }: { player: CachedPlayer }): ReactElement => (
     <PageHeader
-        className="min-h-112"
+        className="min-h-100"
         contentClassName="gap-7"
         backgroundImage="/media/background/player.webp"
     >

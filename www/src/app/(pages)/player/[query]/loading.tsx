@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const PlayerLoading = () => (
     <main className="min-h-screen flex flex-col">
         <PageHeader
-            className="min-h-112"
+            className="min-h-100"
             contentClassName="gap-7"
             backgroundImage="/media/background/player.webp"
         >

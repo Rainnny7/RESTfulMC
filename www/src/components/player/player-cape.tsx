@@ -92,7 +92,7 @@ const PlayerCape = ({ player }: { player: CachedPlayer }): ReactElement => {
     };
 
     return (
-        <Card className="w-full sm:w-68 h-fit">
+        <Card className="w-full sm:w-76 h-fit">
             <CardHeader>
                 <CardTitle>Cape Preview</CardTitle>
             </CardHeader>

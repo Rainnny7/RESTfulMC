@@ -6,13 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatTimeAgo } from "@/lib/date";
 import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
+import { ExternalLinkIcon } from "lucide-react";
 import { ReactElement, ReactNode } from "react";
 import { CachedPlayer } from "restfulmc-lib";
 
 const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
     const isCached: boolean = player.cached !== -1;
     return (
-        <Card className="mx-auto w-full sm:max-w-140">
+        <Card className="mx-auto w-full sm:max-w-156">
             <CardHeader>
                 <CardTitle>Player Details</CardTitle>
             </CardHeader>
@@ -81,7 +82,8 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
                             href={`${env.NEXT_PUBLIC_API_URL}/player/${player.uniqueId}`}
                         >
                             <Button variant="outline" size="xs">
-                                View
+                                <span>View</span>
+                                <ExternalLinkIcon />
                             </Button>
                         </SimpleLink>
                     }

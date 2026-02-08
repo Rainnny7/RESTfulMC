@@ -11,7 +11,6 @@ import {
     BookIcon,
     LucideIcon,
     PartyPopperIcon,
-    ServerIcon,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
@@ -36,12 +35,6 @@ type NavbarLink = {
 };
 
 const links: NavbarLink[] = [
-    {
-        icon: ServerIcon,
-        tooltip: "View featured servers",
-        label: "Servers",
-        href: "/servers",
-    },
     {
         icon: PartyPopperIcon,
         tooltip: "View all capes",

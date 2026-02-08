@@ -34,7 +34,7 @@ const PlayerHeadCommands = ({
     );
 
     return (
-        <Card className="mx-auto w-full sm:max-w-140">
+        <Card className="mx-auto w-full sm:max-w-156">
             <CardHeader>
                 <CardTitle>Head Commands</CardTitle>
             </CardHeader>

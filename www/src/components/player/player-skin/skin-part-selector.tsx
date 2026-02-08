@@ -43,7 +43,7 @@ const SkinPartSelector = ({
                     <button
                         type="button"
                         className={cn(
-                            "relative size-8 rounded-md border-2 overflow-hidden",
+                            "relative size-9 rounded-md border-2 overflow-hidden",
                             displayedPart === part && "border-primary"
                         )}
                         onMouseEnter={() => setHoveredPart(part)}
