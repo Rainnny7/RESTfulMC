@@ -39,7 +39,7 @@
         "@types/react": "^19",
         "@types/react-dom": "^19",
         "babel-plugin-react-compiler": "^1.0.0",
-        "oxfmt": "^0.28.0",
+        "oxfmt": "^0.31.0",
         "oxlint": "^1.43.0",
         "tailwindcss": "^4",
         "typescript": "^5"
