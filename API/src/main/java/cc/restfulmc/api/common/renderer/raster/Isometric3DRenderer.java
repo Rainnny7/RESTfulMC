@@ -6,7 +6,7 @@ import cc.restfulmc.api.common.renderer.IsometricLighting;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author Braydon
  */
-@Slf4j
+@Log4j2
 public final class Isometric3DRenderer {
     /**
      * The singleton instance.

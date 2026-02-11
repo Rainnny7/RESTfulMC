@@ -3,7 +3,7 @@ package cc.restfulmc.api.common.font;
 import cc.restfulmc.api.RESTfulMC;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Braydon
  */
-@Slf4j
+@Log4j2
 public final class FontManager {
     private static final String META_PREFIX = "/font/meta/";
     private static final String WIDTH_PREFIX = "/font/meta/width/";

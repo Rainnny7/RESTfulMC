@@ -2,7 +2,7 @@ package cc.restfulmc.api;
 
 import lombok.NonNull;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Braydon
  */
 @SpringBootApplication
-@Slf4j(topic = "RESTfulMC")
+@Log4j2(topic = "RESTfulMC")
 public class RESTfulMC {
     @SneakyThrows
     static void main(@NonNull String[] args) {

@@ -13,7 +13,7 @@ import cc.restfulmc.api.model.server.Players;
 import cc.restfulmc.api.model.server.java.JavaMinecraftServer;
 import cc.restfulmc.api.service.ServerService;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,7 +26,7 @@ import java.util.Objects;
  *
  * @author Braydon
  */
-@Slf4j
+@Log4j2
 public final class ServerPreviewRenderer extends Renderer<MinecraftServer> {
     /**
      * The singleton instance.

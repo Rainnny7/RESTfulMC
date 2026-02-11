@@ -7,7 +7,7 @@ import cc.restfulmc.api.common.renderer.raster.Isometric3DRenderer;
 import cc.restfulmc.api.model.player.skin.Skin;
 import lombok.NonNull;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Braydon
  */
-@Slf4j
+@Log4j2
 public final class FullBodyRendererBase {
     /**
      * The singleton instance.
