@@ -50,7 +50,7 @@ const PlayerExamples = (): ReactElement => {
         []
     );
     return (
-        <Card className="w-full max-w-xl bg-card/45 backdrop-blur-md">
+        <Card className="w-full max-w-2xl bg-card/45 backdrop-blur-md">
             <CardHeader>
                 <CardTitle>Player Examples</CardTitle>
             </CardHeader>
@@ -61,7 +61,7 @@ const PlayerExamples = (): ReactElement => {
                         content={`Click to view ${player}'s Profile`}
                         side="bottom"
                     >
-                        <div className="pt-2 w-26 bg-card border border-border rounded-lg">
+                        <div className="pt-2 w-30 bg-card border border-border rounded-lg">
                             <SimpleLink
                                 className="flex flex-col items-center"
                                 href={`/player/${player}`}
@@ -76,7 +76,7 @@ const PlayerExamples = (): ReactElement => {
                                     unoptimized
                                 />
                                 <Separator className="mt-2" />
-                                <div className="p-1.5 w-full text-center font-semibold bg-muted/50">
+                                <div className="p-1.5 w-full text-center text-xs font-semibold bg-muted/50">
                                     {player}
                                 </div>
                             </SimpleLink>
