@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatTimeAgo } from "@/lib/date";
 import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, InfoIcon } from "lucide-react";
 import { ReactElement, ReactNode } from "react";
 import { CachedPlayer } from "restfulmc-lib";
 
@@ -31,6 +31,7 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
                 {/* Legacy Player? */}
                 <PlayerDetailElement
                     label="Legacy"
+                    tooltip="A player that does not have an email associated with their account (e.g: a Minecraft account using username and password around 2013-2016)."
                     value={
                         <Badge
                             variant={!player.legacy ? "success" : "destructive"}
@@ -96,15 +97,22 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
 const PlayerDetailElement = ({
     className,
     label,
+    tooltip,
     value,
 }: {
     className?: string;
     label: string;
+    tooltip?: string;
     value: string | ReactNode;
 }): ReactElement => (
     <div className="flex gap-6 items-start">
-        <span className="text-sm font-medium min-w-[100px] shrink-0">
+        <span className="flex gap-1.5 items-center text-sm font-medium min-w-[100px] shrink-0">
             {label}
+            {tooltip && (
+                <SimpleTooltip content={tooltip} side="bottom">
+                    <InfoIcon className="size-3.5 text-muted-foreground hover:opacity-75 transition-opacity duration-300 ease-in-out transform-gpu" />
+                </SimpleTooltip>
+            )}
         </span>
         <div className={cn("text-sm text-muted-foreground", className)}>
             {value}
