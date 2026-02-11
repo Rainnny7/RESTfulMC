@@ -3,7 +3,7 @@
 [![Docs - SwaggerUI](https://img.shields.io/badge/Docs-SwaggerUI-green.svg)](https://mc.rainnny.club/api/swagger-ui.html)
 
 > [!NOTE]
-> This project moved from https://restfulmc.cc -> https://mc.rainnny.club/api
+> This project moved from https://restfulmc.cc -> https://mc.rainnny.club
 
 # RESTfulMC
 A simple, yet useful RESTful API for Minecraft utilizing Springboot.
