@@ -20,7 +20,9 @@ const EXAMPLE_PLAYERS: string[] = [
     "Dinnerbone",
     "Grumm",
     "Rainnny",
+    "ImFascinated",
     "NoneTaken",
+    "ShanNaeNae",
     "jeb_",
     "Notch",
     "ManlyWoman",
@@ -28,6 +30,18 @@ const EXAMPLE_PLAYERS: string[] = [
     "Technoblade",
     "DanTDM",
     "Dream",
+    "CaptainSparklez",
+    "Grian",
+    "Mumbo",
+    "Sapnap",
+    "GeorgeNotFound",
+    "TommyInnit",
+    "Philza",
+    "WilburSoot",
+    "Quackity",
+    "PewDiePie",
+    "Tubbo",
+    "Ranboo",
 ];
 
 const PlayerExamples = (): ReactElement => {
