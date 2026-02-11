@@ -1,3 +1,4 @@
+import FadeInAnimation from "@/components/animation/fade-in-animation";
 import SimpleLink from "@/components/simple-link";
 import SimpleTooltip from "@/components/simple-tooltip";
 import {
@@ -50,44 +51,47 @@ const PlayerExamples = (): ReactElement => {
         []
     );
     return (
-        <Card className="w-full max-w-2xl bg-card/45 backdrop-blur-md">
-            <CardHeader>
-                <CardTitle>Player Examples</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-wrap justify-center gap-1 items-center">
-                {displayedPlayers.map((player) => (
-                    <SimpleTooltip
-                        key={player}
-                        content={`Click to view ${player}'s Profile`}
-                        side="bottom"
-                    >
-                        <div className="pt-2 w-30 bg-card border border-border rounded-lg">
-                            <SimpleLink
-                                className="flex flex-col items-center"
-                                href={`/player/${player}`}
-                            >
-                                <Image
-                                    className="rounded-md"
-                                    src={`${env.NEXT_PUBLIC_API_URL}/player/${player}/head.png`}
-                                    alt={`${player}'s Head`}
-                                    width={64}
-                                    height={64}
-                                    draggable={false}
-                                    unoptimized
-                                />
-                                <Separator className="mt-2" />
-                                <div className="p-1.5 w-full text-center text-xs font-semibold bg-muted/50">
-                                    {player}
-                                </div>
-                            </SimpleLink>
-                        </div>
-                    </SimpleTooltip>
-                ))}
-            </CardContent>
-            <CardFooter className="text-muted-foreground">
-                Here are some example players you can quickly view the data for.
-            </CardFooter>
-        </Card>
+        <FadeInAnimation className="w-full flex justify-center" delay={0.3}>
+            <Card className="w-full max-w-2xl bg-card/45 backdrop-blur-md">
+                <CardHeader>
+                    <CardTitle>Player Examples</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap justify-center gap-1 items-center">
+                    {displayedPlayers.map((player) => (
+                        <SimpleTooltip
+                            key={player}
+                            content={`Click to view ${player}'s Profile`}
+                            side="bottom"
+                        >
+                            <div className="pt-2 w-30 bg-card border border-border rounded-lg">
+                                <SimpleLink
+                                    className="flex flex-col items-center"
+                                    href={`/player/${player}`}
+                                >
+                                    <Image
+                                        className="rounded-md"
+                                        src={`${env.NEXT_PUBLIC_API_URL}/player/${player}/head.png`}
+                                        alt={`${player}'s Head`}
+                                        width={64}
+                                        height={64}
+                                        draggable={false}
+                                        unoptimized
+                                    />
+                                    <Separator className="mt-2" />
+                                    <div className="p-1.5 w-full text-center text-xs font-semibold bg-muted/50">
+                                        {player}
+                                    </div>
+                                </SimpleLink>
+                            </div>
+                        </SimpleTooltip>
+                    ))}
+                </CardContent>
+                <CardFooter className="text-muted-foreground">
+                    Here are some example players you can quickly view the data
+                    for.
+                </CardFooter>
+            </Card>
+        </FadeInAnimation>
     );
 };
 export default PlayerExamples;

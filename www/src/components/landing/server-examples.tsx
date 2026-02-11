@@ -1,3 +1,4 @@
+import FadeInAnimation from "@/components/animation/fade-in-animation";
 import SimpleLink from "@/components/simple-link";
 import SimpleTooltip from "@/components/simple-tooltip";
 import {
@@ -36,44 +37,47 @@ const ServerExamples = (): ReactElement => {
         []
     );
     return (
-        <Card className="w-full max-w-2xl bg-card/45 backdrop-blur-md">
-            <CardHeader>
-                <CardTitle>Server Examples</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-wrap justify-center gap-1 items-center">
-                {displayedServers.map(([name, server]) => (
-                    <SimpleTooltip
-                        key={server}
-                        content={`Click to view ${name}'s Data`}
-                        side="bottom"
-                    >
-                        <div className="pt-2 w-30 bg-card border border-border rounded-lg">
-                            <SimpleLink
-                                className="flex flex-col items-center"
-                                href={`/server/java/${server}`}
-                            >
-                                <Image
-                                    className="rounded-md"
-                                    src={`${env.NEXT_PUBLIC_API_URL}/server/${server}/icon.png`}
-                                    alt={`${name}'s Icon`}
-                                    width={64}
-                                    height={64}
-                                    draggable={false}
-                                    unoptimized
-                                />
-                                <Separator className="mt-2" />
-                                <div className="p-1.5 w-full text-center text-xs font-semibold bg-muted/50">
-                                    {name}
-                                </div>
-                            </SimpleLink>
-                        </div>
-                    </SimpleTooltip>
-                ))}
-            </CardContent>
-            <CardFooter className="text-muted-foreground">
-                Here are some example servers you can quickly view the data for.
-            </CardFooter>
-        </Card>
+        <FadeInAnimation className="w-full flex justify-center" delay={0.4}>
+            <Card className="w-full max-w-2xl bg-card/45 backdrop-blur-md">
+                <CardHeader>
+                    <CardTitle>Server Examples</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap justify-center gap-1 items-center">
+                    {displayedServers.map(([name, server]) => (
+                        <SimpleTooltip
+                            key={server}
+                            content={`Click to view ${name}'s Data`}
+                            side="bottom"
+                        >
+                            <div className="pt-2 w-30 bg-card border border-border rounded-lg">
+                                <SimpleLink
+                                    className="flex flex-col items-center"
+                                    href={`/server/java/${server}`}
+                                >
+                                    <Image
+                                        className="rounded-md"
+                                        src={`${env.NEXT_PUBLIC_API_URL}/server/${server}/icon.png`}
+                                        alt={`${name}'s Icon`}
+                                        width={64}
+                                        height={64}
+                                        draggable={false}
+                                        unoptimized
+                                    />
+                                    <Separator className="mt-2" />
+                                    <div className="p-1.5 w-full text-center text-xs font-semibold bg-muted/50">
+                                        {name}
+                                    </div>
+                                </SimpleLink>
+                            </div>
+                        </SimpleTooltip>
+                    ))}
+                </CardContent>
+                <CardFooter className="text-muted-foreground">
+                    Here are some example servers you can quickly view the data
+                    for.
+                </CardFooter>
+            </Card>
+        </FadeInAnimation>
     );
 };
 export default ServerExamples;

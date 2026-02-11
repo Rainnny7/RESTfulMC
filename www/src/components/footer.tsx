@@ -80,6 +80,7 @@ const Footer = (): ReactElement => (
                                     <SimpleLink
                                         key={link.href}
                                         href={link.href}
+                                        externalIcon
                                     >
                                         {link.label}
                                     </SimpleLink>

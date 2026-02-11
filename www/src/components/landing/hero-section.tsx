@@ -1,5 +1,6 @@
 "use client";
 
+import FadeInAnimation from "@/components/animation/fade-in-animation";
 import AppLogo from "@/components/app-logo";
 import LookupForm from "@/components/lookup-form";
 import PageHeader from "@/components/page-header";
@@ -11,7 +12,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import ShinyText from "@/components/ui/shiny-text";
 import { ReactElement, useEffect, useState } from "react";
 
 const LOADING_MESSAGES = [
@@ -55,7 +55,7 @@ const HeroSection = (): ReactElement => {
             backgroundImage="/media/background/landing.webp"
         >
             {/* Header */}
-            <div className="flex flex-col gap-2 items-center text-center">
+            <FadeInAnimation className="flex flex-col gap-2 items-center text-center">
                 <div className="flex gap-4 items-center">
                     <AppLogo size={56} />
                     <h1 className="text-5xl font-black">RESTfulMC</h1>
@@ -63,36 +63,39 @@ const HeroSection = (): ReactElement => {
                 <p className="text-xl text-muted-foreground">
                     A powerful RESTful API for Minecraft utilizing Springboot.
                 </p>
-            </div>
+            </FadeInAnimation>
 
             {/* Lookup Form */}
-            <Card className="w-full max-w-2xl bg-card/45 backdrop-blur-md">
-                <CardHeader>
-                    <CardTitle>Minecraft Player / Server Lookup</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <LookupForm
-                        placeholder="Enter a Username / UUID / Server IP"
-                        isFetching={isLookupFormFetching}
-                        error={lookupError}
-                        setIsFetching={setIsLookupFormFetching}
-                        setError={setLookupError}
-                    />
-                </CardContent>
-                <CardFooter className="flex flex-col gap-2 items-start">
-                    {isLookupFormFetching ? (
-                        <ShinyLoadingText text={loadingMessage} />
-                    ) : lookupError ? (
-                        <p className="text-destructive text-sm">
-                            {lookupError}
-                        </p>
-                    ) : (
-                        <p className="text-muted-foreground">
-                            Enter a Username, UUID, or Server IP to get started.
-                        </p>
-                    )}
-                </CardFooter>
-            </Card>
+            <FadeInAnimation className="w-full flex justify-center" delay={0.1}>
+                <Card className="w-full max-w-2xl bg-card/45 backdrop-blur-md">
+                    <CardHeader>
+                        <CardTitle>Minecraft Player / Server Lookup</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <LookupForm
+                            placeholder="Enter a Username / UUID / Server IP"
+                            isFetching={isLookupFormFetching}
+                            error={lookupError}
+                            setIsFetching={setIsLookupFormFetching}
+                            setError={setLookupError}
+                        />
+                    </CardContent>
+                    <CardFooter className="flex flex-col gap-2 items-start">
+                        {isLookupFormFetching ? (
+                            <ShinyLoadingText text={loadingMessage} />
+                        ) : lookupError ? (
+                            <p className="text-destructive text-sm">
+                                {lookupError}
+                            </p>
+                        ) : (
+                            <p className="text-muted-foreground">
+                                Enter a Username, UUID, or Server IP to get
+                                started.
+                            </p>
+                        )}
+                    </CardFooter>
+                </Card>
+            </FadeInAnimation>
         </PageHeader>
     );
 };

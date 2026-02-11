@@ -30,7 +30,11 @@ const CopyButton = ({
             await navigator.clipboard.writeText(value);
             if (!copied) {
                 toast.success(copyMessage, {
-                    description: <code>{value}</code>,
+                    description: (
+                        <code className="text-primary! font-mono!">
+                            {value}
+                        </code>
+                    ),
                 });
             }
             setCopied(true);

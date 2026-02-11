@@ -1,3 +1,4 @@
+import CopyButton from "@/components/copy-button";
 import SimpleLink from "@/components/simple-link";
 import SimpleTooltip from "@/components/simple-tooltip";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +27,20 @@ const PlayerDetails = ({ player }: { player: CachedPlayer }): ReactElement => {
                 />
 
                 {/* Username */}
-                <PlayerDetailElement label="Username" value={player.username} />
+                <PlayerDetailElement
+                    label="Username"
+                    value={
+                        <div className="flex gap-1.5 items-center">
+                            <span>{player.username}</span>
+                            <CopyButton
+                                value={player.username}
+                                variant="ghost"
+                                size="icon-xs-2"
+                                copyMessage="Copied username to clipboard"
+                            />
+                        </div>
+                    }
+                />
 
                 {/* Legacy Player? */}
                 <PlayerDetailElement
