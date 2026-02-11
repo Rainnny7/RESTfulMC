@@ -1,4 +1,6 @@
 export type Config = {
+    sourceCodeUrl: string;
+    documentationUrl: string;
     socials: SocialLink[];
 };
 

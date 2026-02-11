@@ -4,7 +4,6 @@ import { config } from "@/app/config";
 import AppLogo from "@/components/app-logo";
 import SimpleLink from "@/components/simple-link";
 import SimpleTooltip from "@/components/simple-tooltip";
-import { env } from "@/lib/env";
 import { SocialLink } from "@/types/config";
 import Image from "next/image";
 import { memo, ReactElement, useEffect, useReducer } from "react";
@@ -32,11 +31,11 @@ const footerLinks: Record<string, FooterLink[]> = {
     Resources: [
         {
             label: "Documentation",
-            href: `${env.NEXT_PUBLIC_API_URL}/docs`,
+            href: config.documentationUrl,
         },
         {
             label: "Source Code",
-            href: "https://github.com/Rainnny7/RESTfulMC",
+            href: config.sourceCodeUrl,
         },
     ],
 };

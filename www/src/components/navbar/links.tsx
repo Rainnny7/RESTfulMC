@@ -1,18 +1,12 @@
 "use client";
 
+import { config } from "@/app/config";
 import SimpleLink from "@/components/simple-link";
 import SimpleTooltip from "@/components/simple-tooltip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { env } from "@/lib/env";
 import { cn } from "@/lib/utils";
-import {
-    ActivityIcon,
-    BookIcon,
-    FlameIcon,
-    LucideIcon,
-    PartyPopperIcon,
-} from "lucide-react";
+import { ActivityIcon, BookIcon, FlameIcon, LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import {
     ReactElement,
@@ -63,7 +57,7 @@ const links: NavbarLink[] = [
         icon: BookIcon,
         tooltip: "View the documentation",
         label: "Docs",
-        href: `${env.NEXT_PUBLIC_API_URL}/docs`,
+        href: config.documentationUrl,
     },
 ];
 
