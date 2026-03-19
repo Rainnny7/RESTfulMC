@@ -20,7 +20,7 @@
         "dayjs": "^1.11.19",
         "lucide-react": "^0.563.0",
         "motion": "^12.34.0",
-        "next": "16.1.6",
+        "next": "16.1.7",
         "nextjs-toploader": "^3.9.17",
         "radix-ui": "^1.4.3",
         "react": "19.2.4",
