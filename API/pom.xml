@@ -176,7 +176,7 @@
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>8.6.0</version>
+            <version>9.0.0</version>
             <scope>compile</scope>
         </dependency>
 
